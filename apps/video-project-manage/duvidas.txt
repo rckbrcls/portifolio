@@ -1,0 +1,1 @@
+verificar todos as propriedades dos objetos, se estao com nome certo
