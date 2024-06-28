@@ -11,6 +11,7 @@ module.exports = {
     },
     port: 3001,
     hot: true,
+    historyApiFallback: true,
   },
   output: {
     publicPath: "auto",
@@ -53,16 +54,16 @@ module.exports = {
       name: "lojinha_simples",
       filename: "remoteEntry.js",
       exposes: {
-        "./App": "./src/App", // ajuste conforme necessário
+        "./App": "./src/App",
       },
       shared: {
         react: {
           singleton: true,
-          requiredVersion: "18.3.1",
+          requiredVersion: "^18.3.1",
         },
         "react-dom": {
           singleton: true,
-          requiredVersion: "18.3.1",
+          requiredVersion: "^18.3.1",
         },
       },
     }),

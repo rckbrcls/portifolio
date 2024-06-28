@@ -63,6 +63,9 @@ importers:
       '@tanstack/eslint-plugin-query':
         specifier: ^5.47.0
         version: 5.47.0(eslint@8.57.0)(typescript@5.5.2)
+      '@types/node':
+        specifier: ^20.14.9
+        version: 20.14.9
       '@types/react':
         specifier: ^18.3.3
         version: 18.3.3
@@ -6400,7 +6403,7 @@ snapshots:
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 20.11.24
+      '@types/node': 20.14.9
 
   '@types/hoist-non-react-statics@3.3.5':
     dependencies:
@@ -6511,7 +6514,7 @@ snapshots:
 
   '@types/through@0.0.30':
     dependencies:
-      '@types/node': 20.11.24
+      '@types/node': 20.14.9
 
   '@types/tinycolor2@1.4.6': {}
 
@@ -9029,7 +9032,7 @@ snapshots:
 
   jest-worker@27.5.1:
     dependencies:
-      '@types/node': 20.11.24
+      '@types/node': 20.14.9
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
