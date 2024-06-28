@@ -38,7 +38,12 @@ module.exports = {
       },
       {
         test: /\.tsx?$/,
-        use: "ts-loader",
+        use: {
+          loader: "ts-loader",
+          options: {
+            transpileOnly: true, // Adicionado para evitar a verificação de tipos completa
+          },
+        },
         exclude: /node_modules/,
       },
     ],

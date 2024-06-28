@@ -11,14 +11,14 @@
     "allowImportingTsExtensions": false,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": false,
-    "jsx": "react-jsx",
+    "noEmit": true, // Evita a emissão de arquivos JS
 
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "jsx": "react-jsx" // Use React JSX transform
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
