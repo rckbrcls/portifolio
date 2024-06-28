@@ -15,7 +15,8 @@ type DispatchType = ThunkDispatch<
   Dispatch<AnyAction>;
 
 export function useControlVisibilityAlert(dispatchParam: DispatchType) {
-  const timeoutRef = useRef<number | null>(null);
+  // Ajuste o tipo para acomodar retornos de timeout em diferentes ambientes
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const controlVisibilityAlert = (message: string, severity: SeverityType) => {
     if (timeoutRef.current !== null) clearTimeout(timeoutRef.current);

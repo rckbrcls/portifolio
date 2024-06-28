@@ -8,15 +8,14 @@ import { useControlVisibilityAlert } from "./Alert/hooks";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
-  padding: "50px 20px 20px",
+  padding: "20px",
   textAlign: "center",
   color: theme.palette.text.secondary,
-  height: "250px",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  justifyContent: "space-between",
-  gap: 10,
+  justifyContent: "center",
+  height: "100%",
 }));
 
 interface IProdutoCardProps {
@@ -69,6 +68,7 @@ const ProdutoCard = ({ produto, isCartView = false }: IProdutoCardProps) => {
         className="ProdImg"
         src={produto.image}
         alt={produto.title}
+        style={{ objectFit: "contain" }}
       />
       <h3>{produto.title}</h3>
       <div

@@ -16,28 +16,51 @@ function Produtos() {
     <>
       <NavBar />
       <Grid
-        direction="row"
-        justifyContent="start"
-        alignItems="center"
-        padding={4}
         container
+        direction="row"
+        justifyContent="center"
+        alignItems="stretch"
+        padding={4}
         spacing={4}
+        height={450}
         columns={{ xs: 2, sm: 8, md: 12 }}
       >
         {products?.length
-          ? products.map((item, Key) => (
-              <Grid key={Key} item xs={2} sm={4} md={4}>
+          ? products.map((item, key) => (
+              <Grid
+                key={key}
+                item
+                xs={2}
+                sm={4}
+                md={4}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "100%",
+                }}
+              >
                 <Produto produto={item} />
               </Grid>
             ))
           : Array(10)
               .fill(null)
               .map((_, index) => (
-                <Grid key={index} item xs={2} sm={4} md={4}>
+                <Grid
+                  key={index}
+                  item
+                  xs={2}
+                  sm={4}
+                  md={4}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    height: "100%",
+                  }}
+                >
                   <Skeleton
                     variant="rectangular"
                     height={"320px"}
-                    sx={{ borderRadius: 1 }}
+                    sx={{ borderRadius: 1, flexGrow: 1 }}
                   />
                 </Grid>
               ))}
