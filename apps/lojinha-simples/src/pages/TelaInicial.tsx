@@ -1,4 +1,3 @@
-import React from "react";
 import { Button, Grid, Container, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import StorefrontTwoToneIcon from "@mui/icons-material/StorefrontTwoTone";
@@ -22,7 +21,7 @@ function TelaIncial() {
       >
         Bem vindo à Lojinha!
       </Typography>
-      <Typography variant="h7" align="center" sx={{ mt: "1rem" }}>
+      <Typography variant="h6" align="center" sx={{ mt: "1rem" }}>
         Faça seu cadastro! Se já possui conta, faça seu login abaixo.
       </Typography>
       <Container maxWidth="xs" sx={{ mt: "1rem" }}>

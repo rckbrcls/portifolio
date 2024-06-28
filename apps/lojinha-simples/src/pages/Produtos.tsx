@@ -2,13 +2,15 @@ import Produto from "../components/Produto";
 import NavBar from "../components/NavBar";
 import { Grid, Skeleton } from "@mui/material";
 import { IProdutoData } from "../interfaces/IProdutoData";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import AlertComponent from "../components/Alert/Alert";
 
 function Produtos() {
-  const { data: products } = useQuery<IProdutoData[]>("todos", () =>
-    fetch("https://fakestoreapi.com/products").then((res) => res.json())
-  );
+  const { data: products } = useQuery<IProdutoData[]>({
+    queryKey: ["products"],
+    queryFn: () =>
+      fetch("https://fakestoreapi.com/products").then((res) => res.json()),
+  });
 
   return (
     <>

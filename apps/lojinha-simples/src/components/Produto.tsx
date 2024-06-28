@@ -80,7 +80,7 @@ const ProdutoCard = ({ produto, isCartView = false }: IProdutoCardProps) => {
           justifyContent: "space-between",
         }}
       >
-        <h2 style={{ textWrap: "nowrap" }}>R$ {produto.price}</h2>
+        <h2 style={{ whiteSpace: "nowrap" }}>R$ {produto.price}</h2>
         <Button
           color={buttonColor}
           variant="contained"

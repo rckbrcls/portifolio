@@ -1,4 +1,3 @@
-import React from "react";
 import { Container, Typography, Grid, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import { ArrowCircleLeft } from "@mui/icons-material";

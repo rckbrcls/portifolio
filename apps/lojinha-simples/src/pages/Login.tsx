@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import {
   TextField,
   Button,
@@ -17,14 +17,14 @@ function Login() {
   const [erros, setErros] = useState("");
   const navigate = useNavigate();
 
-  function onChange(ev) {
+  function onChange(ev: ChangeEvent<HTMLInputElement>) {
     const { name, value } = ev.target;
     setErros("");
     if (name === "email") setEmail(value);
     if (name === "senha") setSenha(value);
   }
 
-  function validate(email, senha) {
+  function validate(email: string, senha: string) {
     let erros;
 
     if (email === "") erros = "Insira um email válido";
@@ -34,7 +34,7 @@ function Login() {
     return erros;
   }
 
-  function onSubmit(ev) {
+  function onSubmit(ev: FormEvent<HTMLFormElement>) {
     ev.preventDefault();
     if (email === "erick" && senha === "123") navigate("/produtos");
     else setErros(validate(email, senha));
