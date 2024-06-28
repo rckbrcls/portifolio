@@ -25,19 +25,20 @@ function Login() {
   }
 
   function validate(email: string, senha: string) {
-    let erros;
+    let erros = null;
 
-    if (email === "") erros = "Insira um email válido";
+    if (email === "" && senha === "") erros = "Email e/ou senha incorretos";
+    else if (email === "") erros = "Insira um email válido";
     else if (senha === "") erros = "Insira uma senha válida";
-    else erros = "Email e/ou senha incorretos";
 
     return erros;
   }
 
   function onSubmit(ev: FormEvent<HTMLFormElement>) {
     ev.preventDefault();
-    if (email === "erick" && senha === "123") navigate("/produtos");
-    else setErros(validate(email, senha));
+    const validation = validate(email, senha);
+    if (validation) setErros(validation);
+    else navigate("/produtos");
   }
 
   return (
