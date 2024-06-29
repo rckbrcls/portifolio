@@ -1,26 +1,36 @@
-const { withModuleFederation } = require("@module-federation/nextjs-mf");
-const deps = require("./package.json").dependencies;
+const { ModuleFederationPlugin } = require("webpack").container;
 
-const nextConfig = {
-  experimental: {
-    typedRoutes: true,
-  },
-  webpack(config, options) {
-    // Adiciona a configuração do Module Federation
-    withModuleFederation({
-      name: "main_app",
-      library: { type: "var", name: "main_app" },
-      remotes: {
-        lojinha_simples: "lojinha_simples@http://localhost:3001/remoteEntry.js",
-      },
-      shared: {
-        ...deps,
-      },
-    })(config, options);
+module.exports = {
+  webpack: (config, { isServer }) => {
+    config.experiments = {
+      topLevelAwait: true,
+      layers: true,
+    };
 
-    // Outras configurações de Webpack, se necessário
+    if (!isServer) {
+      config.output.publicPath = "http://localhost:3000/_next/";
+    }
+
+    config.plugins.push(
+      new ModuleFederationPlugin({
+        name: "shell",
+        remotes: {
+          lojinha_simples:
+            "lojinha_simples@http://localhost:3001/remoteEntry.js",
+        },
+        shared: {
+          react: {
+            singleton: true,
+            requiredVersion: "^18.2.0",
+          },
+          "react-dom": {
+            singleton: true,
+            requiredVersion: "^18.2.0",
+          },
+        },
+      })
+    );
+
     return config;
   },
 };
-
-module.exports = nextConfig;
