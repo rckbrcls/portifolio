@@ -6,6 +6,12 @@ module.exports = {
   entry: "./src/main.tsx", // ajuste o caminho conforme necessário
   mode: "development",
   devServer: {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+      "Access-Control-Allow-Headers":
+        "X-Requested-With, content-type, Authorization",
+    },
     static: {
       directory: path.join(__dirname, "dist"),
     },
@@ -14,7 +20,7 @@ module.exports = {
     historyApiFallback: true,
   },
   output: {
-    publicPath: "auto",
+    publicPath: "http://localhost:3001/",
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
   },
@@ -56,6 +62,7 @@ module.exports = {
   plugins: [
     new ModuleFederationPlugin({
       name: "lojinha_simples",
+      library: { type: "var", name: "lojinha_simples" },
       filename: "remoteEntry.js",
       exposes: {
         "./App": "./src/App",
