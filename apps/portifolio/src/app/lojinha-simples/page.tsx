@@ -1,16 +1,24 @@
-import dynamic from "next/dynamic";
-import React from "react";
+"use client";
 
-const LojinhaSimples = dynamic(() => import("lojinha_simples/App"), {
-  ssr: false,
-});
+import dynamic from "next/dynamic";
+import React, { ComponentType, useEffect, useState } from "react";
 
 const LojinhaSimplesPage = () => {
-  return (
-    <div>
-      <LojinhaSimples />
-    </div>
+  const [Component, setComponent] = useState<ComponentType<{}> | undefined>(
+    undefined
   );
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const component = dynamic(() => import("lojinha_simples/App"), {
+        ssr: false,
+      });
+
+      setComponent(component);
+    }
+  }, []);
+
+  return <div>{Component && <Component />}</div>;
 };
 
 export default LojinhaSimplesPage;
