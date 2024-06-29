@@ -1,3 +1,0 @@
-- fazer footer com gradient
-- pagina com fotografias e desenhos
-- alterar o header para mobile virar um drawner
