@@ -1,7 +1,7 @@
 "use client";
 
-import MicroLayout from "@/components/MicroLayout";
 import React from "react";
+import MicroLayout from "@/components/MicroLayout";
 
 const LojinhaSimplesPage: React.FC = () => {
   return (
