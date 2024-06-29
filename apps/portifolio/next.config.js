@@ -7,9 +7,20 @@ module.exports = {
         new NextFederationPlugin({
           name: "host",
           remotes: {
-            remote: "lojinha_simples@http://localhost:3001/bundle.js",
+            lojinha_simples:
+              "lojinha_simples@http://localhost:3001/remoteEntry.js",
           },
           filename: "static/chunks/remoteEntry.js",
+          shared: {
+            react: {
+              singleton: true,
+              requiredVersion: "^18.2.0",
+            },
+            "react-dom": {
+              singleton: true,
+              requiredVersion: "^18.2.0",
+            },
+          },
         })
       );
     }
