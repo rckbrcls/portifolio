@@ -8,11 +8,13 @@ const queryClient = new QueryClient();
 
 const App: React.FC = () => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-        <Rotas />
-      </Provider>
-    </QueryClientProvider>
+    <div style={{ height: "100%", width: "100%" }}>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <Rotas />
+        </Provider>
+      </QueryClientProvider>
+    </div>
   );
 };
 

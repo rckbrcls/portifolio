@@ -3,10 +3,11 @@ import React from "react";
 import Aurora from "@/components/atoms/Aurora/Aurora";
 import Title from "@/components/atoms/Title";
 import ProjectsList from "@/components/organisms/ProjectsList";
+import MainLayout from "@/components/MainLayout";
 
 export default function Home() {
   return (
-    <>
+    <MainLayout>
       <Aurora />
       <div className="h-[100svh] flex flex-col justify-center text-center items-center">
         <div className="w-full h-2/5 my-4 relative select-none">
@@ -23,6 +24,6 @@ export default function Home() {
         <Title>Olá! I'm Erick Barcelos</Title>
       </div>
       <ProjectsList />
-    </>
+    </MainLayout>
   );
 }

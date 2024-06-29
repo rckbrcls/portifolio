@@ -9,6 +9,7 @@ import Title from "@/components/atoms/Title";
 import Text from "@/components/atoms/Text";
 import SubTitle from "@/components/atoms/SubTitle";
 import { useRouter } from "next/router";
+import MainLayout from "@/components/MainLayout";
 
 export default function Project() {
   const router = useRouter();
@@ -17,7 +18,7 @@ export default function Project() {
   );
 
   return (
-    <>
+    <MainLayout>
       <div className="flex flex-col text-center w-11/12 md:w-3/4 mx-auto">
         <div className="h-[100svh] flex flex-col justify-center text-center items-center gap-4 w-full">
           <div className="flex md:flex-row flex-col justify-between items-center w-full">
@@ -119,6 +120,6 @@ export default function Project() {
           ))}
         </div>
       </div>
-    </>
+    </MainLayout>
   );
 }

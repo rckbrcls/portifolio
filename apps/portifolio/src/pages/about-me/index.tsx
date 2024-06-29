@@ -13,6 +13,7 @@ import { IBox } from "@/interface/IBox";
 import SubTitle from "@/components/atoms/SubTitle";
 import { twMerge } from "tailwind-merge";
 import { FaArrowAltCircleDown, FaFileDownload } from "react-icons/fa";
+import MainLayout from "@/components/MainLayout";
 
 export default function AboutMe() {
   // Lista de objetos representando as caixas
@@ -57,65 +58,67 @@ export default function AboutMe() {
   ];
 
   return (
-    <div className="flex flex-col text-center gap-4 w-11/12 mx-auto mb-24">
-      <div className="h-[100svh] flex flex-col justify-center text-center items-center gap-4 w-full">
-        <div className="flex flex-col gap-10 justify-center items-center w-full">
-          <Title gradient>About me</Title>
-          <a
-            className="glass-dark md:w-1/4 w-full px-10 py-4 rounded hover:bg-zinc-900 active:bg-zinc-900
+    <MainLayout>
+      <div className="flex flex-col text-center gap-4 w-11/12 mx-auto mb-24">
+        <div className="h-[100svh] flex flex-col justify-center text-center items-center gap-4 w-full">
+          <div className="flex flex-col gap-10 justify-center items-center w-full">
+            <Title gradient>About me</Title>
+            <a
+              className="glass-dark md:w-1/4 w-full px-10 py-4 rounded hover:bg-zinc-900 active:bg-zinc-900
               hover:scale-105 active:scale-95 duration-500 flex items-center justify-center gap-2"
-            href="/files/Resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <FaFileDownload size={30} />
-            <Text>Resume</Text>
-          </a>
-        </div>
-        <FaArrowAltCircleDown
-          size={30}
-          className="animate-bounce absolute bottom-10"
-        />
-      </div>
-      <div className="grid auto-rows-[70svh] md:grid-cols-3 gap-4 w-full">
-        {boxes.map((box, i) => (
-          <div
-            key={i}
-            className={twMerge(
-              `flex items-center overflow-hidden
-             row-span-1 rounded-xl glass-dark text-start`,
-              box?.className
-            )}
-          >
-            {box.image && (
-              <div className="w-full h-full relative">
-                <Image
-                  className="select-none"
-                  src={box.image}
-                  alt="me"
-                  fill
-                  style={{ objectFit: "cover", objectPosition: box.align }}
-                  priority
-                  quality={100}
-                />
-              </div>
-            )}
-            {box.text && (
-              <SubTitle
-                className={`m-6 text-start ${
-                  box?.align === "right"
-                    ? "md:text-right"
-                    : box?.align === "center"
-                      ? "md:text-center"
-                      : "md:text-left"
-                }`}
-              >
-                {box.text}
-              </SubTitle>
-            )}
+              href="/files/Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaFileDownload size={30} />
+              <Text>Resume</Text>
+            </a>
           </div>
-        ))}
+          <FaArrowAltCircleDown
+            size={30}
+            className="animate-bounce absolute bottom-10"
+          />
+        </div>
+        <div className="grid auto-rows-[70svh] md:grid-cols-3 gap-4 w-full">
+          {boxes.map((box, i) => (
+            <div
+              key={i}
+              className={twMerge(
+                `flex items-center overflow-hidden
+             row-span-1 rounded-xl glass-dark text-start`,
+                box?.className
+              )}
+            >
+              {box.image && (
+                <div className="w-full h-full relative">
+                  <Image
+                    className="select-none"
+                    src={box.image}
+                    alt="me"
+                    fill
+                    style={{ objectFit: "cover", objectPosition: box.align }}
+                    priority
+                    quality={100}
+                  />
+                </div>
+              )}
+              {box.text && (
+                <SubTitle
+                  className={`m-6 text-start ${
+                    box?.align === "right"
+                      ? "md:text-right"
+                      : box?.align === "center"
+                        ? "md:text-center"
+                        : "md:text-left"
+                  }`}
+                >
+                  {box.text}
+                </SubTitle>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </MainLayout>
   );
 }
