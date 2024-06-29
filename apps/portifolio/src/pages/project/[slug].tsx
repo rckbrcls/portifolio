@@ -1,18 +1,20 @@
 "use client";
 
 import React from "react";
-import { projects } from "../../../../public/data/projects/projects";
+import { projects } from "../../../public/data/projects/projects";
 import Image from "next/image";
 import Link from "next/link";
 import { AiFillGithub } from "react-icons/ai";
 import Title from "@/components/atoms/Title";
-import { UrlObject } from "url";
-import { Route } from "next";
 import Text from "@/components/atoms/Text";
 import SubTitle from "@/components/atoms/SubTitle";
+import { useRouter } from "next/router";
 
-export default function Project({ params }: { params: { slug: string } }) {
-  const project = projects.find((project) => project.slug === params.slug);
+export default function Project() {
+  const router = useRouter();
+  const project = projects.find(
+    (project) => project.slug === router.query.slug
+  );
 
   return (
     <>

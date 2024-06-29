@@ -13,7 +13,6 @@ import { IBox } from "@/interface/IBox";
 import SubTitle from "@/components/atoms/SubTitle";
 import { twMerge } from "tailwind-merge";
 import { FaArrowAltCircleDown, FaFileDownload } from "react-icons/fa";
-import Link from "next/link";
 
 export default function AboutMe() {
   // Lista de objetos representando as caixas
@@ -107,8 +106,8 @@ export default function AboutMe() {
                   box?.align === "right"
                     ? "md:text-right"
                     : box?.align === "center"
-                    ? "md:text-center"
-                    : "md:text-left"
+                      ? "md:text-center"
+                      : "md:text-left"
                 }`}
               >
                 {box.text}
