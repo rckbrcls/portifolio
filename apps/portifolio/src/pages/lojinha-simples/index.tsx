@@ -1,14 +1,17 @@
 "use client";
 
+import MicroLayout from "@/components/MicroLayout";
 import React from "react";
 
 const LojinhaSimplesPage: React.FC = () => {
   return (
-    <iframe
-      src="http://localhost:3001"
-      style={{ height: "100vh", width: "100vw", border: "none" }}
-      title="Lojinha Simples"
-    />
+    <MicroLayout>
+      <iframe
+        src="http://localhost:3001"
+        style={{ height: "100vh", width: "100vw", border: "none" }}
+        title="Lojinha Simples"
+      />
+    </MicroLayout>
   );
 };
 
