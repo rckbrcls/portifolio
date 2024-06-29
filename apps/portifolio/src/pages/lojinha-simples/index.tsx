@@ -1,22 +1,22 @@
-// "use client";
+"use client";
 
-// import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-// const LojinhaSimplesPage: React.FC = () => {
-//   const [Component, setComponent] = useState<any>(null);
+const LojinhaSimplesPage: React.FC = () => {
+  const [Component, setComponent] = useState<any>(null);
 
-//   useEffect(() => {
-//     if (typeof window !== "undefined") {
-//       const loadComponent = async () => {
-//         const mod = await import("lojinha_simples/App");
-//         setComponent(() => mod.default);
-//       };
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const loadComponent = async () => {
+        const mod = await import("lojinha_simples/App");
+        setComponent(() => mod.default);
+      };
 
-//       loadComponent();
-//     }
-//   }, []);
+      loadComponent();
+    }
+  }, []);
 
-//   return <div>{Component && <Component />}</div>;
-// };
+  return <div>{Component && <Component />}</div>;
+};
 
-// export default LojinhaSimplesPage;
+export default LojinhaSimplesPage;
