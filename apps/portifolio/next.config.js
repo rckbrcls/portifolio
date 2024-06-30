@@ -9,18 +9,9 @@ module.exports = {
           remotes: {
             lojinha_simples:
               "lojinha_simples@http://localhost:3001/remoteEntry.js",
+            alan_turing: "alan_turing@http://localhost:3002/remoteEntry.js",
           },
           filename: "static/chunks/remoteEntry.js",
-          shared: {
-            react: {
-              singleton: true,
-              requiredVersion: "^18.2.0",
-            },
-            "react-dom": {
-              singleton: true,
-              requiredVersion: "^18.2.0",
-            },
-          },
         })
       );
     }

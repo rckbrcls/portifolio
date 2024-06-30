@@ -50,7 +50,7 @@ const Header = () => {
   const routes: IRoute[] = [
     { path: "/", label: "Projects" },
     { path: "/about-me", label: "About me" },
-    { path: "/lojinha-simples", label: "Contact" },
+    { path: "/alan-turing", label: "Contact" },
   ];
 
   return (

@@ -1,8 +1,7 @@
 import Link from "next/link";
-import { ReactNode, useRef } from "react";
+import { ReactNode } from "react";
 
 export default function MicroLayout({ children }: { children: ReactNode }) {
-  const constraintsRef = useRef(null);
   return (
     <>
       <Link passHref href={"/"}>
