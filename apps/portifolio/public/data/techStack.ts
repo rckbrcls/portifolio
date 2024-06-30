@@ -17,7 +17,8 @@ export type TypeTechStack =
   | "PostgreSQL"
   | "Tailwind"
   | "Node.js"
-  | "Express";
+  | "Express"
+  | "Webpack";
 
 export const techStack: TypeTechStack[] = [
   "React",

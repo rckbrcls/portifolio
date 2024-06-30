@@ -10,6 +10,7 @@ export interface IProject {
   techStack: TypeTechStack[];
   timeline: { start: string; end: string } | null | undefined;
   gitLink?: Route;
+  microRoute?: Route;
   link?: Route;
   members: string[];
   projectVisualization?: IVisualization[];

@@ -10,40 +10,61 @@ import Text from "@/components/atoms/Text";
 import SubTitle from "@/components/atoms/SubTitle";
 import { useRouter } from "next/router";
 import MainLayout from "@/components/MainLayout";
+import useSaveAndRedirect from "@/hooks/useSaveAndRedirect";
+import { Route } from "next";
 
 export default function Project() {
   const router = useRouter();
   const project = projects.find(
     (project) => project.slug === router.query.slug
   );
+  const { saveCurrentRoute } = useSaveAndRedirect();
 
   return (
     <MainLayout>
       <div className="flex flex-col text-center w-11/12 md:w-3/4 mx-auto">
         <div className="h-[100svh] flex flex-col justify-center text-center items-center gap-4 w-full">
-          <div className="flex md:flex-row flex-col justify-between items-center w-full">
-            <Title gradient>{project?.name}</Title>
-            {project?.gitLink && (
-              <Link
-                className="glass-dark md:w-1/4 w-full px-10 py-4 rounded hover:bg-zinc-900 active:bg-zinc-900
+          <div className="flex md:flex-row flex-col justify-between items-end w-full">
+            <Title gradient className="text-start w-2/3">
+              {project?.name}
+            </Title>
+            <div className="w-1/3 flex flex-col gap-4">
+              {project?.gitLink && (
+                <a
+                  className="glass-dark w-full px-10 py-4 rounded hover:bg-zinc-900 active:bg-zinc-900
               hover:scale-105 active:scale-95 duration-500 flex items-center justify-center gap-2"
-                href={project.gitLink}
-              >
-                <AiFillGithub size={30} />
-                <Text>Repository</Text>
-              </Link>
-            )}
-            {project?.link && (
-              <a
-                href={project.link}
-                className="glass-dark md:w-1/4 w-full px-10 py-4 rounded hover:bg-zinc-900 active:bg-zinc-900
+                  href={project.gitLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <AiFillGithub size={30} />
+                  <Text>Repository</Text>
+                </a>
+              )}
+              {project?.microRoute && (
+                <button
+                  className="glass-dark w-full px-10 py-4 rounded hover:bg-zinc-900 active:bg-zinc-900
               hover:scale-105 active:scale-95 duration-500 flex items-center justify-center gap-2"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Text>Project</Text>
-              </a>
-            )}
+                  onClick={() => {
+                    saveCurrentRoute();
+                    router.push(project.microRoute as Route);
+                  }}
+                >
+                  <Text>Microfrontend</Text>
+                </button>
+              )}
+              {project?.link && (
+                <a
+                  href={project.link}
+                  className="glass-dark w-full px-10 py-4 rounded hover:bg-zinc-900 active:bg-zinc-900
+              hover:scale-105 active:scale-95 duration-500 flex items-center justify-center gap-2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Text>Project</Text>
+                </a>
+              )}
+            </div>
           </div>
 
           <div className="flex md:flex-row flex-col justify-between w-full gap-10">
@@ -54,9 +75,9 @@ export default function Project() {
               <div className="flex items-center justify-between text-center glass-dark p-4 rounded-2xl w-full gap-2">
                 <Text>Tech Stack</Text>
                 <div className="flex flex-wrap gap-2 justify-end">
-                  {project?.techStack?.map((tech) => (
+                  {project?.techStack?.map((tech, index) => (
                     <div
-                      key={tech}
+                      key={index}
                       className="bg-blue-500 rounded-lg px-4 flex items-center"
                     >
                       <Text>{tech}</Text>
@@ -79,8 +100,11 @@ export default function Project() {
               <div className="flex items-center justify-between text-center glass-dark p-4 rounded-2xl w-full gap-2">
                 <Text>Members</Text>
                 <div className="flex flex-wrap gap-2 justify-end">
-                  {project?.members.map((member) => (
-                    <div className="bg-blue-500 rounded-lg px-4 flex items-center">
+                  {project?.members.map((member, index) => (
+                    <div
+                      key={index}
+                      className="bg-blue-500 rounded-lg px-4 flex items-center"
+                    >
                       <Text>{member}</Text>
                     </div>
                   ))}
@@ -96,7 +120,7 @@ export default function Project() {
 
         <div className="flex flex-wrap md:flex-row flex-col gap-16 mb-10 justify-between items-center">
           {project?.projectVisualization?.map((object, index) => (
-            <div className="flex flex-col gap-2">
+            <div key={index} className="flex flex-col gap-2">
               <SubTitle className="md:text-start">{object.title}</SubTitle>
               <Text>{object.description}</Text>
 

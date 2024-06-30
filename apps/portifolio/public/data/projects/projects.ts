@@ -29,6 +29,32 @@ export const projects: IProject[] = [
     projectVisualization: tripperVisualization,
     coverImage: TripperCapa,
   },
+  {
+    slug: "alan-turing",
+    description: `Tripper is a React Native application designed to showcase routes for road trips that traverse scenic
+                  landscapes, restaurants, or tourist attractions. Users have the ability to create and share their own routes, with
+                  the added feature of voting on routes to elevate their visibility within the community.`,
+    name: "Introduction To Computer Theory",
+    techStack: ["React", "TypeScript", "Webpack"],
+    timeline: null,
+    gitLink: "https://github.com/brcls/alan-turing",
+    microRoute: "/alan-turing",
+    members: ["Erick Barcelos"],
+    coverImage: TripperCapa,
+  },
+  {
+    slug: "lojinha-simples",
+    description: `Tripper is a React Native application designed to showcase routes for road trips that traverse scenic
+                  landscapes, restaurants, or tourist attractions. Users have the ability to create and share their own routes, with
+                  the added feature of voting on routes to elevate their visibility within the community.`,
+    name: "Simple Little Store",
+    techStack: ["React", "TypeScript", "Webpack"],
+    timeline: null,
+    gitLink: "https://github.com/brcls/lojinha-simples",
+    microRoute: "/lojinha-simples",
+    members: ["Erick Barcelos"],
+    coverImage: TripperCapa,
+  },
   // {
   // slug: "dost",
   //   description: `Tripper is a React Native application designed to showcase routes for road trips that traverse scenic
