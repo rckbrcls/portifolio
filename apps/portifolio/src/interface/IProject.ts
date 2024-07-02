@@ -14,5 +14,5 @@ export interface IProject {
   link?: Route;
   members: string[];
   projectVisualization?: IVisualization[];
-  coverImage?: StaticImageData;
+  coverImage?: StaticImageData | string;
 }

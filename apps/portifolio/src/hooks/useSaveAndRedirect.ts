@@ -12,7 +12,7 @@ const useSaveAndRedirect = () => {
 
   const redirectToSavedRoute = () => {
     if (savedRoute) {
-      router.push(savedRoute);
+      router.replace(savedRoute);
     } else {
       alert("No route saved!");
     }

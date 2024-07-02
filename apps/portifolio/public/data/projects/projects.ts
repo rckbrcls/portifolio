@@ -40,7 +40,7 @@ export const projects: IProject[] = [
     gitLink: "https://github.com/brcls/alan-turing",
     microRoute: "/alan-turing",
     members: ["Erick Barcelos"],
-    coverImage: TripperCapa,
+    coverImage: "/images/projects/alan-turing/alan-turing.png",
   },
   {
     slug: "lojinha-simples",
@@ -53,7 +53,7 @@ export const projects: IProject[] = [
     gitLink: "https://github.com/brcls/lojinha-simples",
     microRoute: "/lojinha-simples",
     members: ["Erick Barcelos"],
-    coverImage: TripperCapa,
+    coverImage: "/images/projects/lojinha-simples/lojinha.png",
   },
   // {
   // slug: "dost",
