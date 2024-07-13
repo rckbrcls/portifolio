@@ -1,22 +1,47 @@
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
-import { FaChevronLeft } from "react-icons/fa";
-import useSaveAndRedirect from "../hooks/useSaveAndRedirect";
+import { FaGithub, FaHome } from "react-icons/fa";
 
-export default function MicroLayout({ children }: { children: ReactNode }) {
-  const { redirectToSavedRoute } = useSaveAndRedirect();
+interface IProps {
+  children: ReactNode;
+  projectHomeRoute: string;
+  projectGitRoute: string;
+}
+
+export default function MicroLayout({
+  children,
+  projectHomeRoute,
+  projectGitRoute,
+}: IProps) {
+  const router = useRouter();
 
   return (
     <>
-      <button
-        className="fixed left-4 top-4 py-2 px-6 rounded-full z-50
-        hover:scale-105 active:scale-95 duration-500 glass-dark hover:bg-zinc-800
-        active:bg-zinc-900 flex items-center gap-2 text-zinc-500 hover:text-zinc-200"
-        onClick={redirectToSavedRoute}
-      >
-        <FaChevronLeft /> Return
-      </button>
-      <main>{children}</main>
+      <main className="flex">
+        <div
+          className={`p-2 flex flex-col gap-2 fixed h-screen items-center justify-center`}
+        >
+          <button
+            className="p-2 rounded z-50
+          hover:scale-105 active:scale-95 duration-500 glass-dark hover:bg-zinc-800
+          active:bg-zinc-900 flex items-center gap-2 text-zinc-500 hover:text-zinc-200"
+            onClick={() => router.push(projectHomeRoute)}
+          >
+            <FaHome />
+          </button>
+          <a
+            className="p-2 rounded z-50
+          hover:scale-105 active:scale-95 duration-500 glass-dark hover:bg-zinc-800
+          active:bg-zinc-900 flex items-center gap-2 text-zinc-500 hover:text-zinc-200"
+            href={projectGitRoute}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaGithub />
+          </a>
+        </div>
+        {children}
+      </main>
     </>
   );
 }

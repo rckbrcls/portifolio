@@ -10,7 +10,6 @@ import Text from "@/components/atoms/Text";
 import SubTitle from "@/components/atoms/SubTitle";
 import { useRouter } from "next/router";
 import MainLayout from "@/components/MainLayout";
-import useSaveAndRedirect from "@/hooks/useSaveAndRedirect";
 import { Route } from "next";
 
 export default function Project() {
@@ -18,7 +17,6 @@ export default function Project() {
   const project = projects.find(
     (project) => project.slug === router.query.slug
   );
-  const { saveCurrentRoute } = useSaveAndRedirect();
 
   return (
     <MainLayout>
@@ -45,10 +43,7 @@ export default function Project() {
                 <button
                   className="glass-dark w-full px-10 py-4 rounded hover:bg-zinc-900 active:bg-zinc-900
               hover:scale-105 active:scale-95 duration-500 flex items-center justify-center gap-2"
-                  onClick={() => {
-                    saveCurrentRoute();
-                    router.push(project.microRoute as Route);
-                  }}
+                  onClick={() => router.push(project.microRoute as Route)}
                 >
                   <Text>Microfrontend</Text>
                 </button>
