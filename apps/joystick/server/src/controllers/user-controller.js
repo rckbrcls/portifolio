@@ -13,7 +13,7 @@ exports.post = async (req, res, next) => {
       username: req.body.username,
       email: req.body.email,
       isAdmin: req.body.isAdmin,
-      password: md5(req.body.password + global.SALT_KEY),
+      password: md5(req.body.password),
     });
 
     res.status(201).send({
@@ -31,7 +31,7 @@ exports.authenticate = async (req, res, next) => {
   try {
     const user = await repository.authenticate({
       email: req.body.email,
-      password: md5(req.body.password + global.SALT_KEY),
+      password: md5(req.body.password),
     });
 
     if (!user) {
@@ -151,8 +151,7 @@ exports.update = async (req, res, next) => {
       req.body.token || req.query.token || req.headers["x-access-token"];
     const data = await authService.decodeToken(token);
     let body = req.body;
-    req.body.password &&
-      (body.password = md5(req.body.password + global.SALT_KEY));
+    req.body.password && (body.password = md5(req.body.password));
     repository.update(data.id, body);
 
     res.status(200).send({
