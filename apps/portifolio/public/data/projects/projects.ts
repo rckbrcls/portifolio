@@ -76,6 +76,6 @@ export const projects: IProject[] = [
     timeline: null,
     gitLink: "https://github.com/brcls/secret-santa",
     members: ["Erick Barcelos"],
-    coverImage: "/images/projects/lojinha-simples/lojinha.png",
+    coverImage: "/images/projects/secret-santa/home.png",
   },
 ];
