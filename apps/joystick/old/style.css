@@ -1,0 +1,270 @@
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #272650;
+}
+
+.container {
+  width: 100%;
+}
+
+.header {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
+.header div {
+  display: flex;
+}
+
+.header img {
+  width: 25px;
+  height: 25px;
+}
+
+.header a {
+  text-decoration: none;
+  color: white;
+}
+.search {
+  width: 20%;
+  display: flex;
+  margin: auto 20px auto 2px;
+  align-items: center;
+}
+
+.search input {
+  background: rgba(0, 0, 0, 0.35);
+
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.25);
+  border-radius: 40px;
+  padding: 10px;
+  margin-right: 5px;
+  height: 25px;
+}
+
+.search button {
+  margin: 2%;
+  border: 0 none;
+  border-radius: 50%;
+  box-shadow: 0px 2px 10px rgba(1, 1, 1, 0.3);
+  min-width: 25px;
+  min-height: 25px;
+}
+
+.search button img {
+  width: 10px;
+  height: 10px;
+}
+
+.round-img {
+  border-radius: 500px;
+}
+
+label {
+  color: white;
+  font-weight: bold;
+}
+
+button {
+  height: 25px;
+}
+
+input {
+  background: #0b0339;
+  border: 1px solid #000000;
+  box-shadow: 0px 2.87425px 2.87425px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(2.87425px);
+
+  color: white;
+  border-radius: 7px;
+  height: 25px;
+}
+
+h1 {
+  color: white;
+}
+
+.round-img-profile {
+  width: 200px;
+  height: 200px;
+  border-radius: 500px;
+  margin: 30px auto;
+}
+
+.button {
+  background: #0b0339;
+  border: 1px solid #000000;
+  box-shadow: 0px 2.87425px 2.87425px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(2.87425px);
+
+  border-radius: 7px;
+  width: 80%;
+  margin: 0px auto;
+  font-weight: bold;
+  color: white;
+}
+
+.destaque {
+  width: 90%;
+  height: 500px;
+  margin: 0 auto;
+
+  background: linear-gradient(
+    180deg,
+    rgba(178, 173, 210, 0.29) 0%,
+    rgba(191, 182, 252, 0) 100%
+  );
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  backdrop-filter: blur(4px);
+  /* Note: backdrop-filter has minimal browser support */
+
+  border-radius: 50px;
+  display: flex;
+}
+
+.destaque img {
+  height: 100%;
+  border-bottom-left-radius: 50px;
+  border-top-left-radius: 50px;
+}
+
+.conteudo {
+  margin: 100px 10px;
+}
+
+.destaque button {
+  width: 50%;
+  background: linear-gradient(180deg, #005eda 0%, #9100a9 138%);
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.125);
+  border-radius: 56px;
+}
+
+p {
+  color: white;
+}
+
+.generos {
+  display: flex;
+  width: 10px;
+}
+
+.categoria {
+  padding: 5px;
+  margin: 10px;
+  background: linear-gradient(
+    180deg,
+    #9a5bff 0%,
+    #62006f 137.99%,
+    #f800ee 138%
+  );
+  box-shadow: 0px 2.87425px 2.87425px rgba(0, 0, 0, 0.25);
+  border-radius: 40.2395px;
+}
+
+.list-games {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+}
+
+#best-games {
+  margin: 50px 15px 0px;
+}
+
+.title {
+  margin: 10px;
+}
+
+.subtitle {
+  margin: 3px 15px 50px;
+  color: #747474;
+}
+
+.games-item {
+  min-width: 660px;
+  height: 360px;
+  margin: 10px auto;
+
+  background: linear-gradient(
+    180deg,
+    rgba(178, 173, 210, 0.29) 0%,
+    rgba(191, 182, 252, 0) 100%
+  );
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  backdrop-filter: blur(4px);
+  /* Note: backdrop-filter has minimal browser support */
+
+  border-radius: 50px;
+  display: flex;
+}
+
+.games-item img {
+  height: 100%;
+  border-bottom-left-radius: 50px;
+  border-top-left-radius: 50px;
+}
+
+.games-item button {
+  width: 50%;
+  background: linear-gradient(180deg, #005eda 0%, #9100a9 138%);
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.125);
+  border-radius: 56px;
+}
+
+.form {
+  width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.form label {
+  margin: 10px;
+}
+
+.form h1 {
+  margin: 50px auto 5px;
+}
+
+.form div {
+  margin: 5px auto;
+}
+
+.form input {
+  width: 800px;
+  padding: 4px;
+}
+
+.form .submit {
+  margin: 5px auto;
+  width: 70%;
+}
+
+.form p {
+  margin: 100px auto 15px;
+}
+.form .button {
+  margin: 100px auto;
+}
+
+#button-register {
+  background: #0b0339;
+  border: 1px solid #000000;
+  box-shadow: 0px 2.87425px 2.87425px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(2.87425px);
+
+  border-radius: 7px;
+  width: 80%;
+  margin: 0px auto;
+  font-weight: bold;
+  color: white;
+}
