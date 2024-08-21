@@ -1,23 +1,26 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Text from "./Text";
 import classNames from "classnames";
 
 const Alert = () => {
-  const [showAlert, setShowAlert] = useState(true);
-  const [animate, setAnimate] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+
+  useEffect(() => {
+    const alert = localStorage.getItem("alert");
+    if (alert) setShowAlert(!alert);
+  }, []);
 
   const handleClose = () => {
-    setAnimate(true);
-    setTimeout(() => setShowAlert(false), 600);
+    localStorage.setItem("alert", "alert");
+    setShowAlert(false);
   };
 
   const alertContainerClass = classNames(
     "p-4 z-50 glass-dark border-none fixed bottom-4 right-1/2",
     "w-11/12 translate-x-1/2 flex md:flex-row flex-col justify-between text-start items-center",
-    "rounded-xl gap-4 transition duration-700 transform",
-    { "opacity-0 scale-90": animate }
+    "rounded-xl gap-4 transition duration-700 transform"
   );
 
   const buttonClass = classNames(
