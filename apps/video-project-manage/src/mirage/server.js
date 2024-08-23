@@ -124,6 +124,32 @@ export function makeServer({ environment = "development" } = {}) {
         let attrs = JSON.parse(request.requestBody);
         return schema.db.cliente.insert(attrs);
       });
+
+      this.put("/video/:id", (schema, request) => {
+        let newAttrs = JSON.parse(request.requestBody);
+        let id = request.params.id;
+        let video = schema.db.video.find(id);
+
+        return schema.db.video.update(video.id, newAttrs);
+      });
+
+      this.put("/cliente/:id", (schema, request) => {
+        let newAttrs = JSON.parse(request.requestBody);
+        let id = request.params.id;
+        let cliente = schema.db.cliente.find(id);
+
+        return schema.db.cliente.update(cliente.id, newAttrs);
+      });
+
+      this.delete("/video/:id", (schema, request) => {
+        let id = request.params.id;
+        return schema.db.video.remove(id);
+      });
+
+      this.delete("/cliente/:id", (schema, request) => {
+        let id = request.params.id;
+        return schema.db.cliente.remove(id);
+      });
     },
   });
 
