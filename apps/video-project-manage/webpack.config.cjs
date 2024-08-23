@@ -78,8 +78,8 @@ module.exports = {
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: "video_project_manager",
-      library: { type: "var", name: "video_project_manager" },
+      name: "video_project_manage",
+      library: { type: "var", name: "video_project_manage" },
       filename: "remoteEntry.js",
       exposes: {
         "./App": "./src/App",
