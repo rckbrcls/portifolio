@@ -64,7 +64,7 @@ export const projects: IProject[] = [
     timeline: null,
     gitLink: "https://github.com/brcls/joystick",
     members: ["Erick Barcelos"],
-    coverImage: "/images/projects/lojinha-simples/lojinha.png",
+    coverImage: "/images/projects/joystick/home.png",
   },
   {
     slug: "secret-santa",
