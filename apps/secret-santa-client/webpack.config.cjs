@@ -16,11 +16,11 @@ module.exports = {
       directory: path.join(__dirname, "dist"),
     },
     port: 3003,
-    hot: true,
+    hot: false,
     historyApiFallback: true,
   },
   output: {
-    publicPath: "http://localhost:3003/",
+    publicPath: "auto",
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
   },
@@ -58,16 +58,6 @@ module.exports = {
           },
         },
       },
-      {
-        test: /\.tsx?$/,
-        use: {
-          loader: "ts-loader",
-          options: {
-            transpileOnly: true, // Adicionado para evitar a verificação de tipos completa
-          },
-        },
-        exclude: /node_modules/,
-      },
     ],
   },
   plugins: [
@@ -82,10 +72,12 @@ module.exports = {
         react: {
           singleton: true,
           requiredVersion: "^18.2.0",
+          eager: false,
         },
         "react-dom": {
           singleton: true,
           requiredVersion: "^18.2.0",
+          eager: false,
         },
       },
     }),
