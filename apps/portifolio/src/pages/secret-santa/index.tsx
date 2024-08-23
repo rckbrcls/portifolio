@@ -11,7 +11,7 @@ const SecretSantaPage: React.FC = () => {
     >
       <iframe
         src="http://localhost:3003"
-        style={{ height: "100vh", width: "100%", border: "none" }}
+        style={{ height: "100vh", width: "100vw", border: "none" }}
         title="Secret Santa"
       />
     </MicroLayout>
