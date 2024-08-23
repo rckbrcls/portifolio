@@ -22,7 +22,7 @@ function ListaVideo() {
 
   useEffect(() => {
     api
-      .get("http://localhost:3000/video")
+      .get("/video")
       .then(({ data }) => {
         setVideos(data);
       })
@@ -31,7 +31,7 @@ function ListaVideo() {
       });
 
     api
-      .get("http://localhost:3000/cliente")
+      .get("/cliente")
       .then(({ data }) => {
         setClientes(data);
       })
@@ -53,7 +53,7 @@ function ListaVideo() {
 
   const getData = () => {
     api
-      .get("http://localhost:3000/video")
+      .get("/video")
       .then(({ data }) => {
         setVideos(data);
       })
@@ -64,7 +64,7 @@ function ListaVideo() {
 
   const onDelete = (id) => {
     api
-      .delete(`http://localhost:3000/video/${id}`)
+      .delete(`/video/${id}`)
       .then(() => {
         getData();
       })
@@ -81,12 +81,7 @@ function ListaVideo() {
             .split("/")
             .reverse()
             .join()
-            .localeCompare(
-              b.entrega
-                .split("/")
-                .reverse()
-                .join()
-            )
+            .localeCompare(b.entrega.split("/").reverse().join())
         )
         .map((video) => (
           <Card key={video.id}>

@@ -22,7 +22,7 @@ function ListaCliente() {
 
   useEffect(() => {
     api
-      .get("http://localhost:3000/cliente")
+      .get("/cliente")
       .then(({ data }) => {
         setClientes(data);
       })
@@ -31,7 +31,7 @@ function ListaCliente() {
       });
 
     api
-      .get("http://localhost:3000/video")
+      .get("/video")
       .then(({ data }) => {
         setVideos(data);
       })
@@ -51,7 +51,7 @@ function ListaCliente() {
 
   const getData = () => {
     api
-      .get("http://localhost:3000/cliente")
+      .get("/cliente")
       .then(({ data }) => {
         setClientes(data);
       })
@@ -62,7 +62,7 @@ function ListaCliente() {
 
   const onDelete = (id) => {
     api
-      .delete(`http://localhost:3000/cliente/${id}`)
+      .delete(`/cliente/${id}`)
       .then(() => {
         getData();
       })
@@ -86,12 +86,7 @@ function ListaCliente() {
                         .split("/")
                         .reverse()
                         .join()
-                        .localeCompare(
-                          b.entrega
-                            .split("/")
-                            .reverse()
-                            .join()
-                        )
+                        .localeCompare(b.entrega.split("/").reverse().join())
                     )
                     .map((video) => video.titulo)[0]
                 }
@@ -105,12 +100,7 @@ function ListaCliente() {
                         .split("/")
                         .reverse()
                         .join()
-                        .localeCompare(
-                          b.entrega
-                            .split("/")
-                            .reverse()
-                            .join()
-                        )
+                        .localeCompare(b.entrega.split("/").reverse().join())
                     )
                     .map((video) => video.entrega)[0]
                 }

@@ -29,7 +29,7 @@ function FormCadastroCliente() {
     };
 
     api
-      .post("http://localhost:3000/cliente", data)
+      .post("/cliente", data)
       .then(() => {
         navigate("/clientes");
       })

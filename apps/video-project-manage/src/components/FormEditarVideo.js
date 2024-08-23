@@ -35,7 +35,7 @@ function FormEditarVideo() {
     setIdCliente(localStorage.getItem("Cliente ID"));
 
     api
-      .get("http://localhost:3000/cliente")
+      .get("/cliente")
       .then(({ data }) => {
         setClientes(data);
       })
@@ -60,7 +60,7 @@ function FormEditarVideo() {
     };
 
     api
-      .put(`http://localhost:3000/video/${id}`, data)
+      .put(`/video/${id}`, data)
       .then(() => {
         navigate("/home");
       })

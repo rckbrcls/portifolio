@@ -25,7 +25,7 @@ function FormCadastroVideo() {
 
   useEffect(() => {
     api
-      .get("http://localhost:3000/cliente")
+      .get("/cliente")
       .then(({ data }) => {
         setClientes(data);
       })
@@ -47,7 +47,7 @@ function FormCadastroVideo() {
     };
 
     api
-      .post("http://localhost:3000/video", data)
+      .post("/video", data)
       .then(() => {
         navigate("/home");
       })

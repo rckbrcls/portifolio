@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Button,
-  Formulario,
-  Container,
-  StyledInput,
-  Titulo,
-} from "../styles";
+import { Button, Formulario, Container, StyledInput, Titulo } from "../styles";
 import api from "../services/api";
 import { useNavigate } from "react-router-dom";
 
@@ -36,7 +30,7 @@ function FormEditarCliente() {
     };
 
     api
-      .put(`http://localhost:3000/cliente/${id}`, data)
+      .put(`/cliente/${id}`, data)
       .then(() => {
         navigate("/clientes");
       })
