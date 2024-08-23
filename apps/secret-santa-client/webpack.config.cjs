@@ -16,11 +16,11 @@ module.exports = {
       directory: path.join(__dirname, "dist"),
     },
     port: 3003,
-    hot: false,
+    hot: true,
     historyApiFallback: true,
   },
   output: {
-    publicPath: "auto",
+    publicPath: "http://localhost:3003/",
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
   },
@@ -72,12 +72,10 @@ module.exports = {
         react: {
           singleton: true,
           requiredVersion: "^18.2.0",
-          eager: false,
         },
         "react-dom": {
           singleton: true,
           requiredVersion: "^18.2.0",
-          eager: false,
         },
       },
     }),
