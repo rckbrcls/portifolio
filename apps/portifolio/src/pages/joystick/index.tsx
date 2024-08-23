@@ -3,19 +3,19 @@
 import React from "react";
 import MicroLayout from "@/components/MicroLayout";
 
-const SecretSantaPage: React.FC = () => {
+const JoystickPage: React.FC = () => {
   return (
     <MicroLayout
-      projectGitRoute="https://github.com/brcls/secret-santa"
-      projectHomeRoute="project/secret-santa"
+      projectGitRoute="https://github.com/brcls/joystick"
+      projectHomeRoute="project/joystick"
     >
       <iframe
-        src="http://localhost:3003"
+        src="http://localhost:3004"
         style={{ height: "100vh", width: "100%", border: "none" }}
-        title="Secret Santa"
+        title="Joystick"
       />
     </MicroLayout>
   );
 };
 
-export default SecretSantaPage;
+export default JoystickPage;

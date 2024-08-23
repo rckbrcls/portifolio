@@ -1,23 +1,23 @@
-"use client";
+// "use client";
 
-import MicroLayout from "@/components/MicroLayout";
-import React, { useEffect, useState } from "react";
+// import MicroLayout from "@/components/MicroLayout";
+// import React, { useEffect, useState } from "react";
 
-const LojinhaSimplesPage: React.FC = () => {
-  const [Component, setComponent] = useState<any>(null);
+// const LojinhaSimplesPage: React.FC = () => {
+//   const [Component, setComponent] = useState<any>(null);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const loadComponent = async () => {
-        const mod = await import("lojinha_simples/App");
-        setComponent(() => mod.default);
-      };
+//   useEffect(() => {
+//     if (typeof window !== "undefined") {
+//       const loadComponent = async () => {
+//         const mod = await import("lojinha_simples/App");
+//         setComponent(() => mod.default);
+//       };
 
-      loadComponent();
-    }
-  }, []);
+//       loadComponent();
+//     }
+//   }, []);
 
-  return <MicroLayout>{Component && <Component />}</MicroLayout>;
-};
+//   return <MicroLayout>{Component && <Component />}</MicroLayout>;
+// };
 
-export default LojinhaSimplesPage;
+// export default LojinhaSimplesPage;

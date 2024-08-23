@@ -64,6 +64,7 @@ export const projects: IProject[] = [
     timeline: null,
     gitLink: "https://github.com/brcls/joystick",
     members: ["Erick Barcelos"],
+    microRoute: "/joystick",
     coverImage: "/images/projects/joystick/home.png",
   },
   {
