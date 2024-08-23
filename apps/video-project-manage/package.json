@@ -21,7 +21,9 @@
     "server": "npx json-server mock/db.json",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "webpack-dev": "webpack serve --config webpack.config.cjs --mode development",
+    "webpack-build": "webpack --config webpack.config.cjs --mode production"
   },
   "browserslist": {
     "production": [
