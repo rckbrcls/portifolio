@@ -34,6 +34,17 @@ module.exports = {
         use: ["style-loader", "css-loader"],
       },
       {
+        test: /\.(png|jpg|gif|svg)$/i,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "[path][name].[ext]",
+            },
+          },
+        ],
+      },
+      {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         use: {

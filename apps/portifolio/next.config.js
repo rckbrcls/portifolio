@@ -10,6 +10,7 @@ module.exports = {
             lojinha_simples:
               "lojinha_simples@http://localhost:3001/remoteEntry.js",
             alan_turing: "alan_turing@http://localhost:3002/remoteEntry.js",
+            secret_santa: "secret_santa@http://localhost:3003/remoteEntry.js",
           },
           filename: "static/chunks/remoteEntry.js",
         })

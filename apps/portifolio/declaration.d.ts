@@ -3,7 +3,12 @@ declare module "lojinha_simples/App" {
   export default App;
 }
 
-declare module "alan_turing/App" {
+declare module "secret_santa/App" {
+  const App: React.ReactNode;
+  export default App;
+}
+
+declare module "secret_santa/App" {
   const App: React.ReactNode;
   export default App;
 }

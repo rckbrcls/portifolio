@@ -76,6 +76,7 @@ export const projects: IProject[] = [
     timeline: null,
     gitLink: "https://github.com/brcls/secret-santa",
     members: ["Erick Barcelos"],
+    microRoute: "/secret-santa",
     coverImage: "/images/projects/secret-santa/home.png",
   },
 ];
