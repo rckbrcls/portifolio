@@ -22,7 +22,7 @@ export const StyledSubTitulo = styled.h3`
   color: ${(props) => (props.cinza ? "#aaa" : "white")};
 `;
 
-export const StyledContainer = styled.body`
+export const StyledContainer = styled.div`
   background-color: #272650;
   position: absolute;
   min-height: 100%;

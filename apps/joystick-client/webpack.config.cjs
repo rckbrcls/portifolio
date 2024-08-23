@@ -1,9 +1,10 @@
 const path = require("path");
 const ModuleFederationPlugin =
   require("webpack").container.ModuleFederationPlugin;
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  entry: "./src/index.js", // ajuste o caminho conforme necessário
+  entry: "./src/index.js",
   mode: "development",
   devServer: {
     headers: {
@@ -13,19 +14,38 @@ module.exports = {
         "X-Requested-With, content-type, Authorization",
     },
     static: {
-      directory: path.join(__dirname, "dist"),
+      directory: path.join(__dirname, "public"), // Servir arquivos estáticos da pasta "public"
+      watch: true, // Assistir mudanças nos arquivos estáticos
     },
     port: 3004,
     hot: true,
-    historyApiFallback: true,
+    historyApiFallback: {
+      disableDotRule: true,
+      index: "/",
+    },
+    allowedHosts: "all",
+    server: {
+      type: "http", // Pode usar "https" se necessário, e configurar com certificados
+      options: {
+        key: path.resolve(__dirname, "certs/server.key"),
+        cert: path.resolve(__dirname, "certs/server.crt"),
+        // Isso se aplica somente se você estiver usando HTTPS e tiver os certificados
+      },
+    },
+    client: {
+      overlay: {
+        errors: true, // Exibir overlay de erros no navegador
+        warnings: false, // Ignorar avisos
+      },
+    },
   },
   output: {
-    publicPath: "http://localhost:3004/",
+    publicPath: "/",
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js", ".jsx"],
+    extensions: [".js", ".jsx"],
   },
   module: {
     rules: [
@@ -34,7 +54,7 @@ module.exports = {
         use: ["style-loader", "css-loader"],
       },
       {
-        test: /\.(png|jpg|gif|svg)$/i,
+        test: /\.(png|gif|svg|jpe?g|webp)$/i,
         use: [
           {
             loader: "file-loader",
@@ -50,11 +70,7 @@ module.exports = {
         use: {
           loader: "babel-loader",
           options: {
-            presets: [
-              "@babel/preset-env",
-              "@babel/preset-react",
-              "@babel/preset-typescript",
-            ],
+            presets: ["@babel/preset-env", "@babel/preset-react"],
           },
         },
       },
@@ -68,16 +84,9 @@ module.exports = {
       exposes: {
         "./App": "./src/App",
       },
-      shared: {
-        react: {
-          singleton: true,
-          requiredVersion: "^18.2.0",
-        },
-        "react-dom": {
-          singleton: true,
-          requiredVersion: "^18.2.0",
-        },
-      },
+    }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, "public", "index.html"), // Usar o index.html da pasta "public"
     }),
   ],
 };
