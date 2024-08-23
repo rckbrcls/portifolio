@@ -13,13 +13,16 @@ run_project_webpack() {
   (cd "$project_path" && pnpm run webpack-dev) &
 }
 
-# Rodar o primeiro projeto em background
+echo "Starting the project: alan-turing"
 run_project_webpack "./apps/alan-turing"
 
-# Rodar o segundo projeto em background
+echo "Starting the project: lojinha-simples"
 run_project_webpack "./apps/lojinha-simples"
 
-# Rodar o terceiro projeto em background
+echo "Starting the project: secret-santa-client"
+run_project_webpack "./apps/secret-santa-client"
+
+echo "Starting the project: "
 run_project "./apps/portifolio"
 
 # Esperar que todos os processos terminem
