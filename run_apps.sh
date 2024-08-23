@@ -22,6 +22,9 @@ run_project_webpack "./apps/lojinha-simples"
 echo "Starting the project: secret-santa-client"
 run_project_webpack "./apps/secret-santa-client"
 
+echo "Starting the project: joystick"
+run_project_webpack "./apps/joystick-client"
+
 echo "Starting the project: "
 run_project "./apps/portifolio"
 
