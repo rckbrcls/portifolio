@@ -17,23 +17,32 @@ The architecture of this portfolio is designed to be modular and scalable, with 
 - **TypeScript & JavaScript:** TypeScript is used for type safety and maintainability across most of the codebase, while JavaScript is employed where flexibility is needed.
 - **Node.js & Flask:** Backend services that support the portfolio's functionality, with Flask handling any API needs and Node.js managing server-side rendering or other backend tasks.
 
-## Project Structure
+### Architecture Diagram
 
-The repository is organized as follows:
+Below is a diagram of the microfrontend architecture, illustrating how various APIs serve the different frontend components within the monorepo structure:
 
-```
-/my-portfolio
-├── /apps
-│   ├── /portfolio   # The main portfolio application
-│   ├── /project1    # Microfrontend for Project 1
-│   ├── /project2    # Microfrontend for Project 2
-│   └── /projectN    # Microfrontend for Project N
-├── /packages
-│   ├── /components  # Shared UI components
-│   ├── /utils       # Utility functions and helpers
-│   ├── /api         # Backend services and API
-│   └── /config      # Shared configuration (e.g., Webpack, ESLint)
-└── /scripts         # Custom scripts for build, deployment, etc.
+```mermaid
+graph TD;
+    A[Portfolio (Macro)] -->|Uses| B[Microfrontend 1];
+    A -->|Uses| C[Microfrontend 2];
+    A -->|Uses| D[Microfrontend N];
+    B --> E[Turborepo];
+    C --> E;
+    D --> E;
+    E --> F[Shared Components];
+    E --> G[Shared Utils];
+    F --> H[React/Next.js];
+    F --> I[SolidJS];
+    G --> J[TypeScript/JavaScript];
+    H --> K[Webpack];
+    I --> K;
+    J --> L[Node.js/Flask];
+
+    subgraph APIs
+    M[API 1 (Flask)] -->|Serves| B;
+    N[API 2 (Node.js)] -->|Serves| C;
+    O[API N (Flask/Node.js)] -->|Serves| D;
+    end
 ```
 
 ## License
