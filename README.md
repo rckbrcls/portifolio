@@ -22,26 +22,26 @@ The architecture of this portfolio is designed to be modular and scalable, with 
 Below is a diagram of the microfrontend architecture, illustrating how various APIs serve the different frontend components within the monorepo structure:
 
 ```mermaid
-graph TD;
-    A[Portfolio (Macro)] -->|Uses| B[Microfrontend 1];
-    A -->|Uses| C[Microfrontend 2];
-    A -->|Uses| D[Microfrontend N];
-    B --> E[Turborepo];
-    C --> E;
-    D --> E;
-    E --> F[Shared Components];
-    E --> G[Shared Utils];
-    F --> H[React/Next.js];
-    F --> I[SolidJS];
-    G --> J[TypeScript/JavaScript];
-    H --> K[Webpack];
-    I --> K;
-    J --> L[Node.js/Flask];
+graph TD
+    A[Portfolio (Macro)] -->|Uses| B[Microfrontend 1]
+    A -->|Uses| C[Microfrontend 2]
+    A -->|Uses| D[Microfrontend N]
+    B --> E[Turborepo]
+    C --> E
+    D --> E
+    E --> F[Shared Components]
+    E --> G[Shared Utils]
+    F --> H[React/Next.js]
+    F --> I[SolidJS]
+    G --> J[TypeScript/JavaScript]
+    H --> K[Webpack]
+    I --> K
+    J --> L[Node.js/Flask]
 
     subgraph APIs
-    M[API 1 (Flask)] -->|Serves| B;
-    N[API 2 (Node.js)] -->|Serves| C;
-    O[API N (Flask/Node.js)] -->|Serves| D;
+    M[API 1 (Flask)] -->|Serves| B
+    N[API 2 (Node.js)] -->|Serves| C
+    O[API N (Flask/Node.js)] -->|Serves| D
     end
 ```
 
