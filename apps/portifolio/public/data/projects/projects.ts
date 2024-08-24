@@ -17,9 +17,7 @@ export const projects: IProject[] = [
   },
   {
     slug: "alan-turing",
-    description: `Tripper is a React Native application designed to showcase routes for road trips that traverse scenic
-                  landscapes, restaurants, or tourist attractions. Users have the ability to create and share their own routes, with
-                  the added feature of voting on routes to elevate their visibility within the community.`,
+    description: ``,
     name: "Introduction To Computer Theory",
     techStack: ["React", "TypeScript", "Webpack"],
     timeline: null,
@@ -30,9 +28,7 @@ export const projects: IProject[] = [
   },
   {
     slug: "lojinha-simples",
-    description: `Tripper is a React Native application designed to showcase routes for road trips that traverse scenic
-                  landscapes, restaurants, or tourist attractions. Users have the ability to create and share their own routes, with
-                  the added feature of voting on routes to elevate their visibility within the community.`,
+    description: ``,
     name: "Simple Little Store",
     techStack: ["React", "TypeScript", "Webpack"],
     timeline: null,
@@ -43,9 +39,7 @@ export const projects: IProject[] = [
   },
   {
     slug: "dost",
-    description: `Tripper is a React Native application designed to showcase routes for road trips that traverse scenic
-                  landscapes, restaurants, or tourist attractions. Users have the ability to create and share their own routes, with
-                  the added feature of voting on routes to elevate their visibility within the community.`,
+    description: ``,
     name: "dost",
     techStack: ["React", "TypeScript", "Tailwind", "Next.js"],
     timeline: null,
@@ -55,9 +49,7 @@ export const projects: IProject[] = [
   },
   {
     slug: "joystick",
-    description: `Tripper is a React Native application designed to showcase routes for road trips that traverse scenic
-                  landscapes, restaurants, or tourist attractions. Users have the ability to create and share their own routes, with
-                  the added feature of voting on routes to elevate their visibility within the community.`,
+    description: ``,
     name: "Joystick",
     techStack: ["React", "JavaScript", "MongoDB", "Node.js"],
     timeline: null,
@@ -68,9 +60,7 @@ export const projects: IProject[] = [
   },
   {
     slug: "secret-santa",
-    description: `Tripper is a React Native application designed to showcase routes for road trips that traverse scenic
-                  landscapes, restaurants, or tourist attractions. Users have the ability to create and share their own routes, with
-                  the added feature of voting on routes to elevate their visibility within the community.`,
+    description: ``,
     name: "Secret Santa",
     techStack: ["React", "JavaScript", "MongoDB", "Node.js"],
     timeline: null,
@@ -81,9 +71,7 @@ export const projects: IProject[] = [
   },
   {
     slug: "video-project-manage",
-    description: `Tripper is a React Native application designed to showcase routes for road trips that traverse scenic
-                  landscapes, restaurants, or tourist attractions. Users have the ability to create and share their own routes, with
-                  the added feature of voting on routes to elevate their visibility within the community.`,
+    description: ``,
     name: "Video Project Manage",
     techStack: ["React", "JavaScript", "MongoDB", "Node.js"],
     timeline: null,
@@ -91,5 +79,38 @@ export const projects: IProject[] = [
     members: ["Erick Barcelos"],
     microRoute: "/video-project-manage",
     coverImage: "/images/projects/video-project-manage/home.png",
+  },
+  {
+    slug: "electoral-system",
+    description: ``,
+    name: "Electoral System",
+    techStack: ["React", "JavaScript", "MongoDB", "Node.js"],
+    timeline: null,
+    gitLink: "https://github.com/brcls/electoral-system",
+    members: ["Erick Barcelos"],
+    microRoute: "/electoral-system",
+    coverImage: "/images/projects/electoral-system/home.png",
+  },
+  {
+    slug: "rgbwallet",
+    description: ``,
+    name: "RGBWallet",
+    techStack: ["React", "JavaScript", "MongoDB", "Node.js"],
+    timeline: null,
+    gitLink: "https://github.com/brcls/rgbwallet",
+    members: ["Erick Barcelos"],
+    microRoute: "/rgbwallet",
+    coverImage: "/images/projects/rgbwallet/home.png",
+  },
+  {
+    slug: "guit",
+    description: ``,
+    name: "Guit",
+    techStack: ["React", "JavaScript", "MongoDB", "Node.js"],
+    timeline: null,
+    gitLink: "https://github.com/brcls/guit",
+    members: ["Erick Barcelos"],
+    microRoute: "/guit",
+    coverImage: "/images/projects/guit/home.png",
   },
 ];
