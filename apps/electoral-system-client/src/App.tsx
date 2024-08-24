@@ -1,7 +1,6 @@
 import {
   Show,
   createEffect,
-  createResource,
   createSignal,
   onMount,
   type Component,
@@ -152,7 +151,7 @@ const App: Component = () => {
         prevCandidatos.filter((candidato) => candidato.id !== id),
       );
     } catch (error) {
-      console.error("Erro:", error.message);
+      console.error("Erro:", (error as Error).message);
     }
   }
   async function deleteCargo(id: number): Promise<void> {
@@ -171,7 +170,7 @@ const App: Component = () => {
       setCargos((prevCargos) => prevCargos.filter((cargo) => cargo.id !== id));
       fetchCandidatosAndSetDates();
     } catch (error) {
-      console.error("Erro:", error.message);
+      console.error("Erro:", (error as Error).message);
     }
   }
   async function deletePartido(id: number): Promise<void> {
@@ -192,7 +191,7 @@ const App: Component = () => {
       );
       fetchCandidatosAndSetDates();
     } catch (error) {
-      console.error("Erro:", error.message);
+      console.error("Erro:", (error as Error).message);
     }
   }
   async function deleteDoacao(id: number): Promise<void> {
@@ -213,7 +212,7 @@ const App: Component = () => {
       );
       fetchCandidatosAndSetDates();
     } catch (error) {
-      console.error("Erro:", error.message);
+      console.error("Erro:", (error as Error).message);
     }
   }
   async function deletePessoa(id: number): Promise<void> {
@@ -234,7 +233,7 @@ const App: Component = () => {
       );
       fetchCandidatosAndSetDates();
     } catch (error) {
-      console.error("Erro:", error.message);
+      console.error("Erro:", (error as Error).message);
     }
   }
   async function deleteProcessoJudicial(id: number): Promise<void> {
@@ -260,7 +259,7 @@ const App: Component = () => {
       );
       fetchCandidatosAndSetDates();
     } catch (error) {
-      console.error("Erro:", error.message);
+      console.error("Erro:", (error as Error).message);
     }
   }
   async function deleteEquipeApoio(id: number): Promise<void> {
@@ -281,7 +280,7 @@ const App: Component = () => {
       );
       fetchCandidatosAndSetDates();
     } catch (error) {
-      console.error("Erro:", error.message);
+      console.error("Erro:", (error as Error).message);
     }
   }
 
@@ -388,168 +387,162 @@ const App: Component = () => {
         </div>
         {tab() == 0 && (
           <Show when={candidatos()} fallback={<p>Carregando...</p>}>
-            {(data) => {
-              return (
-                <>
-                  <div class="flex w-11/12 flex-wrap items-center justify-between gap-y-4">
-                    <input
-                      type="text"
-                      placeholder="Procure pelo nome do candidato"
-                      class="input input-bordered w-full"
-                      value={searchTerm()}
-                      onInput={(e) => setSearchTerm(e.target.value)}
-                    />
-                    <select
-                      class="select select-bordered w-[33%]"
-                      onChange={(e) =>
-                        setFiltro({ ...filtro(), ficha: e.target.value })
-                      }
-                      value={filtro()?.ficha ?? ""}
-                    >
-                      <option value="">Ficha</option>
-                      <option value="Procedente">Procedente</option>
-                      <option value="Não Procedente">Não Procedente</option>
-                    </select>
-                    <select
-                      class="select select-bordered w-[33%]"
-                      onChange={(e) =>
-                        setFiltro({ ...filtro(), eleito: e.target.value })
-                      }
-                      value={filtro()?.eleito ?? ""}
-                    >
-                      <option value="">Foi Eleito?</option>
-                      <option value="sim">Sim</option>
-                      <option value="nao">Não</option>
-                    </select>
-                    <select
-                      class="select select-bordered w-[33%]"
-                      onChange={(e) =>
-                        setFiltro({ ...filtro(), cargo: e.target.value })
-                      }
-                      value={filtro()?.cargo ?? ""}
-                    >
-                      <option value="">Cargo</option>
-                      {cargos().map((item) => (
-                        <option value={item.nome}>{item.nome}</option>
-                      ))}
-                    </select>
-                    <select
-                      class="select select-bordered w-[33%]"
-                      onChange={(e) =>
-                        setFiltro({ ...filtro(), partido: e.target.value })
-                      }
-                      value={filtro()?.partido ?? ""}
-                    >
-                      <option value="">Partido</option>
-                      {partidos().map((item) => (
-                        <option value={item.nome}>{item.nome}</option>
-                      ))}
-                    </select>
-                    <select
-                      class="select select-bordered w-[33%]"
-                      onChange={(e) =>
-                        setFiltro({ ...filtro(), data: e.target.value })
-                      }
-                      value={filtro()?.data ?? ""}
-                    >
-                      <option value="">Ano de candidatura</option>
-                      {datas().map((item) => (
-                        <option value={item}>{item}</option>
-                      ))}
-                    </select>
+            <div class="flex w-11/12 flex-wrap items-center justify-between gap-y-4">
+              <input
+                type="text"
+                placeholder="Procure pelo nome do candidato"
+                class="input input-bordered w-full"
+                value={searchTerm()}
+                onInput={(e) => setSearchTerm(e.target.value)}
+              />
+              <select
+                class="select select-bordered w-[33%]"
+                onChange={(e) =>
+                  setFiltro({ ...filtro(), ficha: e.target.value })
+                }
+                value={filtro()?.ficha ?? ""}
+              >
+                <option value="">Ficha</option>
+                <option value="Procedente">Procedente</option>
+                <option value="Não Procedente">Não Procedente</option>
+              </select>
+              <select
+                class="select select-bordered w-[33%]"
+                onChange={(e) =>
+                  setFiltro({ ...filtro(), eleito: e.target.value })
+                }
+                value={filtro()?.eleito ?? ""}
+              >
+                <option value="">Foi Eleito?</option>
+                <option value="sim">Sim</option>
+                <option value="nao">Não</option>
+              </select>
+              <select
+                class="select select-bordered w-[33%]"
+                onChange={(e) =>
+                  setFiltro({ ...filtro(), cargo: e.target.value })
+                }
+                value={filtro()?.cargo ?? ""}
+              >
+                <option value="">Cargo</option>
+                {cargos().map((item) => (
+                  <option value={item.nome}>{item.nome}</option>
+                ))}
+              </select>
+              <select
+                class="select select-bordered w-[33%]"
+                onChange={(e) =>
+                  setFiltro({ ...filtro(), partido: e.target.value })
+                }
+                value={filtro()?.partido ?? ""}
+              >
+                <option value="">Partido</option>
+                {partidos().map((item) => (
+                  <option value={item.nome}>{item.nome}</option>
+                ))}
+              </select>
+              <select
+                class="select select-bordered w-[33%]"
+                onChange={(e) =>
+                  setFiltro({ ...filtro(), data: e.target.value })
+                }
+                value={filtro()?.data ?? ""}
+              >
+                <option value="">Ano de candidatura</option>
+                {datas().map((item) => (
+                  <option value={item}>{item}</option>
+                ))}
+              </select>
 
-                    <select
-                      class="select select-bordered w-[33%]"
-                      onChange={(e) =>
-                        setFiltro({ ...filtro(), temVice: e.target.value })
-                      }
-                      value={filtro()?.temVice ?? ""}
-                    >
-                      <option value="">Tem Vice</option>
-                      <option value="sim">Sim</option>
-                      <option value="nao">Não</option>
-                    </select>
+              <select
+                class="select select-bordered w-[33%]"
+                onChange={(e) =>
+                  setFiltro({ ...filtro(), temVice: e.target.value })
+                }
+                value={filtro()?.temVice ?? ""}
+              >
+                <option value="">Tem Vice</option>
+                <option value="sim">Sim</option>
+                <option value="nao">Não</option>
+              </select>
+              <button
+                class="btn btn-neutral w-full"
+                onClick={() => setFiltro(null)}
+              >
+                Limpar filtro
+              </button>
+            </div>
+            {candidatosFiltrados()?.length &&
+              candidatosFiltrados().map((item) => (
+                <div class="w-11/12 rounded-xl bg-base-200 p-7">
+                  <div class="flex items-center justify-between">
+                    <p class="text-2xl hover:cursor-pointer hover:underline">
+                      {item.pessoa.nome}
+                    </p>
+                    <p class="text-lg">{item.cargo.nome}</p>
+                    <p class="text-lg">{item.partido.nome}</p>
+                    <p class="text-lg">
+                      {item.eleito ? "Eleito" : "Não eleito"}
+                    </p>
+                    <p class="text-lg">
+                      {new Date(item.data_candidatura).getFullYear()}
+                    </p>
                     <button
-                      class="btn btn-neutral w-full"
-                      onClick={() => setFiltro(null)}
+                      class="btn btn-error text-lg text-red-800 hover:cursor-pointer hover:underline"
+                      onClick={async () => await deleteCandidato(item.id)}
                     >
-                      Limpar filtro
+                      deletar
                     </button>
                   </div>
-                  {candidatosFiltrados()?.length &&
-                    candidatosFiltrados().map((item) => (
-                      <div class="w-11/12 rounded-xl bg-base-200 p-7">
-                        <div class="flex items-center justify-between">
-                          <p class="text-2xl hover:cursor-pointer hover:underline">
-                            {item.pessoa.nome}
-                          </p>
-                          <p class="text-lg">{item.cargo.nome}</p>
-                          <p class="text-lg">{item.partido.nome}</p>
-                          <p class="text-lg">
-                            {item.eleito ? "Eleito" : "Não eleito"}
-                          </p>
-                          <p class="text-lg">
-                            {new Date(item.data_candidatura).getFullYear()}
-                          </p>
-                          <button
-                            class="btn btn-error text-lg text-red-800 hover:cursor-pointer hover:underline"
-                            onClick={async () => await deleteCandidato(item.id)}
-                          >
-                            deletar
-                          </button>
-                        </div>
+                  <div class="divider"></div>
+                  <div class="flex justify-between gap-4">
+                    {item.participantes_equipe?.length && (
+                      <div class="w-full flex-col gap-4 rounded-xl bg-base-300 px-4 py-6">
+                        <p class="text-lg">Equipe de apoio</p>
                         <div class="divider"></div>
-                        <div class="flex justify-between gap-4">
-                          {item.participantes_equipe?.length && (
-                            <div class="w-full flex-col gap-4 rounded-xl bg-base-300 px-4 py-6">
-                              <p class="text-lg">Equipe de apoio</p>
-                              <div class="divider"></div>
-                              {item.participantes_equipe.map((pessoa) => (
-                                <div class="hover:cursor-pointer hover:underline">
-                                  {pessoa.nome}
-                                </div>
-                              ))}
-                            </div>
-                          )}
+                        {item.participantes_equipe.map((pessoa) => (
+                          <div class="hover:cursor-pointer hover:underline">
+                            {pessoa.nome}
+                          </div>
+                        ))}
+                      </div>
+                    )}
 
-                          {item.processos_judiciais?.length && (
-                            <div class="w-full gap-4 rounded-xl bg-base-300 p-6">
-                              <p class="text-lg">Processos Judiciais</p>
-                              <div class="divider"></div>
-                              {item.processos_judiciais.map((processo) => (
-                                <div class="hover:cursor-pointer hover:underline">
-                                  {processo.data_inicio} - {processo.status} -{" "}
-                                  {processo.resultado}
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                          {item.doacoes?.length && (
-                            <div class="w-full gap-4 rounded-xl bg-base-300 px-4 py-6">
-                              <p class="text-lg">Doações</p>
-                              <div class="divider"></div>
-                              {item.doacoes.map((doacao) => (
-                                <div class="hover:cursor-pointer hover:underline">
-                                  R$ {doacao.valor}
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                          {item.vice_candidato !== null && (
-                            <div class="w-full gap-4 rounded-xl bg-base-300 px-4 py-6">
-                              <p class="text-lg">Vice Candidato</p>
-                              <div class="divider"></div>
-                              <div class="hover:cursor-pointer hover:underline">
-                                {item.vice_candidato.nome}
-                              </div>
-                            </div>
-                          )}
+                    {item.processos_judiciais?.length && (
+                      <div class="w-full gap-4 rounded-xl bg-base-300 p-6">
+                        <p class="text-lg">Processos Judiciais</p>
+                        <div class="divider"></div>
+                        {item.processos_judiciais.map((processo) => (
+                          <div class="hover:cursor-pointer hover:underline">
+                            {processo.data_inicio} - {processo.status} -{" "}
+                            {processo.resultado}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {item.doacoes?.length && (
+                      <div class="w-full gap-4 rounded-xl bg-base-300 px-4 py-6">
+                        <p class="text-lg">Doações</p>
+                        <div class="divider"></div>
+                        {item.doacoes.map((doacao) => (
+                          <div class="hover:cursor-pointer hover:underline">
+                            R$ {doacao.valor}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {item.vice_candidato !== null && (
+                      <div class="w-full gap-4 rounded-xl bg-base-300 px-4 py-6">
+                        <p class="text-lg">Vice Candidato</p>
+                        <div class="divider"></div>
+                        <div class="hover:cursor-pointer hover:underline">
+                          {item.vice_candidato.nome}
                         </div>
                       </div>
-                    ))}
-                </>
-              );
-            }}
+                    )}
+                  </div>
+                </div>
+              ))}
           </Show>
         )}
         {tab() == 1 && (

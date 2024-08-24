@@ -1,7 +1,7 @@
 import { Component, createSignal } from "solid-js";
 
 export const Header = ({ atualizaListas }: { atualizaListas: Function }) => {
-  const [deveriaAlimentar, setDeveriaAlimentar] = createSignal<boolean>(false);
+  const [deveriaAlimentar, setDeveriaAlimentar] = createSignal<boolean>(true);
 
   async function limparBanco(): Promise<void> {
     try {
@@ -19,7 +19,7 @@ export const Header = ({ atualizaListas }: { atualizaListas: Function }) => {
       setDeveriaAlimentar(true);
       atualizaListas();
     } catch (error) {
-      console.error("Erro:", error.message);
+      console.error("Erro:", (error as Error).message);
     }
   }
   async function alimentarBanco(): Promise<void> {
@@ -38,7 +38,7 @@ export const Header = ({ atualizaListas }: { atualizaListas: Function }) => {
       setDeveriaAlimentar(false);
       atualizaListas();
     } catch (error) {
-      console.error("Erro:", error.message);
+      console.error("Erro:", (error as Error).message);
     }
   }
 
@@ -49,6 +49,7 @@ export const Header = ({ atualizaListas }: { atualizaListas: Function }) => {
       </div>
       <div class="flex-none gap-2">
         <button
+          disabled={deveriaAlimentar()}
           class="btn btn-error text-red-800"
           onClick={() => limparBanco()}
         >
