@@ -1,5 +1,3 @@
-Aqui está um exemplo de README para o seu portfólio:
-
 ---
 
 # My Portfolio
@@ -43,5 +41,3 @@ The repository is organized as follows:
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
-
-Feel free to customize this README further based on your specific needs!
