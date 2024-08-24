@@ -105,7 +105,7 @@ export const projects: IProject[] = [
   {
     slug: "guit",
     description: ``,
-    name: "Guit",
+    name: "guit",
     techStack: ["React", "JavaScript", "MongoDB", "Node.js"],
     timeline: null,
     gitLink: "https://github.com/brcls/guit",
