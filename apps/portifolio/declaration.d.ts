@@ -17,3 +17,8 @@ declare module "video_project_manage/App" {
   const App: React.ReactNode;
   export default App;
 }
+
+declare module "electoral_system/App" {
+  const App: React.ReactNode;
+  export default App;
+}

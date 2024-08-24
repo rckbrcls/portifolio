@@ -28,6 +28,9 @@ run_project_webpack "./apps/joystick-client"
 echo "Starting the project: video-project-manage"
 run_project_webpack "./apps/video-project-manage"
 
+echo "Starting the project: electoral-system"
+run_project_webpack "./apps/electoral-system"
+
 echo "Starting the project: "
 run_project "./apps/portifolio"
 
