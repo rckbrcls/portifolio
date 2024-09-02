@@ -44,3 +44,9 @@ body {
     border-width: 1px;
   }
 }
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+}

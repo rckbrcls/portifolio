@@ -17,6 +17,12 @@ import {
 } from "../../../public/data/techStack";
 import SubTitle from "../atoms/SubTitle";
 import { IProject } from "@/interface/IProject";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "../ui/accordion";
 
 type TechItem<T> = {
   name: T;
@@ -113,7 +119,7 @@ export default function ProjectsList() {
 
   const buttonBaseStyle =
     "glass-dark px-6 py-1 rounded-full active:scale-95 hover:scale-110 duration-500 select-none";
-  const clearButtonStyle = `${buttonBaseStyle} w-min bg-zinc-500 hover:bg-zinc-800 active:bg-zinc-800`;
+  const clearButtonStyle = `${buttonBaseStyle} w-min bg-zinc-500 text-nowrap hover:bg-zinc-800 active:bg-zinc-800`;
   const filterButtonStyle = (active: boolean) =>
     `${buttonBaseStyle} font-bold hover:scale-110 duration-500 select-none ${
       active
@@ -127,7 +133,12 @@ export default function ProjectsList() {
   return (
     <div className={headerStyle}>
       <Title gradient>Projects</Title>
-      <SubTitle className="mt-10 mb-4 text-start font-bold">Filter</SubTitle>
+      <div className="mt-10 justify-between mb-4 flex">
+        <SubTitle className="text-start font-bold">Filter</SubTitle>
+        <button className={clearButtonStyle} onClick={resetFilter}>
+          <Text>Clear filter</Text>
+        </button>
+      </div>
       <div className="grid md:grid-cols-2 divide-zinc-800 w-full gap-2 ">
         <div className="flex items-center justify-start rounded-xl glass-dark p-4 gap-2 flex-wrap">
           <p className="text-start font-bold">Languages</p>
@@ -189,23 +200,30 @@ export default function ProjectsList() {
             </button>
           ))}
         </div>
-        <button className={clearButtonStyle} onClick={resetFilter}>
-          <Text>Clear</Text>
-        </button>
       </div>
-      {Object.entries(groupedProjects).map(
-        ([status, projects]) =>
-          projects.length > 0 && (
-            <div key={status}>
-              <SubTitle className="my-10 text-start font-bold">
-                {status.charAt(0).toUpperCase() + status.slice(1)}
-              </SubTitle>
-              <div className={gridContainerStyle}>
-                {renderProjectCards(projects)}
-              </div>
-            </div>
-          )
-      )}
+      <Accordion type="multiple" className="mt-2">
+        {Object.entries(groupedProjects).map(
+          ([status, projects]) =>
+            projects.length > 0 && (
+              <AccordionItem
+                className="border mb-2 glass-dark rounded-xl px-4"
+                key={status}
+                value={status}
+              >
+                <AccordionTrigger>
+                  <SubTitle className="text-start font-bold">
+                    {status.charAt(0).toUpperCase() + status.slice(1)}
+                  </SubTitle>
+                </AccordionTrigger>
+                <AccordionContent className="p-2">
+                  <div className={gridContainerStyle}>
+                    {renderProjectCards(projects)}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            )
+        )}
+      </Accordion>
     </div>
   );
 }

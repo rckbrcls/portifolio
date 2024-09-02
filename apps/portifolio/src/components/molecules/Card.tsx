@@ -43,8 +43,8 @@ const Card = ({ project }: ICardProps) => {
   return (
     <Link href={linkUrl}>
       <div
-        className={`group cursor-pointer glass-dark rounded-xl p-2 glass-dark 
-        hover:scale-[1.02] delay-75 duration-500 transform-gpu justify-between flex
+        className={`group cursor-pointer border border-zinc-800 rounded-xl p-2 hover:scale-[1.02]
+           delay-75 duration-500 transform-gpu justify-between flex bg-zinc-950/5
          md:flex-row flex-col overflow-hidden active:scale-[1.02] select-none`}
       >
         <div className="md:p-10 p-5 text-left md:w-1/2 w-full select-none">

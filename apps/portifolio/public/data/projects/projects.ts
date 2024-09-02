@@ -64,7 +64,7 @@ export const projects: IProject[] = [
     slug: "joystick",
     description: ``,
     name: "Joystick",
-    techStack: ["React", "JavaScript", "MongoDB", "Node.js"],
+    techStack: ["React", "JavaScript", "MongoDB", "Node.js", "Webpack"],
     timeline: null,
     gitLink:
       "https://github.com/brcls/portifolio-monorepo/tree/main/apps/joystick-client",
@@ -77,7 +77,7 @@ export const projects: IProject[] = [
     slug: "secret-santa",
     description: ``,
     name: "Secret Santa",
-    techStack: ["React", "JavaScript", "MongoDB", "Node.js"],
+    techStack: ["React", "JavaScript", "MongoDB", "Node.js", "Webpack"],
     timeline: null,
     gitLink:
       "https://github.com/brcls/portifolio-monorepo/tree/main/apps/secret-santa-client",
@@ -90,7 +90,7 @@ export const projects: IProject[] = [
     slug: "video-project-manage",
     description: ``,
     name: "Video Project Manage",
-    techStack: ["React", "JavaScript"],
+    techStack: ["React", "JavaScript", "Webpack"],
     timeline: null,
     gitLink:
       "https://github.com/brcls/portifolio-monorepo/tree/main/apps/video-project-manage",
@@ -103,7 +103,7 @@ export const projects: IProject[] = [
     slug: "electoral-system",
     description: ``,
     name: "Electoral System",
-    techStack: ["Solid.js", "JavaScript", "MongoDB", "Node.js"],
+    techStack: ["Solid.js", "JavaScript", "MongoDB", "Node.js", "Webpack"],
     timeline: null,
     gitLink:
       "https://github.com/brcls/portifolio-monorepo/tree/main/apps/electoral-system-client",
@@ -116,7 +116,14 @@ export const projects: IProject[] = [
     slug: "rgbwallet",
     description: ``,
     name: "RGBWallet",
-    techStack: ["React", "JavaScript", "MongoDB", "Node.js"],
+    techStack: [
+      "React",
+      "JavaScript",
+      "MongoDB",
+      "Node.js",
+      "Webpack",
+      "Webpack",
+    ],
     timeline: null,
     gitLink:
       "https://github.com/brcls/portifolio-monorepo/tree/main/apps/rgbwallet",
