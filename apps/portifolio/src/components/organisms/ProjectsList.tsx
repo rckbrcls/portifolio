@@ -118,8 +118,7 @@ export default function ProjectsList() {
   };
 
   const buttonBaseStyle =
-    "glass-dark px-6 py-1 rounded-full active:scale-95 hover:scale-110 duration-500 select-none";
-  const clearButtonStyle = `${buttonBaseStyle} w-min bg-zinc-500 text-nowrap hover:bg-zinc-800 active:bg-zinc-800`;
+    "glass-dark px-4 rounded-full active:scale-95 hover:scale-110 duration-500 select-none";
   const filterButtonStyle = (active: boolean) =>
     `${buttonBaseStyle} hover:scale-110 duration-500 select-none ${
       active
@@ -135,7 +134,11 @@ export default function ProjectsList() {
       <Title gradient>Projects</Title>
       <div className="mt-10 justify-between mb-4 flex">
         <SubTitle className="text-start font-bold">Filter</SubTitle>
-        <button className={clearButtonStyle} onClick={resetFilter}>
+        <button
+          className={`${buttonBaseStyle} bg-zinc-500 text-nowrap
+         hover:bg-zinc-800 active:bg-zinc-800`}
+          onClick={resetFilter}
+        >
           <Text>Clear filter</Text>
         </button>
       </div>
