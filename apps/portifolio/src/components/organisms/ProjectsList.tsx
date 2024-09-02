@@ -129,7 +129,7 @@ export default function ProjectsList() {
       <Title gradient>Projects</Title>
       <SubTitle className="mt-10 mb-4 text-start font-bold">Filter</SubTitle>
       <div className="grid md:grid-cols-2 divide-zinc-800 w-full gap-2 ">
-        <div className="flex items-center justify-start rounded-xl border border-zinc-800 p-4 gap-2 flex-wrap">
+        <div className="flex items-center justify-start rounded-xl glass-dark p-4 gap-2 flex-wrap">
           <p className="text-start font-bold">Languages</p>
           {languageFilter.map((item, index) => (
             <button
@@ -143,7 +143,7 @@ export default function ProjectsList() {
             </button>
           ))}
         </div>
-        <div className="flex items-center justify-start rounded-xl border border-zinc-800 p-4 gap-2 flex-wrap">
+        <div className="flex items-center justify-start rounded-xl glass-dark p-4 gap-2 flex-wrap">
           <p className="text-start font-bold">Frameworks</p>
           {frameworkFilter.map((item, index) => (
             <button
@@ -157,7 +157,7 @@ export default function ProjectsList() {
             </button>
           ))}
         </div>
-        <div className="flex items-center justify-start rounded-xl border border-zinc-800 p-4 gap-2 flex-wrap">
+        <div className="flex items-center justify-start rounded-xl glass-dark p-4 gap-2 flex-wrap">
           <p className="text-start font-bold">Databases</p>
           {databaseFilter.map((item, index) => (
             <button
@@ -171,7 +171,7 @@ export default function ProjectsList() {
             </button>
           ))}
         </div>
-        <div className="flex items-center justify-start rounded-xl border border-zinc-800 p-4 gap-2 flex-wrap">
+        <div className="flex items-center justify-start rounded-xl glass-dark p-4 gap-2 flex-wrap">
           <p className="text-start font-bold">Tools & Libraries</p>
           {toolOrLibraryFilter.map((item, index) => (
             <button
