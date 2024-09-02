@@ -3,6 +3,8 @@ import { IVisualization } from "./IVisualization";
 import { TypeTechStack } from "../../public/data/techStack";
 import { Route } from "next";
 
+type TProjectStatus = "finished" | "working" | "designing";
+
 export interface IProject {
   slug: string;
   description: string;
@@ -15,4 +17,5 @@ export interface IProject {
   members: string[];
   projectVisualization?: IVisualization[];
   coverImage?: StaticImageData | string;
+  status: TProjectStatus;
 }

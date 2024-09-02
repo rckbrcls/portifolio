@@ -23,7 +23,6 @@ export default function Home() {
         </div>
         <Title>Olá! I'm Erick Barcelos</Title>
       </div>
-      <ProjectsList />
     </MainLayout>
   );
 }

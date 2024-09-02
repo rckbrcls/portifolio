@@ -48,9 +48,10 @@ const Header = () => {
   }
 
   const routes: IRoute[] = [
-    { path: "/", label: "Projects" },
-    { path: "/about-me", label: "About me" },
-    { path: "/contact", label: "Contact" },
+    { path: "/", label: "olá!" },
+    { path: "/projects", label: "projects" },
+    { path: "/about-me", label: "about me" },
+    { path: "/contact", label: "contact" },
   ];
 
   return (
