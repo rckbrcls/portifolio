@@ -59,7 +59,7 @@ const Header = () => {
       {routes.map((route, index) => (
         <Link key={index} href={route.path}>
           <button className={buttonClass}>
-            <Text className="whitespace-nowrap text-bold">{route.label}</Text>
+            <Text className="whitespace-nowrap font-bold">{route.label}</Text>
           </button>
         </Link>
       ))}

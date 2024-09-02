@@ -121,9 +121,9 @@ export default function ProjectsList() {
     "glass-dark px-6 py-1 rounded-full active:scale-95 hover:scale-110 duration-500 select-none";
   const clearButtonStyle = `${buttonBaseStyle} w-min bg-zinc-500 text-nowrap hover:bg-zinc-800 active:bg-zinc-800`;
   const filterButtonStyle = (active: boolean) =>
-    `${buttonBaseStyle} font-bold hover:scale-110 duration-500 select-none ${
+    `${buttonBaseStyle} hover:scale-110 duration-500 select-none ${
       active
-        ? "bg-blue-500 hover:bg-blue-800 active:bg-blue-800"
+        ? "bg-blue-500 hover:bg-blue-800 active:bg-blue-800 font-bold"
         : "hover:bg-zinc-900 active:bg-zinc-900"
     }`;
 
@@ -141,7 +141,7 @@ export default function ProjectsList() {
       </div>
       <div className="grid md:grid-cols-2 divide-zinc-800 w-full gap-2 ">
         <div className="flex items-center justify-start rounded-xl glass-dark p-4 gap-2 flex-wrap">
-          <p className="text-start font-bold">Languages</p>
+          <p className="text-start font-bold text-xl mr-2">Languages</p>
           {languageFilter.map((item, index) => (
             <button
               key={item.name}
@@ -155,7 +155,7 @@ export default function ProjectsList() {
           ))}
         </div>
         <div className="flex items-center justify-start rounded-xl glass-dark p-4 gap-2 flex-wrap">
-          <p className="text-start font-bold">Frameworks</p>
+          <p className="text-start font-bold text-xl mr-2">Frameworks</p>
           {frameworkFilter.map((item, index) => (
             <button
               key={item.name}
@@ -169,7 +169,7 @@ export default function ProjectsList() {
           ))}
         </div>
         <div className="flex items-center justify-start rounded-xl glass-dark p-4 gap-2 flex-wrap">
-          <p className="text-start font-bold">Databases</p>
+          <p className="text-start font-bold text-xl mr-2">Databases</p>
           {databaseFilter.map((item, index) => (
             <button
               key={item.name}
@@ -183,7 +183,7 @@ export default function ProjectsList() {
           ))}
         </div>
         <div className="flex items-center justify-start rounded-xl glass-dark p-4 gap-2 flex-wrap">
-          <p className="text-start font-bold">Tools & Libraries</p>
+          <p className="text-start font-bold text-xl mr-2">Tools & Libraries</p>
           {toolOrLibraryFilter.map((item, index) => (
             <button
               key={item.name}
