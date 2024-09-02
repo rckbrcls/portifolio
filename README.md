@@ -34,11 +34,11 @@ graph TD;
     Turborepo --> SharedUtils;
     SharedComponents --> React;
     SharedComponents --> SolidJS;
-    SharedUtils --> TypeScript;
+    SharedUtils --> Python;
     SharedUtils --> JavaScript;
     React --> Webpack;
     SolidJS --> Webpack;
-    TypeScript --> NodeFlask;
+    Python --> NodeFlask;
     JavaScript --> NodeFlask;
 ```
 
