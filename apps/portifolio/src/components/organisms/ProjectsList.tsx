@@ -215,7 +215,7 @@ export default function ProjectsList() {
                     {status.charAt(0).toUpperCase() + status.slice(1)}
                   </SubTitle>
                 </AccordionTrigger>
-                <AccordionContent className="p-2">
+                <AccordionContent className="p-2 pb-6">
                   <div className={gridContainerStyle}>
                     {renderProjectCards(projects)}
                   </div>
