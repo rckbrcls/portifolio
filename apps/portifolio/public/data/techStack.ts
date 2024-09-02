@@ -14,11 +14,12 @@ export type Framework =
   | "Express"
   | "Solid.js"
   | "Flask"
-  | "Swift";
+  | "Swift"
+  | "Svelte";
 
 export type Database = "MongoDB" | "PostgreSQL";
 
-export type ToolOrLibrary = "Tailwind" | "Node.js" | "Webpack" | "Bun";
+export type ToolOrLibrary = "Tailwind" | "Node.js" | "Webpack" | "Bun" | "Deno";
 
 export type TypeTechStack = Language | Framework | Database | ToolOrLibrary;
 
@@ -40,6 +41,7 @@ export const frameworks: Framework[] = [
   "Solid.js",
   "Flask",
   "Swift",
+  "Svelte",
 ];
 
 export const databases: Database[] = ["MongoDB", "PostgreSQL"];
@@ -49,6 +51,7 @@ export const toolsAndLibraries: ToolOrLibrary[] = [
   "Node.js",
   "Webpack",
   "Bun",
+  "Deno",
 ];
 
 export const techStack: TypeTechStack[] = [
