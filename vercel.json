@@ -63,7 +63,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/apps/portifolio/.next/$1"
+      "dest": "apps/portifolio/.next/$1"
     }
   ],
   "env": {
