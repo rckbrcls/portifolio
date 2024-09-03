@@ -18,7 +18,10 @@ export const projects: IProject[] = [
   },
   {
     slug: "alan-turing",
-    description: ``,
+    description: `A comprehensive project created for a course at USP, titled
+     ‘Introduction to Computer Theory.’ The site explores the influence of Alan 
+     Turing, Stephen Cook, and Noam Chomsky on computational theory, alongside 
+     educational content from the course.`,
     name: "Introduction To Computer Theory",
     techStack: ["Solid.js", "TypeScript", "Webpack"],
     timeline: null,
@@ -31,7 +34,9 @@ export const projects: IProject[] = [
   },
   {
     slug: "lojinha-simples",
-    description: ``,
+    description: `One of my earliest React projects, a simple store 
+    application that utilizes a mock store API. It was developed as a study 
+    tool for learning React and API calls.`,
     name: "Simple Little Store",
     techStack: ["React", "TypeScript", "Webpack"],
     timeline: null,
@@ -65,7 +70,9 @@ export const projects: IProject[] = [
   },
   {
     slug: "joystick",
-    description: ``,
+    description: `A full-stack mock marketplace for video games, developed as
+     part of a course on Introduction to Web Development. The project covers 
+     the entire ecosystem from frontend to backend.`,
     name: "Joystick",
     techStack: ["React", "JavaScript", "MongoDB", "Node.js", "Webpack"],
     timeline: null,
@@ -78,7 +85,9 @@ export const projects: IProject[] = [
   },
   {
     slug: "secret-santa",
-    description: ``,
+    description: `A Secret Santa system where participants’ names and emails 
+    are entered, and then a random draw is conducted. 
+    Each participant receives an email revealing their Secret Santa match.`,
     name: "Secret Santa",
     techStack: ["React", "JavaScript", "MongoDB", "Node.js", "Webpack"],
     timeline: null,
@@ -91,7 +100,9 @@ export const projects: IProject[] = [
   },
   {
     slug: "video-project-manage",
-    description: ``,
+    description: `A simulator for a video/film production company’s management 
+    system, where clients and projects are handled, and all administrative 
+    tasks are managed.`,
     name: "Video Project Manage",
     techStack: ["React", "JavaScript", "Webpack"],
     timeline: null,
@@ -104,9 +115,19 @@ export const projects: IProject[] = [
   },
   {
     slug: "electoral-system",
-    description: ``,
+    description: `A system developed for a Database course, designed to manage 
+    electoral candidates, including their political and candidacy information. 
+    The project was created to study SQL, its queries, triggers, and other 
+    database-related topics`,
     name: "Electoral System",
-    techStack: ["Solid.js", "JavaScript", "MongoDB", "Node.js", "Webpack"],
+    techStack: [
+      "Solid.js",
+      "TypeScript",
+      "Python",
+      "Flask",
+      "Webpack",
+      "PostgreSQL",
+    ],
     timeline: null,
     gitLink:
       "https://github.com/brcls/portifolio-monorepo/tree/main/apps/electoral-system-client",
@@ -117,7 +138,9 @@ export const projects: IProject[] = [
   },
   {
     slug: "rgbwallet",
-    description: ``,
+    description: `An internal project developed at ICMC Junior (USP’s Junior 
+    Enterprise) for managing the wallet balances of the company’s participants, 
+    with each member having their own account balance`,
     name: "RGBWallet",
     techStack: [
       "React",
