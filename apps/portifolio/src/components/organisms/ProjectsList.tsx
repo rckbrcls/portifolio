@@ -203,7 +203,7 @@ export default function ProjectsList() {
         </div>
         <FaArrowAltCircleDown
           size={30}
-          className="animate-bounce bottom-10 mx-auto flex absolute"
+          className="animate-bounce lg:bottom-10 bottom-5 absolute"
         />
       </div>
       <Accordion
@@ -223,8 +223,8 @@ export default function ProjectsList() {
                     {status.charAt(0).toUpperCase() + status.slice(1)}
                   </SubTitle>
                 </AccordionTrigger>
-                <AccordionContent className="p-6 py-10">
-                  <div className="grid lg:grid-cols-2 md:auto-rows-fr gap-10 w-full">
+                <AccordionContent className="lg:px-6 lg:py-10 py-4 ">
+                  <div className="grid lg:grid-cols-2 md:auto-rows-fr gap-4 lg:gap-10 w-full">
                     {projects.map((project) => (
                       <Card
                         key={project.slug + project.name}
