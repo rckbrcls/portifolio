@@ -17,13 +17,10 @@
     "styled-components": "^6.1.12"
   },
   "scripts": {
-    "start": "PORT=3000 react-scripts start",
-    "server": "npx json-server mock/db.json",
-    "build": "react-scripts build",
+    "start": "webpack serve --config webpack.config.cjs --mode development",
+    "build": "webpack --config webpack.config.cjs --mode production",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "webpack-dev": "webpack serve --config webpack.config.cjs --mode development",
-    "webpack-build": "webpack --config webpack.config.cjs --mode production"
+    "eject": "react-scripts eject"
   },
   "browserslist": {
     "production": [
