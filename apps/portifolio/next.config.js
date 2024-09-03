@@ -7,15 +7,12 @@ module.exports = {
         new NextFederationPlugin({
           name: "host",
           remotes: {
-            lojinha_simples:
-              "lojinha_simples@http://localhost:3001/remoteEntry.js",
-            alan_turing: "alan_turing@http://localhost:3002/remoteEntry.js",
-            secret_santa: "secret_santa@http://localhost:3003/remoteEntry.js",
-            joystick: "joystick@http://localhost:3004/remoteEntry.js",
-            video_project_manage:
-              "video_project_manage@http://localhost:3005/remoteEntry.js",
-            electoral_system:
-              "electoral_system@http://localhost:3006/remoteEntry.js",
+            lojinha_simples: `lojinha_simples@${process.env.LOJINHA_SIMPLES_URL}/remoteEntry.js`,
+            alan_turing: `alan_turing@${process.env.ALAN_TURING_URL}/remoteEntry.js`,
+            secret_santa: `secret_santa@${process.env.SECRET_SANTA_URL}/remoteEntry.js`,
+            joystick: `joystick@${process.env.JOYSTICK_URL}/remoteEntry.js`,
+            video_project_manage: `video_project_manage@${process.env.VIDEO_PROJECT_MANAGE_URL}/remoteEntry.js`,
+            electoral_system: `electoral_system@${process.env.ELECTORAL_SYSTEM_URL}/remoteEntry.js`,
           },
           filename: "static/chunks/remoteEntry.js",
         })
