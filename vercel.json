@@ -39,31 +39,31 @@
   "routes": [
     {
       "src": "/electoral-system/(.*)",
-      "dest": "/apps/electoral-system-client/$1"
+      "dest": "apps/electoral-system-client/dist/$1"
     },
     {
       "src": "/joystick/(.*)",
-      "dest": "/apps/joystick-client/$1"
+      "dest": "apps/joystick-client/build/$1"
     },
     {
       "src": "/lojinha-simples/(.*)",
-      "dest": "/apps/lojinha-simples/$1"
+      "dest": "apps/lojinha-simples/dist/$1"
     },
     {
       "src": "/rgbwallet/(.*)",
-      "dest": "/apps/rgbwallet/$1"
+      "dest": "apps/rgbwallet/build/$1"
     },
     {
       "src": "/secret-santa/(.*)",
-      "dest": "/apps/secret-santa-client/$1"
+      "dest": "apps/secret-santa-client/dist/$1"
     },
     {
       "src": "/video-project-manage/(.*)",
-      "dest": "/apps/video-project-manage/$1"
+      "dest": "apps/video-project-manage/build/$1"
     },
     {
       "src": "/(.*)",
-      "dest": "/apps/portifolio/$1"
+      "dest": "apps/portifolio/.next/$1"
     }
   ],
   "env": {
