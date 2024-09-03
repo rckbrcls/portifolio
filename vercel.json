@@ -1,0 +1,36 @@
+{
+  "rewrites": [
+    {
+      "source": "/alan-turing/(.*)",
+      "destination": "/apps/alan-turing-client/dist/$1"
+    },
+    {
+      "source": "/electoral-system/(.*)",
+      "destination": "/apps/electoral-system-client/dist/$1"
+    },
+    {
+      "source": "/joystick/(.*)",
+      "destination": "/apps/joystick-client/build/$1"
+    },
+    {
+      "source": "/rgbwallet/(.*)",
+      "destination": "/apps/rgbwallet/build/$1"
+    },
+    {
+      "source": "/loja-simples/(.*)",
+      "destination": "/apps/loja-simples/dist/$1"
+    },
+    {
+      "source": "/portfolio/(.*)",
+      "destination": "/apps/portfolio/$1"
+    },
+    {
+      "source": "/secret-santa-client/(.*)",
+      "destination": "/apps/secret-santa-client/dist/$1"
+    },
+    {
+      "source": "/video-project-manage/(.*)",
+      "destination": "/apps/video-project-manage/dist/$1"
+    }
+  ]
+}
