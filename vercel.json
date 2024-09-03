@@ -1,36 +1,73 @@
 {
-  "rewrites": [
+  "version": 2,
+  "builds": [
     {
-      "source": "/alan-turing/(.*)",
-      "destination": "/apps/alan-turing-client/dist/$1"
+      "src": "apps/portifolio/next.config.js",
+      "use": "@vercel/next"
     },
     {
-      "source": "/electoral-system/(.*)",
-      "destination": "/apps/electoral-system-client/dist/$1"
+      "src": "apps/electoral-system-client/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist" }
     },
     {
-      "source": "/joystick/(.*)",
-      "destination": "/apps/joystick-client/build/$1"
+      "src": "apps/joystick-client/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "build" }
     },
     {
-      "source": "/rgbwallet/(.*)",
-      "destination": "/apps/rgbwallet/build/$1"
+      "src": "apps/lojinha-simples/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist" }
     },
     {
-      "source": "/loja-simples/(.*)",
-      "destination": "/apps/loja-simples/dist/$1"
+      "src": "apps/rgbwallet/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "build" }
     },
     {
-      "source": "/portfolio/(.*)",
-      "destination": "/apps/portfolio/$1"
+      "src": "apps/secret-santa-client/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist" }
     },
     {
-      "source": "/secret-santa-client/(.*)",
-      "destination": "/apps/secret-santa-client/dist/$1"
-    },
-    {
-      "source": "/video-project-manage/(.*)",
-      "destination": "/apps/video-project-manage/dist/$1"
+      "src": "apps/video-project-manage/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "build" }
     }
-  ]
+  ],
+  "routes": [
+    {
+      "src": "/electoral-system/(.*)",
+      "dest": "/apps/electoral-system-client/$1"
+    },
+    {
+      "src": "/joystick/(.*)",
+      "dest": "/apps/joystick-client/$1"
+    },
+    {
+      "src": "/lojinha-simples/(.*)",
+      "dest": "/apps/lojinha-simples/$1"
+    },
+    {
+      "src": "/rgbwallet/(.*)",
+      "dest": "/apps/rgbwallet/$1"
+    },
+    {
+      "src": "/secret-santa/(.*)",
+      "dest": "/apps/secret-santa-client/$1"
+    },
+    {
+      "src": "/video-project-manage/(.*)",
+      "dest": "/apps/video-project-manage/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/apps/portifolio/$1"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production",
+    "API_KEY": "@api_key"
+  }
 }
