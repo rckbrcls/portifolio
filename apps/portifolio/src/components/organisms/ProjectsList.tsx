@@ -214,7 +214,7 @@ export default function ProjectsList() {
           ([status, projects]) =>
             projects.length > 0 && (
               <AccordionItem
-                className="border mb-2 glass-dark rounded-xl px-4"
+                className="border mb-2 glass-dark rounded-xl px-4 lg:px-10"
                 key={status}
                 value={status}
               >
@@ -223,7 +223,7 @@ export default function ProjectsList() {
                     {status.charAt(0).toUpperCase() + status.slice(1)}
                   </SubTitle>
                 </AccordionTrigger>
-                <AccordionContent className="lg:px-6 lg:py-10 py-4 ">
+                <AccordionContent className="lg:py-10 py-4">
                   <div className="grid lg:grid-cols-2 md:auto-rows-fr gap-4 lg:gap-10 w-full">
                     {projects.map((project) => (
                       <Card
