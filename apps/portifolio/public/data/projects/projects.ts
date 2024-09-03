@@ -4,9 +4,9 @@ import { tripperVisualization } from "./tripperVisualization";
 export const projects: IProject[] = [
   {
     slug: "tripper",
-    description: `Tripper is a React Native application designed to showcase routes for road trips that traverse scenic
-                  landscapes, restaurants, or tourist attractions. Users have the ability to create and share their own routes, with
-                  the added feature of voting on routes to elevate their visibility within the community.`,
+    description: `An application for creating personalized travel 
+    itineraries, developed using Swift and Go, with real-time navigation 
+    and user reviews integration.`,
     name: "Tripper",
     techStack: ["Swift", "Go"],
     timeline: null,
@@ -44,7 +44,9 @@ export const projects: IProject[] = [
   },
   {
     slug: "dost",
-    description: ``,
+    description: `Monorepo for dost clothing store, powered by Turborepo. 
+    It includes a Node.js server, Next.js web client, and React Native mobile 
+    app, all streamlined in a single codebase.`,
     name: "dost",
     techStack: [
       "React",
@@ -135,7 +137,7 @@ export const projects: IProject[] = [
   },
   {
     slug: "guit",
-    description: ``,
+    description: `GUI tool to facilitate GitFlow with support for conventional commits, built with Rust.`,
     name: "guit",
     techStack: ["Rust"],
     timeline: null,
@@ -146,7 +148,9 @@ export const projects: IProject[] = [
   },
   {
     slug: "barter",
-    description: ``,
+    description: `A gamified bartering application where users can trade goods
+     and services, customize avatars, earn rewards, and engage with the 
+     community. Developed with Flutter, Deno and Go.`,
     name: "barter",
     techStack: ["Flutter", "Deno", "Go"],
     timeline: null,
@@ -157,7 +161,7 @@ export const projects: IProject[] = [
   },
   {
     slug: "spktrm",
-    description: ``,
+    description: `spktrm institutional website made in Svelte and Bun`,
     name: "spktrm",
     techStack: ["Svelte", "Bun"],
     timeline: null,
@@ -168,7 +172,7 @@ export const projects: IProject[] = [
   },
   {
     slug: "souvenir",
-    description: ``,
+    description: `ML-powered photo app with advanced editing and organization features, built with Swift and Python.`,
     name: "souvenir",
     techStack: ["Swift", "Python"],
     timeline: null,
