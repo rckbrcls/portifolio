@@ -1,69 +1,33 @@
 {
   "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "apps/portifolio/next.config.js",
-      "use": "@vercel/next"
+      "source": "/electoral-system/(.*)",
+      "destination": "/apps/electoral-system-client/dist/$1"
     },
     {
-      "src": "apps/electoral-system-client/package.json",
-      "use": "@vercel/static-build",
-      "config": { "distDir": "dist" }
+      "source": "/joystick/(.*)",
+      "destination": "/apps/joystick-client/build/$1"
     },
     {
-      "src": "apps/joystick-client/package.json",
-      "use": "@vercel/static-build",
-      "config": { "distDir": "build" }
+      "source": "/lojinha-simples/(.*)",
+      "destination": "/apps/lojinha-simples/dist/$1"
     },
     {
-      "src": "apps/lojinha-simples/package.json",
-      "use": "@vercel/static-build",
-      "config": { "distDir": "dist" }
+      "source": "/rgbwallet/(.*)",
+      "destination": "/apps/rgbwallet/build/$1"
     },
     {
-      "src": "apps/rgbwallet/package.json",
-      "use": "@vercel/static-build",
-      "config": { "distDir": "build" }
+      "source": "/secret-santa/(.*)",
+      "destination": "/apps/secret-santa-client/dist/$1"
     },
     {
-      "src": "apps/secret-santa-client/package.json",
-      "use": "@vercel/static-build",
-      "config": { "distDir": "dist" }
+      "source": "/video-project-manage/(.*)",
+      "destination": "/apps/video-project-manage/build/$1"
     },
     {
-      "src": "apps/video-project-manage/package.json",
-      "use": "@vercel/static-build",
-      "config": { "distDir": "build" }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/electoral-system/(.*)",
-      "dest": "/apps/electoral-system-client/dist/$1"
-    },
-    {
-      "src": "/joystick/(.*)",
-      "dest": "/apps/joystick-client/build/$1"
-    },
-    {
-      "src": "/lojinha-simples/(.*)",
-      "dest": "/apps/lojinha-simples/dist/$1"
-    },
-    {
-      "src": "/rgbwallet/(.*)",
-      "dest": "/apps/rgbwallet/build/$1"
-    },
-    {
-      "src": "/secret-santa/(.*)",
-      "dest": "/apps/secret-santa-client/dist/$1"
-    },
-    {
-      "src": "/video-project-manage/(.*)",
-      "dest": "/apps/video-project-manage/build/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/apps/portifolio/.next/$1"
+      "source": "/(.*)",
+      "destination": "apps/portifolio/.next/$1"
     }
   ],
   "env": {
