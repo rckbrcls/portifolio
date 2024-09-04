@@ -7,7 +7,7 @@ const AlanTuringPage: React.FC = () => {
   return (
     <MicroLayout projectGitRoute="" projectHomeRoute="/project/alan-turing">
       <iframe
-        src="http://localhost:3002"
+        src="https://portifolio-monorepo.vercel.app/alan-turing"
         style={{ height: "100vh", width: "100vw", border: "none" }}
         title="Alan Turing"
       />
