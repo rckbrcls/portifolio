@@ -10,7 +10,7 @@ const SecretSantaPage: React.FC = () => {
       projectHomeRoute="project/secret-santa"
     >
       <iframe
-        src={process.env.SECRET_SANTA_URL}
+        src={process.env.NEXT_PUBLIC_SECRET_SANTA_URL}
         style={{ height: "100vh", width: "100%", border: "none" }}
         title="Secret Santa"
       />

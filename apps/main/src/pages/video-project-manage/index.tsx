@@ -10,7 +10,7 @@ const VideoProjectManagePage: React.FC = () => {
       projectHomeRoute="project/video-project-manage"
     >
       <iframe
-        src={process.env.VIDEO_PROJECT_MANAGE_URL}
+        src={process.env.NEXT_PUBLIC_VIDEO_PROJECT_MANAGE_URL}
         style={{ height: "100vh", width: "100%", border: "none" }}
         title="Video-project-manage"
       />
