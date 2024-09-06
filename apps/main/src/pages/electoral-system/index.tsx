@@ -10,7 +10,7 @@ const VideoProjectManagePage: React.FC = () => {
       projectHomeRoute="project/electoral-system"
     >
       <iframe
-        src="http://localhost:3006"
+        src={process.env.ELECTORAL_SYSTEM_URL}
         style={{ height: "100vh", width: "100%", border: "none" }}
         title="Electoral-system"
       />

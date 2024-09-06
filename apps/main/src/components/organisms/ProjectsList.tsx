@@ -125,9 +125,9 @@ export default function ProjectsList() {
 
   return (
     <div className={headerStyle}>
-      <div className="h-[90svh] flex flex-col justify-center items-center mb-20 pb-20">
+      <div className="h-[85svh] flex flex-col justify-center items-center pt-8 mb-20 pb-20">
         <Title gradient>Projects</Title>
-        <div className="mt-10 mb-4 flex justify-between items-center w-full">
+        <div className="lg:mt-10 mb-4 flex justify-between items-center w-full">
           <SubTitle className="text-start font-bold">Filter</SubTitle>
           <button
             className={`${buttonBaseStyle} bg-zinc-500 text-nowrap
@@ -137,7 +137,7 @@ export default function ProjectsList() {
             <Text>Clear filter</Text>
           </button>
         </div>
-        <div className="grid md:grid-cols-2 divide-zinc-800 w-full gap-2">
+        <div className="grid md:grid-cols-2 w-full gap-2">
           <div className="flex items-center justify-start rounded-xl glass-dark p-4 gap-2 flex-wrap">
             <p className="text-start font-bold text-xl mr-2">Languages</p>
             {languageFilter.map((item, index) => (
@@ -200,6 +200,23 @@ export default function ProjectsList() {
               </button>
             ))}
           </div>
+        </div>
+        <div className="w-full flex rounded-xl glass-dark p-4 gap-4 mt-2">
+          {groupedProjects.finished.length > 0 && (
+            <p className="text-start font-bold">
+              finished: {groupedProjects.finished.length}
+            </p>
+          )}
+          {groupedProjects.working.length > 0 && (
+            <p className="text-start font-bold">
+              working: {groupedProjects.working.length}
+            </p>
+          )}
+          {groupedProjects.designing.length > 0 && (
+            <p className="text-start font-bold">
+              designing: {groupedProjects.designing.length}
+            </p>
+          )}
         </div>
         <FaArrowAltCircleDown
           size={30}

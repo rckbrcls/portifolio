@@ -24,11 +24,11 @@
     "react-icons": "^4.11.0",
     "sharp": "^0.33.4",
     "tailwind-merge": "^1.14.0",
-    "webpack": "^5.92.1",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "webpack": "^5.92.1"
   },
   "devDependencies": {
-    "@types/node": "^20",
+    "@types/node": "^20.14.9",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.19",

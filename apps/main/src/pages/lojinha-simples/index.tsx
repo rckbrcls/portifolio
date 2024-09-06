@@ -10,7 +10,7 @@ const LojinhaSimplesPage: React.FC = () => {
       projectHomeRoute="project/lojinha-simples"
     >
       <iframe
-        src="http://localhost:3001"
+        src={process.env.LOJINHA_SIMPLES_URL}
         style={{ height: "100vh", width: "100%", border: "none" }}
         title="Lojinha Simples"
       />

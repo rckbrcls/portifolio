@@ -6,7 +6,11 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "build:main": "turbo run build --filter=main..."
+    "build:main": "turbo run build --filter=main...",
+    "build:apps": "turbo run build --filter=apps/...",
+    "build:packages": "turbo run build --filter=packages/...",
+    "dev:apps": "turbo run dev --filter=apps/...",
+    "dev:packages": "turbo run dev --filter=packages/..."
   },
   "devDependencies": {
     "prettier": "^3.2.5",

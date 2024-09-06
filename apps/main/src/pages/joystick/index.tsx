@@ -10,7 +10,7 @@ const JoystickPage: React.FC = () => {
       projectHomeRoute="project/joystick"
     >
       <iframe
-        src="http://localhost:3004"
+        src={process.env.JOYSTICK_URL}
         style={{ height: "100vh", width: "100%", border: "none" }}
         title="Joystick"
       />
