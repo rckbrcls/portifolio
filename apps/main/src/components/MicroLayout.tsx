@@ -18,9 +18,7 @@ export default function MicroLayout({
   return (
     <>
       <main className="flex">
-        <div
-          className={`p-2 flex flex-col gap-2 fixed h-screen items-center justify-center`}
-        >
+        <div className={`p-2 flex flex-col gap-2 fixed inset-y-1/2`}>
           <button
             className="p-2 rounded z-50
           hover:scale-105 active:scale-95 duration-500 glass-dark hover:bg-zinc-800
