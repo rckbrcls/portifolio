@@ -201,7 +201,7 @@ export default function ProjectsList() {
             ))}
           </div>
         </div>
-        <div className="w-full flex rounded-xl glass-dark p-4 gap-4 mt-2">
+        <div className="w-full flex items-center rounded-xl glass-dark p-4 gap-4 mt-2">
           {groupedProjects.finished.length > 0 && (
             <p className="text-start font-bold">
               finished: {groupedProjects.finished.length}
