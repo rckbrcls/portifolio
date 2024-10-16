@@ -27,7 +27,7 @@ export const projects: IProject[] = [
     timeline: null,
     gitLink:
       "https://github.com/brcls/portifolio-monorepo/tree/main/apps/alan-turing",
-    microRoute: "/alan-turing",
+    microRoute: process.env.NEXT_PUBLIC_ALAN_TURING_URL as string,
     members: ["Erick Barcelos"],
     coverImage: "/images/projects/alan-turing/alan-turing.png",
     status: "finished",
@@ -42,7 +42,7 @@ export const projects: IProject[] = [
     timeline: null,
     gitLink:
       "https://github.com/brcls/portifolio-monorepo/tree/main/apps/lojinha-simples",
-    microRoute: "/lojinha-simples",
+    microRoute: process.env.NEXT_PUBLIC_LOJINHA_SIMPLES_URL as string,
     members: ["Erick Barcelos"],
     coverImage: "/images/projects/lojinha-simples/lojinha.png",
     status: "finished",
@@ -80,7 +80,7 @@ export const projects: IProject[] = [
     gitLink:
       "https://github.com/brcls/portifolio-monorepo/tree/main/apps/joystick-client",
     members: ["Erick Barcelos"],
-    microRoute: "/joystick",
+    microRoute: process.env.NEXT_PUBLIC_JOYSTICK_URL as string,
     coverImage: "/images/projects/joystick/home.png",
     status: "finished",
   },
@@ -95,7 +95,7 @@ export const projects: IProject[] = [
     gitLink:
       "https://github.com/brcls/portifolio-monorepo/tree/main/apps/secret-santa-client",
     members: ["Erick Barcelos"],
-    microRoute: "/secret-santa",
+    microRoute: process.env.NEXT_PUBLIC_SECRET_SANTA_URL as string,
     coverImage: "/images/projects/secret-santa/home.png",
     status: "finished",
   },
@@ -110,7 +110,7 @@ export const projects: IProject[] = [
     gitLink:
       "https://github.com/brcls/portifolio-monorepo/tree/main/apps/video-project-manage",
     members: ["Erick Barcelos"],
-    microRoute: "/video-project-manage",
+    microRoute: process.env.NEXT_PUBLIC_VIDEO_PROJECT_MANAGE_URL as string,
     coverImage: "/images/projects/video-project-manage/home.png",
     status: "finished",
   },
@@ -133,7 +133,7 @@ export const projects: IProject[] = [
     gitLink:
       "https://github.com/brcls/portifolio-monorepo/tree/main/apps/electoral-system-client",
     members: ["Erick Barcelos"],
-    microRoute: "/electoral-system",
+    microRoute: process.env.NEXT_PUBLIC_ELECTORAL_SYSTEM_URL as string,
     coverImage: "/images/projects/electoral-system/home.png",
     status: "finished",
   },

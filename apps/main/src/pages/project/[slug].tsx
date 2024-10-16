@@ -113,6 +113,21 @@ export default function Project() {
           </div>
         </div>
 
+        <div className="h-screen flex justify-center items-end">
+          <iframe
+            src={project?.microRoute as string}
+            style={{
+              height: "80vh",
+              width: "80vw",
+              border: "none",
+              display: "flex",
+              margin: "0 auto",
+              borderRadius: "10px",
+            }}
+            title="Alan Turing"
+          />
+        </div>
+
         <div className="flex flex-wrap md:flex-row flex-col gap-16 mb-10 justify-between items-center">
           {project?.projectVisualization?.map((object, index) => (
             <div key={index} className="flex flex-col gap-2">
