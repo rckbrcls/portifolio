@@ -156,7 +156,7 @@ export const projects: IProject[] = [
       "https://github.com/brcls/portifolio-monorepo/tree/main/apps/rgbwallet",
     members: ["Erick Barcelos"],
     microRoute: "/rgbwallet",
-    coverImage: "/images/projects/rgbwallet/home.png",
+    coverImage: "/images/projects/rgbwallet/rgbwallet-logo.png",
     status: "finished",
   },
   {
