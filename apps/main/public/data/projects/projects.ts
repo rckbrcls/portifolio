@@ -66,7 +66,7 @@ export const projects: IProject[] = [
     gitLink: "https://github.com/spktrm-io/dost",
     link: "https://dostproject.vercel.app/",
     members: ["Erick Barcelos"],
-    coverImage: "/images/projects/dost/dostHome.png",
+    coverImage: "/images/projects/dost/SOLID-LOGO-SOLO.svg",
     status: "working",
   },
   {
@@ -167,7 +167,7 @@ export const projects: IProject[] = [
     timeline: null,
     gitLink: "https://github.com/spktrm-io/guit",
     members: ["Erick Barcelos"],
-    coverImage: "/images/projects/guit/home.png",
+    coverImage: "/images/projects/guit/guit-logo.png",
     status: "working",
   },
   {
@@ -180,7 +180,7 @@ export const projects: IProject[] = [
     timeline: null,
     gitLink: "https://github.com/spktrm-io/barter",
     members: ["Erick Barcelos"],
-    coverImage: "/images/projects/barter/home.png",
+    coverImage: "/images/projects/barter/barter.webp",
     status: "designing",
   },
   {
@@ -191,7 +191,7 @@ export const projects: IProject[] = [
     timeline: null,
     gitLink: "https://github.com/spktrm-io/spktrm-web",
     members: ["Erick Barcelos"],
-    coverImage: "/images/projects/spktrm/home.png",
+    coverImage: "/images/projects/spktrm/ghostspktrmblack.png",
     status: "designing",
   },
   {
@@ -202,7 +202,7 @@ export const projects: IProject[] = [
     timeline: null,
     gitLink: "https://github.com/spktrm-io/souvenir",
     members: ["Erick Barcelos"],
-    coverImage: "/images/projects/souvenir/home.png",
+    coverImage: "/images/projects/souvenir/souvenir-logo.png",
     status: "designing",
   },
 ];
