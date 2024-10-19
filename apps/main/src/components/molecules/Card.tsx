@@ -15,10 +15,10 @@ const Card = ({ project }: ICardProps) => {
 
   const renderTechStack = () => {
     return (
-      <div className="flex flex-wrap gap-2 my-6">
+      <div className="flex flex-wrap gap-2 mt-6">
         {project.techStack.map((tech) => (
-          <div key={tech} className="bg-blue-500 rounded-full px-4">
-            <Text>{tech}</Text>
+          <div key={tech} className="bg-blue-500 rounded-full px-4 py-1">
+            <p className="text-sm font-bold">{tech}</p>
           </div>
         ))}
       </div>

@@ -241,7 +241,7 @@ export default function ProjectsList() {
                   </SubTitle>
                 </AccordionTrigger>
                 <AccordionContent className="lg:py-10 py-4">
-                  <div className="grid lg:grid-cols-2 md:auto-rows-fr gap-4 lg:gap-10 w-full">
+                  <div className="grid lg:grid-cols-2 md:auto-rows-fr gap-4 lg:gap-10 w-full p-2">
                     {projects.map((project) => (
                       <Card
                         key={project.slug + project.name}
