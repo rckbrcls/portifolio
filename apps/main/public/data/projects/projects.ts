@@ -22,7 +22,7 @@ export const projects: IProject[] = [
      ‘Introduction to Computer Theory.’ The site explores the influence of Alan 
      Turing, Stephen Cook, and Noam Chomsky on computational theory, alongside 
      educational content from the course.`,
-    name: "Introduction To Computer Theory",
+    name: "Computer Theory",
     techStack: ["Solid.js", "TypeScript", "Webpack"],
     timeline: null,
     gitLink:
