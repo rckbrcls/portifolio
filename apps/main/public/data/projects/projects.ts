@@ -162,7 +162,7 @@ export const projects: IProject[] = [
   {
     slug: "guit",
     description: `GUI tool to facilitate GitFlow with support for conventional commits, built with Rust.`,
-    name: "guit",
+    name: "GUIT",
     techStack: ["Rust"],
     timeline: null,
     gitLink: "https://github.com/spktrm-io/guit",
@@ -175,7 +175,7 @@ export const projects: IProject[] = [
     description: `A gamified bartering application where users can trade goods
      and services, customize avatars, earn rewards, and engage with the 
      community. Developed with Flutter, Deno and Go.`,
-    name: "barter",
+    name: "Barter",
     techStack: ["Flutter", "Deno", "Go"],
     timeline: null,
     gitLink: "https://github.com/spktrm-io/barter",
@@ -197,12 +197,12 @@ export const projects: IProject[] = [
   {
     slug: "souvenir",
     description: `ML-powered photo app with advanced editing and organization features, built with Swift and Python.`,
-    name: "souvenir",
+    name: "Souvenir",
     techStack: ["Swift", "Python"],
     timeline: null,
     gitLink: "https://github.com/spktrm-io/souvenir",
     members: ["Erick Barcelos"],
     coverImage: "/images/projects/souvenir/souvenir-logo.png",
-    status: "designing",
+    status: "working",
   },
 ];
