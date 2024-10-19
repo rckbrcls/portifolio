@@ -113,7 +113,7 @@ export default function ProjectsList() {
   }, [filteredProjects]);
 
   const buttonBaseStyle =
-    "glass-dark px-4 rounded-full active:scale-95 hover:scale-110 duration-500 select-none";
+    "glass-dark px-4 py-1 rounded-full active:scale-95 hover:scale-110 duration-500 select-none";
   const filterButtonStyle = (active: boolean) =>
     `${buttonBaseStyle} hover:scale-110 duration-500 select-none ${
       active
@@ -134,11 +134,11 @@ export default function ProjectsList() {
          hover:bg-zinc-800 active:bg-zinc-800`}
             onClick={resetFilter}
           >
-            <Text>Clear filter</Text>
+            <p className="text-sm font-bold">Clear filter</p>
           </button>
         </div>
         <div className="grid md:grid-cols-2 w-full gap-2">
-          <div className="flex items-center justify-start rounded-xl glass-dark p-4 gap-2 flex-wrap">
+          <div className="flex items-start justify-start rounded-xl glass-dark p-4 gap-2 flex-wrap">
             <p className="text-start font-bold text-xl mr-2">Languages</p>
             {languageFilter.map((item, index) => (
               <button
@@ -148,11 +148,11 @@ export default function ProjectsList() {
                   handleSelectFilter(index, languageFilter, setLanguageFilter)
                 }
               >
-                <Text>{item.name}</Text>
+                <p className="text-sm font-bold">{item.name}</p>
               </button>
             ))}
           </div>
-          <div className="flex items-center justify-start rounded-xl glass-dark p-4 gap-2 flex-wrap">
+          <div className="flex items-start justify-start rounded-xl glass-dark p-4 gap-2 flex-wrap">
             <p className="text-start font-bold text-xl mr-2">Frameworks</p>
             {frameworkFilter.map((item, index) => (
               <button
@@ -162,11 +162,11 @@ export default function ProjectsList() {
                   handleSelectFilter(index, frameworkFilter, setFrameworkFilter)
                 }
               >
-                <Text>{item.name}</Text>
+                <p className="text-sm font-bold">{item.name}</p>
               </button>
             ))}
           </div>
-          <div className="flex items-center justify-start rounded-xl glass-dark p-4 gap-2 flex-wrap">
+          <div className="flex items-start justify-start rounded-xl glass-dark p-4 gap-2 flex-wrap">
             <p className="text-start font-bold text-xl mr-2">Databases</p>
             {databaseFilter.map((item, index) => (
               <button
@@ -176,11 +176,11 @@ export default function ProjectsList() {
                   handleSelectFilter(index, databaseFilter, setDatabaseFilter)
                 }
               >
-                <Text>{item.name}</Text>
+                <p className="text-sm font-bold">{item.name}</p>
               </button>
             ))}
           </div>
-          <div className="flex items-center justify-start rounded-xl glass-dark p-4 gap-2 flex-wrap">
+          <div className="flex items-start justify-start rounded-xl glass-dark p-4 gap-2 flex-wrap">
             <p className="text-start font-bold text-xl mr-2">
               Tools & Libraries
             </p>
@@ -196,27 +196,45 @@ export default function ProjectsList() {
                   )
                 }
               >
-                <Text>{item.name}</Text>
+                <p className="text-sm font-bold">{item.name}</p>
               </button>
             ))}
           </div>
-        </div>
-        <div className="w-full flex items-center rounded-xl glass-dark p-4 gap-4 mt-2">
-          {groupedProjects.finished.length > 0 && (
-            <p className="text-start font-bold">
-              finished: {groupedProjects.finished.length}
-            </p>
-          )}
-          {groupedProjects.working.length > 0 && (
-            <p className="text-start font-bold">
-              working: {groupedProjects.working.length}
-            </p>
-          )}
-          {groupedProjects.designing.length > 0 && (
-            <p className="text-start font-bold">
-              designing: {groupedProjects.designing.length}
-            </p>
-          )}
+          <div className="flex items-start justify-start rounded-xl glass-dark p-4 gap-2 flex-wrap">
+            <p className="text-start font-bold text-xl mr-2">Type of project</p>
+            {toolOrLibraryFilter.map((item, index) => (
+              <button
+                key={item.name}
+                className={filterButtonStyle(item.active)}
+                onClick={() =>
+                  handleSelectFilter(
+                    index,
+                    toolOrLibraryFilter,
+                    setToolOrLibraryFilter
+                  )
+                }
+              >
+                <p className="text-sm font-bold">{item.name}</p>
+              </button>
+            ))}
+          </div>
+          <div className="flex items-start justify-start rounded-xl glass-dark p-4 gap-2 flex-wrap">
+            {groupedProjects.finished.length > 0 && (
+              <p className="text-start font-bold text-xl mr-2">
+                finished: {groupedProjects.finished.length}
+              </p>
+            )}
+            {groupedProjects.working.length > 0 && (
+              <p className="text-start font-bold text-xl mr-2">
+                working: {groupedProjects.working.length}
+              </p>
+            )}
+            {groupedProjects.designing.length > 0 && (
+              <p className="text-start font-bold text-xl mr-2">
+                designing: {groupedProjects.designing.length}
+              </p>
+            )}
+          </div>
         </div>
         <FaArrowAltCircleDown
           size={30}
@@ -241,7 +259,7 @@ export default function ProjectsList() {
                   </SubTitle>
                 </AccordionTrigger>
                 <AccordionContent className="lg:py-10 py-4">
-                  <div className="grid lg:grid-cols-2 md:auto-rows-fr gap-4 lg:gap-10 w-full p-2">
+                  <div className="grid lg:grid-cols-2 md:auto-rows-fr gap-4 lg:gap-10 w-full p-4">
                     {projects.map((project) => (
                       <Card
                         key={project.slug + project.name}
