@@ -1,0 +1,4 @@
+{
+  "builds": [{ "src": "dist/remoteEntry.js", "use": "@vercel/node" }],
+  "outputDirectory": "dist"
+}
