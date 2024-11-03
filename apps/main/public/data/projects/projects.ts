@@ -22,12 +22,12 @@ export const projects: IProject[] = [
      ‘Introduction to Computer Theory.’ The site explores the influence of Alan 
      Turing, Stephen Cook, and Noam Chomsky on computational theory, alongside 
      educational content from the course.`,
-    name: "Introduction To Computer Theory",
+    name: "Computer Theory",
     techStack: ["Solid.js", "TypeScript", "Webpack"],
     timeline: null,
     gitLink:
       "https://github.com/brcls/portifolio-monorepo/tree/main/apps/alan-turing",
-    microRoute: "/alan-turing",
+    microRoute: process.env.NEXT_PUBLIC_ALAN_TURING_URL as string,
     members: ["Erick Barcelos"],
     coverImage: "/images/projects/alan-turing/alan-turing.png",
     status: "finished",
@@ -42,7 +42,7 @@ export const projects: IProject[] = [
     timeline: null,
     gitLink:
       "https://github.com/brcls/portifolio-monorepo/tree/main/apps/lojinha-simples",
-    microRoute: "/lojinha-simples",
+    microRoute: process.env.NEXT_PUBLIC_LOJINHA_SIMPLES_URL as string,
     members: ["Erick Barcelos"],
     coverImage: "/images/projects/lojinha-simples/lojinha.png",
     status: "finished",
@@ -66,7 +66,7 @@ export const projects: IProject[] = [
     gitLink: "https://github.com/spktrm-io/dost",
     link: "https://dostproject.vercel.app/",
     members: ["Erick Barcelos"],
-    coverImage: "/images/projects/dost/dostHome.png",
+    coverImage: "/images/projects/dost/SOLID-LOGO-SOLO.svg",
     status: "working",
   },
   {
@@ -80,7 +80,7 @@ export const projects: IProject[] = [
     gitLink:
       "https://github.com/brcls/portifolio-monorepo/tree/main/apps/joystick-client",
     members: ["Erick Barcelos"],
-    microRoute: "/joystick",
+    microRoute: process.env.NEXT_PUBLIC_JOYSTICK_URL as string,
     coverImage: "/images/projects/joystick/home.png",
     status: "finished",
   },
@@ -95,7 +95,7 @@ export const projects: IProject[] = [
     gitLink:
       "https://github.com/brcls/portifolio-monorepo/tree/main/apps/secret-santa-client",
     members: ["Erick Barcelos"],
-    microRoute: "/secret-santa",
+    microRoute: process.env.NEXT_PUBLIC_SECRET_SANTA_URL as string,
     coverImage: "/images/projects/secret-santa/home.png",
     status: "finished",
   },
@@ -110,7 +110,7 @@ export const projects: IProject[] = [
     gitLink:
       "https://github.com/brcls/portifolio-monorepo/tree/main/apps/video-project-manage",
     members: ["Erick Barcelos"],
-    microRoute: "/video-project-manage",
+    microRoute: process.env.NEXT_PUBLIC_VIDEO_PROJECT_MANAGE_URL as string,
     coverImage: "/images/projects/video-project-manage/home.png",
     status: "finished",
   },
@@ -133,7 +133,7 @@ export const projects: IProject[] = [
     gitLink:
       "https://github.com/brcls/portifolio-monorepo/tree/main/apps/electoral-system-client",
     members: ["Erick Barcelos"],
-    microRoute: "/electoral-system",
+    microRoute: process.env.NEXT_PUBLIC_ELECTORAL_SYSTEM_URL as string,
     coverImage: "/images/projects/electoral-system/home.png",
     status: "finished",
   },
@@ -156,18 +156,18 @@ export const projects: IProject[] = [
       "https://github.com/brcls/portifolio-monorepo/tree/main/apps/rgbwallet",
     members: ["Erick Barcelos"],
     microRoute: "/rgbwallet",
-    coverImage: "/images/projects/rgbwallet/home.png",
+    coverImage: "/images/projects/rgbwallet/rgbwallet-logo.png",
     status: "finished",
   },
   {
     slug: "guit",
     description: `GUI tool to facilitate GitFlow with support for conventional commits, built with Rust.`,
-    name: "guit",
+    name: "GUIT",
     techStack: ["Rust"],
     timeline: null,
     gitLink: "https://github.com/spktrm-io/guit",
     members: ["Erick Barcelos"],
-    coverImage: "/images/projects/guit/home.png",
+    coverImage: "/images/projects/guit/guit-logo.png",
     status: "working",
   },
   {
@@ -175,12 +175,12 @@ export const projects: IProject[] = [
     description: `A gamified bartering application where users can trade goods
      and services, customize avatars, earn rewards, and engage with the 
      community. Developed with Flutter, Deno and Go.`,
-    name: "barter",
+    name: "Barter",
     techStack: ["Flutter", "Deno", "Go"],
     timeline: null,
     gitLink: "https://github.com/spktrm-io/barter",
     members: ["Erick Barcelos"],
-    coverImage: "/images/projects/barter/home.png",
+    coverImage: "/images/projects/barter/barter.webp",
     status: "designing",
   },
   {
@@ -191,18 +191,18 @@ export const projects: IProject[] = [
     timeline: null,
     gitLink: "https://github.com/spktrm-io/spktrm-web",
     members: ["Erick Barcelos"],
-    coverImage: "/images/projects/spktrm/home.png",
+    coverImage: "/images/projects/spktrm/ghostspktrmblack.png",
     status: "designing",
   },
   {
     slug: "souvenir",
     description: `ML-powered photo app with advanced editing and organization features, built with Swift and Python.`,
-    name: "souvenir",
+    name: "Souvenir",
     techStack: ["Swift", "Python"],
     timeline: null,
     gitLink: "https://github.com/spktrm-io/souvenir",
     members: ["Erick Barcelos"],
-    coverImage: "/images/projects/souvenir/home.png",
-    status: "designing",
+    coverImage: "/images/projects/souvenir/souvenir-logo.png",
+    status: "working",
   },
 ];

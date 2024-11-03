@@ -15,10 +15,10 @@ const Card = ({ project }: ICardProps) => {
 
   const renderTechStack = () => {
     return (
-      <div className="flex flex-wrap gap-2 my-6">
+      <div className="flex flex-wrap gap-2 mt-6">
         {project.techStack.map((tech) => (
-          <div key={tech} className="bg-blue-500 rounded-full px-4">
-            <Text>{tech}</Text>
+          <div key={tech} className="bg-blue-500 rounded-full px-4 py-1">
+            <p className="text-sm font-bold">{tech}</p>
           </div>
         ))}
       </div>
@@ -43,21 +43,28 @@ const Card = ({ project }: ICardProps) => {
   return (
     <Link href={linkUrl}>
       <div
-        className={`group cursor-pointer border border-zinc-800 rounded-xl p-2 hover:scale-[1.02]
-           delay-75 duration-500 transform-gpu justify-between flex bg-zinc-950/5
-         md:flex-row flex-col h-full overflow-hidden active:scale-[1.02] select-none`}
+        className={`group cursor-pointer border border-zinc-800 rounded-xl md:pt-2 md:pl-2 hover:scale-[1.02]
+       delay-75 duration-500 transform-gpu justify-between flex bg-zinc-950/5
+     md:flex-row flex-col h-full active:scale-[1.02] select-none`}
       >
-        <div className="md:p-10 p-5 text-left md:w-1/2 w-full select-none">
+        {project.microRoute && (
+          <div className="bg-purple-500 absolute -right-2 -top-2 rounded-full px-4 py-1 z-20">
+            <p className="text-sm font-bold">Microfrontend</p>
+          </div>
+        )}
+
+        <div className="p-5 text-left md:w-1/2 w-full select-none">
           <SubTitle>{project.name}</SubTitle>
           {renderTechStack()}
         </div>
 
-        <div className="md:w-1/2 w-full flex md:justify-end md:items-end">
+        <div className="md:w-1/2 w-full flex md:justify-end md:items-end md:overflow-hidden">
           <div
             className="w-full h-80 md:top-10 md:left-4 relative 
-          group-hover:-translate-y-10 md:group-hover:-translate-x-4
-          group-active:-translate-y-10 md:group-active:-translate-x-4
-          duration-500 delay-75 rounded-xl overflow-hidden"
+            group-hover:scale-[1.01] group-active:scale-[1.01]
+      md:group-hover:-translate-y-10 md:group-hover:-translate-x-4
+      md:group-active:-translate-y-10 md:group-active:-translate-x-4
+      duration-500 delay-75 rounded-xl overflow-hidden"
           >
             {renderImage()}
           </div>

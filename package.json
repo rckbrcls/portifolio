@@ -6,7 +6,13 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "build:main": "turbo run build --filter=main..."
+    "build:main": "turbo run build --filter=main...",
+    "build:apps": "turbo run build --filter=./apps/*",
+    "build:packages": "turbo run build --filter=./packages/*",
+    "build:services": "turbo run build --filter=./services/*",
+    "dev:apps": "turbo run dev --filter=./apps/*",
+    "dev:packages": "turbo run dev --filter=./packages/*",
+    "dev:services": "turbo run dev --filter=./services/*"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
@@ -16,5 +22,9 @@
   "packageManager": "pnpm@8.15.6",
   "engines": {
     "node": ">=18"
-  }
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
 }

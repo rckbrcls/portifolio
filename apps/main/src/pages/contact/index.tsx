@@ -45,7 +45,7 @@ export default function Contact() {
             className="glass-dark select-none md:w-1/3 w-full p-5 rounded-xl hover:bg-zinc-900 active:bg-zinc-900
         hover:scale-105 active:scale-95 duration-500 flex items-center gap-2"
             target="_blank"
-            href="https://github.com/brcls"
+            href="https://github.com/rckbrcls"
           >
             <AiFillGithub size={40} />
             <Text>GitHub</Text>

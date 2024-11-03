@@ -9,8 +9,10 @@ import Title from "@/components/atoms/Title";
 import Text from "@/components/atoms/Text";
 import SubTitle from "@/components/atoms/SubTitle";
 import { useRouter } from "next/router";
-import MainLayout from "@/components/MainLayout";
 import { Route } from "next";
+import Alert from "@/components/atoms/Alert";
+import Background from "@/components/atoms/Background/Background";
+import { ChevronLeftIcon } from "@radix-ui/react-icons";
 
 export default function Project() {
   const router = useRouter();
@@ -19,7 +21,15 @@ export default function Project() {
   );
 
   return (
-    <MainLayout>
+    <>
+      <Alert />
+      <Background />
+      <button
+        onClick={() => router.back()}
+        className="fixed z-10 glass-dark size-10 rounded-full flex items-center justify-center m-10"
+      >
+        <ChevronLeftIcon />
+      </button>
       <div className="flex flex-col text-center w-11/12 md:w-3/4 mx-auto">
         <div className="h-[100svh] flex flex-col justify-center text-center items-center gap-4 w-full">
           <div className="flex md:flex-row flex-col justify-between items-end w-full">
@@ -112,33 +122,34 @@ export default function Project() {
             </Text>
           </div>
         </div>
+        {project?.projectVisualization && (
+          <div className="flex flex-wrap md:flex-row flex-col gap-16 mb-10 justify-between items-center">
+            {project?.projectVisualization?.map((object, index) => (
+              <div key={index} className="flex flex-col gap-2">
+                <SubTitle className="md:text-start">{object.title}</SubTitle>
+                <Text>{object.description}</Text>
 
-        <div className="flex flex-wrap md:flex-row flex-col gap-16 mb-10 justify-between items-center">
-          {project?.projectVisualization?.map((object, index) => (
-            <div key={index} className="flex flex-col gap-2">
-              <SubTitle className="md:text-start">{object.title}</SubTitle>
-              <Text>{object.description}</Text>
-
-              <div className="w-full flex flex-wrap gap-4 md:flex-row flex-col items-center">
-                {object.images?.map((image) => (
-                  <Image
-                    key={index}
-                    alt="Example"
-                    src={image ?? ""}
-                    sizes="100vw"
-                    style={{
-                      width: "auto",
-                      maxWidth: "90vw",
-                      height: "90svh",
-                      borderRadius: "10px",
-                    }}
-                  />
-                ))}
+                <div className="w-full flex flex-wrap gap-4 md:flex-row flex-col items-center">
+                  {object.images?.map((image) => (
+                    <Image
+                      key={index}
+                      alt="Example"
+                      src={image ?? ""}
+                      sizes="100vw"
+                      style={{
+                        width: "auto",
+                        maxWidth: "90vw",
+                        height: "90svh",
+                        borderRadius: "10px",
+                      }}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
-    </MainLayout>
+    </>
   );
 }

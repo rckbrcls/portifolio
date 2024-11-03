@@ -7,7 +7,7 @@ const AlanTuringPage: React.FC = () => {
   return (
     <MicroLayout projectGitRoute="" projectHomeRoute="/project/alan-turing">
       <iframe
-        src="http://localhost:3002"
+        src={process.env.NEXT_PUBLIC_ALAN_TURING_URL as string}
         style={{ height: "100vh", width: "100vw", border: "none" }}
         title="Alan Turing"
       />

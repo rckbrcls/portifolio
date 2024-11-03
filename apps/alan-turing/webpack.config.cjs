@@ -8,7 +8,7 @@ module.exports = (env, argv) => {
   return {
     mode: isProduction ? "production" : "development",
     entry: "./src/index.tsx",
-    devServer: {
+    devServer: !isProduction && {
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods":
@@ -24,7 +24,7 @@ module.exports = (env, argv) => {
       historyApiFallback: true,
     },
     output: {
-      publicPath: "http://localhost:3002/",
+      publicPath: isProduction ? "/" : "http://localhost:3002/",
       path: path.resolve(__dirname, "dist"),
       filename: "bundle.js",
     },
