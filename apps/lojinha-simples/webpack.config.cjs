@@ -7,24 +7,9 @@ module.exports = (env, argv) => {
 
   return {
     mode: isProduction ? "production" : "development",
-    entry: "./src/main.tsx", // ajuste o caminho conforme necessário
-    devServer: {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods":
-          "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-        "Access-Control-Allow-Headers":
-          "X-Requested-With, content-type, Authorization",
-      },
-      static: {
-        directory: path.join(__dirname, "dist"),
-      },
-      port: 3001,
-      hot: true,
-      historyApiFallback: true,
-    },
+    entry: "./src/main.tsx",
     output: {
-      publicPath: "http://localhost:3001/",
+      publicPath: isProduction ? "/" : "http://localhost:3001/",
       path: path.resolve(__dirname, "dist"),
       filename: "bundle.js",
     },
@@ -56,7 +41,7 @@ module.exports = (env, argv) => {
           use: {
             loader: "ts-loader",
             options: {
-              transpileOnly: true, // Adicionado para evitar a verificação de tipos completa
+              transpileOnly: true,
             },
           },
           exclude: /node_modules/,
@@ -83,5 +68,24 @@ module.exports = (env, argv) => {
         },
       }),
     ],
+    ...(isProduction
+      ? {}
+      : {
+          devServer: {
+            headers: {
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Methods":
+                "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+              "Access-Control-Allow-Headers":
+                "X-Requested-With, content-type, Authorization",
+            },
+            static: {
+              directory: path.join(__dirname, "dist"),
+            },
+            port: 3001,
+            hot: true,
+            historyApiFallback: true,
+          },
+        }),
   };
 };
