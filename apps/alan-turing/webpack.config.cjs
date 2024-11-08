@@ -23,11 +23,6 @@ module.exports = (env, argv) => {
       hot: true,
       historyApiFallback: true,
     },
-    output: {
-      publicPath: isProduction ? "/" : "http://localhost:3002/",
-      path: path.resolve(__dirname, "dist"),
-      filename: "bundle.js",
-    },
     resolve: {
       // Add `.ts` and `.tsx` as a resolvable extension.
       extensions: ["*", ".ts", ".tsx", ".js", ".jsx"],
