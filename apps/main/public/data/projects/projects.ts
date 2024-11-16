@@ -205,4 +205,16 @@ export const projects: IProject[] = [
     coverImage: "/images/projects/souvenir/souvenir-logo.png",
     status: "working",
   },
+  {
+    slug: "liga-academica",
+    description: `Institutional website for the Academic League of Psychiatry, developed with Next.js and TypeScript. The site provides information on events, activities, and educational materials for students and professionals interested in mental health.`,
+    name: "Liga Acadêmica de Psiquiatria",
+    techStack: ["Next.js", "React", "TypeScript"],
+    timeline: null,
+    gitLink: "https://github.com/rckbrcls/academic-league-of-psychiatry",
+    microRoute: process.env.NEXT_PUBLIC_LIGA_URL as string,
+    members: ["Erick Barcelos"],
+    coverImage: "/images/projects/liga-academica/liga.png",
+    status: "finished",
+  },
 ];
