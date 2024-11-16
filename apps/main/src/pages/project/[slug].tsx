@@ -24,12 +24,12 @@ export default function Project() {
     <>
       <Alert />
       <Background />
-      <button
-        onClick={() => router.back()}
+      <Link
+        href={"/projects"}
         className="fixed z-10 glass-dark size-10 rounded-full flex items-center justify-center m-10"
       >
         <ChevronLeftIcon />
-      </button>
+      </Link>
       <div className="flex flex-col text-center w-11/12 md:w-3/4 mx-auto">
         <div className="h-[100svh] flex flex-col justify-center text-center items-center gap-4 w-full">
           <div className="flex md:flex-row flex-col justify-between items-end w-full">
@@ -50,13 +50,13 @@ export default function Project() {
                 </a>
               )}
               {project?.microRoute && (
-                <button
+                <Link
+                  href={`/microfrontend/${project.slug}`}
                   className="glass-dark w-full px-10 py-4 rounded hover:bg-zinc-900 active:bg-zinc-900
               hover:scale-105 active:scale-95 duration-500 flex items-center justify-center gap-2"
-                  onClick={() => router.push(project.microRoute as Route)}
                 >
                   <Text>Microfrontend</Text>
-                </button>
+                </Link>
               )}
               {project?.link && (
                 <a
