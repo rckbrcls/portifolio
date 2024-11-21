@@ -9,7 +9,6 @@ import Title from "@/components/atoms/Title";
 import Text from "@/components/atoms/Text";
 import SubTitle from "@/components/atoms/SubTitle";
 import { useRouter } from "next/router";
-import { Route } from "next";
 import Alert from "@/components/atoms/Alert";
 import Background from "@/components/atoms/Background/Background";
 import { ChevronLeftIcon } from "@radix-ui/react-icons";
