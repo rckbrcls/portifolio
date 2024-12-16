@@ -39,7 +39,7 @@ export default function Contact() {
   return (
     <MainLayout>
       <div className="flex mx-auto w-11/12 h-[100svh] flex-col text-center gap-4 justify-center items-center">
-        <Title gradient>Contact</Title>
+        <Title word="Contact" type="blur" gradient />
         <div className="flex gap-4 flex-wrap w-full justify-center items-center">
           <Link
             className="glass-dark select-none md:w-1/3 w-full p-5 rounded-xl hover:bg-zinc-900 active:bg-zinc-900

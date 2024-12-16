@@ -14,7 +14,6 @@ import SubTitle from "@/components/atoms/SubTitle";
 import { twMerge } from "tailwind-merge";
 import { FaArrowAltCircleDown, FaFileDownload } from "react-icons/fa";
 import MainLayout from "@/components/MainLayout";
-import Aurora from "@/components/atoms/Aurora/Aurora";
 
 export default function AboutMe() {
   // Lista de objetos representando as caixas
@@ -60,11 +59,10 @@ export default function AboutMe() {
 
   return (
     <MainLayout>
-      <Aurora dark />
       <div className="flex flex-col text-center gap-4 w-11/12 mx-auto mb-24">
         <div className="h-[100svh] flex flex-col justify-center text-center items-center gap-4 w-full">
           <div className="flex flex-col gap-10 justify-center items-center w-full">
-            <Title gradient>About me</Title>
+            <Title word="About me" type="blur" gradient />
             <a
               className="glass-dark md:w-1/4 w-full px-10 py-4 rounded hover:bg-zinc-900 active:bg-zinc-900
               hover:scale-105 active:scale-95 duration-500 flex items-center justify-center gap-2"

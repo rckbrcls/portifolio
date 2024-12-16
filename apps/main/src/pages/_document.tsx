@@ -1,3 +1,4 @@
+import Aurora from "@/components/atoms/Aurora/Aurora";
 import { Html, Head, Main, NextScript } from "next/document";
 
 export default function Document() {

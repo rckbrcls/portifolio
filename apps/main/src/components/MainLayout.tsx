@@ -8,7 +8,6 @@ export default function MainLayout({ children }: { children: ReactNode }) {
     <>
       <Alert />
       <Header />
-      <Aurora dark />
       <main>{children}</main>
     </>
   );

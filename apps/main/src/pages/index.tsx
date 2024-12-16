@@ -1,28 +1,36 @@
 import Image from "next/image";
-import React from "react";
+import React, { useMemo } from "react";
 import Aurora from "@/components/atoms/Aurora/Aurora";
 import Title from "@/components/atoms/Title";
-import ProjectsList from "@/components/organisms/ProjectsList";
-import MainLayout from "@/components/MainLayout";
+import Header from "@/components/molecules/Header";
+import Alert from "@/components/atoms/Alert";
+
+const MemoizedAurora = React.memo(Aurora);
 
 export default function Home() {
+  const aurora = useMemo(() => <MemoizedAurora />, []);
+
   return (
-    <MainLayout>
-      <Aurora />
-      <div className="h-[100svh] flex flex-col justify-center text-center items-center">
-        <div className="w-full h-2/5 my-4 relative select-none">
-          <Image
-            className="select-none"
-            src="/images/assets/me.png"
-            alt="me"
-            fill
-            style={{ objectFit: "contain" }}
-            priority
-            quality={100}
-          />
+    <>
+      <Alert />
+      <Header />
+      {aurora}
+      <main>
+        <div className="h-[100svh] flex flex-col justify-center text-center items-center">
+          <div className="w-full h-2/5 my-4 relative select-none">
+            <Image
+              className="select-none"
+              src="/images/assets/me.png"
+              alt="me"
+              fill
+              style={{ objectFit: "contain" }}
+              priority
+              quality={100}
+            />
+          </div>
+          <Title word="Olá! I'm Erick Barcelos" />
         </div>
-        <Title>Olá! I'm Erick Barcelos</Title>
-      </div>
-    </MainLayout>
+      </main>
+    </>
   );
 }
