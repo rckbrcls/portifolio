@@ -10,7 +10,6 @@ import Text from "@/components/atoms/Text";
 import SubTitle from "@/components/atoms/SubTitle";
 import { useRouter } from "next/router";
 import Alert from "@/components/atoms/Alert";
-import Background from "@/components/atoms/Background/Background";
 import { ChevronLeftIcon } from "@radix-ui/react-icons";
 
 export default function Project() {
@@ -22,7 +21,7 @@ export default function Project() {
   return (
     <>
       <Alert />
-      <Background />
+
       <Link
         href={"/projects"}
         className="fixed z-10 glass-dark size-10 rounded-full flex items-center justify-center m-10"
