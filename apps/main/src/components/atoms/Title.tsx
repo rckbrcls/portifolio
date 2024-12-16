@@ -2,13 +2,14 @@ import React from "react";
 import { ClassNameValue, twMerge } from "tailwind-merge";
 import BlurIn from "../ui/blur-in";
 import TypingAnimation from "../ui/typing-animation";
+import WordRotate from "../ui/word-rotate"; // Importe o componente WordRotate
 
 // Interface para os parâmetros
 interface ITitleProps {
   word: string;
   className?: ClassNameValue;
   gradient?: boolean;
-  type?: "typing" | "blur";
+  type?: "typing" | "blur" | "rotate";
 }
 
 export default function Title({
@@ -26,13 +27,27 @@ export default function Title({
   }`;
 
   // Escolhe o componente baseado no tipo
-  const Component = type === "typing" ? TypingAnimation : BlurIn;
+  let Component: React.ComponentType<any>;
+  let componentProps: Record<string, any> = {
+    className: twMerge(baseClasses, className),
+  };
 
-  return (
-    <Component
-      text={word} // Para TypingAnimation
-      word={word} // Para BlurIn
-      className={twMerge(baseClasses, className)}
-    />
-  );
+  switch (type) {
+    case "typing":
+      Component = TypingAnimation;
+      componentProps = { ...componentProps, text: word };
+      break;
+    case "blur":
+      Component = BlurIn;
+      componentProps = { ...componentProps, word };
+      break;
+    case "rotate":
+      Component = WordRotate;
+      componentProps = { ...componentProps, words: [word] };
+      break;
+    default:
+      return null;
+  }
+
+  return <Component {...componentProps} />;
 }

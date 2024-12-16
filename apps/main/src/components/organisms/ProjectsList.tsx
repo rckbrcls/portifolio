@@ -126,7 +126,7 @@ export default function ProjectsList() {
   return (
     <div className={headerStyle}>
       <div className="h-[85svh] flex flex-col justify-center items-center pt-8 mb-20 pb-20">
-        <Title gradient>Projects</Title>
+        <Title word="Projects" type="blur" gradient />
         <div className="lg:mt-10 mb-4 flex justify-between items-center w-full">
           <SubTitle className="text-start font-bold">Filter</SubTitle>
           <button
