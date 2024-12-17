@@ -122,7 +122,7 @@ export default function ProjectsList() {
     }`;
 
   const headerStyle =
-    "flex flex-col text-center md:py-20 py-36 w-11/12 mx-auto";
+    "flex flex-col text-center md:py-20 py-40 w-11/12 mx-auto";
 
   return (
     <div className={headerStyle}>
