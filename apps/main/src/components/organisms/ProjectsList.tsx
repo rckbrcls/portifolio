@@ -121,12 +121,11 @@ export default function ProjectsList() {
         : "hover:bg-zinc-900 active:bg-zinc-900"
     }`;
 
-  const headerStyle =
-    "flex flex-col text-center md:py-20 py-40 w-11/12 mx-auto";
+  const headerStyle = "flex flex-col text-center py-20 w-11/12 mx-auto";
 
   return (
     <div className={headerStyle}>
-      <div className="h-[85svh] flex flex-col justify-center items-center pt-8 mb-20 pb-20">
+      <div className="md:h-[85svh] flex flex-col justify-center items-center pt-8 mb-20 pb-20">
         <Title word="Projects" type="blur" gradient />
         <div className="lg:mt-10 mb-4 flex justify-between items-center w-full">
           <SubTitle className="text-start font-bold">Filter</SubTitle>
@@ -239,7 +238,7 @@ export default function ProjectsList() {
         </div>
         <FaArrowAltCircleDown
           size={30}
-          className="animate-bounce max-md:hidden lg:bottom-10 absolute"
+          className="animate-bounce max-md:mt-10 lg:bottom-10 md:absolute"
         />
       </div>
       <Accordion
