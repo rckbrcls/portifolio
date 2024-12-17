@@ -14,6 +14,7 @@ import SubTitle from "@/components/atoms/SubTitle";
 import { twMerge } from "tailwind-merge";
 import { FaArrowAltCircleDown, FaFileDownload } from "react-icons/fa";
 import MainLayout from "@/components/MainLayout";
+import { BorderBeam } from "@/components/ui/border-beam";
 
 export default function AboutMe() {
   // Lista de objetos representando as caixas
@@ -64,7 +65,7 @@ export default function AboutMe() {
           <div className="flex flex-col gap-10 justify-center items-center w-full">
             <Title word="About me" type="blur" gradient />
             <a
-              className="glass-dark md:w-1/4 w-full px-10 py-4 rounded hover:bg-zinc-900 active:bg-zinc-900
+              className="glass-dark relative md:w-1/4 w-full px-10 py-4 rounded hover:bg-zinc-900 active:bg-zinc-900
               hover:scale-105 active:scale-95 duration-500 flex items-center justify-center gap-2"
               href="/files/Resume.pdf"
               target="_blank"
@@ -72,6 +73,13 @@ export default function AboutMe() {
             >
               <FaFileDownload size={30} />
               <Text>Resume</Text>
+              <BorderBeam
+                size={100}
+                duration={5}
+                delay={9}
+                colorFrom="#6366f1"
+                colorTo="#ec4899"
+              />
             </a>
           </div>
           <FaArrowAltCircleDown

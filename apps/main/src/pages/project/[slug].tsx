@@ -33,7 +33,7 @@ export default function Project() {
           <div className="flex md:flex-row flex-col justify-between md:items-end items-start w-full">
             <Title
               word={project?.name ?? ""}
-              type="rotate"
+              type="blur"
               gradient
               className="text-start w-full"
             />
