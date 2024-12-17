@@ -30,15 +30,15 @@ export default function Project() {
       </Link>
       <div className="flex flex-col text-center w-11/12 md:w-3/4 mx-auto">
         <div className="h-[100svh] flex flex-col justify-center text-center items-center gap-4 w-full">
-          <div className="flex md:flex-row flex-col justify-between items-end w-full">
+          <div className="flex md:flex-row flex-col justify-between md:items-end items-start w-full">
             <Title
               word={project?.name ?? ""}
               type="rotate"
               gradient
-              className="text-start w-2/3"
+              className="text-start w-full"
             />
 
-            <div className="w-1/3 flex flex-col gap-4">
+            <div className="md:w-1/3 w-full flex flex-col gap-4">
               {project?.gitLink && (
                 <a
                   className="glass-dark w-full px-10 py-4 rounded hover:bg-zinc-900 active:bg-zinc-900

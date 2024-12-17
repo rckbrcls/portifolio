@@ -121,7 +121,8 @@ export default function ProjectsList() {
         : "hover:bg-zinc-900 active:bg-zinc-900"
     }`;
 
-  const headerStyle = "flex flex-col text-center py-20 w-11/12 mx-auto";
+  const headerStyle =
+    "flex flex-col text-center md:py-20 py-36 w-11/12 mx-auto";
 
   return (
     <div className={headerStyle}>
@@ -238,7 +239,7 @@ export default function ProjectsList() {
         </div>
         <FaArrowAltCircleDown
           size={30}
-          className="animate-bounce lg:bottom-10 bottom-5 absolute"
+          className="animate-bounce max-md:hidden lg:bottom-10 absolute"
         />
       </div>
       <Accordion
