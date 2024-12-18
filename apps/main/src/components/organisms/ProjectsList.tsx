@@ -241,10 +241,7 @@ export default function ProjectsList() {
           className="animate-bounce max-md:mt-10 lg:bottom-10 md:absolute"
         />
       </div>
-      <Accordion
-        type="multiple"
-        defaultValue={["finished", "working", "designing"]}
-      >
+      <Accordion type="single">
         {Object.entries(groupedProjects).map(
           ([status, projects]) =>
             projects.length > 0 && (
@@ -258,8 +255,8 @@ export default function ProjectsList() {
                     {status.charAt(0).toUpperCase() + status.slice(1)}
                   </SubTitle>
                 </AccordionTrigger>
-                <AccordionContent className="lg:py-10 py-4">
-                  <div className="grid lg:grid-cols-2 md:auto-rows-fr gap-4 lg:gap-10 w-full p-4">
+                <AccordionContent className="py-10">
+                  <div className="grid lg:grid-cols-2 md:auto-rows-fr gap-14 w-full p-4">
                     {projects.map((project) => (
                       <Card
                         key={project.slug + project.name}
