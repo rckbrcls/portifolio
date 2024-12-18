@@ -36,6 +36,7 @@ const Card = ({ project }: ICardProps) => {
         fill
         style={{ objectFit: "cover" }}
         priority
+        loading="lazy"
       />
     );
   };
