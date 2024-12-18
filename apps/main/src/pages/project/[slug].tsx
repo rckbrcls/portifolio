@@ -11,6 +11,8 @@ import SubTitle from "@/components/atoms/SubTitle";
 import { useRouter } from "next/router";
 import Alert from "@/components/molecules/Alert";
 import { ChevronLeftIcon } from "@radix-ui/react-icons";
+import { BiSolidComponent } from "react-icons/bi";
+import { techStackIcons } from "../../../public/data/techStackIcons";
 
 export default function Project() {
   const router = useRouter();
@@ -57,6 +59,7 @@ export default function Project() {
                   className="glass-dark w-full px-10 py-4 rounded hover:bg-zinc-900 active:bg-zinc-900
               hover:scale-105 active:scale-95 duration-500 flex items-center justify-center gap-2"
                 >
+                  <BiSolidComponent size={30} />
                   <Text>Microfrontend</Text>
                 </Link>
               )}
@@ -80,37 +83,38 @@ export default function Project() {
             items-start justify-start flex-col md:w-1/2 w-full"
             >
               <div className="flex items-center justify-between text-center glass-dark p-4 rounded-2xl w-full gap-2">
-                <Text>Tech Stack</Text>
+                <Text className="font-bold">Tech Stack</Text>
                 <div className="flex flex-wrap gap-2 justify-end">
                   {project?.techStack?.map((tech, index) => (
                     <div
                       key={index}
-                      className="bg-blue-500 rounded-lg px-4 flex items-center"
+                      className="glass-dark flex items-center rounded-lg px-4 gap-2"
                     >
+                      {techStackIcons[tech as keyof typeof techStackIcons]}
                       <Text>{tech}</Text>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {project?.timeline ? (
+              {project?.timeline && (
                 <div className="flex items-center justify-between text-center glass-dark p-4 rounded-2xl w-full gap-2">
-                  <Text>Timeline</Text>
-                  <div className="bg-blue-500 rounded-lg px-4 flex items-center">
+                  <Text className="font-bold">Timeline</Text>
+                  <div className="glass-dark rounded-lg px-4 flex items-center">
                     <Text>
                       {project?.timeline?.start} - {project?.timeline?.end}
                     </Text>
                   </div>
                 </div>
-              ) : null}
+              )}
 
               <div className="flex items-center justify-between text-center glass-dark p-4 rounded-2xl w-full gap-2">
-                <Text>Members</Text>
+                <Text className="font-bold">Members</Text>
                 <div className="flex flex-wrap gap-2 justify-end">
                   {project?.members.map((member, index) => (
                     <div
                       key={index}
-                      className="bg-blue-500 rounded-lg px-4 flex items-center"
+                      className="glass-dark rounded-lg px-4 flex items-center"
                     >
                       <Text>{member}</Text>
                     </div>

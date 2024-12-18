@@ -5,6 +5,7 @@ import { Route } from "next";
 import { IProject } from "@/interface/IProject";
 import SubTitle from "../atoms/SubTitle";
 import { techStackIcons } from "../../../public/data/techStackIcons";
+import Text from "@/components/atoms/Text";
 
 interface IProjectCardProps {
   project: IProject;
@@ -15,7 +16,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
 
   const renderTechStack = () => {
     return (
-      <div className="flex flex-wrap gap-2 mt-6">
+      <div className="flex flex-wrap gap-2">
         {project.techStack.map((tech) => (
           <div
             key={tech}
@@ -58,8 +59,25 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
           </div>
         )}
 
-        <div className="p-5 text-left md:w-1/2 w-full select-none">
+        <div className="p-5 text-left md:w-1/2 w-full flex flex-col gap-2 select-none">
           <SubTitle>{project.name}</SubTitle>
+
+          <div
+            className="flex mt-4 items-center bg-transparent text-center 
+          glass-dark p-4 rounded-lg w-full justify-between gap-2"
+          >
+            <Text className="font-bold">Members</Text>
+            <div className="flex flex-wrap gap-2 justify-end">
+              {project?.members.map((member, index) => (
+                <div
+                  key={index}
+                  className="glass-dark rounded-lg px-4 flex items-center"
+                >
+                  <Text className="text-nowrap">{member}</Text>
+                </div>
+              ))}
+            </div>
+          </div>
           {renderTechStack()}
         </div>
 
