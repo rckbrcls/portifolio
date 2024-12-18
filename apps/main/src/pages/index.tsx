@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React, { useMemo } from "react";
-import Aurora from "@/components/atoms/Aurora/Aurora";
+import Aurora from "@/components/atoms/Aurora";
 import Title from "@/components/atoms/Title";
 import Header from "@/components/molecules/Header";
 import Alert from "@/components/atoms/Alert";
