@@ -8,6 +8,7 @@ import Me from "../images/about-me/me-and-sea.jpg";
 import Rio from "../images/about-me/pao-de-acucar.jpg";
 import { IBox } from "@/interface/IBox";
 
+//TODO: ajusta bento grid
 export const aboutMeBoxes: IBox[] = [
   {
     className: "md:col-span-2",
