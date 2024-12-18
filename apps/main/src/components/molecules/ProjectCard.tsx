@@ -19,7 +19,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
         {project.techStack.map((tech) => (
           <div
             key={tech}
-            className="bg-blue-500 rounded-full flex gap-2 items-center px-4 py-1"
+            className="glass-dark rounded-lg flex gap-2 items-center px-4 py-1"
           >
             {techStackIcons[tech as keyof typeof techStackIcons]}
             <p className="text-sm font-bold">{tech}</p>
