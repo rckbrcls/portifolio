@@ -2,12 +2,16 @@
 
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import Text from "../atoms/Text";
 import { Route } from "next";
 import { PiHandWavingFill } from "react-icons/pi";
 import { MdComputer } from "react-icons/md";
 import { FaCircleInfo } from "react-icons/fa6";
 import { RiContactsBook2Fill } from "react-icons/ri";
+
+interface IHeaderButton {
+  path: Route;
+  icon: React.ReactNode;
+}
 
 const Header = () => {
   const [background, setBackground] = useState(false);
@@ -40,18 +44,7 @@ const Header = () => {
 
   const headerClass = background ? "glass-dark border-none" : "bg-none";
 
-  const buttonClass =
-    "p-2 rounded-full hover:scale-110 active:scale-95 duration-500 hover:bg-zinc-800 active:bg-zinc-900 flex items-center";
-
-  const headerStyle = `flex mt-4 justify-center items-center gap-10 px-4 py-2 w-min inset-x-0 
-    mx-auto rounded-full fixed z-10 select-none transition duration-1000 ${headerClass}`;
-
-  interface IRoute {
-    path: Route;
-    icon: React.ReactNode;
-  }
-
-  const routes: IRoute[] = [
+  const routes: IHeaderButton[] = [
     { path: "/", icon: <PiHandWavingFill size={20} /> },
     { path: "/projects", icon: <MdComputer size={20} /> },
     { path: "/about-me", icon: <FaCircleInfo size={20} /> },
@@ -59,10 +52,19 @@ const Header = () => {
   ];
 
   return (
-    <header className={headerStyle}>
+    <header
+      className={`flex mt-4 w-min justify-center items-center gap-10 px-4 py-2 inset-x-0 mx-auto
+        rounded-full fixed z-10 select-none transition duration-1000 
+        ${headerClass}`}
+    >
       {routes.map((route, index) => (
         <Link key={index} href={route.path}>
-          <button className={buttonClass}>{route.icon}</button>
+          <button
+            className="p-2 rounded-full hover:scale-110 active:scale-95 
+            duration-500 hover:bg-zinc-800 active:bg-zinc-900 flex items-center"
+          >
+            {route.icon}
+          </button>
         </Link>
       ))}
     </header>
