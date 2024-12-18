@@ -34,7 +34,7 @@ export default function ProjectAccordion({ projects }: ProjectAccordionProps) {
   );
 
   return (
-    <Accordion type="single">
+    <Accordion collapsible type="single">
       {Object.entries(groupedProjects).map(
         ([status, projects]) =>
           projects.length > 0 && (
