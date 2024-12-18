@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Route } from "next";
 import { IProject } from "@/interface/IProject";
 import SubTitle from "../atoms/SubTitle";
+import { techStackIcons } from "../../../public/data/techStackIcons";
 
 interface IProjectCardProps {
   project: IProject;
@@ -16,7 +17,11 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
     return (
       <div className="flex flex-wrap gap-2 mt-6">
         {project.techStack.map((tech) => (
-          <div key={tech} className="bg-blue-500 rounded-full px-4 py-1">
+          <div
+            key={tech}
+            className="bg-blue-500 rounded-full flex gap-2 items-center px-4 py-1"
+          >
+            {techStackIcons[tech as keyof typeof techStackIcons]}
             <p className="text-sm font-bold">{tech}</p>
           </div>
         ))}

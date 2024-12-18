@@ -13,6 +13,7 @@ import {
 } from "../../../public/data/techStack";
 import ProjectAccordion from "../organisms/ProjectAccordion";
 import { FaArrowAltCircleDown } from "react-icons/fa";
+import { FaBroom } from "react-icons/fa6";
 
 // Helper types
 type TechItem<T> = { name: T; active: boolean };
@@ -63,14 +64,20 @@ export default function ProjectsList() {
 
   return (
     <div className="flex flex-col text-center py-20 w-11/12 mx-auto">
-      <div className="md:h-[85svh] flex flex-col justify-center items-center pt-8 mb-20 pb-20">
+      <div
+        className="md:h-[85svh] flex flex-col justify-center items-center pt-8 
+      mb-20 pb-20"
+      >
         <Title word="Projects" type="blur" gradient />
         <div className="lg:mt-10 mb-4 flex justify-between items-center w-full">
           <SubTitle className="text-start font-bold">Filter</SubTitle>
           <button
-            className="glass-dark px-4 py-1 rounded-full active:scale-95 duration-500 select-none bg-zinc-500 hover:bg-zinc-800 active:bg-zinc-800"
+            className="glass-dark flex items-center gap-2 px-4 py-1 rounded-full
+             active:scale-95 duration-500 select-none bg-zinc-500
+              hover:bg-zinc-800 active:bg-zinc-800"
             onClick={resetFilter}
           >
+            <FaBroom />
             <p className="text-sm font-bold">Clear filter</p>
           </button>
         </div>

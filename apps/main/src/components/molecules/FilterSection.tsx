@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { techStackIcons } from "../../../public/data/techStackIcons";
 
 type TechItem<T> = { name: T; active: boolean };
 
@@ -29,13 +30,14 @@ export default function FilterSection<T>({
       {filter.map((item, index) => (
         <button
           key={item.name as string}
-          className={`glass-dark px-4 py-1 rounded-full active:scale-95 duration-500 select-none ${
+          className={`glass-dark px-4 py-1 flex items-center gap-2 rounded-full active:scale-95 duration-500 select-none ${
             item.active
               ? "bg-blue-500 hover:bg-blue-800 active:bg-blue-800 font-bold"
               : "hover:bg-zinc-900 active:bg-zinc-900"
           }`}
           onClick={() => handleSelect(index)}
         >
+          {techStackIcons[item.name as keyof typeof techStackIcons]}
           <p className="text-sm font-bold">{String(item.name)}</p>
         </button>
       ))}
