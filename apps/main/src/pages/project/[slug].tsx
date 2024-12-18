@@ -9,7 +9,7 @@ import Title from "@/components/atoms/Title";
 import Text from "@/components/atoms/Text";
 import SubTitle from "@/components/atoms/SubTitle";
 import { useRouter } from "next/router";
-import Alert from "@/components/atoms/Alert";
+import Alert from "@/components/molecules/Alert";
 import { ChevronLeftIcon } from "@radix-ui/react-icons";
 
 export default function Project() {

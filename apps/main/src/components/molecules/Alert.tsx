@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Text from "./Text";
+import Text from "../atoms/Text";
 import classNames from "classnames";
 
 const Alert = () => {

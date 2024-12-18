@@ -1,7 +1,7 @@
-import Alert from "@/components/atoms/Alert";
-import Header from "@/components/molecules/Header";
+import Alert from "@/components/molecules/Alert";
+import Header from "@/components/organisms/Header";
 import { ReactNode } from "react";
-import Aurora from "./atoms/Aurora";
+import Aurora from "./molecules/Aurora";
 
 export default function MainLayout({ children }: { children: ReactNode }) {
   return (

@@ -1,9 +1,9 @@
 import Image from "next/image";
 import React, { useMemo } from "react";
-import Aurora from "@/components/atoms/Aurora";
+import Aurora from "@/components/molecules/Aurora";
 import Title from "@/components/atoms/Title";
-import Header from "@/components/molecules/Header";
-import Alert from "@/components/atoms/Alert";
+import Header from "@/components/organisms/Header";
+import Alert from "@/components/molecules/Alert";
 
 const MemoizedAurora = React.memo(Aurora);
 
