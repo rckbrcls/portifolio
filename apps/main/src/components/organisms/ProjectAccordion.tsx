@@ -6,7 +6,7 @@ import {
   AccordionContent,
 } from "../ui/accordion";
 import SubTitle from "../atoms/SubTitle";
-import Card from "../molecules/Card";
+import ProjectCard from "../molecules/ProjectCard";
 import { IProject } from "@/interface/IProject";
 
 interface ProjectAccordionProps {
@@ -40,7 +40,7 @@ export default function ProjectAccordion({ projects }: ProjectAccordionProps) {
               <AccordionContent>
                 <div className="grid lg:grid-cols-2 md:auto-rows-fr gap-14 w-full p-4">
                   {projects.map((project) => (
-                    <Card key={project.slug} project={project} />
+                    <ProjectCard key={project.slug} project={project} />
                   ))}
                 </div>
               </AccordionContent>

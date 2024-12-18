@@ -29,7 +29,6 @@ const BoxGrid = memo(({ boxes }: BoxGridProps) => {
                 alt="box-image"
                 fill
                 style={{ objectFit: "cover", objectPosition: box.align }}
-                priority
                 quality={100}
                 loading="lazy"
               />

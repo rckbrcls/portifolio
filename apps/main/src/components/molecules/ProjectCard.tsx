@@ -3,14 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { Route } from "next";
 import { IProject } from "@/interface/IProject";
-import Text from "../atoms/Text";
 import SubTitle from "../atoms/SubTitle";
 
-interface ICardProps {
+interface IProjectCardProps {
   project: IProject;
 }
 
-const Card = ({ project }: ICardProps) => {
+const ProjectCard = ({ project }: IProjectCardProps) => {
   const linkUrl = `project/${project.slug}` as Route;
 
   const renderTechStack = () => {
@@ -35,7 +34,7 @@ const Card = ({ project }: ICardProps) => {
         alt="Project Cover"
         fill
         style={{ objectFit: "cover" }}
-        priority
+        quality={100}
         loading="lazy"
       />
     );
@@ -75,4 +74,4 @@ const Card = ({ project }: ICardProps) => {
   );
 };
 
-export default Card;
+export default ProjectCard;
