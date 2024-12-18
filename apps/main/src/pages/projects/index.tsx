@@ -1,5 +1,5 @@
 import MainLayout from "@/components/MainLayout";
-import ProjectsList from "@/components/organisms/ProjectsList";
+import ProjectsList from "@/components/templates/ProjectsList";
 import React from "react";
 
 const ProjectsPage = () => {
