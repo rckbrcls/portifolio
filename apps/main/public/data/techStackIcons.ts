@@ -24,6 +24,7 @@ import {
 import React from "react";
 import { TypeTechStack } from "./techStack";
 
+// TODO: otimizar isso
 export const techStackIcons: Record<TypeTechStack, React.ReactNode> = {
   // Languages
   JavaScript: React.createElement(SiJavascript),

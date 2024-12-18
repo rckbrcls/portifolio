@@ -8,10 +8,21 @@ import {
 import SubTitle from "../atoms/SubTitle";
 import ProjectCard from "../molecules/ProjectCard";
 import { IProject } from "@/interface/IProject";
+import { MdDesignServices } from "react-icons/md";
+import { IoCodeWorking } from "react-icons/io5";
+import { FaCheck } from "react-icons/fa";
 
 interface ProjectAccordionProps {
   projects: IProject[];
 }
+
+// TODO: otimizar isso
+export const iconsGroup: Record<string, React.ReactNode> = {
+  // Languages
+  designing: React.createElement(MdDesignServices),
+  working: React.createElement(IoCodeWorking),
+  finished: React.createElement(FaCheck),
+};
 
 export default function ProjectAccordion({ projects }: ProjectAccordionProps) {
   const groupedProjects = projects.reduce<Record<string, IProject[]>>(
@@ -33,7 +44,8 @@ export default function ProjectAccordion({ projects }: ProjectAccordionProps) {
               className="border mb-2 glass-dark rounded-xl px-4 lg:px-10"
             >
               <AccordionTrigger>
-                <SubTitle>
+                <SubTitle className="flex items-center gap-4">
+                  {iconsGroup[status]}
                   {status.charAt(0).toUpperCase() + status.slice(1)}
                 </SubTitle>
               </AccordionTrigger>
