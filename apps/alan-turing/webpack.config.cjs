@@ -1,7 +1,8 @@
 const path = require("path");
 const ModuleFederationPlugin =
   require("webpack").container.ModuleFederationPlugin;
-const HtmlWebpackPlugin = require("html-webpack-plugin"); // Adicionando o plugin
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === "production";
@@ -41,7 +42,11 @@ module.exports = (env, argv) => {
       rules: [
         {
           test: /\.css$/i,
-          use: ["style-loader", "css-loader"],
+          use: [
+            isProduction ? MiniCssExtractPlugin.loader : "style-loader",
+            "css-loader",
+            "postcss-loader",
+          ],
         },
         {
           test: /\.(js|jsx|tsx|ts)$/,
@@ -89,20 +94,23 @@ module.exports = (env, argv) => {
         title: "Alan Turing App",
         filename: "index.html",
         templateContent: `
-        <!DOCTYPE html>
+          <!DOCTYPE html>
           <html lang="en">
             <head>
               <meta charset="UTF-8">
               <meta name="viewport" content="width=device-width, initial-scale=1.0">
               <title>Alan Turing App</title>
+              <link rel="stylesheet" href="main.css">
             </head>
             <body>
               <div id="root"></div>
             </body>
           </html>
-          `,
+        `,
       }),
-
+      new MiniCssExtractPlugin({
+        filename: "main.css",
+      }),
       new ModuleFederationPlugin({
         name: "alan_turing",
         library: { type: "var", name: "alan_turing" },
