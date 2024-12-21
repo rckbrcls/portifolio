@@ -86,9 +86,23 @@ module.exports = (env, argv) => {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: "./src/index.html", // Template base
-        filename: "index.html", // Gera o index.html no dist
+        title: "Alan Turing App",
+        filename: "index.html",
+        templateContent: `
+        <!DOCTYPE html>
+          <html lang="en">
+            <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Alan Turing App</title>
+            </head>
+            <body>
+              <div id="root"></div>
+            </body>
+          </html>
+          `,
       }),
+
       new ModuleFederationPlugin({
         name: "alan_turing",
         library: { type: "var", name: "alan_turing" },
