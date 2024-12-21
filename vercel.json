@@ -1,10 +1,7 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
-  "builds": [
-    {
-      "src": "apps/alan-turing/dist/*",
-      "use": "@vercel/static"
+  "projects": {
+    "alan-turing": {
+      "rootDirectory": "apps/alan-turing"
     }
-  ],
-  "routes": [{ "src": "/(.*)", "dest": "apps/alan-turing/dist/index.html" }]
+  }
 }
