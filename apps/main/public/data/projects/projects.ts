@@ -63,7 +63,6 @@ export const projects: IProject[] = [
       "MongoDB",
     ],
     timeline: null,
-    gitLink: "https://github.com/spktrm-io/dost",
     link: "https://dostproject.vercel.app/",
     members: ["Erick Barcelos"],
     coverImage: "/images/projects/dost/SOLID-LOGO-SOLO.svg",

@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import Alert from "@/components/molecules/Alert";
 import { ChevronLeftIcon } from "@radix-ui/react-icons";
 import { BiSolidComponent } from "react-icons/bi";
+import { FaPager } from "react-icons/fa";
 import { techStackIcons } from "../../../public/data/techStackIcons";
 
 export default function Project() {
@@ -68,6 +69,7 @@ export default function Project() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
+                  <FaPager size={30} />
                   <Text>Project</Text>
                 </a>
               )}
