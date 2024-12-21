@@ -75,12 +75,12 @@ module.exports = (env, argv) => {
         {
           test: /\.svg$/i,
           type: "asset",
-          resourceQuery: /url/, // *.svg?url
+          resourceQuery: /url/,
         },
         {
           test: /\.svg$/i,
           issuer: /\.[jt]sx?$/,
-          resourceQuery: { not: [/url/] }, // exclude react component if *.svg?url
+          resourceQuery: { not: [/url/] },
           use: ["@svgr/webpack"],
         },
       ],
@@ -108,7 +108,6 @@ module.exports = (env, argv) => {
       }),
       new ModuleFederationPlugin({
         name: "lojinha_simples",
-        library: { type: "var", name: "lojinha_simples" },
         filename: "remoteEntry.js",
         exposes: {
           "./App": "./src/App",
