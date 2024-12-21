@@ -1,6 +1,7 @@
 const path = require("path");
 const ModuleFederationPlugin =
   require("webpack").container.ModuleFederationPlugin;
+const HtmlWebpackPlugin = require("html-webpack-plugin"); // Adicionando o plugin
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === "production";
@@ -29,9 +30,7 @@ module.exports = (env, argv) => {
       filename: "bundle.js",
     },
     resolve: {
-      // Add `.ts` and `.tsx` as a resolvable extension.
       extensions: ["*", ".ts", ".tsx", ".js", ".jsx"],
-      // Add support for TypeScripts fully qualified ESM imports.
       extensionAlias: {
         ".js": [".js", ".ts"],
         ".cjs": [".cjs", ".cts"],
@@ -86,6 +85,10 @@ module.exports = (env, argv) => {
       ],
     },
     plugins: [
+      new HtmlWebpackPlugin({
+        template: "./src/index.html", // Template base
+        filename: "index.html", // Gera o index.html no dist
+      }),
       new ModuleFederationPlugin({
         name: "alan_turing",
         library: { type: "var", name: "alan_turing" },
