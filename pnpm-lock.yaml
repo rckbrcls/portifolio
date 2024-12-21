@@ -266,6 +266,12 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.48.0
         version: 5.48.0(react@18.3.1)
+      mini-css-extract-plugin:
+        specifier: ^2.9.2
+        version: 2.9.2(webpack@5.92.1(webpack-cli@5.1.4))
+      postcss-loader:
+        specifier: ^8.1.1
+        version: 8.1.1(postcss@8.4.38)(typescript@5.5.2)(webpack@5.92.1(webpack-cli@5.1.4))
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -7402,12 +7408,6 @@ packages:
   min-indent@1.0.1:
     resolution: {integrity: sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==}
     engines: {node: '>=4'}
-
-  mini-css-extract-plugin@2.9.1:
-    resolution: {integrity: sha512-+Vyi+GCCOHnrJ2VPS+6aPoXN2k2jgUzDRhTFLjjTBn23qyXJXkjUWQgTL+mXpF5/A8ixLdCc6kWsoeOjKGejKQ==}
-    engines: {node: '>= 12.13.0'}
-    peerDependencies:
-      webpack: ^5.0.0
 
   mini-css-extract-plugin@2.9.2:
     resolution: {integrity: sha512-GJuACcS//jtq4kCtd5ii/M0SZf7OZRH+BxdqXZHaJfb8TJiVl+NgQRPwiYt2EuqeSkNydn/7vP+bcE27C5mb9w==}
@@ -19424,23 +19424,23 @@ snapshots:
 
   min-indent@1.0.1: {}
 
-  mini-css-extract-plugin@2.9.1(webpack@5.94.0(webpack-cli@5.1.4)):
-    dependencies:
-      schema-utils: 4.2.0
-      tapable: 2.2.1
-      webpack: 5.94.0(webpack-cli@5.1.4)
-
-  mini-css-extract-plugin@2.9.1(webpack@5.94.0):
-    dependencies:
-      schema-utils: 4.2.0
-      tapable: 2.2.1
-      webpack: 5.94.0
-
   mini-css-extract-plugin@2.9.2(webpack@5.92.1(webpack-cli@5.1.4)):
     dependencies:
       schema-utils: 4.2.0
       tapable: 2.2.1
       webpack: 5.92.1(webpack-cli@5.1.4)
+
+  mini-css-extract-plugin@2.9.2(webpack@5.94.0(webpack-cli@5.1.4)):
+    dependencies:
+      schema-utils: 4.2.0
+      tapable: 2.2.1
+      webpack: 5.94.0(webpack-cli@5.1.4)
+
+  mini-css-extract-plugin@2.9.2(webpack@5.94.0):
+    dependencies:
+      schema-utils: 4.2.0
+      tapable: 2.2.1
+      webpack: 5.94.0
 
   minimalistic-assert@1.0.1: {}
 
@@ -20890,7 +20890,7 @@ snapshots:
       jest: 27.5.1(ts-node@10.9.1(typescript@5.5.2))
       jest-resolve: 27.5.1
       jest-watch-typeahead: 1.1.0(jest@27.5.1(ts-node@10.9.1(typescript@5.5.2)))
-      mini-css-extract-plugin: 2.9.1(webpack@5.94.0)
+      mini-css-extract-plugin: 2.9.2(webpack@5.94.0)
       postcss: 8.4.38
       postcss-flexbugs-fixes: 5.0.2(postcss@8.4.38)
       postcss-loader: 6.2.1(postcss@8.4.38)(webpack@5.94.0)
@@ -20977,7 +20977,7 @@ snapshots:
       jest: 27.5.1(ts-node@10.9.1(@types/node@20.14.9)(typescript@5.5.2))
       jest-resolve: 27.5.1
       jest-watch-typeahead: 1.1.0(jest@27.5.1(ts-node@10.9.1(@types/node@20.14.9)(typescript@5.5.2)))
-      mini-css-extract-plugin: 2.9.1(webpack@5.94.0(webpack-cli@5.1.4))
+      mini-css-extract-plugin: 2.9.2(webpack@5.94.0(webpack-cli@5.1.4))
       postcss: 8.4.38
       postcss-flexbugs-fixes: 5.0.2(postcss@8.4.38)
       postcss-loader: 6.2.1(postcss@8.4.38)(webpack@5.94.0(webpack-cli@5.1.4))
@@ -21064,7 +21064,7 @@ snapshots:
       jest: 27.5.1(ts-node@10.9.1(@types/node@22.5.2)(typescript@5.5.2))
       jest-resolve: 27.5.1
       jest-watch-typeahead: 1.1.0(jest@27.5.1(ts-node@10.9.1(@types/node@22.5.2)(typescript@5.5.2)))
-      mini-css-extract-plugin: 2.9.1(webpack@5.94.0(webpack-cli@5.1.4))
+      mini-css-extract-plugin: 2.9.2(webpack@5.94.0(webpack-cli@5.1.4))
       postcss: 8.4.38
       postcss-flexbugs-fixes: 5.0.2(postcss@8.4.38)
       postcss-loader: 6.2.1(postcss@8.4.38)(webpack@5.94.0(webpack-cli@5.1.4))

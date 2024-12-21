@@ -16,6 +16,8 @@
     "@mui/material": "^5.15.21",
     "@reduxjs/toolkit": "^1.9.7",
     "@tanstack/react-query": "^5.48.0",
+    "mini-css-extract-plugin": "^2.9.2",
+    "postcss-loader": "^8.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^7.2.9",

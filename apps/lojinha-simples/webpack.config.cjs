@@ -1,4 +1,6 @@
 const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ModuleFederationPlugin =
   require("webpack").container.ModuleFederationPlugin;
 
@@ -11,7 +13,8 @@ module.exports = (env, argv) => {
     output: {
       publicPath: isProduction ? "/" : "http://localhost:3001/",
       path: path.resolve(__dirname, "dist"),
-      filename: "bundle.js",
+      filename: isProduction ? "[name].[contenthash].js" : "bundle.js",
+      clean: true,
     },
     resolve: {
       extensions: [".tsx", ".ts", ".js", ".jsx"],
@@ -20,7 +23,11 @@ module.exports = (env, argv) => {
       rules: [
         {
           test: /\.css$/i,
-          use: ["style-loader", "css-loader"],
+          use: [
+            isProduction ? MiniCssExtractPlugin.loader : "style-loader",
+            "css-loader",
+            "postcss-loader",
+          ],
         },
         {
           test: /\.jsx?$/,
@@ -49,6 +56,9 @@ module.exports = (env, argv) => {
       ],
     },
     plugins: [
+      new HtmlWebpackPlugin({
+        template: "./src/index.html",
+      }),
       new ModuleFederationPlugin({
         name: "lojinha_simples",
         library: { type: "var", name: "lojinha_simples" },
@@ -67,25 +77,25 @@ module.exports = (env, argv) => {
           },
         },
       }),
+      ...(isProduction
+        ? [new MiniCssExtractPlugin({ filename: "[name].[contenthash].css" })]
+        : []),
     ],
-    ...(isProduction
-      ? {}
-      : {
-          devServer: {
-            headers: {
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Methods":
-                "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-              "Access-Control-Allow-Headers":
-                "X-Requested-With, content-type, Authorization",
-            },
-            static: {
-              directory: path.join(__dirname, "dist"),
-            },
-            port: 3001,
-            hot: true,
-            historyApiFallback: true,
-          },
-        }),
+    devtool: isProduction ? "source-map" : "eval-source-map",
+    devServer: {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods":
+          "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+        "Access-Control-Allow-Headers":
+          "X-Requested-With, content-type, Authorization",
+      },
+      static: {
+        directory: path.join(__dirname, "dist"),
+      },
+      port: 3001,
+      hot: true,
+      historyApiFallback: true,
+    },
   };
 };
