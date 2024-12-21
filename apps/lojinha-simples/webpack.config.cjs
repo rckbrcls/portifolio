@@ -10,7 +10,7 @@ module.exports = (env, argv) => {
   return {
     mode: isProduction ? "production" : "development",
     entry: "./src/main.tsx",
-    devServer: !isProduction && {
+    devServer: {
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods":
@@ -26,12 +26,12 @@ module.exports = (env, argv) => {
       historyApiFallback: true,
     },
     output: {
-      publicPath: isProduction ? "/" : "http://localhost:3001/",
+      publicPath: "/",
       path: path.resolve(__dirname, "dist"),
-      filename: "bundle.js",
+      filename: isProduction ? "[name].[contenthash].js" : "bundle.js",
     },
     resolve: {
-      extensions: ["*", ".ts", ".tsx", ".js", ".jsx"],
+      extensions: [".ts", ".tsx", ".js", ".jsx"],
       extensionAlias: {
         ".js": [".js", ".ts"],
         ".cjs": [".cjs", ".cts"],
@@ -42,11 +42,7 @@ module.exports = (env, argv) => {
       rules: [
         {
           test: /\.css$/i,
-          use: [
-            isProduction ? MiniCssExtractPlugin.loader : "style-loader",
-            "css-loader",
-            "postcss-loader",
-          ],
+          use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"],
         },
         {
           test: /\.(js|jsx|tsx|ts)$/,
@@ -85,7 +81,7 @@ module.exports = (env, argv) => {
           test: /\.svg$/i,
           issuer: /\.[jt]sx?$/,
           resourceQuery: { not: [/url/] }, // exclude react component if *.svg?url
-          use: ["@svgr/webpack", "url-loader", "file-loader"],
+          use: ["@svgr/webpack"],
         },
       ],
     },
@@ -100,7 +96,6 @@ module.exports = (env, argv) => {
               <meta charset="UTF-8">
               <meta name="viewport" content="width=device-width, initial-scale=1.0">
               <title>Lojinha Simples</title>
-              <link rel="stylesheet" href="main.css">
             </head>
             <body>
               <div id="root"></div>
@@ -109,7 +104,7 @@ module.exports = (env, argv) => {
         `,
       }),
       new MiniCssExtractPlugin({
-        filename: "main.css",
+        filename: "[name].[contenthash].css",
       }),
       new ModuleFederationPlugin({
         name: "lojinha_simples",
