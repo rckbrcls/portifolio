@@ -5,13 +5,7 @@ import Text from "@/components/atoms/Text";
 import Title from "@/components/atoms/Title";
 import Link from "next/link";
 import React, { useState } from "react";
-import {
-  AiFillGithub,
-  AiFillLinkedin,
-  AiFillInstagram,
-  AiFillMail,
-  AiFillCopy,
-} from "react-icons/ai";
+import { AiFillGithub, AiFillLinkedin, AiFillMail } from "react-icons/ai";
 
 export default function Contact() {
   const [showCopyMessage, setShowCopyMessage] = useState<boolean>();
@@ -56,14 +50,6 @@ export default function Contact() {
           >
             <AiFillLinkedin size={40} />
             <Text>LinkedIn</Text>
-          </Link>
-          <Link
-            className="glass-dark flex w-full select-none items-center gap-2 rounded-lg p-5 duration-500 hover:scale-105 hover:bg-zinc-900 active:scale-95 active:bg-zinc-900 md:w-1/3"
-            target="_blank"
-            href="https://instagram.com/rckbrcls"
-          >
-            <AiFillInstagram size={40} />
-            <Text>Instagram</Text>
           </Link>
           <Link
             className="glass-dark flex w-full select-none items-center justify-between rounded-lg p-5 duration-500 hover:scale-105 hover:bg-zinc-900 active:scale-95 active:bg-zinc-900 md:w-1/3"
