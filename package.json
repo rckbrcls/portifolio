@@ -8,6 +8,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "build:main": "turbo run build --filter=main...",
     "build:alan-turing": "turbo run build --filter=alan-turing...",
+    "build:lojinha-simples": "turbo run build --filter=lojinha-simples...",
     "build:apps": "turbo run build --filter=./apps/*",
     "build:packages": "turbo run build --filter=./packages/*",
     "build:services": "turbo run build --filter=./services/*",
