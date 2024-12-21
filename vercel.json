@@ -1,7 +1,3 @@
 {
-  "projects": {
-    "alan-turing": {
-      "rootDirectory": "apps/alan-turing"
-    }
-  }
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }
