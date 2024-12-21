@@ -18,19 +18,15 @@ export default function MicroLayout({
   return (
     <>
       <main className="flex">
-        <div className={`p-2 flex flex-col gap-2 fixed inset-y-1/2`}>
+        <div className={`fixed inset-y-1/2 flex flex-col gap-2 p-2`}>
           <button
-            className="p-2 rounded-lg z-50
-          hover:scale-105 active:scale-95 duration-500 glass-dark hover:bg-zinc-800
-          active:bg-zinc-900 flex items-center gap-2 text-zinc-500 hover:text-zinc-200"
+            className="glass-dark z-50 flex items-center gap-2 rounded-lg p-2 text-zinc-500 duration-500 hover:scale-105 hover:bg-zinc-800 hover:text-zinc-200 active:scale-95 active:bg-zinc-900"
             onClick={() => router.push(projectHomeRoute)}
           >
             <FaHome />
           </button>
           <a
-            className="p-2 rounded-lg z-50
-          hover:scale-105 active:scale-95 duration-500 glass-dark hover:bg-zinc-800
-          active:bg-zinc-900 flex items-center gap-2 text-zinc-500 hover:text-zinc-200"
+            className="glass-dark z-50 flex items-center gap-2 rounded-lg p-2 text-zinc-500 duration-500 hover:scale-105 hover:bg-zinc-800 hover:text-zinc-200 active:scale-95 active:bg-zinc-900"
             href={projectGitRoute}
             target="_blank"
             rel="noopener noreferrer"

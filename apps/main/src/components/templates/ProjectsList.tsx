@@ -25,16 +25,16 @@ const initializeFilters = <T,>(items: T[]): TechItem<T>[] =>
 
 export default function ProjectsList() {
   const [languageFilter, setLanguageFilter] = useState(
-    initializeFilters(languages)
+    initializeFilters(languages),
   );
   const [frameworkFilter, setFrameworkFilter] = useState(
-    initializeFilters(frameworks)
+    initializeFilters(frameworks),
   );
   const [databaseFilter, setDatabaseFilter] = useState(
-    initializeFilters(databases)
+    initializeFilters(databases),
   );
   const [toolOrLibraryFilter, setToolOrLibraryFilter] = useState(
-    initializeFilters(toolsAndLibraries)
+    initializeFilters(toolsAndLibraries),
   );
 
   const resetFilter = () => {
@@ -56,32 +56,27 @@ export default function ProjectsList() {
     return projects.filter((project) =>
       activeFilters.some((filter) =>
         project.techStack.some(
-          (tech) => tech.toLowerCase() === filter.name.toLowerCase()
-        )
-      )
+          (tech) => tech.toLowerCase() === filter.name.toLowerCase(),
+        ),
+      ),
     );
   }, [activeFilters]);
 
   return (
-    <div className="flex flex-col text-center py-20 w-11/12 mx-auto">
-      <div
-        className="md:h-[85svh] flex flex-col justify-center items-center pt-8 
-      mb-20 pb-20"
-      >
+    <div className="mx-auto flex w-11/12 flex-col py-20 text-center">
+      <div className="mb-20 flex flex-col items-center justify-center pb-20 pt-8 md:h-[85svh]">
         <Title word="Projects" type="blur" gradient />
-        <div className="lg:mt-10 mb-4 flex justify-between items-center w-full">
+        <div className="mb-4 flex w-full items-center justify-between lg:mt-10">
           <SubTitle className="text-start font-bold">Filter</SubTitle>
           <button
-            className="glass-dark flex items-center gap-2 px-4 py-1 rounded-full
-             active:scale-95 duration-500 select-none bg-zinc-500
-              hover:bg-zinc-800 active:bg-zinc-800"
+            className="glass-dark flex select-none items-center gap-2 rounded-full bg-zinc-500 px-4 py-1 duration-500 hover:bg-zinc-800 active:scale-95 active:bg-zinc-800"
             onClick={resetFilter}
           >
             <FaBroom />
             <p className="text-sm font-bold">Clear filter</p>
           </button>
         </div>
-        <div className="grid md:grid-cols-2 w-full gap-2">
+        <div className="grid w-full gap-2 md:grid-cols-2">
           <FilterSection
             title="Languages"
             filter={languageFilter}
@@ -105,7 +100,7 @@ export default function ProjectsList() {
         </div>
         <FaArrowAltCircleDown
           size={30}
-          className="animate-bounce max-md:mt-10 lg:bottom-10 md:absolute"
+          className="animate-bounce max-md:mt-10 md:absolute lg:bottom-10"
         />
       </div>
       <ProjectAccordion projects={filteredProjects} />

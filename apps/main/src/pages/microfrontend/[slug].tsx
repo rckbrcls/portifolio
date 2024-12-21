@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 const ProjectMicrofrontend: React.FC = () => {
   const router = useRouter();
   const project = projects.find(
-    (project) => project.slug === router.query.slug
+    (project) => project.slug === router.query.slug,
   );
   return (
     <MicroLayout

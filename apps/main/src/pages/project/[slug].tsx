@@ -17,7 +17,7 @@ import { techStackIcons } from "../../../public/data/techStackIcons";
 export default function Project() {
   const router = useRouter();
   const project = projects.find(
-    (project) => project.slug === router.query.slug
+    (project) => project.slug === router.query.slug,
   );
 
   return (
@@ -26,25 +26,24 @@ export default function Project() {
 
       <Link
         href={"/projects"}
-        className="fixed z-10 glass-dark size-10 rounded-full flex items-center justify-center m-10"
+        className="glass-dark fixed z-10 m-10 flex size-10 items-center justify-center rounded-full"
       >
         <ChevronLeftIcon />
       </Link>
-      <div className="flex flex-col text-center w-11/12 md:w-3/4 mx-auto">
-        <div className="h-[100svh] flex flex-col justify-center text-center items-center gap-4 w-full">
-          <div className="flex md:flex-row flex-col justify-between md:items-end items-start w-full">
+      <div className="mx-auto flex w-11/12 flex-col text-center md:w-3/4">
+        <div className="flex h-[100svh] w-full flex-col items-center justify-center gap-4 text-center">
+          <div className="flex w-full flex-col items-start justify-between md:flex-row md:items-end">
             <Title
               word={project?.name ?? ""}
               type="blur"
               gradient
-              className="text-start w-full"
+              className="w-full text-start"
             />
 
-            <div className="md:w-1/3 w-full flex flex-col gap-4">
+            <div className="flex w-full flex-col gap-4 md:w-1/3">
               {project?.gitLink && (
                 <a
-                  className="glass-dark w-full px-10 py-4 rounded-lg hover:bg-zinc-900 active:bg-zinc-900
-              hover:scale-105 active:scale-95 duration-500 flex items-center justify-center gap-2"
+                  className="glass-dark flex w-full items-center justify-center gap-2 rounded-lg px-10 py-4 duration-500 hover:scale-105 hover:bg-zinc-900 active:scale-95 active:bg-zinc-900"
                   href={project.gitLink}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -56,8 +55,7 @@ export default function Project() {
               {project?.microRoute && (
                 <Link
                   href={`/microfrontend/${project.slug}`}
-                  className="glass-dark w-full px-10 py-4 rounded-lg hover:bg-zinc-900 active:bg-zinc-900
-              hover:scale-105 active:scale-95 duration-500 flex items-center justify-center gap-2"
+                  className="glass-dark flex w-full items-center justify-center gap-2 rounded-lg px-10 py-4 duration-500 hover:scale-105 hover:bg-zinc-900 active:scale-95 active:bg-zinc-900"
                 >
                   <BiSolidComponent size={30} />
                   <Text>Microfrontend</Text>
@@ -66,8 +64,7 @@ export default function Project() {
               {project?.link && (
                 <a
                   href={project.link}
-                  className="glass-dark w-full px-10 py-4 rounded-lg hover:bg-zinc-900 active:bg-zinc-900
-              hover:scale-105 active:scale-95 duration-500 flex items-center justify-center gap-2"
+                  className="glass-dark flex w-full items-center justify-center gap-2 rounded-lg px-10 py-4 duration-500 hover:scale-105 hover:bg-zinc-900 active:scale-95 active:bg-zinc-900"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -77,18 +74,15 @@ export default function Project() {
             </div>
           </div>
 
-          <div className="flex md:flex-row flex-col justify-between w-full gap-10">
-            <div
-              className="flex flex-wrap gap-4 text-start 
-            items-start justify-start flex-col md:w-1/2 w-full"
-            >
-              <div className="flex items-center justify-between text-center glass-dark p-4 rounded-lg w-full gap-2">
+          <div className="flex w-full flex-col justify-between gap-10 md:flex-row">
+            <div className="flex w-full flex-col flex-wrap items-start justify-start gap-4 text-start md:w-1/2">
+              <div className="glass-dark flex w-full items-center justify-between gap-2 rounded-lg p-4 text-center">
                 <Text className="font-bold">Tech Stack</Text>
-                <div className="flex flex-wrap gap-2 justify-end">
+                <div className="flex flex-wrap justify-end gap-2">
                   {project?.techStack?.map((tech, index) => (
                     <div
                       key={index}
-                      className="glass-dark flex items-center rounded-lg px-4 gap-2"
+                      className="glass-dark flex items-center gap-2 rounded-lg px-4"
                     >
                       {techStackIcons[tech as keyof typeof techStackIcons]}
                       <Text>{tech}</Text>
@@ -98,9 +92,9 @@ export default function Project() {
               </div>
 
               {project?.timeline && (
-                <div className="flex items-center justify-between text-center glass-dark p-4 rounded-lg w-full gap-2">
+                <div className="glass-dark flex w-full items-center justify-between gap-2 rounded-lg p-4 text-center">
                   <Text className="font-bold">Timeline</Text>
-                  <div className="glass-dark rounded-lg px-4 flex items-center">
+                  <div className="glass-dark flex items-center rounded-lg px-4">
                     <Text>
                       {project?.timeline?.start} - {project?.timeline?.end}
                     </Text>
@@ -108,13 +102,13 @@ export default function Project() {
                 </div>
               )}
 
-              <div className="flex items-center justify-between text-center glass-dark p-4 rounded-lg w-full gap-2">
+              <div className="glass-dark flex w-full items-center justify-between gap-2 rounded-lg p-4 text-center">
                 <Text className="font-bold">Members</Text>
-                <div className="flex flex-wrap gap-2 justify-end">
+                <div className="flex flex-wrap justify-end gap-2">
                   {project?.members.map((member, index) => (
                     <div
                       key={index}
-                      className="glass-dark rounded-lg px-4 flex items-center"
+                      className="glass-dark flex items-center rounded-lg px-4"
                     >
                       <Text>{member}</Text>
                     </div>
@@ -123,19 +117,19 @@ export default function Project() {
               </div>
             </div>
 
-            <Text className="md:w-1/2 w-full text-start">
+            <Text className="w-full text-start md:w-1/2">
               {project?.description}
             </Text>
           </div>
         </div>
         {project?.projectVisualization && (
-          <div className="flex flex-wrap md:flex-row flex-col gap-16 mb-10 justify-between items-center">
+          <div className="mb-10 flex flex-col flex-wrap items-center justify-between gap-16 md:flex-row">
             {project?.projectVisualization?.map((object, index) => (
               <div key={index} className="flex flex-col gap-2">
                 <SubTitle className="md:text-start">{object.title}</SubTitle>
                 <Text>{object.description}</Text>
 
-                <div className="w-full flex flex-wrap gap-4 md:flex-row flex-col items-center">
+                <div className="flex w-full flex-col flex-wrap items-center gap-4 md:flex-row">
                   {object.images?.map((image) => (
                     <Image
                       key={index}

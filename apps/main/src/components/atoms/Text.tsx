@@ -13,12 +13,11 @@ export default function Text({
   return (
     <p
       className={twMerge(
-        `text-md md:text-lg
-        ${
+        `text-md md:text-lg ${
           gradient &&
-          "bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 bg-clip-text inline-block text-transparent"
+          "inline-block bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"
         }`,
-        className
+        className,
       )}
     >
       {children}

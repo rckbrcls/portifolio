@@ -30,7 +30,7 @@ export default function ProjectAccordion({ projects }: ProjectAccordionProps) {
       acc[project.status as keyof typeof acc].push(project);
       return acc;
     },
-    { finished: [], working: [], designing: [] }
+    { finished: [], working: [], designing: [] },
   );
 
   return (
@@ -41,7 +41,7 @@ export default function ProjectAccordion({ projects }: ProjectAccordionProps) {
             <AccordionItem
               key={status}
               value={status}
-              className="border mb-2 glass-dark rounded-lg px-4 lg:px-10"
+              className="glass-dark mb-2 rounded-lg border px-4 lg:px-10"
             >
               <AccordionTrigger>
                 <SubTitle className="flex items-center gap-4">
@@ -50,14 +50,14 @@ export default function ProjectAccordion({ projects }: ProjectAccordionProps) {
                 </SubTitle>
               </AccordionTrigger>
               <AccordionContent>
-                <div className="flex flex-col gap-14 w-full p-4">
+                <div className="flex w-full flex-col gap-14 p-4">
                   {projects.map((project) => (
                     <ProjectCard key={project.slug} project={project} />
                   ))}
                 </div>
               </AccordionContent>
             </AccordionItem>
-          )
+          ),
       )}
     </Accordion>
   );

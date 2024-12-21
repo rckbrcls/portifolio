@@ -20,21 +20,21 @@ export default function FilterSection<T>({
   const handleSelect = (index: number) => {
     setFilter((prevFilter) =>
       prevFilter.map((item, i) =>
-        i === index ? { ...item, active: !item.active } : item
-      )
+        i === index ? { ...item, active: !item.active } : item,
+      ),
     );
   };
 
   return (
-    <div className="flex items-start justify-start rounded-lg glass-dark p-4 gap-2 flex-wrap">
-      <p className="text-start font-bold text-xl mr-2">{title}</p>
+    <div className="glass-dark flex flex-wrap items-start justify-start gap-2 rounded-lg p-4">
+      <p className="mr-2 text-start text-xl font-bold">{title}</p>
 
       {filter.map((item, index) => (
         <button
           key={item.name as string}
-          className={`glass-dark px-4 py-1 flex items-center gap-2 rounded-full active:scale-95 duration-500 select-none ${
+          className={`glass-dark flex select-none items-center gap-2 rounded-full px-4 py-1 duration-500 active:scale-95 ${
             item.active
-              ? "bg-blue-500 hover:bg-blue-800 active:bg-blue-800 font-bold"
+              ? "bg-blue-500 font-bold hover:bg-blue-800 active:bg-blue-800"
               : "hover:bg-zinc-900 active:bg-zinc-900"
           }`}
           onClick={() => handleSelect(index)}

@@ -16,8 +16,8 @@ export default function Home() {
       <Header />
       {aurora}
       <main>
-        <div className="h-[100svh] flex flex-col justify-center text-center items-center">
-          <div className="w-full h-2/5 my-4 relative select-none">
+        <div className="flex h-[100svh] flex-col items-center justify-center text-center">
+          <div className="relative my-4 h-2/5 w-full select-none">
             <Image
               className="select-none"
               src="/images/assets/me.png"

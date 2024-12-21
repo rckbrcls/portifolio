@@ -10,19 +10,18 @@ interface BoxGridProps {
 
 const BoxGrid = memo(({ boxes }: BoxGridProps) => {
   return (
-    <div className="grid auto-rows-[70svh] md:grid-cols-3 gap-4 w-full">
+    <div className="grid w-full auto-rows-[70svh] gap-4 md:grid-cols-3">
       {boxes.map((box, i) => (
         <div
           key={i}
           className={twMerge(
-            `flex items-center overflow-hidden
-             row-span-1 rounded-lg glass-dark text-start`,
-            box.className
+            `glass-dark row-span-1 flex items-center overflow-hidden rounded-lg text-start`,
+            box.className,
           )}
         >
           {/* Renderiza a imagem */}
           {box.image && (
-            <div className="w-full h-full relative">
+            <div className="relative h-full w-full">
               <Image
                 className="select-none"
                 src={box.image}

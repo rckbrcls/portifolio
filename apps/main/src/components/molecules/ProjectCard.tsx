@@ -20,7 +20,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
         {project.techStack.map((tech) => (
           <div
             key={tech}
-            className="glass-dark rounded-lg flex gap-2 items-center px-4 py-1"
+            className="glass-dark flex items-center gap-2 rounded-lg px-4 py-1"
           >
             {techStackIcons[tech as keyof typeof techStackIcons]}
             <p className="text-sm font-bold">{tech}</p>
@@ -49,29 +49,24 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
   return (
     <Link href={linkUrl}>
       <div
-        className={`group cursor-pointer border border-zinc-800 rounded-lg md:pt-2 md:pl-2 hover:scale-[1.02]
-       delay-75 duration-500 transform-gpu justify-between flex bg-zinc-950/5
-     md:flex-row flex-col h-full active:scale-[1.02] select-none`}
+        className={`group flex h-full transform-gpu cursor-pointer select-none flex-col justify-between rounded-lg border border-zinc-800 bg-zinc-950/5 delay-75 duration-500 hover:scale-[1.02] active:scale-[1.02] md:flex-row md:pl-2 md:pt-2`}
       >
         {project.microRoute && (
-          <div className="bg-purple-500 absolute -right-2 -top-2 rounded-full px-4 py-1 z-20">
+          <div className="absolute -right-2 -top-2 z-20 rounded-full bg-purple-500 px-4 py-1">
             <p className="text-sm font-bold">Microfrontend</p>
           </div>
         )}
 
-        <div className="p-5 text-left md:w-1/2 w-full flex flex-col gap-2 select-none">
+        <div className="flex w-full select-none flex-col gap-2 p-5 text-left md:w-1/2">
           <SubTitle>{project.name}</SubTitle>
 
-          <div
-            className="flex mt-4 items-center bg-transparent text-center 
-          glass-dark p-4 rounded-lg w-full justify-between gap-2"
-          >
+          <div className="glass-dark mt-4 flex w-full items-center justify-between gap-2 rounded-lg bg-transparent p-4 text-center">
             <Text className="font-bold">Members</Text>
-            <div className="flex flex-wrap gap-2 justify-end">
+            <div className="flex flex-wrap justify-end gap-2">
               {project?.members.map((member, index) => (
                 <div
                   key={index}
-                  className="glass-dark rounded-lg px-4 flex items-center"
+                  className="glass-dark flex items-center rounded-lg px-4"
                 >
                   <Text className="text-nowrap">{member}</Text>
                 </div>
@@ -81,14 +76,8 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
           {renderTechStack()}
         </div>
 
-        <div className="md:w-1/2 w-full flex md:justify-end md:items-end md:overflow-hidden">
-          <div
-            className="w-full h-80 md:top-10 md:left-4 relative 
-            group-hover:scale-[1.01] group-active:scale-[1.01]
-      md:group-hover:-translate-y-10 md:group-hover:-translate-x-4
-      md:group-active:-translate-y-10 md:group-active:-translate-x-4
-      duration-500 delay-75 rounded-lg overflow-hidden"
-          >
+        <div className="flex w-full md:w-1/2 md:items-end md:justify-end md:overflow-hidden">
+          <div className="relative h-80 w-full overflow-hidden rounded-lg delay-75 duration-500 group-hover:scale-[1.01] group-active:scale-[1.01] md:left-4 md:top-10 md:group-hover:-translate-x-2 md:group-hover:-translate-y-6 md:group-active:-translate-x-2 md:group-active:-translate-y-6">
             {renderImage()}
           </div>
         </div>

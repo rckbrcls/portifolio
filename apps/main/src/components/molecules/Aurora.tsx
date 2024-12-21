@@ -13,9 +13,9 @@ function Aurora({ dark = false }: IAuroraProps) {
     : ["#d500f9", "#6366f1", "#ec4899", "#a855f7", "#3b82f6"];
 
   return (
-    <div className="min-h-screen w-full fixed top-0 left-0 -z-10">
+    <div className="fixed left-0 top-0 -z-10 min-h-screen w-full">
       <MeshGradientRenderer
-        className="w-full h-full"
+        className="h-full w-full"
         colors={palettes}
         speed={0.01}
         wireframe={dark}

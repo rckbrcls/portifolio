@@ -11,13 +11,12 @@ import { BorderBeam } from "@/components/ui/border-beam";
 export default function AboutMe() {
   return (
     <MainLayout>
-      <div className="flex flex-col text-center gap-4 w-11/12 mx-auto mb-24">
-        <div className="h-[100svh] flex flex-col justify-center text-center items-center gap-4 w-full">
-          <div className="flex flex-col gap-10 justify-center items-center w-full">
+      <div className="mx-auto mb-24 flex w-11/12 flex-col gap-4 text-center">
+        <div className="flex h-[100svh] w-full flex-col items-center justify-center gap-4 text-center">
+          <div className="flex w-full flex-col items-center justify-center gap-10">
             <Title word="About me" type="blur" gradient />
             <a
-              className="glass-dark relative md:w-1/4 w-full px-10 py-4 rounded-lg hover:bg-zinc-900 active:bg-zinc-900
-              hover:scale-105 active:scale-95 duration-500 flex items-center justify-center gap-2"
+              className="glass-dark relative flex w-full items-center justify-center gap-2 rounded-lg px-10 py-4 duration-500 hover:scale-105 hover:bg-zinc-900 active:scale-95 active:bg-zinc-900 md:w-1/4"
               href="/files/Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
@@ -35,7 +34,7 @@ export default function AboutMe() {
           </div>
           <FaArrowAltCircleDown
             size={30}
-            className="animate-bounce absolute bottom-10"
+            className="absolute bottom-10 animate-bounce"
           />
         </div>
         {/* Grid de caixas */}

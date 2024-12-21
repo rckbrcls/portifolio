@@ -13,12 +13,11 @@ export default function SubTitle({
   return (
     <p
       className={twMerge(
-        `text-3xl md:text-4xl font-bold
-        ${
+        `text-3xl font-bold md:text-4xl ${
           gradient &&
-          "bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 bg-clip-text inline-block text-transparent"
+          "inline-block bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"
         }`,
-        className
+        className,
       )}
     >
       {children}

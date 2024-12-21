@@ -53,16 +53,11 @@ const Header = () => {
 
   return (
     <header
-      className={`flex mt-4 w-min justify-center items-center gap-10 px-4 py-2 inset-x-0 mx-auto
-        rounded-full fixed z-10 select-none transition duration-1000 
-        ${headerClass}`}
+      className={`fixed inset-x-0 z-10 mx-auto mt-4 flex w-min select-none items-center justify-center gap-10 rounded-full px-4 py-2 transition duration-1000 ${headerClass}`}
     >
       {routes.map((route, index) => (
         <Link key={index} href={route.path}>
-          <button
-            className="p-2 rounded-full hover:scale-110 active:scale-95 
-            duration-500 hover:bg-zinc-800 active:bg-zinc-900 flex items-center"
-          >
+          <button className="flex items-center rounded-full p-2 duration-500 hover:scale-110 hover:bg-zinc-800 active:scale-95 active:bg-zinc-900">
             {route.icon}
           </button>
         </Link>

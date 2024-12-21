@@ -38,12 +38,11 @@ export default function Contact() {
 
   return (
     <MainLayout>
-      <div className="flex mx-auto w-11/12 h-[100svh] flex-col text-center gap-4 justify-center items-center">
+      <div className="mx-auto flex h-[100svh] w-11/12 flex-col items-center justify-center gap-4 text-center">
         <Title word="Contact" type="blur" gradient />
-        <div className="flex gap-4 flex-wrap w-full justify-center items-center">
+        <div className="flex w-full flex-wrap items-center justify-center gap-4">
           <Link
-            className="glass-dark select-none md:w-1/3 w-full p-5 rounded-lg hover:bg-zinc-900 active:bg-zinc-900
-        hover:scale-105 active:scale-95 duration-500 flex items-center gap-2"
+            className="glass-dark flex w-full select-none items-center gap-2 rounded-lg p-5 duration-500 hover:scale-105 hover:bg-zinc-900 active:scale-95 active:bg-zinc-900 md:w-1/3"
             target="_blank"
             href="https://github.com/rckbrcls"
           >
@@ -51,8 +50,7 @@ export default function Contact() {
             <Text>GitHub</Text>
           </Link>
           <Link
-            className="glass-dark select-none md:w-1/3 w-full p-5 rounded-lg hover:bg-zinc-900 active:bg-zinc-900
-        hover:scale-105 active:scale-95 duration-500 flex items-center gap-2"
+            className="glass-dark flex w-full select-none items-center gap-2 rounded-lg p-5 duration-500 hover:scale-105 hover:bg-zinc-900 active:scale-95 active:bg-zinc-900 md:w-1/3"
             target="_blank"
             href="https://www.linkedin.com/in/brcls/"
           >
@@ -60,8 +58,7 @@ export default function Contact() {
             <Text>LinkedIn</Text>
           </Link>
           <Link
-            className="glass-dark select-none md:w-1/3 w-full p-5 rounded-lg hover:bg-zinc-900 active:bg-zinc-900
-        hover:scale-105 active:scale-95 duration-500 flex items-center gap-2"
+            className="glass-dark flex w-full select-none items-center gap-2 rounded-lg p-5 duration-500 hover:scale-105 hover:bg-zinc-900 active:scale-95 active:bg-zinc-900 md:w-1/3"
             target="_blank"
             href="https://instagram.com/rckbrcls"
           >
@@ -69,8 +66,7 @@ export default function Contact() {
             <Text>Instagram</Text>
           </Link>
           <Link
-            className="glass-dark select-none md:w-1/3 w-full p-5 rounded-lg hover:bg-zinc-900 active:bg-zinc-900
-        hover:scale-105 active:scale-95 duration-500 flex items-center justify-between"
+            className="glass-dark flex w-full select-none items-center justify-between rounded-lg p-5 duration-500 hover:scale-105 hover:bg-zinc-900 active:scale-95 active:bg-zinc-900 md:w-1/3"
             href="mailto:erickbarcelosdev@gmail.com?subject=Let's work together!"
             onClick={() => {
               setShowCopyMessage(true);
