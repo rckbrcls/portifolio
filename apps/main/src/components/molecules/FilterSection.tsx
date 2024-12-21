@@ -26,7 +26,7 @@ export default function FilterSection<T>({
   };
 
   return (
-    <div className="flex items-start justify-start rounded-xl glass-dark p-4 gap-2 flex-wrap">
+    <div className="flex items-start justify-start rounded-lg glass-dark p-4 gap-2 flex-wrap">
       <p className="text-start font-bold text-xl mr-2">{title}</p>
 
       {filter.map((item, index) => (

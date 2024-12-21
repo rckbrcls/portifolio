@@ -43,7 +43,7 @@ export default function Project() {
             <div className="md:w-1/3 w-full flex flex-col gap-4">
               {project?.gitLink && (
                 <a
-                  className="glass-dark w-full px-10 py-4 rounded hover:bg-zinc-900 active:bg-zinc-900
+                  className="glass-dark w-full px-10 py-4 rounded-lg hover:bg-zinc-900 active:bg-zinc-900
               hover:scale-105 active:scale-95 duration-500 flex items-center justify-center gap-2"
                   href={project.gitLink}
                   target="_blank"
@@ -56,7 +56,7 @@ export default function Project() {
               {project?.microRoute && (
                 <Link
                   href={`/microfrontend/${project.slug}`}
-                  className="glass-dark w-full px-10 py-4 rounded hover:bg-zinc-900 active:bg-zinc-900
+                  className="glass-dark w-full px-10 py-4 rounded-lg hover:bg-zinc-900 active:bg-zinc-900
               hover:scale-105 active:scale-95 duration-500 flex items-center justify-center gap-2"
                 >
                   <BiSolidComponent size={30} />
@@ -66,7 +66,7 @@ export default function Project() {
               {project?.link && (
                 <a
                   href={project.link}
-                  className="glass-dark w-full px-10 py-4 rounded hover:bg-zinc-900 active:bg-zinc-900
+                  className="glass-dark w-full px-10 py-4 rounded-lg hover:bg-zinc-900 active:bg-zinc-900
               hover:scale-105 active:scale-95 duration-500 flex items-center justify-center gap-2"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -82,7 +82,7 @@ export default function Project() {
               className="flex flex-wrap gap-4 text-start 
             items-start justify-start flex-col md:w-1/2 w-full"
             >
-              <div className="flex items-center justify-between text-center glass-dark p-4 rounded-2xl w-full gap-2">
+              <div className="flex items-center justify-between text-center glass-dark p-4 rounded-lg w-full gap-2">
                 <Text className="font-bold">Tech Stack</Text>
                 <div className="flex flex-wrap gap-2 justify-end">
                   {project?.techStack?.map((tech, index) => (
@@ -98,7 +98,7 @@ export default function Project() {
               </div>
 
               {project?.timeline && (
-                <div className="flex items-center justify-between text-center glass-dark p-4 rounded-2xl w-full gap-2">
+                <div className="flex items-center justify-between text-center glass-dark p-4 rounded-lg w-full gap-2">
                   <Text className="font-bold">Timeline</Text>
                   <div className="glass-dark rounded-lg px-4 flex items-center">
                     <Text>
@@ -108,7 +108,7 @@ export default function Project() {
                 </div>
               )}
 
-              <div className="flex items-center justify-between text-center glass-dark p-4 rounded-2xl w-full gap-2">
+              <div className="flex items-center justify-between text-center glass-dark p-4 rounded-lg w-full gap-2">
                 <Text className="font-bold">Members</Text>
                 <div className="flex flex-wrap gap-2 justify-end">
                   {project?.members.map((member, index) => (

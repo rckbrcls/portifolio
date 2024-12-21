@@ -16,7 +16,7 @@ const BoxGrid = memo(({ boxes }: BoxGridProps) => {
           key={i}
           className={twMerge(
             `flex items-center overflow-hidden
-             row-span-1 rounded-xl glass-dark text-start`,
+             row-span-1 rounded-lg glass-dark text-start`,
             box.className
           )}
         >

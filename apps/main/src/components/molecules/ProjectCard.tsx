@@ -49,7 +49,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
   return (
     <Link href={linkUrl}>
       <div
-        className={`group cursor-pointer border border-zinc-800 rounded-xl md:pt-2 md:pl-2 hover:scale-[1.02]
+        className={`group cursor-pointer border border-zinc-800 rounded-lg md:pt-2 md:pl-2 hover:scale-[1.02]
        delay-75 duration-500 transform-gpu justify-between flex bg-zinc-950/5
      md:flex-row flex-col h-full active:scale-[1.02] select-none`}
       >
@@ -87,7 +87,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
             group-hover:scale-[1.01] group-active:scale-[1.01]
       md:group-hover:-translate-y-10 md:group-hover:-translate-x-4
       md:group-active:-translate-y-10 md:group-active:-translate-x-4
-      duration-500 delay-75 rounded-xl overflow-hidden"
+      duration-500 delay-75 rounded-lg overflow-hidden"
           >
             {renderImage()}
           </div>

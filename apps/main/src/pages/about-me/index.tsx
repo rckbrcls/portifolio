@@ -16,7 +16,7 @@ export default function AboutMe() {
           <div className="flex flex-col gap-10 justify-center items-center w-full">
             <Title word="About me" type="blur" gradient />
             <a
-              className="glass-dark relative md:w-1/4 w-full px-10 py-4 rounded hover:bg-zinc-900 active:bg-zinc-900
+              className="glass-dark relative md:w-1/4 w-full px-10 py-4 rounded-lg hover:bg-zinc-900 active:bg-zinc-900
               hover:scale-105 active:scale-95 duration-500 flex items-center justify-center gap-2"
               href="/files/Resume.pdf"
               target="_blank"

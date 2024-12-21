@@ -42,7 +42,7 @@ export default function Contact() {
         <Title word="Contact" type="blur" gradient />
         <div className="flex gap-4 flex-wrap w-full justify-center items-center">
           <Link
-            className="glass-dark select-none md:w-1/3 w-full p-5 rounded-xl hover:bg-zinc-900 active:bg-zinc-900
+            className="glass-dark select-none md:w-1/3 w-full p-5 rounded-lg hover:bg-zinc-900 active:bg-zinc-900
         hover:scale-105 active:scale-95 duration-500 flex items-center gap-2"
             target="_blank"
             href="https://github.com/rckbrcls"
@@ -51,7 +51,7 @@ export default function Contact() {
             <Text>GitHub</Text>
           </Link>
           <Link
-            className="glass-dark select-none md:w-1/3 w-full p-5 rounded-xl hover:bg-zinc-900 active:bg-zinc-900
+            className="glass-dark select-none md:w-1/3 w-full p-5 rounded-lg hover:bg-zinc-900 active:bg-zinc-900
         hover:scale-105 active:scale-95 duration-500 flex items-center gap-2"
             target="_blank"
             href="https://www.linkedin.com/in/brcls/"
@@ -60,7 +60,7 @@ export default function Contact() {
             <Text>LinkedIn</Text>
           </Link>
           <Link
-            className="glass-dark select-none md:w-1/3 w-full p-5 rounded-xl hover:bg-zinc-900 active:bg-zinc-900
+            className="glass-dark select-none md:w-1/3 w-full p-5 rounded-lg hover:bg-zinc-900 active:bg-zinc-900
         hover:scale-105 active:scale-95 duration-500 flex items-center gap-2"
             target="_blank"
             href="https://instagram.com/rckbrcls"
@@ -69,7 +69,7 @@ export default function Contact() {
             <Text>Instagram</Text>
           </Link>
           <Link
-            className="glass-dark select-none md:w-1/3 w-full p-5 rounded-xl hover:bg-zinc-900 active:bg-zinc-900
+            className="glass-dark select-none md:w-1/3 w-full p-5 rounded-lg hover:bg-zinc-900 active:bg-zinc-900
         hover:scale-105 active:scale-95 duration-500 flex items-center justify-between"
             href="mailto:erickbarcelosdev@gmail.com?subject=Let's work together!"
             onClick={() => {

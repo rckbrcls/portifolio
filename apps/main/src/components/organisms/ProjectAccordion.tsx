@@ -41,7 +41,7 @@ export default function ProjectAccordion({ projects }: ProjectAccordionProps) {
             <AccordionItem
               key={status}
               value={status}
-              className="border mb-2 glass-dark rounded-xl px-4 lg:px-10"
+              className="border mb-2 glass-dark rounded-lg px-4 lg:px-10"
             >
               <AccordionTrigger>
                 <SubTitle className="flex items-center gap-4">

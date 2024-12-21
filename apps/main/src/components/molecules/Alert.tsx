@@ -22,7 +22,7 @@ const Alert = () => {
         <div
           className="p-4 z-50 glass-dark border-none fixed bottom-4 right-1/2 
         w-11/12 translate-x-1/2 flex md:flex-row flex-col justify-between text-start items-center
-        rounded-xl gap-4 transition duration-700 transform"
+        rounded-lg gap-4 transition duration-700 transform"
         >
           <Text>
             This portfolio is a work in progress, but rest assured, one day it
