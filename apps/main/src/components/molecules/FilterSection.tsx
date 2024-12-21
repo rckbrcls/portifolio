@@ -2,6 +2,7 @@
 
 import React from "react";
 import { techStackIcons } from "../../../public/data/techStackIcons";
+import { MultiSelect } from "../ui/multi-select";
 
 type TechItem<T> = { name: T; active: boolean };
 
@@ -27,6 +28,7 @@ export default function FilterSection<T>({
   return (
     <div className="flex items-start justify-start rounded-xl glass-dark p-4 gap-2 flex-wrap">
       <p className="text-start font-bold text-xl mr-2">{title}</p>
+
       {filter.map((item, index) => (
         <button
           key={item.name as string}
