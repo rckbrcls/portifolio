@@ -57,7 +57,7 @@ module.exports = (env, argv) => {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: "./src/index.html",
+        template: path.resolve(__dirname, "index.html"), // Corrigido o caminho do template
       }),
       new ModuleFederationPlugin({
         name: "lojinha_simples",
