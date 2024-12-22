@@ -1,4 +1,5 @@
 const path = require("path");
+const webpack = require("webpack");
 const ModuleFederationPlugin =
   require("webpack").container.ModuleFederationPlugin;
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -105,6 +106,9 @@ module.exports = (env, argv) => {
       }),
       new MiniCssExtractPlugin({
         filename: "[name].[contenthash].css",
+      }),
+      new webpack.DefinePlugin({
+        "process.env": JSON.stringify(process.env),
       }),
       new ModuleFederationPlugin({
         name: "video_manager",
