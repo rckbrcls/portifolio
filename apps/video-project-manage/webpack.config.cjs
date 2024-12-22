@@ -9,7 +9,7 @@ module.exports = (env, argv) => {
 
   return {
     mode: isProduction ? "production" : "development",
-    entry: "./src/index.tsx",
+    entry: "./src/index.js",
     devServer: {
       headers: {
         "Access-Control-Allow-Origin": "*",
