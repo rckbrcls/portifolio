@@ -1,16 +1,10 @@
 import React from "react";
-import {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
-} from "../ui/accordion";
-import SubTitle from "../atoms/SubTitle";
 import ProjectCard from "../molecules/ProjectCard";
 import { IProject } from "@/interface/IProject";
 import { MdDesignServices } from "react-icons/md";
 import { IoCodeWorking } from "react-icons/io5";
 import { FaCheck } from "react-icons/fa";
+import Title from "../atoms/Title";
 
 interface ProjectAccordionProps {
   projects: IProject[];
@@ -34,31 +28,24 @@ export default function ProjectAccordion({ projects }: ProjectAccordionProps) {
   );
 
   return (
-    <Accordion collapsible type="single">
+    <>
       {Object.entries(groupedProjects).map(
         ([status, projects]) =>
           projects.length > 0 && (
-            <AccordionItem
-              key={status}
-              value={status}
-              className="glass-dark mb-2 rounded-lg border px-4 lg:px-10"
-            >
-              <AccordionTrigger>
-                <SubTitle className="flex items-center gap-4">
-                  {iconsGroup[status]}
-                  {status.charAt(0).toUpperCase() + status.slice(1)}
-                </SubTitle>
-              </AccordionTrigger>
-              <AccordionContent>
-                <div className="flex w-full flex-col gap-14 p-4">
-                  {projects.map((project) => (
-                    <ProjectCard key={project.slug} project={project} />
-                  ))}
-                </div>
-              </AccordionContent>
-            </AccordionItem>
+            <>
+              <Title
+                type="blur"
+                word={status.charAt(0).toUpperCase() + status.slice(1)}
+                className="my-10 flex items-center gap-4"
+              />
+              <div className="flex w-full flex-col gap-14">
+                {projects.map((project) => (
+                  <ProjectCard key={project.slug} project={project} />
+                ))}
+              </div>
+            </>
           ),
       )}
-    </Accordion>
+    </>
   );
 }
