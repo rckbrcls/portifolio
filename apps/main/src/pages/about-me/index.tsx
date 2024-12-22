@@ -7,10 +7,14 @@ import BoxGrid from "@/components/molecules/BoxGrid";
 import { aboutMeBoxes } from "../../../public/data/aboutMeData";
 import { FaArrowAltCircleDown, FaFileDownload } from "react-icons/fa";
 import { BorderBeam } from "@/components/ui/border-beam";
+import Head from "next/head";
 
 export default function AboutMe() {
   return (
     <MainLayout>
+      <Head>
+        <title>About me | rckbrcls</title>
+      </Head>
       <div className="mx-auto mb-24 flex w-11/12 flex-col gap-4 text-center">
         <div className="flex h-[100svh] w-full flex-col items-center justify-center gap-4 text-center">
           <div className="flex w-full flex-col items-center justify-center gap-10">

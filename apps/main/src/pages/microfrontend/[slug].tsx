@@ -4,6 +4,7 @@ import React from "react";
 import MicroLayout from "@/components/MicroLayout";
 import { projects } from "../../../public/data/projects/projects";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 const ProjectMicrofrontend: React.FC = () => {
   const router = useRouter();
@@ -15,6 +16,9 @@ const ProjectMicrofrontend: React.FC = () => {
       projectGitRoute={project?.gitLink as string}
       projectHomeRoute={`/project/${project?.slug}`}
     >
+      <Head>
+        <title>Micro {project?.name} | rckbrcls</title>
+      </Head>
       <iframe
         src={`${project?.microRoute ?? ""}`}
         style={{ height: "100vh", width: "100vw", border: "none" }}

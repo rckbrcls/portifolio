@@ -14,6 +14,7 @@ import { ChevronLeftIcon } from "@radix-ui/react-icons";
 import { BiSolidComponent } from "react-icons/bi";
 import { FaPager } from "react-icons/fa";
 import { techStackIcons } from "../../../public/data/techStackIcons";
+import Head from "next/head";
 
 export default function Project() {
   const router = useRouter();
@@ -24,7 +25,9 @@ export default function Project() {
   return (
     <>
       <Alert />
-
+      <Head>
+        <title>{project?.name} | rckbrcls</title>
+      </Head>
       <Link
         href={"/projects"}
         className="glass-dark fixed z-10 m-10 flex size-10 items-center justify-center rounded-full"

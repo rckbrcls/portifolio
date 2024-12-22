@@ -3,6 +3,7 @@
 import MainLayout from "@/components/MainLayout";
 import Text from "@/components/atoms/Text";
 import Title from "@/components/atoms/Title";
+import Head from "next/head";
 import Link from "next/link";
 import React, { useState } from "react";
 import { AiFillGithub, AiFillLinkedin, AiFillMail } from "react-icons/ai";
@@ -32,6 +33,9 @@ export default function Contact() {
 
   return (
     <MainLayout>
+      <Head>
+        <title>Contact | rckbrcls</title>
+      </Head>
       <div className="mx-auto flex h-[100svh] w-11/12 flex-col items-center justify-center gap-4 text-center">
         <Title word="Contact" type="blur" gradient />
         <div className="flex w-full flex-wrap items-center justify-center gap-4">

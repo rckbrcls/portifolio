@@ -4,6 +4,7 @@ import Aurora from "@/components/molecules/Aurora";
 import Title from "@/components/atoms/Title";
 import Header from "@/components/organisms/Header";
 import Alert from "@/components/molecules/Alert";
+import Head from "next/head";
 
 const MemoizedAurora = React.memo(Aurora);
 
@@ -12,6 +13,9 @@ export default function Home() {
 
   return (
     <>
+      <Head>
+        <title>Olá! | rckbrcls</title>
+      </Head>
       <Alert />
       <Header />
       {aurora}
