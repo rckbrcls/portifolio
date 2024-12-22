@@ -42,7 +42,7 @@ export default function ProjectAccordion({ projects }: ProjectAccordionProps) {
             <AccordionItem
               key={status}
               value={status}
-              className="border-zinc-700"
+              className="border-zinc-700/30"
             >
               <AccordionTrigger>
                 <Title

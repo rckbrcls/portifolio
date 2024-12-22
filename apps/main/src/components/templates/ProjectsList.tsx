@@ -14,15 +14,6 @@ import {
 import ProjectAccordion from "../organisms/ProjectAccordion";
 import { FaArrowAltCircleDown } from "react-icons/fa";
 import { FaBroom } from "react-icons/fa6";
-import { MultiSelect } from "../ui/multi-select";
-
-const frameworksList = [
-  { value: "react", label: "React", icon: FaBroom, disable: true },
-  { value: "nextjs", label: "Nextjs", icon: FaBroom },
-  { value: "vue", label: "Vue", icon: FaBroom },
-  { value: "svelte", label: "Svelte", icon: FaBroom },
-  { value: "ember", label: "Ember", icon: FaBroom },
-];
 
 // Helper types
 type TechItem<T> = { name: T; active: boolean };
@@ -71,11 +62,6 @@ export default function ProjectsList() {
     );
   }, [activeFilters]);
 
-  const [selectedFrameworks, setSelectedFrameworks] = useState<string[]>([
-    "nextjs",
-    "svelte",
-  ]);
-
   return (
     <div className="mx-auto flex w-11/12 flex-col py-20 text-center">
       <div className="mb-20 flex flex-col items-center justify-center pb-20 pt-8 md:h-[85svh]">
@@ -91,15 +77,7 @@ export default function ProjectsList() {
           </button>
         </div>
 
-        <MultiSelect
-          options={frameworksList}
-          onValueChange={setSelectedFrameworks}
-          defaultValue={selectedFrameworks}
-          placeholder="Select frameworks"
-          popoverClass="w-96 bg-zinc-900"
-          maxCount={10}
-        />
-        <div className="grid w-full gap-2 md:grid-cols-2">
+        <div className="grid w-full gap-2 md:grid-cols-1">
           <FilterSection
             title="Languages"
             filter={languageFilter}

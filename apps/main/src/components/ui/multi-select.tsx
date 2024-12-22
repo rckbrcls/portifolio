@@ -135,8 +135,6 @@ export const MultiSelect = React.forwardRef<
     };
 
     const handleClear = () => {
-      console.log("Lista limpa");
-
       setSelectedValues([]);
       onValueChange([]);
     };
@@ -173,7 +171,7 @@ export const MultiSelect = React.forwardRef<
             {...props}
             onClick={handleTogglePopover}
             className={cn(
-              "glass-dark flex h-12 w-full cursor-pointer select-none items-center justify-between rounded-md p-1",
+              "glass-dark flex min-h-12 w-full cursor-pointer select-none items-center justify-between rounded-lg p-2",
               className,
             )}
           >
