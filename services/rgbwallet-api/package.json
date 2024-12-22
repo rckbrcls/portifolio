@@ -1,5 +1,5 @@
 {
-  "name": "rgbwallet_back",
+  "name": "rgbwallet-api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",

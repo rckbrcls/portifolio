@@ -13,6 +13,7 @@
     "build:joystick": "turbo run build --filter=joystick...",
     "build:rgbwallet": "turbo run build --filter=rgbwallet...",
     "build:secret-santa": "turbo run build --filter=secret-santa...",
+    "build:video-project-manage": "turbo run build --filter=video-project-manage...",
     "build:apps": "turbo run build --filter=./apps/*",
     "build:packages": "turbo run build --filter=./packages/*",
     "build:services": "turbo run build --filter=./services/*",
