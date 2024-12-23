@@ -11,35 +11,36 @@ import { IBox } from "@/interface/IBox";
 const aboutMeBoxes: IBox[] = [
   {
     className: "md:col-span-2",
-    text: `As a software engineering professional, 
-    I'm driven by innovation and technology's ever-changing landscape. 
-    I constantly seek new solutions, ensuring I stay ahead in this dynamic field.`,
+    text: `I'm a software engineer who’s always excited about technology and innovation.  
+    I’m constantly exploring new ideas and finding creative solutions to stay ahead in this ever-evolving field.`,
     image: Me,
   },
   {
     className: "md:row-span-2",
     image: Ororu,
-    text: `In my personal life, I cherish Ororu, my affectionate pitbull. Her joyful presence brings me endless happiness and companionship.`,
+    text: `This is Ororu, my affectionate pitbull and adventure buddy.  
+    She brightens my days and reminds me that joy often comes from the simplest things.`,
   },
   {
     className: "md:col-span-2",
     image: DrawPrimal,
-    text: `I'm passionate about both art and sports. Creativity is my outlet for self-expression, while sports help me maintain a healthy balance of mind and body.`,
+    text: `When I’m not coding, I’m either drawing or playing sports.  
+    Creativity and movement keep my mind sharp and my body energized.`,
   },
   {
     className: "md:col-span-3",
-    text: `Beyond technology, I love traveling to beaches and natural wonders. Exploring new horizons brings me profound joy and serenity.`,
+    text: `If I’m away from my computer, I’m probably exploring a beach or getting lost in nature.  
+    Traveling recharges me and fuels my inspiration for everything I do.`,
     image: Rio,
   },
 ];
-
 const BoxGrid = memo(() => (
-  <div className="grid w-full gap-4 md:grid-cols-3">
+  <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-3">
     {aboutMeBoxes.map(({ className, image, text }, index) => (
       <div
         key={index}
         className={twMerge(
-          "glass-dark flex h-[70svh] items-center overflow-hidden rounded-lg",
+          "glass-dark flex min-h-[70svh] items-center overflow-hidden rounded-lg",
           className,
         )}
       >
