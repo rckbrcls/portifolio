@@ -37,8 +37,8 @@ export default function Contact() {
         <title>Contact | rckbrcls</title>
       </Head>
       <div className="mx-auto flex h-[100svh] w-11/12 flex-col items-center justify-center gap-4 text-center">
-        <Title word="Contact" type="blur" gradient />
-        <div className="flex w-full flex-wrap items-center justify-center gap-4">
+        <Title className="md:text-9xl" word="Contact" type="blur" gradient />
+        <div className="flex w-full flex-col items-center justify-center gap-4">
           <Link
             className="glass-dark flex w-full select-none items-center gap-2 rounded-lg p-5 duration-500 hover:scale-105 hover:bg-zinc-900 active:scale-95 active:bg-zinc-900 md:w-1/3"
             target="_blank"
