@@ -48,35 +48,31 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
 
         <hr className="my-4 w-full border-t border-zinc-700/30" />
 
-        <div className="flex w-full items-start justify-between gap-4">
-          <Text className="text-nowrap font-bold">Tech Stack</Text>
-          <div className="flex flex-wrap justify-end gap-2">
-            {project?.techStack?.map((tech, index) => (
-              <div
-                key={index}
-                className="glass-dark flex items-center gap-2 rounded-lg px-4"
-              >
-                {techStackIcons[tech as keyof typeof techStackIcons]}
-                <Text>{tech}</Text>
-              </div>
-            ))}
-          </div>
+        <div className="flex w-full flex-wrap items-start justify-end gap-2">
+          <Text className="flex-1 text-nowrap font-bold">Tech Stack</Text>
+          {project?.techStack?.map((tech, index) => (
+            <div
+              key={index}
+              className="glass-dark flex items-center gap-2 rounded-lg px-4"
+            >
+              {techStackIcons[tech as keyof typeof techStackIcons]}
+              <Text>{tech}</Text>
+            </div>
+          ))}
         </div>
 
         <hr className="my-4 w-full border-t border-zinc-700/30" />
 
-        <div className="flex w-full items-start justify-between gap-4">
-          <Text className="font-bold">Members</Text>
-          <div className="flex flex-wrap justify-end gap-2">
-            {project?.members.map((member, index) => (
-              <div
-                key={index}
-                className="glass-dark flex items-center rounded-lg px-4"
-              >
-                <Text className="text-nowrap">{member}</Text>
-              </div>
-            ))}
-          </div>
+        <div className="flex w-full flex-wrap items-start justify-end gap-2">
+          <Text className="flex-1 text-nowrap font-bold">Members</Text>
+          {project?.members.map((member, index) => (
+            <div
+              key={index}
+              className="glass-dark flex items-center rounded-lg px-4"
+            >
+              <Text className="text-nowrap">{member}</Text>
+            </div>
+          ))}
         </div>
 
         <hr className="my-4 w-full border-t border-zinc-700/30" />
