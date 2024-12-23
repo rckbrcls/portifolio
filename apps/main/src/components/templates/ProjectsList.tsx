@@ -14,6 +14,7 @@ import {
 import ProjectAccordion from "../organisms/ProjectAccordion";
 import { FaArrowAltCircleDown } from "react-icons/fa";
 import { FaBroom } from "react-icons/fa6";
+import { DownButton } from "../atoms/DownButton";
 
 // Helper types
 type TechItem<T> = { name: T; active: boolean };
@@ -96,10 +97,7 @@ export default function ProjectsList() {
             <p className="text-nowrap text-sm font-bold">Clear filter</p>
           </button>
         </div>
-        <FaArrowAltCircleDown
-          size={30}
-          className="animate-bounce max-md:mt-10 md:absolute lg:bottom-10"
-        />
+        <DownButton />
       </div>
       <ProjectAccordion projects={filteredProjects} />
     </div>
