@@ -7,12 +7,12 @@ const Alert = () => {
   const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
-    const alert = localStorage.getItem("alert");
+    const alert = sessionStorage.getItem("alert");
     if (alert) setShowAlert(!alert);
   }, []);
 
   const handleClose = () => {
-    localStorage.setItem("alert", "alert");
+    sessionStorage.setItem("alert", "alert");
     setShowAlert(false);
   };
 
