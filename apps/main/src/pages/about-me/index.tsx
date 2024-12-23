@@ -4,8 +4,7 @@ import MainLayout from "@/components/MainLayout";
 import Title from "@/components/atoms/Title";
 import Text from "@/components/atoms/Text";
 import BoxGrid from "@/components/molecules/BoxGrid";
-import { aboutMeBoxes } from "../../../public/data/aboutMeData";
-import { FaArrowAltCircleDown, FaFileDownload } from "react-icons/fa";
+import { FaFileDownload } from "react-icons/fa";
 import { BorderBeam } from "@/components/ui/border-beam";
 import Head from "next/head";
 import { DownButton } from "@/components/atoms/DownButton";
@@ -44,8 +43,8 @@ export default function AboutMe() {
           </div>
           <DownButton />
         </div>
-        {/* Grid de caixas */}
-        <BoxGrid boxes={aboutMeBoxes} />
+
+        <BoxGrid />
       </div>
     </MainLayout>
   );
