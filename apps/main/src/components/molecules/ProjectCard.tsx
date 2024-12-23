@@ -15,24 +15,6 @@ interface IProjectCardProps {
 }
 
 const ProjectCard = ({ project }: IProjectCardProps) => {
-  const linkUrl = `project/${project.slug}` as Route;
-
-  const renderTechStack = () => {
-    return (
-      <div className="flex flex-wrap gap-2">
-        {project.techStack.map((tech) => (
-          <div
-            key={tech}
-            className="glass-dark flex items-center gap-2 rounded-lg px-4 py-1"
-          >
-            {techStackIcons[tech as keyof typeof techStackIcons]}
-            <p className="text-sm font-bold">{tech}</p>
-          </div>
-        ))}
-      </div>
-    );
-  };
-
   const renderImage = () => {
     if (!project.coverImage) return null;
 
@@ -51,7 +33,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
 
   return (
     <div
-      className={`glass-dark group flex h-full transform-gpu select-none flex-col justify-between rounded-lg delay-75 duration-500 hover:scale-[1.02] active:scale-[1.02] md:flex-row md:pl-2 md:pt-2`}
+      className={`glass-dark group flex h-full transform-gpu select-none flex-col justify-between rounded-lg delay-75 duration-700 hover:-translate-y-1 md:flex-row md:pl-2 md:pt-2`}
     >
       {project.microRoute && (
         <div className="absolute -right-2 -top-2 z-20 rounded-full bg-purple-500 px-4 py-1">
