@@ -35,7 +35,10 @@ export default function ProjectAccordion({ projects }: ProjectAccordionProps) {
   );
 
   return (
-    <Accordion type="multiple">
+    <Accordion
+      defaultValue={["finished", "working", "designing"]}
+      type="multiple"
+    >
       {Object.entries(groupedProjects).map(
         ([status, projects]) =>
           projects.length > 0 && (

@@ -2,7 +2,7 @@
 
 import React from "react";
 import { techStackIcons } from "../../../public/data/techStackIcons";
-import { MultiSelect } from "../ui/multi-select";
+import Text from "../atoms/Text";
 
 type TechItem<T> = { name: T; active: boolean };
 
@@ -26,13 +26,13 @@ export default function FilterSection<T>({
   };
 
   return (
-    <div className="glass-dark flex flex-wrap items-start justify-start gap-2 rounded-lg p-4">
-      <p className="mr-2 text-start text-xl font-bold">{title}</p>
+    <div className="flex flex-wrap items-start justify-start gap-2 rounded-lg">
+      <Text className="mr-2 text-start font-bold">{title}</Text>
 
       {filter.map((item, index) => (
         <button
           key={item.name as string}
-          className={`glass-dark flex select-none items-center gap-2 rounded-full px-4 py-1 duration-500 active:scale-95 ${
+          className={`glass-dark flex items-center gap-2 rounded-full px-4 duration-500 active:scale-95 ${
             item.active
               ? "bg-blue-500 font-bold hover:bg-blue-800 active:bg-blue-800"
               : "hover:bg-zinc-900 active:bg-zinc-900"
@@ -40,9 +40,10 @@ export default function FilterSection<T>({
           onClick={() => handleSelect(index)}
         >
           {techStackIcons[item.name as keyof typeof techStackIcons]}
-          <p className="text-sm font-bold">{String(item.name)}</p>
+          <Text>{String(item.name)}</Text>
         </button>
       ))}
+      <hr className="my-3 w-full border-t border-zinc-700/30" />
     </div>
   );
 }

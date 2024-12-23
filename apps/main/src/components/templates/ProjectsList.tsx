@@ -63,21 +63,11 @@ export default function ProjectsList() {
   }, [activeFilters]);
 
   return (
-    <div className="mx-auto flex w-11/12 flex-col py-20 text-center">
+    <div className="mx-auto flex w-11/12 flex-col py-20">
       <div className="mb-20 flex flex-col items-center justify-center pb-20 pt-8 md:h-[85svh]">
-        <Title word="Projects" type="blur" gradient />
-        <div className="mb-4 flex w-full items-center justify-between lg:mt-10">
-          <SubTitle className="text-start font-bold">Filter</SubTitle>
-          <button
-            className="glass-dark flex select-none items-center gap-2 rounded-full bg-zinc-500 px-4 py-1 duration-500 hover:bg-zinc-800 active:scale-95 active:bg-zinc-800"
-            onClick={resetFilter}
-          >
-            <FaBroom />
-            <p className="text-sm font-bold">Clear filter</p>
-          </button>
-        </div>
+        <Title className="md:text-9xl" word="Projects" type="blur" gradient />
 
-        <div className="grid w-full gap-2 md:grid-cols-1">
+        <div className="mt-10 grid w-full gap-2">
           <FilterSection
             title="Languages"
             filter={languageFilter}
@@ -98,6 +88,13 @@ export default function ProjectsList() {
             filter={toolOrLibraryFilter}
             setFilter={setToolOrLibraryFilter}
           />
+          <button
+            className="glass-dark flex w-min select-none items-center gap-2 rounded-full bg-zinc-500 px-4 py-1 duration-500 hover:bg-zinc-800 active:scale-95 active:bg-zinc-800"
+            onClick={resetFilter}
+          >
+            <FaBroom />
+            <p className="text-nowrap text-sm font-bold">Clear filter</p>
+          </button>
         </div>
         <FaArrowAltCircleDown
           size={30}
