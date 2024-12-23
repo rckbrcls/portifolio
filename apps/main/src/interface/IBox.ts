@@ -5,5 +5,4 @@ export interface IBox {
   className: ClassNameValue;
   image?: StaticImageData;
   text?: string;
-  align?: "left" | "right" | "center" | "top" | "bottom";
 }
