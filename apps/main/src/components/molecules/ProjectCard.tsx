@@ -93,6 +93,14 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
             <Link
               href={`/microfrontend/${project.slug}`}
               className="glass-dark flex w-full items-center justify-center gap-2 rounded-lg py-2 duration-500 hover:scale-[1.02] hover:bg-zinc-900 active:scale-95 active:bg-zinc-900"
+              onClick={() => {
+                if (typeof window !== "undefined") {
+                  sessionStorage.setItem(
+                    "projectsScroll",
+                    window.scrollY.toString(),
+                  );
+                }
+              }}
             >
               <BiSolidComponent size={28} />
               <Text className="max-sm:hidden">Microfrontend</Text>
