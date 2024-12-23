@@ -38,6 +38,7 @@ export default function ProjectAccordion({ projects }: ProjectAccordionProps) {
     <Accordion
       defaultValue={["finished", "working", "designing"]}
       type="multiple"
+      className="mb-14 w-full max-md:mt-14"
     >
       {Object.entries(groupedProjects).map(
         ([status, projects]) =>
@@ -51,7 +52,7 @@ export default function ProjectAccordion({ projects }: ProjectAccordionProps) {
                 <Title
                   type="blur"
                   word={status.charAt(0).toUpperCase() + status.slice(1)}
-                  className="my-10 flex items-center gap-4"
+                  className="flex items-center gap-4"
                 />
               </AccordionTrigger>
               <AccordionContent>

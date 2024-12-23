@@ -2,56 +2,70 @@ import React, { memo } from "react";
 import Image from "next/image";
 import SubTitle from "@/components/atoms/SubTitle";
 import { twMerge } from "tailwind-merge";
+import Ororu from "../../../public/images/about-me/ororu.jpg";
+import DrawPrimal from "../../../public/images/about-me/primal.png";
+import Me from "../../../public/images/about-me/me-and-sea.jpg";
+import Rio from "../../../public/images/about-me/pao-de-acucar.jpg";
 import { IBox } from "@/interface/IBox";
 
-interface BoxGridProps {
-  boxes: IBox[];
-}
+const aboutMeBoxes: IBox[] = [
+  {
+    className: "md:col-span-2",
+    text: `I'm a software engineer who’s always excited about technology and innovation.  
+    I’m constantly exploring new ideas and finding creative solutions to stay ahead in this ever-evolving field.`,
+    image: Me,
+  },
+  {
+    className: "md:row-span-2",
+    image: Ororu,
+    text: `This is Ororu, my affectionate pitbull and adventure buddy.  
+    She brightens my days and reminds me that joy often comes from the simplest things.`,
+  },
+  {
+    className: "md:col-span-2",
+    image: DrawPrimal,
+    text: `When I’m not coding, I’m either drawing or playing sports.  
+    Creativity and movement keep my mind sharp and my body energized.`,
+  },
+  {
+    className: "md:col-span-3",
+    text: `If I’m away from my computer, I’m probably exploring a beach or getting lost in nature.  
+    Traveling recharges me and fuels my inspiration for everything I do.`,
+    image: Rio,
+  },
+];
+const BoxGrid = memo(() => (
+  <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-3">
+    {aboutMeBoxes.map(({ className, image, text }, index) => (
+      <div
+        key={index}
+        className={twMerge(
+          "glass-dark flex min-h-[70svh] items-center overflow-hidden rounded-lg",
+          className,
+        )}
+      >
+        {image && (
+          <div className="relative h-full w-full">
+            <Image
+              className="select-none"
+              src={image}
+              alt="box-image"
+              fill
+              style={{ objectFit: "cover", objectPosition: "left" }}
+              quality={100}
+              loading="lazy"
+            />
+          </div>
+        )}
 
-const BoxGrid = memo(({ boxes }: BoxGridProps) => {
-  return (
-    <div className="grid w-full auto-rows-[70svh] gap-4 md:grid-cols-3">
-      {boxes.map((box, i) => (
-        <div
-          key={i}
-          className={twMerge(
-            `glass-dark row-span-1 flex items-center overflow-hidden rounded-lg text-start`,
-            box.className,
-          )}
-        >
-          {/* Renderiza a imagem */}
-          {box.image && (
-            <div className="relative h-full w-full">
-              <Image
-                className="select-none"
-                src={box.image}
-                alt="box-image"
-                fill
-                style={{ objectFit: "cover", objectPosition: box.align }}
-                quality={100}
-                loading="lazy"
-              />
-            </div>
-          )}
-
-          {/* Renderiza o texto */}
-          {box.text && (
-            <SubTitle
-              className={`m-6 ${
-                box.align === "right"
-                  ? "md:text-right"
-                  : box.align === "center"
-                    ? "md:text-center"
-                    : "md:text-left"
-              }`}
-            >
-              {box.text}
-            </SubTitle>
-          )}
-        </div>
-      ))}
-    </div>
-  );
-});
+        {text && (
+          <div className="absolute bottom-0 w-full bg-gradient-to-t from-black via-zinc-950/85 to-transparent p-10">
+            <SubTitle className="text-left">{text}</SubTitle>
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+));
 
 export default BoxGrid;

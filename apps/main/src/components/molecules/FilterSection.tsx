@@ -32,10 +32,10 @@ export default function FilterSection<T>({
       {filter.map((item, index) => (
         <button
           key={item.name as string}
-          className={`glass-dark flex items-center gap-2 rounded-full px-4 duration-500 active:scale-95 ${
+          className={`glass-dark flex items-center gap-2 rounded-lg px-4 duration-500 active:scale-95 ${
             item.active
               ? "bg-blue-500 font-bold hover:bg-blue-800 active:bg-blue-800"
-              : "hover:bg-zinc-900 active:bg-zinc-900"
+              : "hover:scale-105 hover:bg-zinc-700 active:bg-zinc-700"
           }`}
           onClick={() => handleSelect(index)}
         >

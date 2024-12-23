@@ -64,9 +64,14 @@ export default function ProjectsList() {
   }, [activeFilters]);
 
   return (
-    <div className="mx-auto flex w-11/12 flex-col py-20">
-      <div className="mb-20 flex flex-col items-center justify-center pb-20 pt-8 md:h-[85svh]">
-        <Title className="md:text-9xl" word="Projects" type="blur" gradient />
+    <div className="mx-auto flex w-11/12 flex-col items-center justify-center">
+      <div className="flex h-svh w-full flex-col items-center justify-center">
+        <Title
+          className="text-8xl md:text-9xl"
+          word="Projects"
+          type="blur"
+          gradient
+        />
 
         <div className="mt-10 grid w-full gap-2">
           <FilterSection
