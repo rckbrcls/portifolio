@@ -17,10 +17,10 @@ export default function AboutMe() {
         <title>About me | rckbrcls</title>
       </Head>
       <div className="mx-auto mb-24 flex w-11/12 flex-col gap-4 text-center">
-        <div className="flex h-[100svh] w-full flex-col items-center justify-center gap-4 text-center">
+        <div className="flex h-svh w-full flex-col items-center justify-center gap-4 text-center">
           <div className="flex w-full flex-col items-center justify-center gap-10">
             <Title
-              className="md:text-9xl"
+              className="text-8xl md:text-9xl"
               word="About me"
               type="blur"
               gradient
