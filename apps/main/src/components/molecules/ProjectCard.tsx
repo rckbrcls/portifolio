@@ -51,7 +51,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
 
   return (
     <div
-      className={`glass-dark group flex h-full transform-gpu select-none flex-col justify-between rounded-lg delay-75 duration-500 hover:scale-[1.02] active:scale-[1.02] md:flex-row md:pl-2 md:pt-2`}
+      className={`glass-dark group flex h-full transform-gpu select-none flex-col justify-between rounded-lg delay-75 duration-500 hover:scale-[1.01] md:flex-row md:pl-2 md:pt-2`}
     >
       {project.microRoute && (
         <div className="absolute -right-2 -top-2 z-20 rounded-full bg-purple-500 px-4 py-1">
