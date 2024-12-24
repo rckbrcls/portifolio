@@ -25,7 +25,7 @@ export default function AboutMe() {
               gradient
             />
             <a
-              className="glass-dark relative flex w-full items-center justify-center gap-2 rounded-lg px-10 py-4 duration-500 hover:scale-105 hover:bg-zinc-900 active:scale-95 active:bg-zinc-900 md:w-1/4"
+              className="glass-dark flex h-16 w-1/2 items-center justify-center gap-2 text-nowrap rounded-lg px-6 py-2 text-xl font-black transition duration-700 hover:scale-[1.01] hover:bg-zinc-800 active:scale-95 active:bg-zinc-800 md:w-1/4"
               href="/files/Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"

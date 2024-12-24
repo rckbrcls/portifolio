@@ -35,7 +35,7 @@ export default function FilterSection<T>({
           className={`glass-dark flex items-center gap-2 rounded-lg px-4 duration-500 active:scale-95 ${
             item.active
               ? "bg-blue-500 font-bold hover:bg-blue-800 active:bg-blue-800"
-              : "hover:scale-105 hover:bg-zinc-700 active:bg-zinc-700"
+              : "hover:scale-[1.01] hover:bg-zinc-800 active:bg-zinc-800"
           }`}
           onClick={() => handleSelect(index)}
         >

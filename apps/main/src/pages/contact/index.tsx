@@ -45,7 +45,7 @@ export default function Contact() {
         />
         <div className="flex w-full flex-col items-center justify-center gap-4">
           <Link
-            className="glass-dark flex w-full select-none items-center gap-2 rounded-lg p-5 duration-500 hover:scale-105 hover:bg-zinc-900 active:scale-95 active:bg-zinc-900 md:w-1/3"
+            className="glass-dark flex h-16 w-full items-center justify-center gap-2 text-nowrap rounded-lg px-6 py-2 text-xl font-black transition duration-700 hover:scale-[1.01] hover:bg-zinc-800 active:scale-95 active:bg-zinc-800 md:w-1/4"
             target="_blank"
             href="https://github.com/rckbrcls"
           >
@@ -53,7 +53,7 @@ export default function Contact() {
             <Text>GitHub</Text>
           </Link>
           <Link
-            className="glass-dark flex w-full select-none items-center gap-2 rounded-lg p-5 duration-500 hover:scale-105 hover:bg-zinc-900 active:scale-95 active:bg-zinc-900 md:w-1/3"
+            className="glass-dark flex h-16 w-full items-center justify-center gap-2 text-nowrap rounded-lg px-6 py-2 text-xl font-black transition duration-700 hover:scale-[1.01] hover:bg-zinc-800 active:scale-95 active:bg-zinc-800 md:w-1/4"
             target="_blank"
             href="https://www.linkedin.com/in/brcls/"
           >
@@ -61,7 +61,7 @@ export default function Contact() {
             <Text>LinkedIn</Text>
           </Link>
           <Link
-            className="glass-dark flex w-full select-none items-center justify-between rounded-lg p-5 duration-500 hover:scale-105 hover:bg-zinc-900 active:scale-95 active:bg-zinc-900 md:w-1/3"
+            className="glass-dark flex h-16 w-full items-center justify-center gap-2 text-nowrap rounded-lg px-6 py-2 text-xl font-black transition duration-700 hover:scale-[1.01] hover:bg-zinc-800 active:scale-95 active:bg-zinc-800 md:w-1/4"
             href="mailto:erickbarcelosdev@gmail.com?subject=Let's work together!"
             onClick={() => {
               setShowCopyMessage(true);

@@ -14,7 +14,7 @@ import {
   SiSolid,
   SiWebpack,
 } from "react-icons/si";
-import { User } from "lucide-react";
+import { Computer } from "lucide-react";
 
 const Circle = forwardRef<
   HTMLDivElement,
@@ -35,14 +35,15 @@ const Circle = forwardRef<
 
 Circle.displayName = "Circle";
 
-export function AnimatedBeamMultipleOutputDemo({
+export function AnimatedBeamArchitecture({
   className,
 }: {
   className?: string;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const divRefComputer = useRef<HTMLDivElement>(null);
   const divRefFlask = useRef<HTMLDivElement>(null);
-  const div2Node = useRef<HTMLDivElement>(null);
+  const divRefNode = useRef<HTMLDivElement>(null);
   const divRefBun = useRef<HTMLDivElement>(null);
   const divRefSolid = useRef<HTMLDivElement>(null);
   const divRefReact = useRef<HTMLDivElement>(null);
@@ -59,19 +60,24 @@ export function AnimatedBeamMultipleOutputDemo({
       )}
       ref={containerRef}
     >
-      <div className="flex size-full flex-row items-stretch justify-between gap-1 p-14">
-        <div className="flex flex-col justify-center gap-10">
+      <div className="flex size-full flex-row items-center justify-between gap-5 p-14">
+        <div className="flex flex-col justify-center gap-20">
+          <Circle className="size-20 max-md:size-16" ref={divRefComputer}>
+            <Computer size={50} />
+          </Circle>
+        </div>
+        <div className="flex flex-col justify-center gap-20">
           <Circle className="size-20 max-md:size-16" ref={divRefFlask}>
             <SiFlask size={50} />
           </Circle>
-          <Circle className="size-20 max-md:size-16" ref={div2Node}>
+          <Circle className="size-20 max-md:size-16" ref={divRefNode}>
             <SiNodedotjs size={50} />
           </Circle>
           <Circle className="size-20 max-md:size-16" ref={divRefBun}>
             <SiBun size={50} />
           </Circle>
         </div>
-        <div className="flex flex-col justify-center gap-10">
+        <div className="flex flex-col justify-center gap-20">
           <Circle className="size-20 max-md:size-16" ref={divRefSolid}>
             <SiSolid size={50} />
           </Circle>
@@ -96,12 +102,27 @@ export function AnimatedBeamMultipleOutputDemo({
 
       <AnimatedBeam
         containerRef={containerRef}
+        fromRef={divRefComputer}
+        toRef={divRefFlask}
+      />
+      <AnimatedBeam
+        containerRef={containerRef}
+        fromRef={divRefComputer}
+        toRef={divRefNode}
+      />
+      <AnimatedBeam
+        containerRef={containerRef}
+        fromRef={divRefComputer}
+        toRef={divRefBun}
+      />
+      <AnimatedBeam
+        containerRef={containerRef}
         fromRef={divRefFlask}
         toRef={divRefSolid}
       />
       <AnimatedBeam
         containerRef={containerRef}
-        fromRef={div2Node}
+        fromRef={divRefNode}
         toRef={divRefReact}
       />
       <AnimatedBeam

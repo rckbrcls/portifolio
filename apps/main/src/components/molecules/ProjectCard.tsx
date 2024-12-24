@@ -33,7 +33,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
 
   return (
     <div
-      className={`glass-dark group flex transform-gpu select-none justify-between rounded-lg delay-75 duration-700 hover:-translate-y-1`}
+      className={`glass-dark group flex transform-gpu select-none justify-between rounded-lg delay-75 duration-500 hover:-translate-y-1`}
     >
       {project.microRoute && (
         <div className="absolute -right-2 -top-2 z-50 rounded-full bg-purple-500 px-4 py-1">
@@ -81,7 +81,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
           <div className="flex gap-2">
             {project?.gitLink && (
               <a
-                className="glass-dark flex w-full items-center justify-center gap-2 rounded-lg py-2 duration-500 hover:scale-[1.02] hover:bg-zinc-900 active:scale-95 active:bg-zinc-900"
+                className="glass-dark flex h-16 w-full items-center justify-center gap-2 text-nowrap rounded-lg px-6 py-2 text-xl font-black transition duration-500 hover:scale-[1.01] hover:bg-zinc-900 active:scale-95 active:bg-zinc-900"
                 href={project.gitLink}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -93,7 +93,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
             {project?.microRoute && (
               <Link
                 href={`/microfrontend/${project.slug}`}
-                className="glass-dark flex w-full items-center justify-center gap-2 rounded-lg py-2 duration-500 hover:scale-[1.02] hover:bg-zinc-900 active:scale-95 active:bg-zinc-900"
+                className="glass-dark flex h-16 w-full items-center justify-center gap-2 text-nowrap rounded-lg px-6 py-2 text-xl font-black transition duration-500 hover:scale-[1.01] hover:bg-zinc-900 active:scale-95 active:bg-zinc-900"
                 onClick={() => {
                   if (typeof window !== "undefined") {
                     sessionStorage.setItem(
@@ -110,7 +110,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
             {project?.link && (
               <a
                 href={project.link}
-                className="glass-dark flex w-full items-center justify-center gap-2 rounded-lg py-2 duration-500 hover:scale-[1.02] hover:bg-zinc-900 active:scale-95 active:bg-zinc-900"
+                className="glass-dark flex h-16 w-full items-center justify-center gap-2 text-nowrap rounded-lg px-6 py-2 text-xl font-black transition duration-500 hover:scale-[1.01] hover:bg-zinc-900 active:scale-95 active:bg-zinc-900"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -122,7 +122,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
         </div>
 
         <div className="flex w-1/2 max-md:w-full max-md:px-4 max-md:pt-4 md:items-end md:justify-end md:overflow-hidden">
-          <div className="relative h-full w-full overflow-hidden rounded-lg delay-75 duration-500 group-hover:scale-[1.02] group-active:scale-[1.01] max-md:h-60 md:left-4 md:top-10 md:group-hover:-translate-x-2 md:group-hover:-translate-y-6 md:group-active:-translate-x-2 md:group-active:-translate-y-6">
+          <div className="relative h-full w-full overflow-hidden rounded-lg delay-75 duration-500 group-hover:scale-[1.01] group-active:scale-[1.01] max-md:h-60 md:left-4 md:top-10 md:group-hover:-translate-x-2 md:group-hover:-translate-y-6 md:group-active:-translate-x-2 md:group-active:-translate-y-6">
             {renderImage()}
           </div>
         </div>
