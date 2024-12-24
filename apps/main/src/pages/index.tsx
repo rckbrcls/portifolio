@@ -44,38 +44,49 @@ export default function Home() {
         <div className="grid w-full snap-center grid-cols-2 items-center max-md:grid-cols-1 md:h-svh">
           <AnimatedBeamArchitecture />
           <div className="flex flex-col items-start justify-start gap-10 p-14">
-            <Title className="text-start" word="🛠️ Architecture " type="blur" />
+            <Title
+              className="text-start"
+              word="🖥️ Client-Side Architecture"
+              type="blur"
+            />
             <SubTitle>
-              This portfolio is my microfrontend playground . I brought together
-              old projects and integrated them into a main frontend as
-              microfrontends. It’s been a fun way to learn and revisit past
-              work.
+              This portfolio serves as the client-side of my project, built
+              using a microfrontend architecture. I gathered old projects and
+              integrated them into a single main frontend. Each project is a
+              microfrontend that connects to APIs hosted on my personal server.
+              This approach not only helped me revisit past work but also
+              deepened my understanding of microfrontends and modular
+              development. 🛠️
             </SubTitle>
           </div>
         </div>
 
         <div className="grid w-full snap-center grid-cols-2 items-center max-md:grid-cols-1 md:h-svh">
           <div className="flex flex-col items-start justify-start gap-10 p-14">
-            <Title
-              className="text-start"
-              word="💻 My Personal Server"
-              type="blur"
-            />
+            <Title className="text-start" word="🔧 Server & APIs" type="blur" />
             <SubTitle>
-              To expand my knowledge (and save some money 😄), I decided to set
-              up my own server using an old computer I had lying around. This
-              project taught me invaluable lessons about servers, Linux, Docker,
-              and much more.
+              The backend for this portfolio runs on my personal server 💻,
+              which I set up using an old computer I had at home. It hosts the
+              APIs for each microfrontend project, handling data,
+              authentication, and various backend services. This hands-on
+              experience taught me a lot about server management, Linux, Docker,
+              and deploying scalable APIs. It's been a rewarding and practical
+              way to learn. 🚀
             </SubTitle>
           </div>
           <AnimatedBeamArchitecture />
         </div>
 
         <div className="mx-auto flex snap-center flex-col items-center justify-center gap-10 p-10 pb-20 md:h-svh md:w-2/3">
-          <Title word="🎬 That's a Wrap!" type="blur" />
+          <Title word="🎯 That's a Wrap!" type="blur" />
           <SubTitle className="text-center">
-            You can find the code for this website on my GitHub repository. Feel
-            free to check out my other projects while you're there!
+            The entire project, from frontend to backend, reflects my journey of
+            learning and building. You can explore the all project code on my
+            GitHub.
+          </SubTitle>
+
+          <SubTitle className="text-center">
+            Feel free to check out other projects while you're there! 🎬
           </SubTitle>
           <div className="flex w-full items-center justify-center gap-4">
             <a
