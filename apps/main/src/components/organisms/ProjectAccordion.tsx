@@ -56,7 +56,7 @@ export default function ProjectAccordion({ projects }: ProjectAccordionProps) {
                 />
               </AccordionTrigger>
               <AccordionContent>
-                <div className="flex w-full flex-col gap-14">
+                <div className="mt-8 flex w-full flex-col gap-14">
                   {projects.map((project) => (
                     <ProjectCard key={project.slug} project={project} />
                   ))}
