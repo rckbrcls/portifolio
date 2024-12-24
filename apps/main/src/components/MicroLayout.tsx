@@ -23,7 +23,7 @@ export default function MicroLayout({
           <button
             className="glass-dark z-50 flex items-center justify-center gap-2 rounded-lg p-2 text-zinc-500 duration-500 hover:scale-105 hover:bg-zinc-800 hover:text-zinc-200 active:scale-95 active:bg-zinc-900"
             onClick={() => {
-              router.back();
+              router.push("/projects");
             }}
           >
             <ChevronLeft size={20} />
