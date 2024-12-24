@@ -27,15 +27,15 @@ export default function FilterSection<T>({
 
   return (
     <div className="flex flex-wrap items-start justify-start gap-2 rounded-lg">
-      <Text className="mr-2 text-start font-bold">{title}</Text>
+      <Text className="mr-2 text-start font-black">{title}</Text>
 
       {filter.map((item, index) => (
         <button
           key={item.name as string}
-          className={`glass-dark flex items-center gap-2 rounded-lg px-4 duration-500 active:scale-95 ${
+          className={`glass-dark flex items-center gap-2 rounded-lg px-4 py-1 duration-500 active:scale-95 ${
             item.active
               ? "bg-blue-500 font-bold hover:bg-blue-800 active:bg-blue-800"
-              : "hover:scale-105 hover:bg-zinc-700 active:bg-zinc-700"
+              : "hover:scale-[1.01] hover:bg-zinc-800 active:bg-zinc-800"
           }`}
           onClick={() => handleSelect(index)}
         >

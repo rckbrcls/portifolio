@@ -2,6 +2,7 @@
 "use client";
 import { useState } from "react";
 import { MeshGradientRenderer } from "@johnn-e/react-mesh-gradient";
+import { twMerge } from "tailwind-merge";
 
 interface IAuroraProps {
   dark?: boolean;
@@ -12,8 +13,12 @@ function Aurora({ dark = false }: IAuroraProps) {
     ? ["#303030", "#303030", "#404040", "#505050", "#606060"]
     : ["#d500f9", "#6366f1", "#ec4899", "#a855f7", "#3b82f6"];
 
+  const position = dark ? "fixed" : "absolute";
+
   return (
-    <div className="fixed left-0 top-0 -z-10 min-h-screen w-full">
+    <div
+      className={twMerge("left-0 top-0 -z-10 min-h-screen w-full", position)}
+    >
       <MeshGradientRenderer
         className="h-full w-full"
         colors={palettes}
