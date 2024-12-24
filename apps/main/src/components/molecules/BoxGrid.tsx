@@ -40,7 +40,7 @@ const BoxGrid = memo(() => (
       <div
         key={index}
         className={twMerge(
-          "glass-dark group flex min-h-[70svh] items-center overflow-hidden rounded-lg",
+          "glass-dark group flex min-h-[70svh] items-center overflow-hidden rounded-lg max-md:min-h-[85svh]",
           className,
         )}
       >
@@ -59,8 +59,8 @@ const BoxGrid = memo(() => (
         )}
 
         {text && (
-          <div className="absolute -bottom-2 w-full bg-gradient-to-t from-black via-zinc-950/85 to-transparent p-10 pb-12 transition duration-500 group-hover:-translate-y-2">
-            <SubTitle className="text-left">{text}</SubTitle>
+          <div className="absolute -bottom-2 w-full bg-gradient-to-t from-black via-zinc-950/85 to-transparent p-10 pb-12 transition duration-500 group-hover:-translate-y-2 max-md:p-5 max-md:pb-7">
+            <SubTitle className="text-left max-md:text-xl">{text}</SubTitle>
           </div>
         )}
       </div>

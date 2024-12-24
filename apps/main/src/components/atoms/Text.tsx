@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { ClassNameValue, twMerge } from "tailwind-merge";
 
-export default function Text({
+export function Text({
   children,
   className,
   gradient,
