@@ -44,13 +44,12 @@ export default function Home() {
         <div className="grid w-full snap-center grid-cols-2 items-center max-md:grid-cols-1 md:h-svh">
           <AnimatedBeamArchitecture />
           <div className="flex flex-col items-start justify-start gap-10 p-14">
-            <Title className="text-start" word="Architecture" type="blur" />
+            <Title className="text-start" word="🛠️ Architecture " type="blur" />
             <SubTitle>
-              This portfolio is built with a microfrontend architecture,
-              enabling a modular, scalable, and maintainable structure. This
-              approach facilitates the seamless integration of diverse
-              frameworks and technologies, ensuring a smooth and consistent
-              experience across all sections.
+              This portfolio is my microfrontend playground . I brought together
+              old projects and integrated them into a main frontend as
+              microfrontends. It’s been a fun way to learn and revisit past
+              work.
             </SubTitle>
           </div>
         </div>
@@ -59,7 +58,7 @@ export default function Home() {
           <div className="flex flex-col items-start justify-start gap-10 p-14">
             <Title
               className="text-start"
-              word="My Personal Server"
+              word="💻 My Personal Server"
               type="blur"
             />
             <SubTitle>
@@ -73,8 +72,8 @@ export default function Home() {
         </div>
 
         <div className="mx-auto flex snap-center flex-col items-center justify-center gap-10 p-10 pb-20 md:h-svh md:w-2/3">
-          <Title word="That's a Wrap!" type="blur" />
-          <SubTitle>
+          <Title word="🎬 That's a Wrap!" type="blur" />
+          <SubTitle className="text-center">
             You can find the code for this website on my GitHub repository. Feel
             free to check out my other projects while you're there!
           </SubTitle>
