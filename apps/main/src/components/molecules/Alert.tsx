@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Text from "../atoms/Text";
+import { Text } from "../atoms/Text";
 
 const Alert = () => {
   const [showAlert, setShowAlert] = useState(false);
