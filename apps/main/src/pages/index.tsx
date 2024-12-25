@@ -31,7 +31,7 @@ export default function Home() {
     visible: {
       x: 0,
       opacity: 1,
-      transition: { duration: 1.2, ease: "easeInOut" },
+      transition: { duration: 0.8, ease: "easeInOut" },
     },
   };
 
@@ -40,7 +40,7 @@ export default function Home() {
     visible: {
       x: 0,
       opacity: 1,
-      transition: { duration: 1.2, ease: "easeInOut" },
+      transition: { duration: 0.8, ease: "easeInOut" },
     },
   };
 
