@@ -26,13 +26,13 @@ export default function FilterSection<T>({
   };
 
   return (
-    <div className="flex flex-wrap items-start justify-start gap-2 rounded-lg">
+    <div className="flex flex-wrap items-center justify-start gap-2 rounded-lg">
       <Text className="mr-2 text-start font-black">{title}</Text>
 
       {filter.map((item, index) => (
         <button
           key={item.name as string}
-          className={`glass-dark flex items-center gap-2 rounded-lg px-4 py-0.5 duration-500 active:scale-95 md:py-1 ${
+          className={`glass-dark flex items-center gap-2 rounded-full px-4 py-0.5 duration-500 active:scale-95 md:py-1 ${
             item.active
               ? "bg-blue-500 font-bold hover:bg-blue-800 active:bg-blue-800"
               : "hover:scale-[1.01] hover:bg-zinc-800 active:bg-zinc-800"
