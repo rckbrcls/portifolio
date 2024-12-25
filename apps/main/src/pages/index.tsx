@@ -25,7 +25,7 @@ export default function Home() {
       <Header />
 
       <div className="z-0 h-svh w-full md:snap-y md:snap-mandatory md:overflow-y-scroll">
-        <div className="relative flex h-svh w-full snap-center flex-col items-center justify-center p-4 text-center">
+        <div className="relative flex h-svh snap-center flex-col items-center justify-center text-center">
           {aurora}
           <div className="relative my-4 h-2/5 w-full select-none">
             <Image
@@ -41,10 +41,10 @@ export default function Home() {
           <Title word="Hello! I'm Erick Barcelos" />
         </div>
 
-        <div className="mx-auto max-md:w-11/12">
+        <div className="mx-auto w-11/12">
           <div className="grid w-full snap-center grid-cols-2 items-center justify-center border-b border-zinc-700/40 max-md:grid-cols-1 max-md:gap-10 max-md:py-10 md:h-svh">
             <AnimatedBeamArchitecture />
-            <div className="flex flex-col items-start justify-start gap-10 md:p-14">
+            <div className="gap-10x flex flex-col items-start justify-start">
               <Title
                 className="text-start max-md:text-center max-md:text-5xl"
                 word="🖥️ Client-Side Architecture"
@@ -63,7 +63,7 @@ export default function Home() {
           </div>
 
           <div className="grid w-full snap-center grid-cols-2 items-center justify-center border-b border-zinc-700/40 max-md:grid-cols-1 max-md:gap-10 max-md:py-10 md:h-svh">
-            <div className="flex flex-col items-start justify-start gap-10 md:p-14">
+            <div className="gap-10x flex flex-col items-start justify-start">
               <Title
                 className="text-start max-md:text-center max-md:text-5xl"
                 word="🔧 Server & APIs"
