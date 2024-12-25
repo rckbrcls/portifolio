@@ -24,7 +24,7 @@ export default function Home() {
       <Alert />
       <Header />
 
-      <div className="z-0 h-screen w-full md:snap-y md:snap-mandatory md:overflow-y-scroll">
+      <div className="z-0 h-svh w-full md:snap-y md:snap-mandatory md:overflow-y-scroll">
         <div className="relative flex h-svh w-full snap-center flex-col items-center justify-center p-4 text-center">
           {aurora}
           <div className="relative my-4 h-2/5 w-full select-none">
