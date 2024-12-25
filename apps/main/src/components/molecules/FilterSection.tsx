@@ -40,7 +40,7 @@ export default function FilterSection<T>({
           onClick={() => handleSelect(index)}
         >
           {techStackIcons[item.name as keyof typeof techStackIcons]}
-          <Text className="max-md:text-xs">{String(item.name)}</Text>
+          <Text className="max-md:text-sm">{String(item.name)}</Text>
         </button>
       ))}
       <hr className="my-1 w-full border-t border-zinc-700/30 md:my-3" />
