@@ -7,14 +7,17 @@ import { PiHandWavingFill } from "react-icons/pi";
 import { MdComputer } from "react-icons/md";
 import { FaCircleInfo } from "react-icons/fa6";
 import { RiContactsBook2Fill } from "react-icons/ri";
+import { usePathname } from "next/navigation";
 
 interface IHeaderButton {
   path: Route;
   icon: React.ReactNode;
+  selected?: boolean;
 }
 
 const Header = () => {
   const [background, setBackground] = useState(false);
+  const pathname = usePathname();
 
   const handleScroll = () => {
     if (window.scrollY > 40) {
@@ -45,10 +48,26 @@ const Header = () => {
   const headerClass = background ? "glass-dark border-none" : "bg-none";
 
   const routes: IHeaderButton[] = [
-    { path: "/", icon: <PiHandWavingFill size={20} /> },
-    { path: "/projects", icon: <MdComputer size={20} /> },
-    { path: "/about-me", icon: <FaCircleInfo size={20} /> },
-    { path: "/contact", icon: <RiContactsBook2Fill size={20} /> },
+    {
+      path: "/",
+      icon: <PiHandWavingFill size={20} />,
+      selected: pathname === "/",
+    },
+    {
+      path: "/projects",
+      icon: <MdComputer size={20} />,
+      selected: pathname === "/projects",
+    },
+    {
+      path: "/about-me",
+      icon: <FaCircleInfo size={20} />,
+      selected: pathname === "/about-me",
+    },
+    {
+      path: "/contact",
+      icon: <RiContactsBook2Fill size={20} />,
+      selected: pathname === "/contact",
+    },
   ];
 
   return (
@@ -57,7 +76,9 @@ const Header = () => {
     >
       {routes.map((route, index) => (
         <Link key={index} href={route.path}>
-          <button className="flex items-center rounded-full p-2 duration-500 hover:scale-110 hover:bg-zinc-800 active:scale-95 active:bg-zinc-900">
+          <button
+            className={`flex items-center rounded-full p-2 duration-500 hover:scale-110 hover:bg-zinc-800 active:scale-95 active:bg-zinc-900 ${route.selected && "bg-zinc-100 text-zinc-950 hover:bg-zinc-300 active:scale-95 active:bg-zinc-300"}`}
+          >
             {route.icon}
           </button>
         </Link>

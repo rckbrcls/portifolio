@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Route } from "next";
 import { IProject } from "@/interface/IProject";
 import SubTitle from "../atoms/SubTitle";
 import { techStackIcons } from "../../../public/data/techStackIcons";
@@ -54,7 +53,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
             {project?.techStack?.map((tech, index) => (
               <div
                 key={index}
-                className="md:glass-dark flex items-center gap-2 rounded-lg px-4 max-md:border max-md:border-zinc-700/30 max-md:bg-zinc-700/20"
+                className="flex items-center gap-2 rounded-lg border border-zinc-700/30 bg-zinc-950/5 px-4 backdrop-blur"
               >
                 {techStackIcons[tech as keyof typeof techStackIcons]}
                 <Text>{tech}</Text>
@@ -69,7 +68,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
             {project?.members.map((member, index) => (
               <div
                 key={index}
-                className="md:glass-dark flex items-center rounded-lg px-4 max-md:border max-md:border-zinc-700/30 max-md:bg-zinc-700/20"
+                className="flex items-center rounded-lg border border-zinc-700/30 bg-zinc-950/5 px-4 backdrop-blur"
               >
                 <Text className="text-nowrap">{member}</Text>
               </div>
@@ -81,7 +80,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
           <div className="flex gap-2">
             {project?.gitLink && (
               <a
-                className="md:glass-dark flex w-full items-center justify-center gap-2 text-nowrap rounded-lg px-6 py-2 text-xl font-black transition duration-500 hover:scale-[1.01] hover:bg-zinc-900 active:scale-95 active:bg-zinc-900 max-md:border max-md:border-zinc-700/30 max-md:bg-zinc-700/20 md:h-16"
+                className="flex w-full items-center justify-center gap-2 text-nowrap rounded-lg border border-zinc-700/30 bg-zinc-950/5 px-6 py-2 text-xl font-black backdrop-blur transition duration-500 hover:scale-[1.01] hover:bg-zinc-900 active:scale-95 active:bg-zinc-900 md:h-16"
                 href={project.gitLink}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -93,7 +92,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
             {project?.microRoute && (
               <Link
                 href={`/microfrontend/${project.slug}`}
-                className="md:glass-dark flex w-full items-center justify-center gap-2 text-nowrap rounded-lg px-6 py-2 text-xl font-black transition duration-500 hover:scale-[1.01] hover:bg-zinc-900 active:scale-95 active:bg-zinc-900 max-md:border max-md:border-zinc-700/30 max-md:bg-zinc-700/20 md:h-16"
+                className="flex w-full items-center justify-center gap-2 text-nowrap rounded-lg border border-zinc-700/30 bg-zinc-950/5 px-6 py-2 text-xl font-black backdrop-blur transition duration-500 hover:scale-[1.01] hover:bg-zinc-900 active:scale-95 active:bg-zinc-900 md:h-16"
                 onClick={() => {
                   if (typeof window !== "undefined") {
                     sessionStorage.setItem(
@@ -110,7 +109,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
             {project?.link && (
               <a
                 href={project.link}
-                className="md:glass-dark flex w-full items-center justify-center gap-2 text-nowrap rounded-lg px-6 py-2 text-xl font-black transition duration-500 hover:scale-[1.01] hover:bg-zinc-900 active:scale-95 active:bg-zinc-900 max-md:border max-md:border-zinc-700/30 max-md:bg-zinc-700/20 md:h-16"
+                className="flex w-full items-center justify-center gap-2 text-nowrap rounded-lg border border-zinc-700/30 bg-zinc-950/5 px-6 py-2 text-xl font-black backdrop-blur transition duration-500 hover:scale-[1.01] hover:bg-zinc-900 active:scale-95 active:bg-zinc-900 md:h-16"
                 target="_blank"
                 rel="noopener noreferrer"
               >

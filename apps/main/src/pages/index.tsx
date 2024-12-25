@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useMemo } from "react";
+import React, { useMemo, useRef } from "react";
 import Aurora from "@/components/molecules/Aurora";
 import Title from "@/components/atoms/Title";
 import Header from "@/components/organisms/Header";
@@ -11,21 +11,59 @@ import Link from "next/link";
 import { AiFillGithub } from "react-icons/ai";
 import { MdComputer } from "react-icons/md";
 import { Text } from "@/components/atoms/Text";
+import { motion, useInView } from "framer-motion";
+
 const MemoizedAurora = React.memo(Aurora);
 
 export default function Home() {
   const aurora = useMemo(() => <MemoizedAurora />, []);
+
+  const clientRef = useRef(null);
+  const serverRef = useRef(null);
+  const finalRef = useRef(null);
+
+  const isClientInView = useInView(clientRef, { once: true, margin: "-100px" });
+  const isServerInView = useInView(serverRef, { once: true, margin: "-100px" });
+  const isFinalInView = useInView(finalRef, { once: true, margin: "-100px" });
+
+  const leftVariants = {
+    hidden: { x: "-100vw", opacity: 0 },
+    visible: {
+      x: 0,
+      opacity: 1,
+      transition: { duration: 1.2, ease: "easeInOut" },
+    },
+  };
+
+  const rightVariants = {
+    hidden: { x: "100vw", opacity: 0 },
+    visible: {
+      x: 0,
+      opacity: 1,
+      transition: { duration: 1.2, ease: "easeInOut" },
+    },
+  };
+
+  const fadeInVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { duration: 1.2, ease: "easeOut" },
+    },
+  };
 
   return (
     <>
       <Head>
         <title>Hello! | rckbrcls</title>
       </Head>
+
       <Alert />
       <Header />
 
-      <div className="z-0 h-svh w-full md:snap-y md:snap-mandatory md:overflow-y-scroll">
-        <div className="relative flex h-svh w-full snap-center flex-col items-center justify-center p-4 text-center">
+      <div className="z-0 h-svh w-full overflow-x-hidden md:snap-y md:snap-mandatory md:overflow-y-scroll">
+        {/* Seção Inicial */}
+        <div className="relative flex h-svh snap-center flex-col items-center justify-center text-center">
           {aurora}
           <div className="relative my-4 h-2/5 w-full select-none">
             <Image
@@ -38,19 +76,35 @@ export default function Home() {
               quality={100}
             />
           </div>
-          <Title word="Hello! I'm Erick Barcelos" />
+          <Title word="Olá! I'm Erick Barcelos" />
         </div>
 
-        <div className="mx-auto max-md:w-11/12">
-          <div className="grid w-full snap-center grid-cols-2 items-center justify-center border-b border-zinc-700/40 max-md:grid-cols-1 max-md:gap-10 max-md:py-10 md:h-svh">
-            <AnimatedBeamArchitecture />
-            <div className="flex flex-col items-start justify-start gap-10 md:p-14">
+        {/* Seção de Client-Side Architecture */}
+        <div className="mx-auto w-11/12">
+          <div
+            ref={clientRef}
+            className="grid w-full snap-center grid-cols-2 items-center justify-center border-b border-zinc-700/40 max-md:grid-cols-1 max-md:gap-10 max-md:py-10 md:h-svh"
+          >
+            <motion.div
+              variants={leftVariants}
+              initial="hidden"
+              animate={isClientInView ? "visible" : "hidden"}
+            >
+              <AnimatedBeamArchitecture />
+            </motion.div>
+
+            <motion.div
+              variants={rightVariants}
+              initial="hidden"
+              animate={isClientInView ? "visible" : "hidden"}
+              className="gap-10x flex flex-col items-end justify-start"
+            >
               <Title
-                className="text-start max-md:text-center max-md:text-5xl"
+                className="text-end max-md:text-center max-md:text-5xl"
                 word="🖥️ Client-Side Architecture"
                 type="blur"
               />
-              <SubTitle className="max-md:text-center max-md:text-xl">
+              <SubTitle className="text-end max-md:text-center max-md:text-xl">
                 This portfolio serves as the client-side of my project, built
                 using a microfrontend architecture. I gathered old projects and
                 integrated them into a single main frontend. Each project is a
@@ -59,11 +113,20 @@ export default function Home() {
                 also deepened my understanding of microfrontends and modular
                 development. 🛠️
               </SubTitle>
-            </div>
+            </motion.div>
           </div>
 
-          <div className="grid w-full snap-center grid-cols-2 items-center justify-center border-b border-zinc-700/40 max-md:grid-cols-1 max-md:gap-10 max-md:py-10 md:h-svh">
-            <div className="flex flex-col items-start justify-start gap-10 md:p-14">
+          {/* Seção de Server & APIs */}
+          <div
+            ref={serverRef}
+            className="grid w-full snap-center grid-cols-2 items-center justify-center border-b border-zinc-700/40 max-md:grid-cols-1 max-md:gap-10 max-md:py-10 md:h-svh"
+          >
+            <motion.div
+              variants={leftVariants}
+              initial="hidden"
+              animate={isServerInView ? "visible" : "hidden"}
+              className="gap-10x flex flex-col items-start justify-start"
+            >
               <Title
                 className="text-start max-md:text-center max-md:text-5xl"
                 word="🔧 Server & APIs"
@@ -78,11 +141,25 @@ export default function Home() {
                 Docker, and deploying scalable APIs. It's been a rewarding and
                 practical way to learn. 🚀
               </SubTitle>
-            </div>
-            <AnimatedBeamArchitecture />
+            </motion.div>
+
+            <motion.div
+              variants={rightVariants}
+              initial="hidden"
+              animate={isServerInView ? "visible" : "hidden"}
+            >
+              <AnimatedBeamArchitecture />
+            </motion.div>
           </div>
 
-          <div className="mx-auto flex snap-center flex-col items-center justify-center gap-10 pb-20 pt-10 md:h-svh md:w-2/3">
+          {/* Seção Final */}
+          <motion.div
+            variants={fadeInVariants}
+            initial="hidden"
+            animate={isFinalInView ? "visible" : "hidden"}
+            ref={finalRef}
+            className="mx-auto flex snap-center flex-col items-center justify-center gap-10 pb-20 pt-10 md:h-svh md:w-2/3"
+          >
             <Title
               className="max-md:text-5xl"
               word="🎯 That's a Wrap!"
@@ -97,6 +174,7 @@ export default function Home() {
             <SubTitle className="text-center max-md:text-xl">
               Feel free to check out other projects while you're there! 🎬
             </SubTitle>
+
             <div className="flex w-full items-center justify-center gap-2">
               <a
                 target="_blank"
@@ -114,7 +192,7 @@ export default function Home() {
                 <Text className="max-md:hidden">Projects</Text>
               </Link>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </>

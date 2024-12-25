@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import Title from "../atoms/Title";
-import SubTitle from "../atoms/SubTitle";
+
 import FilterSection from "../molecules/FilterSection";
 import { projects } from "../../../public/data/projects/projects";
 import {
@@ -12,9 +12,9 @@ import {
   toolsAndLibraries,
 } from "../../../public/data/techStack";
 import ProjectAccordion from "../organisms/ProjectAccordion";
-import { FaArrowAltCircleDown } from "react-icons/fa";
 import { FaBroom } from "react-icons/fa6";
 import { DownButton } from "../atoms/DownButton";
+import { Text } from "../atoms/Text";
 
 // Helper types
 type TechItem<T> = { name: T; active: boolean };
@@ -94,9 +94,7 @@ export default function ProjectsList() {
             onClick={resetFilter}
           >
             <FaBroom />
-            <p className="text-nowrap text-sm font-bold max-md:text-xs">
-              Clear filter
-            </p>
+            <Text className="text-nowrap max-md:text-sm">Clear filter</Text>
           </button>
         </div>
         <DownButton />
