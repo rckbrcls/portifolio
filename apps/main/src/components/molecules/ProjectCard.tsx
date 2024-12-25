@@ -5,7 +5,7 @@ import { Route } from "next";
 import { IProject } from "@/interface/IProject";
 import SubTitle from "../atoms/SubTitle";
 import { techStackIcons } from "../../../public/data/techStackIcons";
-import Text from "@/components/atoms/Text";
+import { Text } from "@/components/atoms/Text";
 import { AiFillGithub } from "react-icons/ai";
 import { BiSolidComponent } from "react-icons/bi";
 import { FaPager } from "react-icons/fa6";

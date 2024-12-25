@@ -2,7 +2,7 @@
 import React from "react";
 import MainLayout from "@/components/MainLayout";
 import Title from "@/components/atoms/Title";
-import Text from "@/components/atoms/Text";
+import { Text } from "@/components/atoms/Text";
 import BoxGrid from "@/components/molecules/BoxGrid";
 import { FaFileDownload } from "react-icons/fa";
 import { BorderBeam } from "@/components/ui/border-beam";
@@ -19,7 +19,7 @@ export default function AboutMe() {
         <div className="flex h-svh w-full flex-col items-center justify-center gap-4 text-center">
           <div className="flex w-full flex-col items-center justify-center gap-10">
             <Title
-              className="text-8xl md:text-9xl"
+              className="md:text-9xl"
               word="About me"
               type="blur"
               gradient

@@ -20,6 +20,7 @@ const ProjectMicrofrontend: React.FC = () => {
         <title>Micro {project?.name} | rckbrcls</title>
       </Head>
       <iframe
+        loading="lazy"
         src={`${project?.microRoute ?? ""}`}
         style={{ height: "100vh", width: "100vw", border: "none" }}
         title={`${project?.name ?? "N/A"}`}

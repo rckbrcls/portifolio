@@ -65,13 +65,8 @@ export default function ProjectsList() {
 
   return (
     <div className="mx-auto flex w-11/12 flex-col items-center justify-center">
-      <div className="flex h-svh w-full flex-col items-center justify-center">
-        <Title
-          className="text-8xl md:text-9xl"
-          word="Projects"
-          type="blur"
-          gradient
-        />
+      <div className="flex w-full flex-col items-center justify-center max-md:pt-20 md:h-svh">
+        <Title className="md:text-9xl" word="Projects" type="blur" gradient />
 
         <div className="mt-10 grid w-full gap-2">
           <FilterSection
@@ -95,11 +90,13 @@ export default function ProjectsList() {
             setFilter={setToolOrLibraryFilter}
           />
           <button
-            className="glass-dark flex w-min select-none items-center gap-2 rounded-full bg-zinc-500 px-4 py-1 duration-500 hover:bg-zinc-800 active:scale-95 active:bg-zinc-800"
+            className="glass-dark flex w-min select-none items-center gap-2 rounded-full bg-zinc-500 px-4 py-0.5 duration-500 hover:bg-zinc-800 active:scale-95 active:bg-zinc-800 md:py-1"
             onClick={resetFilter}
           >
             <FaBroom />
-            <p className="text-nowrap text-sm font-bold">Clear filter</p>
+            <p className="text-nowrap text-sm font-bold max-md:text-xs">
+              Clear filter
+            </p>
           </button>
         </div>
         <DownButton />

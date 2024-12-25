@@ -52,7 +52,7 @@ export default function ProjectAccordion({ projects }: ProjectAccordionProps) {
                 <Title
                   type="blur"
                   word={status.charAt(0).toUpperCase() + status.slice(1)}
-                  className="flex items-center gap-4"
+                  className="flex items-center gap-4 max-md:text-6xl"
                 />
               </AccordionTrigger>
               <AccordionContent>

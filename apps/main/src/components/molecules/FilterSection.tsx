@@ -2,7 +2,7 @@
 
 import React from "react";
 import { techStackIcons } from "../../../public/data/techStackIcons";
-import Text from "../atoms/Text";
+import { Text } from "../atoms/Text";
 
 type TechItem<T> = { name: T; active: boolean };
 
@@ -32,7 +32,7 @@ export default function FilterSection<T>({
       {filter.map((item, index) => (
         <button
           key={item.name as string}
-          className={`glass-dark flex items-center gap-2 rounded-lg px-4 py-1 duration-500 active:scale-95 ${
+          className={`glass-dark flex items-center gap-2 rounded-lg px-4 py-0.5 duration-500 active:scale-95 md:py-1 ${
             item.active
               ? "bg-blue-500 font-bold hover:bg-blue-800 active:bg-blue-800"
               : "hover:scale-[1.01] hover:bg-zinc-800 active:bg-zinc-800"
@@ -40,10 +40,10 @@ export default function FilterSection<T>({
           onClick={() => handleSelect(index)}
         >
           {techStackIcons[item.name as keyof typeof techStackIcons]}
-          <Text>{String(item.name)}</Text>
+          <Text className="max-md:text-xs">{String(item.name)}</Text>
         </button>
       ))}
-      <hr className="my-3 w-full border-t border-zinc-700/30" />
+      <hr className="my-1 w-full border-t border-zinc-700/30 md:my-3" />
     </div>
   );
 }
