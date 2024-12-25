@@ -16,9 +16,7 @@ function Aurora({ dark = false }: IAuroraProps) {
   const position = dark ? "fixed" : "absolute";
 
   return (
-    <div
-      className={twMerge("left-0 top-0 -z-10 min-h-screen w-full", position)}
-    >
+    <div className={twMerge("left-0 top-0 -z-10 min-h-svh w-full", position)}>
       <MeshGradientRenderer
         className="h-full w-full"
         colors={palettes}
