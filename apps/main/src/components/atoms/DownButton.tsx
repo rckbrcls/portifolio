@@ -17,7 +17,7 @@ export const DownButton = () => {
   return (
     <FaArrowAltCircleDown
       size={40}
-      className="mt-10 cursor-pointer transition duration-500 hover:scale-125 max-md:hidden"
+      className="mt-10 cursor-pointer transition duration-500 hover:scale-125"
       onClick={onDownButtonClick}
     />
   );

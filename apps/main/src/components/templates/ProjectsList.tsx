@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Title from "../atoms/Title";
 
 import FilterSection from "../molecules/FilterSection";
@@ -15,6 +15,7 @@ import ProjectAccordion from "../organisms/ProjectAccordion";
 import { FaBroom } from "react-icons/fa6";
 import { DownButton } from "../atoms/DownButton";
 import { Text } from "../atoms/Text";
+import { MultiSelect } from "../ui/multi-select";
 
 // Helper types
 type TechItem<T> = { name: T; active: boolean };
@@ -23,6 +24,14 @@ type TechItem<T> = { name: T; active: boolean };
 const createTechItem = <T,>(name: T): TechItem<T> => ({ name, active: false });
 const initializeFilters = <T,>(items: T[]): TechItem<T>[] =>
   items.map(createTechItem);
+
+const frameworksList = [
+  { value: "react", label: "React", icon: FaBroom },
+  { value: "nextjs", label: "Nextjs", icon: FaBroom },
+  { value: "vue", label: "Vue", icon: FaBroom },
+  { value: "svelte", label: "Svelte", icon: FaBroom },
+  { value: "ember", label: "Ember", icon: FaBroom },
+];
 
 export default function ProjectsList() {
   const [languageFilter, setLanguageFilter] = useState(
@@ -37,6 +46,11 @@ export default function ProjectsList() {
   const [toolOrLibraryFilter, setToolOrLibraryFilter] = useState(
     initializeFilters(toolsAndLibraries),
   );
+
+  const [selectedFrameworks, setSelectedFrameworks] = useState<string[]>([
+    "nextjs",
+    "svelte",
+  ]);
 
   const resetFilter = () => {
     setLanguageFilter(initializeFilters(languages));
@@ -63,12 +77,21 @@ export default function ProjectsList() {
     );
   }, [activeFilters]);
 
-  return (
-    <div className="mx-auto flex w-11/12 flex-col items-center justify-center">
-      <div className="flex w-full flex-col items-center justify-center max-md:pt-20 md:h-svh">
-        <Title className="md:text-9xl" word="Projects" type="blur" gradient />
+  const [maxCount, setMaxCount] = useState(3);
 
-        <div className="mt-10 grid w-full gap-2">
+  useEffect(() => {
+    if (window.innerWidth < 768) {
+      setMaxCount(0);
+    } else {
+      setMaxCount(3);
+    }
+  }, []);
+
+  return (
+    <div className="mx-auto flex flex-col items-center justify-center">
+      <div className="flex w-11/12 flex-col items-center justify-center max-md:pt-20 md:h-svh">
+        <Title className="md:text-9xl" word="Projects" type="blur" gradient />
+        {/* <div className="mt-10 grid w-full gap-2">
           <FilterSection
             title="Languages"
             filter={languageFilter}
@@ -97,9 +120,46 @@ export default function ProjectsList() {
             <Text className="text-nowrap max-md:text-sm">Clear filter</Text>
           </button>
         </div>
+        <DownButton /> */}
         <DownButton />
       </div>
-      <ProjectAccordion projects={filteredProjects} />
+      <div className="max-md:scrollbar-hidden grid w-full grid-cols-2 gap-4 max-md:flex max-md:overflow-x-scroll max-md:px-4 max-md:pb-4 max-md:pt-14 md:w-11/12">
+        <MultiSelect
+          className="rounded-lg max-md:min-w-60"
+          options={frameworksList}
+          onValueChange={setSelectedFrameworks}
+          defaultValue={selectedFrameworks}
+          placeholder="Select frameworks"
+          maxCount={maxCount}
+        />
+        <MultiSelect
+          className="rounded-lg max-md:min-w-60"
+          options={frameworksList}
+          onValueChange={setSelectedFrameworks}
+          defaultValue={selectedFrameworks}
+          placeholder="Select frameworks"
+          maxCount={maxCount}
+        />
+        <MultiSelect
+          className="rounded-lg max-md:min-w-60"
+          options={frameworksList}
+          onValueChange={setSelectedFrameworks}
+          defaultValue={selectedFrameworks}
+          placeholder="Select frameworks"
+          maxCount={maxCount}
+        />
+        <MultiSelect
+          className="rounded-lg max-md:min-w-60"
+          options={frameworksList}
+          onValueChange={setSelectedFrameworks}
+          defaultValue={selectedFrameworks}
+          placeholder="Select frameworks"
+          maxCount={maxCount}
+        />
+      </div>
+      <div className="w-11/12">
+        <ProjectAccordion projects={filteredProjects} />
+      </div>
     </div>
   );
 }
