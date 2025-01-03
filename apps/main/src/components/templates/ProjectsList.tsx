@@ -16,6 +16,7 @@ import { FaBroom } from "react-icons/fa6";
 import { DownButton } from "../atoms/DownButton";
 import { Text } from "../atoms/Text";
 import { MultiSelect } from "../ui/multi-select";
+import { Label } from "../ui/label";
 
 // Helper types
 type TechItem<T> = { name: T; active: boolean };
@@ -123,39 +124,55 @@ export default function ProjectsList() {
         <DownButton /> */}
         <DownButton />
       </div>
-      <div className="max-md:scrollbar-hidden grid w-full grid-cols-2 gap-4 max-md:flex max-md:overflow-x-scroll max-md:px-4 max-md:pb-4 max-md:pt-14 md:w-11/12">
-        <MultiSelect
-          className="rounded-lg max-md:min-w-60"
-          options={frameworksList}
-          onValueChange={setSelectedFrameworks}
-          defaultValue={selectedFrameworks}
-          placeholder="Select frameworks"
-          maxCount={maxCount}
-        />
-        <MultiSelect
-          className="rounded-lg max-md:min-w-60"
-          options={frameworksList}
-          onValueChange={setSelectedFrameworks}
-          defaultValue={selectedFrameworks}
-          placeholder="Select frameworks"
-          maxCount={maxCount}
-        />
-        <MultiSelect
-          className="rounded-lg max-md:min-w-60"
-          options={frameworksList}
-          onValueChange={setSelectedFrameworks}
-          defaultValue={selectedFrameworks}
-          placeholder="Select frameworks"
-          maxCount={maxCount}
-        />
-        <MultiSelect
-          className="rounded-lg max-md:min-w-60"
-          options={frameworksList}
-          onValueChange={setSelectedFrameworks}
-          defaultValue={selectedFrameworks}
-          placeholder="Select frameworks"
-          maxCount={maxCount}
-        />
+      <div className="max-md:scrollbar-hidden grid w-full grid-cols-2 gap-2 max-md:flex max-md:overflow-x-scroll max-md:px-4 max-md:pb-4 max-md:pt-14 md:w-11/12">
+        <div>
+          <Label htmlFor="frameworks">Frameworks</Label>
+          <MultiSelect
+            id="frameworks"
+            className="min-w-60 rounded-lg"
+            options={frameworksList}
+            onValueChange={setSelectedFrameworks}
+            defaultValue={selectedFrameworks}
+            placeholder="Select frameworks"
+            maxCount={maxCount}
+          />
+        </div>
+        <div>
+          <Label htmlFor="languages">Languages</Label>
+          <MultiSelect
+            id="languages"
+            className="min-w-60 rounded-lg"
+            options={frameworksList}
+            onValueChange={setSelectedFrameworks}
+            defaultValue={selectedFrameworks}
+            placeholder="Select frameworks"
+            maxCount={maxCount}
+          />
+        </div>
+        <div>
+          <Label htmlFor="databases">Data Bases</Label>
+          <MultiSelect
+            id="databases"
+            className="min-w-60 rounded-lg"
+            options={frameworksList}
+            onValueChange={setSelectedFrameworks}
+            defaultValue={selectedFrameworks}
+            placeholder="Select frameworks"
+            maxCount={maxCount}
+          />
+        </div>
+        <div>
+          <Label htmlFor="tools">Tools</Label>
+          <MultiSelect
+            id="tools"
+            className="min-w-60 rounded-lg"
+            options={frameworksList}
+            onValueChange={setSelectedFrameworks}
+            defaultValue={selectedFrameworks}
+            placeholder="Select frameworks"
+            maxCount={maxCount}
+          />
+        </div>
       </div>
       <div className="w-11/12">
         <ProjectAccordion projects={filteredProjects} />
