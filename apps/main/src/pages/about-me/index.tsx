@@ -43,7 +43,6 @@ export default function AboutMe() {
           </div>
           <DownButton text="Learn More About Me" />
         </div>
-
         <BoxGrid />
       </div>
     </MainLayout>
