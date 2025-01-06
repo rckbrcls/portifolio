@@ -9,6 +9,7 @@ import { DownButton } from "../atoms/DownButton";
 import SubTitle from "../atoms/SubTitle";
 import { MultiSelect } from "../ui/multi-select";
 import { Label } from "../ui/label";
+
 import {
   SiReact,
   SiNextdotjs,
@@ -77,22 +78,20 @@ type FilterState = {
 
 // Estado inicial
 const initialFilterState: FilterState = {
-  frameworks: [],
-  languages: [],
-  databases: [],
-  tools: [],
+  frameworks: frameworksList.map((item) => item.value),
+  languages: languagesList.map((item) => item.value),
+  databases: databasesList.map((item) => item.value),
+  tools: toolsAndLibrariesList.map((item) => item.value),
 };
-
 export default function ProjectsList() {
   const [filters, setFilters] = useState<FilterState>(initialFilterState);
   const [maxCount, setMaxCount] = useState(3);
 
-  // Reset geral de filtros
+  // Reset geral de filtros (mantendo tudo selecionado)
   const resetFilter = () => {
     setFilters(initialFilterState);
   };
 
-  // Função genérica para atualizar filtros dinamicamente
   const handleFilterChange = (
     category: keyof FilterState,
     selected: string[],
@@ -100,40 +99,25 @@ export default function ProjectsList() {
     setFilters((prev) => ({ ...prev, [category]: selected }));
   };
 
-  // Filtragem dinâmica de projetos
   const filteredProjects = useMemo(() => {
-    if (
-      !filters.frameworks.length &&
-      !filters.languages.length &&
-      !filters.databases.length &&
-      !filters.tools.length
-    ) {
-      return projects;
-    }
-
     return projects.filter((project) => {
       return (
-        (filters.frameworks.length === 0 ||
-          project.techStack.some((tech) =>
-            filters.frameworks.includes(tech.toLowerCase()),
-          )) &&
-        (filters.languages.length === 0 ||
-          project.techStack.some((tech) =>
-            filters.languages.includes(tech.toLowerCase()),
-          )) &&
-        (filters.databases.length === 0 ||
-          project.techStack.some((tech) =>
-            filters.databases.includes(tech.toLowerCase()),
-          )) &&
-        (filters.tools.length === 0 ||
-          project.techStack.some((tech) =>
-            filters.tools.includes(tech.toLowerCase()),
-          ))
+        project.techStack.some((tech) =>
+          filters.frameworks.includes(tech.toLowerCase()),
+        ) &&
+        project.techStack.some((tech) =>
+          filters.languages.includes(tech.toLowerCase()),
+        ) &&
+        project.techStack.some((tech) =>
+          filters.databases.includes(tech.toLowerCase()),
+        ) &&
+        project.techStack.some((tech) =>
+          filters.tools.includes(tech.toLowerCase()),
+        )
       );
     });
   }, [filters]);
 
-  // Adaptação do maxCount para mobile e desktop
   useEffect(() => {
     if (window.innerWidth < 768) {
       setMaxCount(0);
@@ -154,8 +138,8 @@ export default function ProjectsList() {
       </div>
 
       {/* Seção de Filtros */}
-      <div className="max-md:scrollbar-hidden grid-cols-1s grid w-11/12 gap-2 pt-24 max-md:flex max-md:w-full max-md:overflow-x-scroll max-md:px-4 max-md:pb-4">
-        <div>
+      <div className="max-md:scrollbar-hidden grid-cols-1s grid w-11/12 gap-4 pt-24 max-md:flex max-md:w-full max-md:overflow-x-scroll max-md:px-4 max-md:pb-4">
+        <div className="flex flex-col gap-2">
           <Label htmlFor="frameworks">Frameworks</Label>
           <MultiSelect
             id="frameworks"
@@ -170,7 +154,7 @@ export default function ProjectsList() {
           />
         </div>
 
-        <div>
+        <div className="flex flex-col gap-2">
           <Label htmlFor="languages">Languages</Label>
           <MultiSelect
             id="languages"
@@ -185,7 +169,7 @@ export default function ProjectsList() {
           />
         </div>
 
-        <div>
+        <div className="flex flex-col gap-2">
           <Label htmlFor="databases">Databases</Label>
           <MultiSelect
             id="databases"
@@ -200,7 +184,7 @@ export default function ProjectsList() {
           />
         </div>
 
-        <div>
+        <div className="flex flex-col gap-2">
           <Label htmlFor="tools">Tools & Libraries</Label>
           <MultiSelect
             id="tools"
@@ -215,7 +199,7 @@ export default function ProjectsList() {
       </div>
 
       {/* Lista de Projetos Filtrados */}
-      <div className="w-11/12 md:mt-10">
+      <div className="w-11/12 md:mt-24">
         <ProjectAccordion projects={filteredProjects} />
       </div>
     </div>
