@@ -113,18 +113,9 @@ export const MultiSelect = React.forwardRef<
       React.useState<string[]>(defaultValue);
     const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
 
-    const handleInputKeyDown = (
-      event: React.KeyboardEvent<HTMLInputElement>,
-    ) => {
-      if (event.key === "Enter") {
-        setIsPopoverOpen(true);
-      } else if (event.key === "Backspace" && !event.currentTarget.value) {
-        const newSelectedValues = [...selectedValues];
-        newSelectedValues.pop();
-        setSelectedValues(newSelectedValues);
-        onValueChange(newSelectedValues);
-      }
-    };
+    React.useEffect(() => {
+      setSelectedValues(defaultValue);
+    }, [defaultValue]);
 
     const toggleOption = (option: string) => {
       const newSelectedValues = selectedValues.includes(option)
@@ -171,7 +162,7 @@ export const MultiSelect = React.forwardRef<
             {...props}
             onClick={handleTogglePopover}
             className={cn(
-              "glass-dark flex min-h-12 w-full cursor-pointer select-none items-center justify-between rounded-lg p-2",
+              "glass-dark flex h-12 w-full cursor-pointer select-none items-center justify-between rounded-lg p-2",
               className,
             )}
           >
@@ -188,7 +179,7 @@ export const MultiSelect = React.forwardRef<
                       <div
                         key={value}
                         className={cn(
-                          "glass-dark inline-flex items-center rounded-full px-4 py-0.5 font-semibold",
+                          "glass-dark inline-flex items-center rounded-full px-4 py-0.5 text-sm",
                         )}
                       >
                         {IconComponent && (
@@ -208,7 +199,7 @@ export const MultiSelect = React.forwardRef<
                   {!showall && selectedValues.length > maxCount && (
                     <div
                       className={cn(
-                        "glass-dark inline-flex items-center rounded-full px-4 py-0.5 font-semibold",
+                        "glass-dark inline-flex items-center rounded-full px-4 py-0.5 text-sm",
                       )}
                       style={{ animationDuration: `${animation}s` }}
                     >
@@ -251,15 +242,17 @@ export const MultiSelect = React.forwardRef<
           </button>
         </PopoverTrigger>
         <PopoverContent
-          className={cn("w-auto p-0", popoverClass)}
+          className={cn("w-full min-w-60 select-none p-0", popoverClass)}
           align="start"
+          side="bottom"
           onEscapeKeyDown={() => setIsPopoverOpen(false)}
         >
           <Command>
-            <CommandInput
+            {/* <CommandInput
               placeholder="Search..."
               onKeyDown={handleInputKeyDown}
-            />
+              autoFocus={false}
+            /> */}
             <CommandList>
               <CommandEmpty>No results found.</CommandEmpty>
               <CommandGroup>

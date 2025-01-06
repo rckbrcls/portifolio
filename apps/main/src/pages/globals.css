@@ -16,7 +16,7 @@ body {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 /* Track */
@@ -42,6 +42,17 @@ body {
     -webkit-backdrop-filter: blur(10px);
     border-color: rgba(121, 121, 121, 0.1);
     border-width: 1px;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hidden {
+    -ms-overflow-style: none; /* Esconde scrollbar no IE e Edge */
+    scrollbar-width: none; /* Esconde scrollbar no Firefox */
   }
 }
 
