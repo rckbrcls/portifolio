@@ -100,23 +100,52 @@ export default function ProjectsList() {
   };
 
   const filteredProjects = useMemo(() => {
+    // Verifica se todas as listas de filtros estão vazias
+    const noFiltersSelected =
+      filters.frameworks.length === 0 &&
+      filters.languages.length === 0 &&
+      filters.databases.length === 0 &&
+      filters.tools.length === 0;
+
+    // Se nenhum filtro estiver selecionado, retorne uma lista vazia
+    if (noFiltersSelected) {
+      return [];
+    }
+
+    // Filtragem que considera apenas as categorias ativas
     return projects.filter((project) => {
-      return (
-        project.techStack.some((tech) =>
-          filters.frameworks.includes(tech.toLowerCase()),
-        ) &&
-        project.techStack.some((tech) =>
-          filters.languages.includes(tech.toLowerCase()),
-        ) &&
-        project.techStack.some((tech) =>
-          filters.databases.includes(tech.toLowerCase()),
-        ) &&
-        project.techStack.some((tech) =>
-          filters.tools.includes(tech.toLowerCase()),
-        )
-      );
+      const matchFrameworks =
+        filters.frameworks.length === 0
+          ? true
+          : project.techStack.some((tech) =>
+              filters.frameworks.includes(tech.toLowerCase()),
+            );
+
+      const matchLanguages =
+        filters.languages.length === 0
+          ? true
+          : project.techStack.some((tech) =>
+              filters.languages.includes(tech.toLowerCase()),
+            );
+
+      const matchDatabases =
+        filters.databases.length === 0
+          ? true
+          : project.techStack.some((tech) =>
+              filters.databases.includes(tech.toLowerCase()),
+            );
+
+      const matchTools =
+        filters.tools.length === 0
+          ? true
+          : project.techStack.some((tech) =>
+              filters.tools.includes(tech.toLowerCase()),
+            );
+
+      // O projeto deve corresponder a TODAS as categorias ativas
+      return matchFrameworks && matchLanguages && matchDatabases && matchTools;
     });
-  }, [filters]);
+  }, [filters, projects]);
 
   useEffect(() => {
     if (window.innerWidth < 768) {

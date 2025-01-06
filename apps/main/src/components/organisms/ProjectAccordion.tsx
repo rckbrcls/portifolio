@@ -28,7 +28,9 @@ export const iconsGroup: Record<string, React.ReactNode> = {
 export default function ProjectAccordion({ projects }: ProjectAccordionProps) {
   const groupedProjects = projects.reduce<Record<string, IProject[]>>(
     (acc, project) => {
-      acc[project.status as keyof typeof acc].push(project);
+      const status = project.status || "other";
+      if (!acc[status]) acc[status] = [];
+      acc[status].push(project);
       return acc;
     },
     { finished: [], working: [], designing: [] },
