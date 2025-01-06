@@ -17,6 +17,7 @@ import { DownButton } from "../atoms/DownButton";
 import { Text } from "../atoms/Text";
 import { MultiSelect } from "../ui/multi-select";
 import { Label } from "../ui/label";
+import SubTitle from "../atoms/SubTitle";
 
 // Helper types
 type TechItem<T> = { name: T; active: boolean };
@@ -90,41 +91,15 @@ export default function ProjectsList() {
 
   return (
     <div className="mx-auto flex flex-col items-center justify-center">
-      <div className="flex w-11/12 flex-col items-center justify-center max-md:pt-20 md:h-svh">
+      <div className="flex h-svh w-11/12 flex-col items-center justify-center gap-4 md:w-2/3">
         <Title className="md:text-9xl" word="Projects" type="blur" gradient />
-        {/* <div className="mt-10 grid w-full gap-2">
-          <FilterSection
-            title="Languages"
-            filter={languageFilter}
-            setFilter={setLanguageFilter}
-          />
-          <FilterSection
-            title="Frameworks"
-            filter={frameworkFilter}
-            setFilter={setFrameworkFilter}
-          />
-          <FilterSection
-            title="Databases"
-            filter={databaseFilter}
-            setFilter={setDatabaseFilter}
-          />
-          <FilterSection
-            title="Tools & Libraries"
-            filter={toolOrLibraryFilter}
-            setFilter={setToolOrLibraryFilter}
-          />
-          <button
-            className="glass-dark flex w-min select-none items-center gap-2 rounded-full bg-zinc-500 px-4 py-0.5 duration-500 hover:bg-zinc-800 active:scale-95 active:bg-zinc-800 md:py-1"
-            onClick={resetFilter}
-          >
-            <FaBroom />
-            <Text className="text-nowrap max-md:text-sm">Clear filter</Text>
-          </button>
-        </div>
-        <DownButton /> */}
-        <DownButton />
+        <SubTitle className="text-center max-md:text-xl">
+          Here you can explore some of my personal, professional, and academic
+          projects. You can filter them by the technologies used in each one.
+        </SubTitle>
+        <DownButton text="See my projects" />
       </div>
-      <div className="max-md:scrollbar-hidden grid w-full grid-cols-2 gap-2 max-md:flex max-md:overflow-x-scroll max-md:px-4 max-md:pb-4 max-md:pt-14 md:w-11/12">
+      <div className="max-md:scrollbar-hidden grid w-full grid-cols-2 gap-2 pt-24 max-md:flex max-md:overflow-x-scroll max-md:px-4 max-md:pb-4 md:w-11/12">
         <div>
           <Label htmlFor="frameworks">Frameworks</Label>
           <MultiSelect
@@ -174,7 +149,7 @@ export default function ProjectsList() {
           />
         </div>
       </div>
-      <div className="w-11/12">
+      <div className="mt-20 w-11/12">
         <ProjectAccordion projects={filteredProjects} />
       </div>
     </div>

@@ -20,18 +20,18 @@ export default function AboutMe() {
           <div className="flex w-full flex-col items-center justify-center gap-10">
             <Title
               className="md:text-9xl"
-              word="About me"
+              word="About Me"
               type="blur"
               gradient
             />
             <a
-              className="glass-dark flex h-16 w-full items-center justify-center gap-2 text-nowrap rounded-lg px-6 py-2 text-xl font-black transition duration-700 hover:scale-[1.01] hover:bg-zinc-800 active:scale-95 active:bg-zinc-800 md:w-1/4"
+              className="glass-dark flex h-16 w-full items-center justify-center gap-2 text-nowrap rounded-lg px-6 py-2 font-black transition duration-700 hover:scale-[1.01] hover:bg-zinc-800 active:scale-95 active:bg-zinc-800 md:w-1/4"
               href="/files/Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
             >
               <FaFileDownload size={30} />
-              <Text>Resume</Text>
+              <Text>Download Resume</Text>
               <BorderBeam
                 size={100}
                 duration={5}
@@ -41,7 +41,7 @@ export default function AboutMe() {
               />
             </a>
           </div>
-          <DownButton />
+          <DownButton text="Learn More About Me" />
         </div>
 
         <BoxGrid />
