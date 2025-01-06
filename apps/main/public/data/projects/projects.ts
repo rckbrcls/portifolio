@@ -1,5 +1,4 @@
 import { IProject } from "@/interface/IProject";
-import { tripperVisualization } from "./tripperVisualization";
 
 export const projects: IProject[] = [
   {
@@ -12,7 +11,6 @@ export const projects: IProject[] = [
     timeline: null,
     gitLink: "https://github.com/polterware/tripper",
     members: ["Erick Barcelos"],
-    projectVisualization: tripperVisualization,
     coverImage: "/images/projects/tripper/splashScreen.png",
     status: "working",
   },
@@ -77,7 +75,7 @@ export const projects: IProject[] = [
     techStack: ["React", "JavaScript", "MongoDB", "Node.js", "Webpack"],
     timeline: null,
     gitLink:
-      "https://github.com/brcls/portifolio-monorepo/tree/main/apps/joystick-client",
+      "https://github.com/brcls/portifolio-monorepo/tree/main/apps/joystick",
     members: ["Erick Barcelos"],
     microRoute: process.env.NEXT_PUBLIC_JOYSTICK_URL as string,
     coverImage: "/images/projects/joystick/home.png",
@@ -92,7 +90,7 @@ export const projects: IProject[] = [
     techStack: ["React", "JavaScript", "MongoDB", "Node.js", "Webpack"],
     timeline: null,
     gitLink:
-      "https://github.com/brcls/portifolio-monorepo/tree/main/apps/secret-santa-client",
+      "https://github.com/brcls/portifolio-monorepo/tree/main/apps/secret-santa",
     members: ["Erick Barcelos"],
     microRoute: process.env.NEXT_PUBLIC_SECRET_SANTA_URL as string,
     coverImage: "/images/projects/secret-santa/home.png",
@@ -130,7 +128,7 @@ export const projects: IProject[] = [
     ],
     timeline: null,
     gitLink:
-      "https://github.com/brcls/portifolio-monorepo/tree/main/apps/electoral-system-client",
+      "https://github.com/brcls/portifolio-monorepo/tree/main/apps/electoral-system",
     members: ["Erick Barcelos"],
     microRoute: process.env.NEXT_PUBLIC_ELECTORAL_SYSTEM_URL as string,
     coverImage: "/images/projects/electoral-system/home.png",
