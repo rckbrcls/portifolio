@@ -8,7 +8,7 @@ const Alert = () => {
 
   useEffect(() => {
     const alert = sessionStorage.getItem("alert");
-    if (alert) setShowAlert(!alert);
+    setShowAlert(!alert);
   }, []);
 
   const handleClose = () => {

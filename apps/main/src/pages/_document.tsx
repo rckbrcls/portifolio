@@ -1,10 +1,11 @@
-import Aurora from "@/components/molecules/Aurora";
 import { Html, Head, Main, NextScript } from "next/document";
 
 export default function Document() {
   return (
     <Html lang="en">
-      <Head />
+      <Head>
+        <link rel="icon" href="/images/assets/ico.png" />
+      </Head>
       <body>
         <Main />
         <NextScript />
