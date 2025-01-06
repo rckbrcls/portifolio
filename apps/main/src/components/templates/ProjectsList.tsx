@@ -2,13 +2,12 @@
 
 import React, { useState, useMemo, useEffect } from "react";
 import Title from "../atoms/Title";
-import FilterSection from "../molecules/FilterSection";
-import { projects } from "../../../public/data/projects/projects";
-import ProjectAccordion from "../organisms/ProjectAccordion";
-import { DownButton } from "../atoms/DownButton";
 import SubTitle from "../atoms/SubTitle";
+import { DownButton } from "../atoms/DownButton";
 import { MultiSelect } from "../ui/multi-select";
 import { Label } from "../ui/label";
+import FilterSection from "../molecules/FilterSection";
+import ProjectAccordion from "../organisms/ProjectAccordion";
 
 import {
   SiReact,
@@ -34,6 +33,9 @@ import {
   SiDeno,
 } from "react-icons/si";
 
+import { projects } from "../../../public/data/projects/projects";
+
+// Definições de opções para cada categoria
 const frameworksList = [
   { value: "react", label: "React", icon: SiReact },
   { value: "react-native", label: "React Native", icon: SiReact },
@@ -76,22 +78,24 @@ type FilterState = {
   tools: string[];
 };
 
-// Estado inicial
+// Estado inicial (tudo vazio)
 const initialFilterState: FilterState = {
-  frameworks: frameworksList.map((item) => item.value),
-  languages: languagesList.map((item) => item.value),
-  databases: databasesList.map((item) => item.value),
-  tools: toolsAndLibrariesList.map((item) => item.value),
+  frameworks: [],
+  languages: [],
+  databases: [],
+  tools: [],
 };
+
 export default function ProjectsList() {
   const [filters, setFilters] = useState<FilterState>(initialFilterState);
   const [maxCount, setMaxCount] = useState(3);
 
-  // Reset geral de filtros (mantendo tudo selecionado)
+  // Função de reset de filtros (torna tudo vazio)
   const resetFilter = () => {
     setFilters(initialFilterState);
   };
 
+  // Handler genérico para atualizar um tipo de filtro
   const handleFilterChange = (
     category: keyof FilterState,
     selected: string[],
@@ -99,57 +103,37 @@ export default function ProjectsList() {
     setFilters((prev) => ({ ...prev, [category]: selected }));
   };
 
-  const filteredProjects = useMemo(() => {
-    // Verifica se todas as listas de filtros estão vazias
-    const noFiltersSelected =
-      filters.frameworks.length === 0 &&
-      filters.languages.length === 0 &&
-      filters.databases.length === 0 &&
-      filters.tools.length === 0;
+  // Converte as seleções do usuário em um único array de tecnologias ativas
+  const activeFilters = useMemo(() => {
+    return [
+      ...filters.frameworks,
+      ...filters.languages,
+      ...filters.databases,
+      ...filters.tools,
+    ];
+  }, [filters]);
 
-    // Se nenhum filtro estiver selecionado, retorne uma lista vazia
-    if (noFiltersSelected) {
-      return [];
+  // Lógica de filtragem
+  const filteredProjects = useMemo(() => {
+    // Se não houver nenhum filtro selecionado, retorne todos os projetos
+    if (activeFilters.length === 0) {
+      return projects;
     }
 
-    // Filtragem que considera apenas as categorias ativas
+    // Caso existam filtros selecionados, retornamos projetos que tenham
+    // pelo menos um dos filtros no techStack (lógica de OR).
     return projects.filter((project) => {
-      const matchFrameworks =
-        filters.frameworks.length === 0
-          ? true
-          : project.techStack.some((tech) =>
-              filters.frameworks.includes(tech.toLowerCase()),
-            );
-
-      const matchLanguages =
-        filters.languages.length === 0
-          ? true
-          : project.techStack.some((tech) =>
-              filters.languages.includes(tech.toLowerCase()),
-            );
-
-      const matchDatabases =
-        filters.databases.length === 0
-          ? true
-          : project.techStack.some((tech) =>
-              filters.databases.includes(tech.toLowerCase()),
-            );
-
-      const matchTools =
-        filters.tools.length === 0
-          ? true
-          : project.techStack.some((tech) =>
-              filters.tools.includes(tech.toLowerCase()),
-            );
-
-      // O projeto deve corresponder a TODAS as categorias ativas
-      return matchFrameworks && matchLanguages && matchDatabases && matchTools;
+      // Normaliza o techStack do projeto para letras minúsculas
+      const lowerTechs = project.techStack.map((t) => t.toLowerCase());
+      // Verifica se pelo menos uma das techs selecionadas está presente
+      return lowerTechs.some((tech) => activeFilters.includes(tech));
     });
-  }, [filters, projects]);
+  }, [activeFilters]);
 
+  // Ajuste do maxCount conforme a largura de tela
   useEffect(() => {
     if (window.innerWidth < 768) {
-      setMaxCount(0);
+      setMaxCount(0); // exibe todas as opções no dropdown sem resumo
     } else {
       setMaxCount(6);
     }
@@ -214,7 +198,7 @@ export default function ProjectsList() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <Label htmlFor="tools">Tools & Libraries</Label>
+          <Label htmlFor="tools">Tools &amp; Libraries</Label>
           <MultiSelect
             id="tools"
             className="min-w-60 rounded-lg"
@@ -225,6 +209,12 @@ export default function ProjectsList() {
             maxCount={maxCount}
           />
         </div>
+        <button
+          onClick={resetFilter}
+          className="glass-dark inline-flex items-center rounded-full px-4 py-0.5 text-sm"
+        >
+          reset filter
+        </button>
       </div>
 
       {/* Lista de Projetos Filtrados */}

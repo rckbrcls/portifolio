@@ -23,10 +23,10 @@ export const DownButton = ({ text }: IProps) => {
   return (
     <button
       onClick={onDownButtonClick}
-      className="glass-dark flex h-16 w-full items-center justify-center gap-2 text-nowrap rounded-lg px-6 py-2 font-black transition duration-700 hover:scale-[1.01] hover:bg-zinc-800 active:scale-95 active:bg-zinc-800 md:w-1/4"
+      className="glass-dark absolute bottom-4 z-20 flex w-min items-center justify-center gap-2 text-nowrap rounded-lg px-6 py-2 transition duration-700 hover:scale-[1.01] hover:bg-zinc-800 active:scale-95 active:bg-zinc-800"
     >
       <ChevronDown />
-      <Text>{text}</Text>
+      <Text className="font-semibold md:text-sm">{text}</Text>
     </button>
   );
 };
