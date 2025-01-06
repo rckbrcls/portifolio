@@ -135,7 +135,7 @@ export default function ProjectsList() {
     if (window.innerWidth < 768) {
       setMaxCount(0); // exibe todas as opções no dropdown sem resumo
     } else {
-      setMaxCount(6);
+      setMaxCount(8);
     }
   }, []);
 
@@ -151,7 +151,7 @@ export default function ProjectsList() {
       </div>
 
       {/* Seção de Filtros */}
-      <div className="max-md:scrollbar-hidden grid-cols-1s grid w-11/12 gap-4 pt-24 max-md:flex max-md:w-full max-md:overflow-x-scroll max-md:px-4 max-md:pb-4">
+      <div className="max-md:scrollbar-hidden flex w-11/12 gap-4 pt-24 max-md:w-full max-md:items-end max-md:overflow-x-scroll max-md:px-4 max-md:pb-4 md:flex-col">
         <div className="flex flex-col gap-2">
           <Label htmlFor="frameworks">Frameworks</Label>
           <MultiSelect
@@ -211,7 +211,7 @@ export default function ProjectsList() {
         </div>
         <button
           onClick={resetFilter}
-          className="glass-dark inline-flex items-center rounded-full px-4 py-0.5 text-sm"
+          className="glass-dark flex h-12 w-min items-center justify-center gap-2 text-nowrap rounded-lg px-6 py-2 transition duration-700 hover:scale-[1.01] hover:bg-zinc-800 active:scale-95 active:bg-zinc-800"
         >
           reset filter
         </button>

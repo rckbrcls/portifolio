@@ -26,7 +26,7 @@ export const DownButton = ({ text }: IProps) => {
       className="glass-dark absolute bottom-4 z-20 flex w-min items-center justify-center gap-2 text-nowrap rounded-lg px-6 py-2 transition duration-700 hover:scale-[1.01] hover:bg-zinc-800 active:scale-95 active:bg-zinc-800"
     >
       <ChevronDown />
-      <Text className="font-semibold md:text-sm">{text}</Text>
+      <Text className="text-xs font-semibold md:text-sm">{text}</Text>
     </button>
   );
 };
