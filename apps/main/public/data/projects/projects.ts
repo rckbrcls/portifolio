@@ -175,7 +175,7 @@ export const projects: IProject[] = [
      and services, customize avatars, earn rewards, and engage with the 
      community. Developed with Flutter, Deno and Go.`,
     name: "Barter",
-    techStack: ["Flutter", "Deno", "Go"],
+    techStack: ["Flutter", "Dart", "Deno", "Go"],
     timeline: null,
     gitLink: "https://github.com/polterware/barter",
     members: ["Erick Barcelos"],

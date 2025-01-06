@@ -39,10 +39,10 @@ import { projects } from "../../../public/data/projects/projects";
 const frameworksList = [
   { value: "react", label: "React", icon: SiReact },
   { value: "react-native", label: "React Native", icon: SiReact },
-  { value: "nextjs", label: "Next.js", icon: SiNextdotjs },
+  { value: "next.js", label: "Next.js", icon: SiNextdotjs },
   { value: "flutter", label: "Flutter", icon: SiFlutter },
   { value: "express", label: "Express", icon: SiExpress },
-  { value: "solidjs", label: "Solid.js", icon: SiSolid },
+  { value: "solid.js", label: "Solid.js", icon: SiSolid },
   { value: "flask", label: "Flask", icon: SiFlask },
   { value: "swift", label: "Swift", icon: SiSwift },
   { value: "svelte", label: "Svelte", icon: SiSvelte },
@@ -64,7 +64,7 @@ const databasesList = [
 
 const toolsAndLibrariesList = [
   { value: "tailwind", label: "Tailwind", icon: SiTailwindcss },
-  { value: "nodejs", label: "Node.js", icon: SiNodedotjs },
+  { value: "node.js", label: "Node.js", icon: SiNodedotjs },
   { value: "webpack", label: "Webpack", icon: SiWebpack },
   { value: "bun", label: "Bun", icon: SiBun },
   { value: "deno", label: "Deno", icon: SiDeno },
@@ -100,6 +100,7 @@ export default function ProjectsList() {
     category: keyof FilterState,
     selected: string[],
   ) => {
+    console.log(filters, selected);
     setFilters((prev) => ({ ...prev, [category]: selected }));
   };
 
@@ -120,11 +121,17 @@ export default function ProjectsList() {
       return projects;
     }
 
+    console.log(activeFilters);
+
     // Caso existam filtros selecionados, retornamos projetos que tenham
     // pelo menos um dos filtros no techStack (lógica de OR).
     return projects.filter((project) => {
       // Normaliza o techStack do projeto para letras minúsculas
-      const lowerTechs = project.techStack.map((t) => t.toLowerCase());
+      const lowerTechs = project.techStack.map((t) =>
+        t.toLowerCase().replace(/\s+/g, "-"),
+      );
+
+      console.log(lowerTechs);
       // Verifica se pelo menos uma das techs selecionadas está presente
       return lowerTechs.some((tech) => activeFilters.includes(tech));
     });
