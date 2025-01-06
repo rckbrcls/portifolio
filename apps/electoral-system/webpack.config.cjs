@@ -29,7 +29,7 @@ module.exports = (env, argv) => {
     output: {
       publicPath: isProduction ? "/" : "http://localhost:3006/",
       path: path.resolve(__dirname, "dist"),
-      filename: "bundle.js",
+      filename: isProduction ? "[name].[contenthash].js" : "bundle.js",
     },
     resolve: {
       extensions: ["*", ".ts", ".tsx", ".js", ".jsx"],
