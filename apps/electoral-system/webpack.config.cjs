@@ -120,18 +120,6 @@ module.exports = (env, argv) => {
           "./App": "./src/App",
         },
       }),
-      new webpack.DefinePlugin({
-        "process.env.NODE_ENV": JSON.stringify(argv.mode),
-      }),
     ],
-    cache: {
-      type: "filesystem",
-    },
-    optimization: {
-      splitChunks: {
-        chunks: "all",
-      },
-      runtimeChunk: "single",
-    },
   };
 };
