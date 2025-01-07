@@ -103,7 +103,7 @@ export default function Home() {
                 word="🖥️ Client-Side Architecture"
                 type="blur"
               />
-              <Text className="text-end text-lg font-bold max-md:text-center md:text-2xl">
+              <Text className="text-end text-xl font-bold max-md:text-center md:text-3xl">
                 This portfolio serves as the client-side of my project, built
                 using a microfrontend architecture. I gathered old projects and
                 integrated them into a single main frontend. Each project is a
@@ -131,7 +131,7 @@ export default function Home() {
                 word="🔧 Server & APIs"
                 type="blur"
               />
-              <Text className="text-lg font-bold max-md:text-center md:text-2xl">
+              <Text className="text-xl font-bold max-md:text-center md:text-3xl">
                 The backend for this portfolio runs on my personal server 💻,
                 which I set up using an old computer I had at home. It hosts the
                 APIs for each microfrontend project, handling data,
@@ -164,13 +164,13 @@ export default function Home() {
               word="🎯 That's a Wrap!"
               type="blur"
             />
-            <Text className="text-center text-lg font-bold md:text-2xl">
+            <Text className="text-center text-xl font-bold md:text-3xl">
               The entire project, from frontend to backend, reflects my journey
               of learning and building. You can explore the all project code on
               my GitHub.
             </Text>
 
-            <Text className="text-center text-lg font-bold md:text-2xl">
+            <Text className="text-center text-xl font-bold md:text-3xl">
               Feel free to check out other projects while you're there! 🎬
             </Text>
 

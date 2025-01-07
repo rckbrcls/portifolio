@@ -62,7 +62,9 @@ const BoxGrid = memo(() => {
 
           {text && (
             <div className="absolute -bottom-2 w-full bg-gradient-to-t from-black via-zinc-950/85 to-transparent p-10 pb-12 transition duration-500 group-hover:-translate-y-2 max-md:p-5 max-md:pb-7">
-              <SubTitle className="text-left max-md:text-xl">{text}</SubTitle>
+              <SubTitle className="text-left max-md:text-xl md:text-3xl">
+                {text}
+              </SubTitle>
             </div>
           )}
         </div>
