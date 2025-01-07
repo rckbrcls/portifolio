@@ -6,7 +6,6 @@ import Header from "@/components/organisms/Header";
 import Alert from "@/components/molecules/Alert";
 import Head from "next/head";
 import { AnimatedBeamArchitecture } from "@/components/organisms/AnimatedBeam";
-import SubTitle from "@/components/atoms/SubTitle";
 import Link from "next/link";
 import { AiFillGithub } from "react-icons/ai";
 import { MdComputer } from "react-icons/md";
@@ -97,14 +96,14 @@ export default function Home() {
               variants={rightVariants}
               initial="hidden"
               animate={isClientInView ? "visible" : "hidden"}
-              className="gap-10x flex flex-col items-end justify-start"
+              className="flex flex-col items-end justify-start gap-10"
             >
               <Title
                 className="text-end max-md:text-center max-md:text-5xl"
                 word="🖥️ Client-Side Architecture"
                 type="blur"
               />
-              <SubTitle className="text-end max-md:text-center max-md:text-xl">
+              <Text className="text-end text-lg font-bold max-md:text-center md:text-2xl">
                 This portfolio serves as the client-side of my project, built
                 using a microfrontend architecture. I gathered old projects and
                 integrated them into a single main frontend. Each project is a
@@ -112,7 +111,7 @@ export default function Home() {
                 server. This approach not only helped me revisit past work but
                 also deepened my understanding of microfrontends and modular
                 development. 🛠️
-              </SubTitle>
+              </Text>
             </motion.div>
           </div>
 
@@ -125,14 +124,14 @@ export default function Home() {
               variants={leftVariants}
               initial="hidden"
               animate={isServerInView ? "visible" : "hidden"}
-              className="gap-10x flex flex-col items-start justify-start"
+              className="flex flex-col items-start justify-start gap-10"
             >
               <Title
                 className="text-start max-md:text-center max-md:text-5xl"
                 word="🔧 Server & APIs"
                 type="blur"
               />
-              <SubTitle className="max-md:text-center max-md:text-xl">
+              <Text className="text-lg font-bold max-md:text-center md:text-2xl">
                 The backend for this portfolio runs on my personal server 💻,
                 which I set up using an old computer I had at home. It hosts the
                 APIs for each microfrontend project, handling data,
@@ -140,7 +139,7 @@ export default function Home() {
                 experience taught me a lot about server management, Linux,
                 Docker, and deploying scalable APIs. It's been a rewarding and
                 practical way to learn. 🚀
-              </SubTitle>
+              </Text>
             </motion.div>
 
             <motion.div
@@ -165,15 +164,15 @@ export default function Home() {
               word="🎯 That's a Wrap!"
               type="blur"
             />
-            <SubTitle className="text-center max-md:text-xl">
+            <Text className="text-center text-lg font-bold md:text-2xl">
               The entire project, from frontend to backend, reflects my journey
               of learning and building. You can explore the all project code on
               my GitHub.
-            </SubTitle>
+            </Text>
 
-            <SubTitle className="text-center max-md:text-xl">
+            <Text className="text-center text-lg font-bold md:text-2xl">
               Feel free to check out other projects while you're there! 🎬
-            </SubTitle>
+            </Text>
 
             <div className="flex w-full items-center justify-center gap-2">
               <a
