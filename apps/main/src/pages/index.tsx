@@ -60,7 +60,7 @@ export default function Home() {
       <Alert />
       <Header />
 
-      <div className="z-0 h-svh w-full overflow-x-hidden md:snap-y md:snap-mandatory md:overflow-y-scroll">
+      <div className="z-0 h-svh w-full overflow-x-hidden md:snap-y md:snap-mandatory md:snap-center md:snap-normal md:overflow-y-scroll">
         {/* Seção Inicial */}
         <div className="relative flex h-svh snap-center flex-col items-center justify-center text-center">
           {aurora}
