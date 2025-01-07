@@ -99,7 +99,7 @@ module.exports = (env, argv) => {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        title: "Video Manager",
+        title: "Secret Santa",
         filename: "index.html",
         templateContent: `
           <!DOCTYPE html>
@@ -107,7 +107,7 @@ module.exports = (env, argv) => {
             <head>
               <meta charset="UTF-8">
               <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>Video Manager</title>
+              <title>Secret Santa</title>
             </head>
             <body>
               <div id="root"></div>
