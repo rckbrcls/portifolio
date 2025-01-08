@@ -1,6 +1,9 @@
 const path = require("path");
+const webpack = require("webpack");
 const ModuleFederationPlugin =
   require("webpack").container.ModuleFederationPlugin;
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === "production";
@@ -24,18 +27,23 @@ module.exports = (env, argv) => {
       historyApiFallback: true,
     },
     output: {
-      publicPath: "http://localhost:3003/",
+      publicPath: "/",
       path: path.resolve(__dirname, "dist"),
-      filename: "bundle.js",
+      filename: isProduction ? "[name].[contenthash].js" : "bundle.js",
     },
     resolve: {
-      extensions: [".tsx", ".ts", ".js", ".jsx"],
+      extensions: [".ts", ".tsx", ".js", ".jsx"],
+      extensionAlias: {
+        ".js": [".js", ".ts"],
+        ".cjs": [".cjs", ".cts"],
+        ".mjs": [".mjs", ".mts"],
+      },
     },
     module: {
       rules: [
         {
           test: /\.css$/i,
-          use: ["style-loader", "css-loader"],
+          use: [MiniCssExtractPlugin.loader, "style-loader", "css-loader"],
         },
         {
           test: /\.(png|jpg|gif|svg)$/i,
@@ -62,25 +70,63 @@ module.exports = (env, argv) => {
             },
           },
         },
+        {
+          test: /\.([cm]?ts|tsx)$/,
+          exclude: /node_modules/,
+          use: {
+            loader: "ts-loader",
+            options: {
+              transpileOnly: true,
+            },
+          },
+        },
+        {
+          test: /\.(png|jpg|gif|jpeg)$/i,
+          type: "asset/resource",
+        },
+        {
+          test: /\.svg$/i,
+          type: "asset",
+          resourceQuery: /url/,
+        },
+        {
+          test: /\.svg$/i,
+          issuer: /\.[jt]sx?$/,
+          resourceQuery: { not: [/url/] },
+          use: ["@svgr/webpack"],
+        },
       ],
     },
     plugins: [
+      new HtmlWebpackPlugin({
+        title: "Secret Santa",
+        filename: "index.html",
+        templateContent: `
+          <!DOCTYPE html>
+          <html lang="en">
+            <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Secret Santa</title>
+            </head>
+            <body>
+              <div id="root"></div>
+            </body>
+          </html>
+        `,
+      }),
+      new MiniCssExtractPlugin({
+        filename: "[name].[contenthash].css",
+      }),
+      new webpack.DefinePlugin({
+        "process.env": JSON.stringify(process.env),
+      }),
       new ModuleFederationPlugin({
         name: "secret_santa",
         library: { type: "var", name: "secret_santa" },
         filename: "remoteEntry.js",
         exposes: {
           "./App": "./src/App",
-        },
-        shared: {
-          react: {
-            singleton: true,
-            requiredVersion: "^18.2.0",
-          },
-          "react-dom": {
-            singleton: true,
-            requiredVersion: "^18.2.0",
-          },
         },
       }),
     ],

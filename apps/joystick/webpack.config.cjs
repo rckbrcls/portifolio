@@ -1,7 +1,9 @@
 const path = require("path");
+const webpack = require("webpack");
 const ModuleFederationPlugin =
   require("webpack").container.ModuleFederationPlugin;
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === "production";
@@ -18,44 +20,30 @@ module.exports = (env, argv) => {
           "X-Requested-With, content-type, Authorization",
       },
       static: {
-        directory: path.join(__dirname, "public"), // Servir arquivos estáticos da pasta "public"
-        watch: true, // Assistir mudanças nos arquivos estáticos
+        directory: path.join(__dirname, "dist"),
       },
       port: 3004,
       hot: true,
-      historyApiFallback: {
-        disableDotRule: true,
-        index: "/",
-      },
-      allowedHosts: "all",
-      server: {
-        type: "http", // Pode usar "https" se necessário, e configurar com certificados
-        options: {
-          key: path.resolve(__dirname, "certs/server.key"),
-          cert: path.resolve(__dirname, "certs/server.crt"),
-          // Isso se aplica somente se você estiver usando HTTPS e tiver os certificados
-        },
-      },
-      client: {
-        overlay: {
-          errors: true, // Exibir overlay de erros no navegador
-          warnings: false, // Ignorar avisos
-        },
-      },
+      historyApiFallback: true,
     },
     output: {
       publicPath: "/",
       path: path.resolve(__dirname, "dist"),
-      filename: "bundle.js",
+      filename: isProduction ? "[name].[contenthash].js" : "bundle.js",
     },
     resolve: {
       extensions: [".js", ".jsx"],
+      extensionAlias: {
+        ".js": [".js", ".ts"],
+        ".cjs": [".cjs", ".cts"],
+        ".mjs": [".mjs", ".mts"],
+      },
     },
     module: {
       rules: [
         {
           test: /\.css$/i,
-          use: ["style-loader", "css-loader"],
+          use: [MiniCssExtractPlugin.loader, "style-loader", "css-loader"],
         },
         {
           test: /\.(png|gif|svg|jpe?g|webp)$/i,
@@ -78,9 +66,47 @@ module.exports = (env, argv) => {
             },
           },
         },
+        {
+          test: /\.(png|jpg|gif|jpeg)$/i,
+          type: "asset/resource",
+        },
+        {
+          test: /\.svg$/i,
+          type: "asset",
+          resourceQuery: /url/,
+        },
+        {
+          test: /\.svg$/i,
+          issuer: /\.[jt]sx?$/,
+          resourceQuery: { not: [/url/] },
+          use: ["@svgr/webpack"],
+        },
       ],
     },
     plugins: [
+      new HtmlWebpackPlugin({
+        title: "JoyStick",
+        filename: "index.html",
+        templateContent: `
+          <!DOCTYPE html>
+          <html lang="en">
+            <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>JoyStick</title>
+            </head>
+            <body>
+              <div id="root"></div>
+            </body>
+          </html>
+        `,
+      }),
+      new MiniCssExtractPlugin({
+        filename: "[name].[contenthash].css",
+      }),
+      new webpack.DefinePlugin({
+        "process.env": JSON.stringify(process.env),
+      }),
       new ModuleFederationPlugin({
         name: "joystick",
         library: { type: "var", name: "joystick" },
@@ -88,9 +114,6 @@ module.exports = (env, argv) => {
         exposes: {
           "./App": "./src/App",
         },
-      }),
-      new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, "public", "index.html"), // Usar o index.html da pasta "public"
       }),
     ],
   };

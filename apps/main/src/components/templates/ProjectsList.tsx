@@ -150,7 +150,7 @@ export default function ProjectsList() {
     <div className="mx-auto flex flex-col items-center justify-center">
       <div className="flex h-svh w-11/12 flex-col items-center justify-center gap-4 md:w-2/3">
         <Title className="md:text-9xl" word="Projects" type="blur" gradient />
-        <SubTitle className="text-center max-md:text-xl">
+        <SubTitle className="text-center text-xl md:text-3xl">
           Here you can explore some of my personal, professional, and academic
           projects. You can filter them by the technologies used in each one.
         </SubTitle>
