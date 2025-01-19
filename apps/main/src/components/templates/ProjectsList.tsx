@@ -34,6 +34,7 @@ import {
 } from "react-icons/si";
 
 import { projects } from "../../../public/data/projects/projects";
+import ProjectCard from "../molecules/ProjectCard";
 
 // Definições de opções para cada categoria
 const frameworksList = [
@@ -225,8 +226,10 @@ export default function ProjectsList() {
       </div>
 
       {/* Lista de Projetos Filtrados */}
-      <div className="w-11/12 md:mt-24">
-        <ProjectAccordion projects={filteredProjects} />
+      <div className="mb-14 mt-8 flex w-11/12 flex-col gap-14 md:mt-24">
+        {projects.map((project) => (
+          <ProjectCard key={project.slug} project={project} />
+        ))}
       </div>
     </div>
   );
