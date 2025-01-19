@@ -6,8 +6,6 @@ import SubTitle from "../atoms/SubTitle";
 import { DownButton } from "../atoms/DownButton";
 import { MultiSelect } from "../ui/multi-select";
 import { Label } from "../ui/label";
-import FilterSection from "../molecules/FilterSection";
-import ProjectAccordion from "../organisms/ProjectAccordion";
 
 import {
   SiReact,
