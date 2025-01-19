@@ -39,21 +39,21 @@ const frameworksList = [
   { value: "react", label: "React", icon: SiReact },
   { value: "react-native", label: "React Native", icon: SiReact },
   { value: "next.js", label: "Next.js", icon: SiNextdotjs },
-  { value: "flutter", label: "Flutter", icon: SiFlutter },
   { value: "express", label: "Express", icon: SiExpress },
   { value: "solid.js", label: "Solid.js", icon: SiSolid },
   { value: "flask", label: "Flask", icon: SiFlask },
-  { value: "swift", label: "Swift", icon: SiSwift },
-  { value: "svelte", label: "Svelte", icon: SiSvelte },
+  // { value: "flutter", label: "Flutter", icon: SiFlutter },
+  // { value: "swift", label: "Swift", icon: SiSwift },
+  // { value: "svelte", label: "Svelte", icon: SiSvelte },
 ];
 
 const languagesList = [
   { value: "javascript", label: "JavaScript", icon: SiJavascript },
   { value: "typescript", label: "TypeScript", icon: SiTypescript },
   { value: "python", label: "Python", icon: SiPython },
-  { value: "dart", label: "Dart", icon: SiDart },
-  { value: "go", label: "Go", icon: SiGo },
-  { value: "rust", label: "Rust", icon: SiRust },
+  // { value: "dart", label: "Dart", icon: SiDart },
+  // { value: "go", label: "Go", icon: SiGo },
+  // { value: "rust", label: "Rust", icon: SiRust },
 ];
 
 const databasesList = [
@@ -65,8 +65,8 @@ const toolsAndLibrariesList = [
   { value: "tailwind", label: "Tailwind", icon: SiTailwindcss },
   { value: "node.js", label: "Node.js", icon: SiNodedotjs },
   { value: "webpack", label: "Webpack", icon: SiWebpack },
-  { value: "bun", label: "Bun", icon: SiBun },
-  { value: "deno", label: "Deno", icon: SiDeno },
+  // { value: "bun", label: "Bun", icon: SiBun },
+  // { value: "deno", label: "Deno", icon: SiDeno },
 ];
 
 // Estado centralizado para filtros
@@ -119,8 +119,6 @@ export default function ProjectsList() {
     if (activeFilters.length === 0) {
       return projects;
     }
-
-    console.log(activeFilters);
 
     // Caso existam filtros selecionados, retornamos projetos que tenham
     // pelo menos um dos filtros no techStack (lógica de OR).
@@ -225,7 +223,7 @@ export default function ProjectsList() {
 
       {/* Lista de Projetos Filtrados */}
       <div className="mb-14 mt-8 flex w-11/12 flex-col gap-14 md:mt-24">
-        {projects.map((project) => (
+        {filteredProjects.map((project) => (
           <ProjectCard key={project.slug} project={project} />
         ))}
       </div>
