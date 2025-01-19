@@ -182,9 +182,9 @@ export const projects: IProject[] = [
   // },
   // {
   //   slug: "polterware",
-  //   description: `polterware institutional website made in Svelte and Bun`,
+  //   description: `polterware institutional website made in Svelte.`,
   //   name: "polterware",
-  //   techStack: ["Svelte", "Bun"],
+  //   techStack: ["Svelte"],
   //   timeline: null,
   //   gitLink: "https://github.com/polterware/polterware-web",
   //   members: ["Erick Barcelos"],
