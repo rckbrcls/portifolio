@@ -50,7 +50,6 @@ export function AnimatedBeamArchitecture({
   const divRefNextJS = useRef<HTMLDivElement>(null);
   const divRefWebpack = useRef<HTMLDivElement>(null);
   const divRefMain = useRef<HTMLDivElement>(null);
-  const div9Ref = useRef<HTMLDivElement>(null);
 
   return (
     <div
@@ -60,13 +59,13 @@ export function AnimatedBeamArchitecture({
       )}
       ref={containerRef}
     >
-      <div className="flex size-full flex-row items-center justify-between gap-5 p-14 max-md:p-4">
-        <div className="flex flex-col justify-center gap-20 max-md:gap-10">
+      <div className="flex size-full flex-row items-center justify-between gap-2 max-md:p-4">
+        <div className="flex flex-col justify-center gap-32 max-md:gap-10">
           <Circle className="size-20 max-md:size-12" ref={divRefComputer}>
             <Computer size={50} />
           </Circle>
         </div>
-        <div className="flex flex-col justify-center gap-20 max-md:gap-10">
+        <div className="flex flex-col justify-center gap-32 max-md:gap-10">
           <Circle className="size-20 max-md:size-12" ref={divRefFlask}>
             <SiFlask size={50} />
           </Circle>
@@ -77,7 +76,7 @@ export function AnimatedBeamArchitecture({
             <SiBun size={50} />
           </Circle>
         </div>
-        <div className="flex flex-col justify-center gap-20 max-md:gap-10">
+        <div className="flex flex-col justify-center gap-32 max-md:gap-10">
           <Circle className="size-20 max-md:size-12" ref={divRefSolid}>
             <SiSolid size={50} />
           </Circle>
@@ -104,6 +103,7 @@ export function AnimatedBeamArchitecture({
         containerRef={containerRef}
         fromRef={divRefComputer}
         toRef={divRefFlask}
+        curvature={170}
       />
       <AnimatedBeam
         containerRef={containerRef}
@@ -114,6 +114,7 @@ export function AnimatedBeamArchitecture({
         containerRef={containerRef}
         fromRef={divRefComputer}
         toRef={divRefBun}
+        curvature={-170}
       />
       <AnimatedBeam
         containerRef={containerRef}
