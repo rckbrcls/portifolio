@@ -10,7 +10,7 @@ import Link from "next/link";
 import { AiFillGithub } from "react-icons/ai";
 import { MdComputer } from "react-icons/md";
 import { Text } from "@/components/atoms/Text";
-import { motion, useInView } from "framer-motion";
+import { motion, spring, useInView } from "framer-motion";
 
 export default function Home() {
   const clientRef = useRef(null);
@@ -22,28 +22,31 @@ export default function Home() {
   const isFinalInView = useInView(finalRef, { once: true, margin: "-100px" });
 
   const leftVariants = {
-    hidden: { x: "-100vw", opacity: 0 },
+    spring: { type: "spring", stiffness: 100 },
+    hidden: { x: "-5vw", opacity: 0 },
     visible: {
       x: 0,
       opacity: 1,
-      transition: { duration: 2, ease: "easeInOut" },
+      transition: { duration: 1.2, ease: "easeInOut" },
     },
   };
 
   const rightVariants = {
-    hidden: { x: "100vw", opacity: 0 },
+    spring: { type: "spring", stiffness: 100 },
+    hidden: { x: "5vw", opacity: 0 },
     visible: {
       x: 0,
       opacity: 1,
-      transition: { duration: 2, ease: "easeInOut" },
+      transition: { duration: 1.2, ease: "easeInOut" },
     },
   };
 
   const fadeInVariants = {
+    spring: { type: "spring", stiffness: 100 },
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { duration: 3, ease: "easeInOut" },
+      transition: { duration: 1.2, ease: "easeOut" },
     },
   };
 
@@ -56,9 +59,9 @@ export default function Home() {
       <Alert />
       <Header />
 
-      <div className="z-0 h-svh w-full overflow-x-hidden md:overflow-y-scroll">
+      <div className="z-0 h-svh w-full overflow-x-hidden scroll-smooth md:snap-y md:snap-mandatory md:snap-start md:snap-normal md:overflow-y-scroll">
         {/* Seção Inicial */}
-        <div className="relative flex h-svh flex-col items-center justify-center text-center">
+        <div className="relative flex h-svh snap-start flex-col items-center justify-center text-center">
           <Aurora />
           <div className="relative my-4 h-2/5 w-full select-none">
             <Image
@@ -78,7 +81,7 @@ export default function Home() {
         <div className="mx-auto w-11/12">
           <div
             ref={clientRef}
-            className="grid w-full grid-cols-2 items-center justify-center border-b border-zinc-700/40 py-5 max-lg:grid-cols-1 max-md:gap-10 max-md:py-10 md:min-h-svh"
+            className="grid w-full snap-start grid-cols-2 items-center justify-center border-b border-zinc-700/40 max-md:grid-cols-1 max-md:gap-10 max-md:py-10 md:h-svh"
           >
             <motion.div
               variants={leftVariants}
@@ -95,11 +98,11 @@ export default function Home() {
               className="flex flex-col items-end justify-start gap-10"
             >
               <Title
-                className="w-full text-end max-lg:text-center max-md:text-5xl"
+                className="text-end max-md:text-center max-md:text-5xl"
                 word="🖥️ Client-Side Architecture"
                 type="blur"
               />
-              <Text className="text-end text-xl font-bold max-lg:text-center md:text-3xl">
+              <Text className="text-end text-xl font-bold max-md:text-center md:text-3xl">
                 This portfolio serves as the client-side of my project, built
                 using a microfrontend architecture. I gathered old projects and
                 integrated them into a single main frontend. Each project is a
@@ -114,7 +117,7 @@ export default function Home() {
           {/* Seção de Server & APIs */}
           <div
             ref={serverRef}
-            className="grid w-full grid-cols-2 items-center justify-center border-b border-zinc-700/40 py-5 max-lg:grid-cols-1 max-md:gap-10 max-md:py-10 md:min-h-svh"
+            className="grid w-full snap-start grid-cols-2 items-center justify-center border-b border-zinc-700/40 max-md:grid-cols-1 max-md:gap-10 max-md:py-10 md:h-svh"
           >
             <motion.div
               variants={leftVariants}
@@ -123,11 +126,11 @@ export default function Home() {
               className="flex flex-col items-start justify-start gap-10"
             >
               <Title
-                className="w-full text-start max-lg:text-center max-md:text-5xl"
+                className="text-start max-md:text-center max-md:text-5xl"
                 word="🔧 Server & APIs"
                 type="blur"
               />
-              <Text className="text-start text-xl font-bold max-lg:text-center md:text-3xl">
+              <Text className="text-xl font-bold max-md:text-center md:text-3xl">
                 The backend for this portfolio runs on my personal server 💻,
                 which I set up using an old computer I had at home. It hosts the
                 APIs for each microfrontend project, handling data,
@@ -153,7 +156,7 @@ export default function Home() {
             initial="hidden"
             animate={isFinalInView ? "visible" : "hidden"}
             ref={finalRef}
-            className="mx-auto flex flex-col items-center justify-center gap-10 pb-20 pt-10 md:h-svh md:w-2/3"
+            className="mx-auto flex snap-start flex-col items-center justify-center gap-10 pb-20 pt-10 md:h-svh md:w-2/3"
           >
             <Title
               className="max-md:text-5xl"
