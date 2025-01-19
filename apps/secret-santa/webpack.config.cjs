@@ -98,6 +98,9 @@ module.exports = (env, argv) => {
       ],
     },
     plugins: [
+      new webpack.ProvidePlugin({
+        React: "react",
+      }),
       new HtmlWebpackPlugin({
         title: "Secret Santa",
         filename: "index.html",
