@@ -43,7 +43,11 @@ module.exports = (env, argv) => {
       rules: [
         {
           test: /\.css$/i,
-          use: [MiniCssExtractPlugin.loader, "style-loader", "css-loader"],
+          use: [
+            isProduction ? MiniCssExtractPlugin.loader : "style-loader",
+            "css-loader",
+            "postcss-loader", // Adicione se estiver usando PostCSS
+          ],
         },
         {
           test: /\.(png|jpg|gif|svg)$/i,
