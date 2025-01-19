@@ -27,21 +27,21 @@ export const languages: Language[] = [
   "JavaScript",
   "TypeScript",
   "Python",
-  "Dart",
-  "Go",
-  "Rust",
+  // "Go",
+  // "Rust",
+  // "Dart",
 ];
 
 export const frameworks: Framework[] = [
   "React",
   "React Native",
   "Next.js",
-  "Flutter",
   "Express",
   "Solid.js",
   "Flask",
-  "Swift",
-  "Svelte",
+  // "Swift",
+  // "Svelte",
+  // "Flutter",
 ];
 
 export const databases: Database[] = ["MongoDB", "PostgreSQL"];
@@ -50,8 +50,8 @@ export const toolsAndLibraries: ToolOrLibrary[] = [
   "Tailwind",
   "Node.js",
   "Webpack",
-  "Bun",
-  "Deno",
+  // "Bun",
+  // "Deno",
 ];
 
 export const techStack: TypeTechStack[] = [

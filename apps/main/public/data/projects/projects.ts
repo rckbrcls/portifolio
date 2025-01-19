@@ -2,16 +2,24 @@ import { IProject } from "@/interface/IProject";
 
 export const projects: IProject[] = [
   {
-    slug: "tripper",
-    description: `An application for creating personalized travel 
-    itineraries, developed using Swift and Go, with real-time navigation 
-    and user reviews integration.`,
-    name: "Tripper",
-    techStack: ["Swift", "Go"],
+    slug: "dost",
+    description: `Monorepo for dost clothing store, powered by Turborepo. 
+    It includes a Node.js server, Next.js web client, and React Native mobile 
+    app, all streamlined in a single codebase.`,
+    name: "dost",
+    techStack: [
+      "React",
+      "React Native",
+      "TypeScript",
+      "Tailwind",
+      "Next.js",
+      "Node.js",
+      "MongoDB",
+    ],
     timeline: null,
-    gitLink: "https://github.com/polterware/tripper",
+    link: "https://dostproject.vercel.app/",
     members: ["Erick Barcelos"],
-    coverImage: "/images/projects/tripper/splashScreen.png",
+    coverImage: "/images/projects/dost/SOLID-LOGO-SOLO.svg",
     status: "working",
   },
   {
@@ -45,27 +53,7 @@ export const projects: IProject[] = [
     coverImage: "/images/projects/lojinha-simples/lojinha.png",
     status: "finished",
   },
-  {
-    slug: "dost",
-    description: `Monorepo for dost clothing store, powered by Turborepo. 
-    It includes a Node.js server, Next.js web client, and React Native mobile 
-    app, all streamlined in a single codebase.`,
-    name: "dost",
-    techStack: [
-      "React",
-      "React Native",
-      "TypeScript",
-      "Tailwind",
-      "Next.js",
-      "Node.js",
-      "MongoDB",
-    ],
-    timeline: null,
-    link: "https://dostproject.vercel.app/",
-    members: ["Erick Barcelos"],
-    coverImage: "/images/projects/dost/SOLID-LOGO-SOLO.svg",
-    status: "working",
-  },
+
   {
     slug: "joystick",
     description: `A full-stack mock marketplace for video games, developed as
@@ -157,52 +145,6 @@ export const projects: IProject[] = [
     status: "finished",
   },
   {
-    slug: "tagit",
-    description: `GUI tool to facilitate GitFlow with support for conventional commits, built with Rust.`,
-    name: "TAGIT",
-    techStack: ["Rust"],
-    timeline: null,
-    gitLink: "https://github.com/polterware/tagit",
-    members: ["Erick Barcelos"],
-    coverImage: "/images/projects/tagit/tagit-logo.png",
-    status: "working",
-  },
-  {
-    slug: "barter",
-    description: `A gamified bartering application where users can trade goods
-     and services, customize avatars, earn rewards, and engage with the 
-     community. Developed with Flutter, Deno and Go.`,
-    name: "Barter",
-    techStack: ["Flutter", "Dart", "Deno", "Go"],
-    timeline: null,
-    gitLink: "https://github.com/polterware/barter",
-    members: ["Erick Barcelos"],
-    coverImage: "/images/projects/barter/barter.webp",
-    status: "designing",
-  },
-  {
-    slug: "polterware",
-    description: `polterware institutional website made in Svelte and Bun`,
-    name: "polterware",
-    techStack: ["Svelte", "Bun"],
-    timeline: null,
-    gitLink: "https://github.com/polterware/polterware-web",
-    members: ["Erick Barcelos"],
-    coverImage: "/images/projects/polterware/polterware.png",
-    status: "designing",
-  },
-  {
-    slug: "souvenir",
-    description: `ML-powered photo app with advanced editing and organization features, built with Swift and Python.`,
-    name: "Souvenir",
-    techStack: ["Swift", "Python"],
-    timeline: null,
-    gitLink: "https://github.com/polterware/souvenir",
-    members: ["Erick Barcelos"],
-    coverImage: "/images/projects/souvenir/souvenir-logo.png",
-    status: "working",
-  },
-  {
     slug: "liga-academica",
     description: `Institutional website for the Academic League of Psychiatry, developed with Next.js and TypeScript. The site provides information on events, activities, and educational materials for students and professionals interested in mental health.`,
     name: "Liga Acadêmica de Psiquiatria",
@@ -214,4 +156,63 @@ export const projects: IProject[] = [
     coverImage: "/images/projects/liga-academica/liga.png",
     status: "finished",
   },
+  // {
+  //   slug: "tagit",
+  //   description: `GUI tool to facilitate GitFlow with support for conventional commits, built with Rust.`,
+  //   name: "TAGIT",
+  //   techStack: ["Rust"],
+  //   timeline: null,
+  //   gitLink: "https://github.com/polterware/tagit",
+  //   members: ["Erick Barcelos"],
+  //   coverImage: "/images/projects/tagit/tagit-logo.png",
+  //   status: "working",
+  // },
+  // {
+  //   slug: "barter",
+  //   description: `A gamified bartering application where users can trade goods
+  //    and services, customize avatars, earn rewards, and engage with the
+  //    community. Developed with Flutter, Deno and Go.`,
+  //   name: "Barter",
+  //   techStack: ["Flutter", "Dart", "Deno", "Go"],
+  //   timeline: null,
+  //   gitLink: "https://github.com/polterware/barter",
+  //   members: ["Erick Barcelos"],
+  //   coverImage: "/images/projects/barter/barter.webp",
+  //   status: "designing",
+  // },
+  // {
+  //   slug: "polterware",
+  //   description: `polterware institutional website made in Svelte.`,
+  //   name: "polterware",
+  //   techStack: ["Svelte"],
+  //   timeline: null,
+  //   gitLink: "https://github.com/polterware/polterware-web",
+  //   members: ["Erick Barcelos"],
+  //   coverImage: "/images/projects/polterware/polterware.png",
+  //   status: "designing",
+  // },
+  // {
+  //   slug: "souvenir",
+  //   description: `ML-powered photo app with advanced editing and organization features, built with Swift and Python.`,
+  //   name: "Souvenir",
+  //   techStack: ["Swift", "Python"],
+  //   timeline: null,
+  //   gitLink: "https://github.com/polterware/souvenir",
+  //   members: ["Erick Barcelos"],
+  //   coverImage: "/images/projects/souvenir/souvenir-logo.png",
+  //   status: "working",
+  // },
+  // {
+  //   slug: "tripper",
+  //   description: `An application for creating personalized travel
+  //   itineraries, developed using Swift and Go, with real-time navigation
+  //   and user reviews integration.`,
+  //   name: "Tripper",
+  //   techStack: ["Swift", "Go"],
+  //   timeline: null,
+  //   gitLink: "https://github.com/polterware/tripper",
+  //   members: ["Erick Barcelos"],
+  //   coverImage: "/images/projects/tripper/splashScreen.png",
+  //   status: "working",
+  // },
 ];

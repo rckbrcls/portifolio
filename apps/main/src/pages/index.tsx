@@ -12,11 +12,7 @@ import { MdComputer } from "react-icons/md";
 import { Text } from "@/components/atoms/Text";
 import { motion, useInView } from "framer-motion";
 
-const MemoizedAurora = React.memo(Aurora);
-
 export default function Home() {
-  const aurora = useMemo(() => <MemoizedAurora />, []);
-
   const clientRef = useRef(null);
   const serverRef = useRef(null);
   const finalRef = useRef(null);
@@ -63,7 +59,7 @@ export default function Home() {
       <div className="z-0 h-svh w-full overflow-x-hidden md:snap-y md:snap-mandatory md:snap-center md:snap-normal md:overflow-y-scroll">
         {/* Seção Inicial */}
         <div className="relative flex h-svh snap-center flex-col items-center justify-center text-center">
-          {aurora}
+          <Aurora />
           <div className="relative my-4 h-2/5 w-full select-none">
             <Image
               className="select-none"

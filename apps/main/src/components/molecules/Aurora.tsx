@@ -1,6 +1,6 @@
 // @ts-nocheck
 "use client";
-import { useState } from "react";
+import { useState, memo } from "react";
 import { MeshGradientRenderer } from "@johnn-e/react-mesh-gradient";
 import { twMerge } from "tailwind-merge";
 
@@ -15,6 +15,8 @@ function Aurora({ dark = false }: IAuroraProps) {
 
   const position = dark ? "fixed" : "absolute";
 
+  console.log("Aurora");
+
   return (
     <div className={twMerge("left-0 top-0 -z-10 min-h-svh w-full", position)}>
       <MeshGradientRenderer
@@ -28,4 +30,4 @@ function Aurora({ dark = false }: IAuroraProps) {
   );
 }
 
-export default Aurora;
+export default memo(Aurora);
