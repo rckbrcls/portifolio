@@ -2,6 +2,27 @@ import { IProject } from "@/interface/IProject";
 
 export const projects: IProject[] = [
   {
+    slug: "dost",
+    description: `Monorepo for dost clothing store, powered by Turborepo. 
+    It includes a Node.js server, Next.js web client, and React Native mobile 
+    app, all streamlined in a single codebase.`,
+    name: "dost",
+    techStack: [
+      "React",
+      "React Native",
+      "TypeScript",
+      "Tailwind",
+      "Next.js",
+      "Node.js",
+      "MongoDB",
+    ],
+    timeline: null,
+    link: "https://dostproject.vercel.app/",
+    members: ["Erick Barcelos"],
+    coverImage: "/images/projects/dost/SOLID-LOGO-SOLO.svg",
+    status: "working",
+  },
+  {
     slug: "alan-turing",
     description: `A comprehensive project created for a course at USP, titled
      ‘Introduction to Computer Theory.’ The site explores the influence of Alan 
@@ -32,27 +53,7 @@ export const projects: IProject[] = [
     coverImage: "/images/projects/lojinha-simples/lojinha.png",
     status: "finished",
   },
-  {
-    slug: "dost",
-    description: `Monorepo for dost clothing store, powered by Turborepo. 
-    It includes a Node.js server, Next.js web client, and React Native mobile 
-    app, all streamlined in a single codebase.`,
-    name: "dost",
-    techStack: [
-      "React",
-      "React Native",
-      "TypeScript",
-      "Tailwind",
-      "Next.js",
-      "Node.js",
-      "MongoDB",
-    ],
-    timeline: null,
-    link: "https://dostproject.vercel.app/",
-    members: ["Erick Barcelos"],
-    coverImage: "/images/projects/dost/SOLID-LOGO-SOLO.svg",
-    status: "working",
-  },
+
   {
     slug: "joystick",
     description: `A full-stack mock marketplace for video games, developed as
