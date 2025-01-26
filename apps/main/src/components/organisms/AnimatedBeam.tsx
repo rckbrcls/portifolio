@@ -1,6 +1,6 @@
 "use client";
 
-import React, { forwardRef, useRef } from "react";
+import React, { forwardRef, useEffect, useRef, useState } from "react";
 import { Text } from "../atoms/Text";
 
 import { cn } from "@/lib/utils";
@@ -50,6 +50,20 @@ export function AnimatedBeamArchitecture({
   const divRefNextJS = useRef<HTMLDivElement>(null);
   const divRefWebpack = useRef<HTMLDivElement>(null);
   const divRefMain = useRef<HTMLDivElement>(null);
+  const [curvature, setCurvature] = useState(170); // Curvatura padrão
+
+  useEffect(() => {
+    const width = window.innerWidth;
+
+    // Ajusta a curvatura com base no tamanho da tela no momento do carregamento
+    if (width > 1200) {
+      setCurvature(170); // Telas grandes
+    } else if (width > 768) {
+      setCurvature(120); // Tablets
+    } else {
+      setCurvature(80); // Smartphones
+    }
+  }, []); // Executa apenas uma vez ao montar o componente
 
   return (
     <div
@@ -103,7 +117,7 @@ export function AnimatedBeamArchitecture({
         containerRef={containerRef}
         fromRef={divRefComputer}
         toRef={divRefFlask}
-        curvature={170}
+        curvature={curvature}
       />
       <AnimatedBeam
         containerRef={containerRef}
@@ -114,7 +128,7 @@ export function AnimatedBeamArchitecture({
         containerRef={containerRef}
         fromRef={divRefComputer}
         toRef={divRefBun}
-        curvature={-170}
+        curvature={-curvature}
       />
       <AnimatedBeam
         containerRef={containerRef}
