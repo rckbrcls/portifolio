@@ -47,16 +47,16 @@ graph TD;
 Below are links to the specific projects within this portfolio repository:
 
 - [alan-turing](https://github.com/brcls/portifolio-monorepo/tree/main/apps/alan-turing)
-- [electoral-system-api](https://github.com/brcls/portifolio-monorepo/tree/main/apps/electoral-system-api)
-- [electoral-system-client](https://github.com/brcls/portifolio-monorepo/tree/main/apps/electoral-system-client)
-- [joystick-api](https://github.com/brcls/portifolio-monorepo/tree/main/apps/joystick-api)
-- [joystick-client](https://github.com/brcls/portifolio-monorepo/tree/main/apps/joystick-client)
+- [electoral-system-api](https://github.com/brcls/portifolio-monorepo/tree/main/services/electoral-system-api)
+- [electoral-system-client](https://github.com/brcls/portifolio-monorepo/tree/main/apps/electoral-system)
+- [joystick-api](https://github.com/brcls/portifolio-monorepo/tree/main/services/joystick)
+- [joystick-client](https://github.com/brcls/portifolio-monorepo/tree/main/apps/joystick)
 - [lojinha-simples](https://github.com/brcls/portifolio-monorepo/tree/main/apps/lojinha-simples)
 - [portifolio](https://github.com/brcls/portifolio-monorepo/tree/main/apps/portifolio)
 - [rgbwallet](https://github.com/brcls/portifolio-monorepo/tree/main/apps/rgbwallet)
-- [secret-santa-api](https://github.com/brcls/portifolio-monorepo/tree/main/apps/secret-santa-api)
-- [secret-santa-client](https://github.com/brcls/portifolio-monorepo/tree/main/apps/secret-santa-client)
-- [video-project-manage](https://github.com/brcls/portifolio-monorepo/tree/main/apps/video-project-manage)
+- [secret-santa-api](https://github.com/brcls/portifolio-monorepo/tree/main/services/secret-santa-api)
+- [secret-santa-client](https://github.com/brcls/portifolio-monorepo/tree/main/services/secret-santa-client)
+- [video-project-manage](https://github.com/brcls/portifolio-monorepo/tree/main/services/video-project-manage)
 
 Each link will take you directly to the corresponding project folder within the repository.
 
