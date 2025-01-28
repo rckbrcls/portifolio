@@ -182,15 +182,8 @@ export default function Home() {
               </a>
 
               <Link
-                href={"projects"}
-                className="relative flex h-16 w-1/2 items-center justify-center gap-2 text-nowrap rounded-lg border-none bg-[linear-gradient(325deg,#d500f9_0%,#6366f1_35%,#ec4899_55%,#a855f7_75%,#3b82f6_100%)] bg-[280%_auto] px-6 py-2 text-xl font-black text-white shadow-lg transition-[background] duration-700 hover:bg-right-top focus:outline-none focus:ring-[#a855f7] focus:ring-offset-1 focus:ring-offset-white focus-visible:ring-2 dark:focus:ring-[#6366f1] dark:focus:ring-offset-black"
-                style={{
-                  background: `-webkit-linear-gradient(325deg, #d500f9 0%, #6366f1 35%, #ec4899 55%, #a855f7 75%, #3b82f6 100%)`,
-                  boxShadow: `0px 0px 20px rgba(219,112,255,0.5), 0px 5px 5px -1px rgba(99,102,241,0.25), inset 4px 4px 8px rgba(236,72,153,0.5), inset -4px -4px 8px rgba(168,85,247,0.35)`,
-                  overflow: "hidden", // Garante que nada "vaze" do elemento
-                  zIndex: 5, // Abaixo do componente de "Repository"
-                  clipPath: "inset(0)", // Clipa absolutamente tudo para manter o gradiente dentro do limite
-                }}
+                href="projects"
+                className="relative z-[5] flex h-16 w-1/2 items-center justify-center gap-2 overflow-hidden text-nowrap rounded-lg border-none bg-[linear-gradient(325deg,#d500f9_0%,#6366f1_35%,#ec4899_55%,#a855f7_75%,#3b82f6_100%)] bg-[280%_auto] bg-left-bottom px-6 py-2 text-xl font-black text-white shadow-[0px_0px_20px_rgba(219,112,255,0.5),0px_5px_5px_-1px_rgba(99,102,241,0.25),inset_4px_4px_8px_rgba(236,72,153,0.5),inset_-4px_-4px_8px_rgba(168,85,247,0.35)] transition-[background-position] duration-700 [clip-path:inset(0)] hover:bg-right-top focus:outline-none focus:ring-[#a855f7] focus:ring-offset-1 focus:ring-offset-white focus-visible:ring-2 dark:focus:ring-[#6366f1] dark:focus:ring-offset-black"
               >
                 <MdComputer />
                 <Text className="max-md:hidden">Projects</Text>
