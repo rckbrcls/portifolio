@@ -49,7 +49,7 @@ Below are links to the specific projects within this portfolio repository:
 - [alan-turing](https://github.com/brcls/portifolio-monorepo/tree/main/apps/alan-turing)
 - [electoral-system-api](https://github.com/brcls/portifolio-monorepo/tree/main/services/electoral-system-api)
 - [electoral-system-client](https://github.com/brcls/portifolio-monorepo/tree/main/apps/electoral-system)
-- [joystick-api](https://github.com/brcls/portifolio-monorepo/tree/main/services/joystick)
+- [joystick-api](https://github.com/brcls/portifolio-monorepo/tree/main/services/joystick-api)
 - [joystick-client](https://github.com/brcls/portifolio-monorepo/tree/main/apps/joystick)
 - [lojinha-simples](https://github.com/brcls/portifolio-monorepo/tree/main/apps/lojinha-simples)
 - [portifolio](https://github.com/brcls/portifolio-monorepo/tree/main/apps/portifolio)
