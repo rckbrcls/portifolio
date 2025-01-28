@@ -52,7 +52,7 @@ Below are links to the specific projects within this portfolio repository:
 - [joystick-api](https://github.com/brcls/portifolio-monorepo/tree/main/services/joystick-api)
 - [joystick-client](https://github.com/brcls/portifolio-monorepo/tree/main/apps/joystick)
 - [lojinha-simples](https://github.com/brcls/portifolio-monorepo/tree/main/apps/lojinha-simples)
-- [portifolio](https://github.com/brcls/portifolio-monorepo/tree/main/apps/portifolio)
+- [portifolio](https://github.com/brcls/portifolio-monorepo/tree/main/apps/main)
 - [rgbwallet](https://github.com/brcls/portifolio-monorepo/tree/main/apps/rgbwallet)
 - [secret-santa-api](https://github.com/brcls/portifolio-monorepo/tree/main/services/secret-santa-api)
 - [secret-santa-client](https://github.com/brcls/portifolio-monorepo/tree/main/services/secret-santa-client)
