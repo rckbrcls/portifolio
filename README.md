@@ -55,7 +55,7 @@ Below are links to the specific projects within this portfolio repository:
 - [portifolio](https://github.com/brcls/portifolio-monorepo/tree/main/apps/main)
 - [rgbwallet](https://github.com/brcls/portifolio-monorepo/tree/main/apps/rgbwallet)
 - [secret-santa-api](https://github.com/brcls/portifolio-monorepo/tree/main/services/secret-santa-api)
-- [secret-santa-client](https://github.com/brcls/portifolio-monorepo/tree/main/services/secret-santa-client)
+- [secret-santa-client](https://github.com/brcls/portifolio-monorepo/tree/main/services/secret-santa)
 - [video-project-manage](https://github.com/brcls/portifolio-monorepo/tree/main/services/video-project-manage)
 
 Each link will take you directly to the corresponding project folder within the repository.
