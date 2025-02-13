@@ -2,6 +2,17 @@ import { IProject } from "@/interface/IProject";
 
 export const projects: IProject[] = [
   {
+    slug: "polterware",
+    description: `polterware institutional website.`,
+    name: "polterware",
+    techStack: ["Next.js", "React", "TypeScript", "Tailwind"],
+    timeline: null,
+    link: "https://polterware.com",
+    members: ["Erick Barcelos"],
+    coverImage: "/images/projects/polterware/polterware.png",
+    status: "finished",
+  },
+  {
     slug: "dost",
     description: `Monorepo for dost clothing store, powered by Turborepo. 
     It includes a Node.js server, Next.js web client, and React Native mobile 
@@ -180,17 +191,7 @@ export const projects: IProject[] = [
   //   coverImage: "/images/projects/barter/barter.webp",
   //   status: "designing",
   // },
-  // {
-  //   slug: "polterware",
-  //   description: `polterware institutional website made in Svelte.`,
-  //   name: "polterware",
-  //   techStack: ["Svelte"],
-  //   timeline: null,
-  //   gitLink: "https://github.com/polterware/polterware-web",
-  //   members: ["Erick Barcelos"],
-  //   coverImage: "/images/projects/polterware/polterware.png",
-  //   status: "designing",
-  // },
+
   // {
   //   slug: "souvenir",
   //   description: `ML-powered photo app with advanced editing and organization features, built with Swift and Python.`,
