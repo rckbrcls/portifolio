@@ -155,8 +155,8 @@ export default function ProjectsList() {
       </div>
 
       {/* Seção de Filtros */}
-      <div className="max-md:scrollbar-hidden flex w-11/12 gap-4 pt-24 max-md:w-full max-md:items-end max-md:overflow-x-scroll max-md:px-4 max-md:pb-4 md:flex-col">
-        <div className="flex flex-col gap-2">
+      <div className="max-md:scrollbar-hidden mx-auto flex w-11/12 items-end gap-4 pt-24 max-md:w-full max-md:overflow-x-scroll max-md:px-4 max-md:pb-4">
+        <div className="flex w-full flex-col gap-2">
           <Label htmlFor="frameworks">Frameworks</Label>
           <MultiSelect
             id="frameworks"
@@ -171,7 +171,7 @@ export default function ProjectsList() {
           />
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex w-full flex-col gap-2">
           <Label htmlFor="languages">Languages</Label>
           <MultiSelect
             id="languages"
@@ -186,7 +186,7 @@ export default function ProjectsList() {
           />
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex w-full flex-col gap-2">
           <Label htmlFor="databases">Databases</Label>
           <MultiSelect
             id="databases"
@@ -201,7 +201,7 @@ export default function ProjectsList() {
           />
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex w-full flex-col gap-2">
           <Label htmlFor="tools">Tools &amp; Libraries</Label>
           <MultiSelect
             id="tools"
