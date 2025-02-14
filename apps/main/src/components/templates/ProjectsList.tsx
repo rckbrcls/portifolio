@@ -155,7 +155,7 @@ export default function ProjectsList() {
       </div>
 
       {/* Seção de Filtros */}
-      <div className="max-md:scrollbar-hidden mx-auto flex w-11/12 items-end gap-4 pt-24 max-md:w-full max-md:overflow-x-scroll max-md:px-4 max-md:pb-4">
+      <div className="max-md:scrollbar-hidden mx-auto flex w-11/12 items-end gap-4 pt-24 max-md:w-full max-md:overflow-x-scroll max-md:px-4">
         <div className="flex w-full flex-col gap-2">
           <Label htmlFor="frameworks">Frameworks</Label>
           <MultiSelect
@@ -222,7 +222,7 @@ export default function ProjectsList() {
       </div>
 
       {/* Lista de Projetos Filtrados */}
-      <div className="mb-14 mt-8 flex w-11/12 flex-col gap-14 md:mt-24">
+      <div className="mb-14 mt-8 flex w-11/12 flex-col gap-14">
         {filteredProjects.map((project) => (
           <ProjectCard key={project.slug} project={project} />
         ))}
