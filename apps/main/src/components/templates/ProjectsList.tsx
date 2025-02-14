@@ -222,7 +222,7 @@ export default function ProjectsList() {
       </div>
 
       {/* Lista de Projetos Filtrados */}
-      <div className="mb-14 mt-8 flex w-11/12 flex-col gap-10">
+      <div className="mb-14 mt-10 flex w-11/12 flex-col gap-10">
         {filteredProjects.map((project) => (
           <ProjectCard key={project.slug} project={project} />
         ))}
