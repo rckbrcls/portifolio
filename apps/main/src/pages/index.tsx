@@ -20,7 +20,7 @@ const variants = {
     visible: {
       x: 0,
       opacity: 1,
-      transition: { duration: 0.7, ease: "easeInOut" }, // speed up if you want
+      transition: { duration: 0.5, ease: "easeInOut" }, // Reduzido de 0.7 para 0.5
     },
   },
   slideFromRight: {
@@ -28,14 +28,14 @@ const variants = {
     visible: {
       x: 0,
       opacity: 1,
-      transition: { duration: 0.7, ease: "easeInOut" },
+      transition: { duration: 0.5, ease: "easeInOut" },
     },
   },
   fadeIn: {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { duration: 0.7, ease: "easeOut" },
+      transition: { duration: 0.5, ease: "easeOut" },
     },
   },
 };
@@ -43,12 +43,22 @@ const variants = {
 export default function Home() {
   // Refs for each section
   const clientRef = useRef(null);
+  const clientRef2 = useRef(null);
   const serverRef = useRef(null);
+  const serverRef2 = useRef(null);
   const finalRef = useRef(null);
 
   // Check if in view (animates once)
   const isClientInView = useInView(clientRef, { once: true, margin: "-150px" });
+  const isClientInView2 = useInView(clientRef2, {
+    once: true,
+    margin: "-150px",
+  });
   const isServerInView = useInView(serverRef, { once: true, margin: "-150px" });
+  const isServerInView2 = useInView(serverRef2, {
+    once: true,
+    margin: "-150px",
+  });
   const isFinalInView = useInView(finalRef, { once: true, margin: "-150px" });
 
   return (
@@ -60,7 +70,7 @@ export default function Home() {
       <Alert />
       <Header />
 
-      <div className="z-0 h-svh w-full overflow-x-hidden scroll-smooth md:overflow-y-scroll">
+      <div className="w-full overflow-hidden">
         {/* =========================
             Section: Initial
         ========================== */}
@@ -79,7 +89,7 @@ export default function Home() {
           <Title word="Olá! I'm Erick Barcelos" />
         </div>
 
-        <div className="mx-auto w-full p-6 md:p-14">
+        <div className="mx-auto w-full px-14 max-md:px-6">
           {/* =========================
           Section: Client-Side Architecture
           ========================== */}
@@ -94,10 +104,10 @@ export default function Home() {
             </motion.div>
 
             <motion.div
-              ref={clientRef}
+              ref={clientRef2}
               variants={variants.slideFromRight}
               initial="hidden"
-              animate={isClientInView ? "visible" : "hidden"}
+              animate={isClientInView2 ? "visible" : "hidden"}
               className="flex flex-col items-end gap-10 max-md:items-center"
             >
               <Title
@@ -140,10 +150,10 @@ export default function Home() {
             </motion.div>
 
             <motion.div
-              ref={serverRef}
+              ref={serverRef2}
               variants={variants.slideFromRight}
               initial="hidden"
-              animate={isServerInView ? "visible" : "hidden"}
+              animate={isServerInView2 ? "visible" : "hidden"}
             >
               <AnimatedBeamArchitecture />
             </motion.div>
