@@ -20,7 +20,7 @@ const variants = {
     visible: {
       x: 0,
       opacity: 1,
-      transition: { duration: 0.5, ease: "easeInOut" }, // Reduzido de 0.7 para 0.5
+      transition: { type: "spring", stiffness: 100, damping: 15 },
     },
   },
   slideFromRight: {
@@ -28,14 +28,14 @@ const variants = {
     visible: {
       x: 0,
       opacity: 1,
-      transition: { duration: 0.5, ease: "easeInOut" },
+      transition: { type: "spring", stiffness: 100, damping: 15 },
     },
   },
   fadeIn: {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { duration: 0.5, ease: "easeOut" },
+      transition: { type: "spring", stiffness: 80, damping: 20 },
     },
   },
 };
