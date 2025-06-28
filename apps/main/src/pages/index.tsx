@@ -148,15 +148,6 @@ export default function Home() {
                 management, Linux, Docker, and deploying scalable APIs. 🚀
               </Text>
             </motion.div>
-
-            <motion.div
-              ref={serverRef2}
-              variants={variants.slideFromRight}
-              initial="hidden"
-              animate={isServerInView2 ? "visible" : "hidden"}
-            >
-              <AnimatedBeamArchitecture />
-            </motion.div>
           </div>
 
           {/* =========================

@@ -20,6 +20,8 @@ import {
   SiWebpack,
   SiBun,
   SiDeno,
+  SiAmazonaws,
+  SiRedis,
 } from "react-icons/si";
 import React from "react";
 import { TypeTechStack } from "./techStack";
@@ -48,6 +50,7 @@ export const techStackIcons: Record<TypeTechStack, React.ReactNode> = {
   // Databases
   MongoDB: React.createElement(SiMongodb),
   PostgreSQL: React.createElement(SiPostgresql),
+  Redis: React.createElement(SiRedis),
 
   // Tools and Libraries
   Tailwind: React.createElement(SiTailwindcss),
@@ -55,4 +58,5 @@ export const techStackIcons: Record<TypeTechStack, React.ReactNode> = {
   Webpack: React.createElement(SiWebpack),
   Bun: React.createElement(SiBun),
   Deno: React.createElement(SiDeno),
+  AWS: React.createElement(SiAmazonaws),
 };

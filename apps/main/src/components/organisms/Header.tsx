@@ -50,22 +50,22 @@ const Header = () => {
   const routes: IHeaderButton[] = [
     {
       path: "/",
-      icon: <PiHandWavingFill size={20} />,
+      icon: "👋",
       selected: pathname === "/",
     },
     {
       path: "/projects",
-      icon: <MdComputer size={20} />,
+      icon: "💻",
       selected: pathname === "/projects",
     },
     {
       path: "/about-me",
-      icon: <FaCircleInfo size={20} />,
+      icon: "🙋🏽‍♂️",
       selected: pathname === "/about-me",
     },
     {
       path: "/contact",
-      icon: <RiContactsBook2Fill size={20} />,
+      icon: "✉️",
       selected: pathname === "/contact",
     },
   ];

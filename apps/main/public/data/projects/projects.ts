@@ -26,6 +26,8 @@ export const projects: IProject[] = [
       "Next.js",
       "Node.js",
       "MongoDB",
+      "AWS",
+      "Redis",
     ],
     timeline: null,
     link: "https://dostproject.vercel.app/",
