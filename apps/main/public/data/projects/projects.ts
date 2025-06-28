@@ -14,9 +14,10 @@ export const projects: IProject[] = [
   },
   {
     slug: "dost",
-    description: `Monorepo for dost clothing store, powered by Turborepo. 
-    It includes a Node.js server, Next.js web client, and React Native mobile 
-    app, all streamlined in a single codebase.`,
+    description: `Dost is a clothing store platform with a Next.js web client 
+    and a Node.js server hosted on AWS EC2. It uses MongoDB as the main database, 
+    leverages Amazon SES for transactional emails, and Redis for caching and 
+    session management. The mobile version (React Native) is currently under development.`,
     name: "dost",
     techStack: [
       "React",
