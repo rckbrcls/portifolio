@@ -3,7 +3,8 @@ import { IProject } from "@/interface/IProject";
 export const projects: IProject[] = [
   {
     slug: "polterware",
-    description: `polterware institutional website.`,
+    description: `Website for my software studio, Polterware, created to showcase
+     my most solid, robust, and professional personal projects.`,
     name: "polterware",
     techStack: ["Next.js", "React", "TypeScript", "Tailwind"],
     timeline: null,
