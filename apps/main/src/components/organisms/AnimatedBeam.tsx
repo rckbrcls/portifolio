@@ -71,47 +71,55 @@ export function AnimatedBeamArchitecture({
   const architectureBlocks: ArchitectureBlock[] = [
     {
       title: "Simple Store",
-      githubUrl: "https://github.com/your-repo",
-      microfrontendUrl: "https://simple-store.example.com",
+      githubUrl:
+        "https://github.com/brcls/portifolio-monorepo/tree/main/apps/lojinha-simples",
+      microfrontendUrl: "/microfrontend/lojinha-simples",
     },
     {
       title: "Video Project Manage",
-      githubUrl: "https://github.com/your-repo",
-      microfrontendUrl: "https://video-project-manage.example.com",
+      githubUrl:
+        "https://github.com/brcls/portifolio-monorepo/tree/main/apps/video-project-manage",
+      microfrontendUrl: "/microfrontend/video-project-manage",
     },
     {
       title: "Main",
-      githubUrl: "https://github.com/your-repo",
+      githubUrl:
+        "https://github.com/brcls/portifolio-monorepo/tree/main/apps/main",
     },
     {
       title: "Alan Turing",
-      githubUrl: "https://github.com/your-repo",
-      microfrontendUrl: "https://alan-turing.example.com",
+      githubUrl:
+        "https://github.com/brcls/portifolio-monorepo/tree/main/apps/alan-turing",
+      microfrontendUrl: "/microfrontend/alan-turing",
     },
     {
       title: "Joystick",
-      githubUrl: "https://github.com/your-repo",
-      microfrontendUrl: "https://joystick.example.com",
+      githubUrl:
+        "https://github.com/brcls/portifolio-monorepo/tree/main/apps/joystick",
+      microfrontendUrl: "/microfrontend/joystick",
     },
     {
       title: "Secret Santa",
-      githubUrl: "https://github.com/your-repo",
-      microfrontendUrl: "https://secret-santa.example.com",
+      githubUrl:
+        "https://github.com/brcls/portifolio-monorepo/tree/main/apps/secret-santa",
+      microfrontendUrl: "/microfrontend/secret-santa",
     },
     {
       title: "Electoral System",
-      githubUrl: "https://github.com/your-repo",
-      microfrontendUrl: "https://electoral-system.example.com",
+      githubUrl:
+        "https://github.com/brcls/portifolio-monorepo/tree/main/apps/electoral-system",
+      microfrontendUrl: "/microfrontend/electoral-system",
     },
     {
       title: "RGBWallet",
-      githubUrl: "https://github.com/your-repo",
-      microfrontendUrl: "https://rgbwallet.example.com",
+      githubUrl:
+        "https://github.com/brcls/portifolio-monorepo/tree/main/apps/rgbwallet",
+      microfrontendUrl: "/microfrontend/rgbwallet",
     },
     {
       title: "Liga Acadêmica de Psiquiatria",
-      githubUrl: "https://github.com/your-repo",
-      microfrontendUrl: "https://lap.example.com",
+      githubUrl: "https://github.com/rckbrcls/academic-league-of-psychiatry",
+      microfrontendUrl: "/microfrontend/liga-academica",
     },
     // Adicione mais blocos aqui conforme necessário
   ];
