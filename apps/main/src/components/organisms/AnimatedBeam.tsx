@@ -5,15 +5,18 @@ import { Text } from "../atoms/Text";
 import { cn } from "@/lib/utils";
 import { AnimatedBeam } from "@/components/ui/animated-beam";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
+import { BiSolidComponent } from "react-icons/bi";
 
 // Card component for architecture blocks
 function ArchitectureCard({
   title,
   githubUrl,
+  microfrontendUrl,
   cardRef,
 }: {
   title: string;
   githubUrl: string;
+  microfrontendUrl?: string;
   cardRef: RefObject<HTMLDivElement>;
 }) {
   return (
@@ -24,17 +27,39 @@ function ArchitectureCard({
       ref={cardRef}
     >
       <div className="flex w-full flex-col items-center gap-2 p-2">
-        <Text className="font-bold">{title}</Text>
+        <Text className="text-nowrap font-bold">{title}</Text>
         <a
           className="glass-dark flex w-full items-center justify-center gap-2 rounded-lg p-2 transition duration-500 hover:scale-105"
           href={githubUrl}
+          target="_blank"
+          rel="noopener noreferrer"
         >
           <GitHubLogoIcon />
           <Text className="w-full md:text-sm">Codebase</Text>
         </a>
+        {microfrontendUrl && (
+          <a
+            className="glass-dark flex w-full items-center justify-center gap-2 rounded-lg p-2 transition duration-500 hover:scale-105"
+            href={microfrontendUrl}
+          >
+            <BiSolidComponent />
+            <Text className="w-full md:text-sm">Microfrontend</Text>
+          </a>
+        )}
       </div>
     </div>
   );
+}
+
+interface ArchitectureBlock {
+  title: string;
+  githubUrl: string;
+  microfrontendUrl?: string;
+}
+
+interface BeamConnection {
+  from: number; // índice do bloco origem
+  to: number; // índice do bloco destino
 }
 
 export function AnimatedBeamArchitecture({
@@ -42,15 +67,68 @@ export function AnimatedBeamArchitecture({
 }: {
   className?: string;
 }) {
+  // Defina os blocos da arquitetura aqui
+  const architectureBlocks: ArchitectureBlock[] = [
+    {
+      title: "Simple Store",
+      githubUrl: "https://github.com/your-repo",
+      microfrontendUrl: "https://simple-store.example.com",
+    },
+    {
+      title: "Video Project Manage",
+      githubUrl: "https://github.com/your-repo",
+      microfrontendUrl: "https://video-project-manage.example.com",
+    },
+    {
+      title: "Main",
+      githubUrl: "https://github.com/your-repo",
+    },
+    {
+      title: "Alan Turing",
+      githubUrl: "https://github.com/your-repo",
+      microfrontendUrl: "https://alan-turing.example.com",
+    },
+    {
+      title: "Joystick",
+      githubUrl: "https://github.com/your-repo",
+      microfrontendUrl: "https://joystick.example.com",
+    },
+    {
+      title: "Secret Santa",
+      githubUrl: "https://github.com/your-repo",
+      microfrontendUrl: "https://secret-santa.example.com",
+    },
+    {
+      title: "Electoral System",
+      githubUrl: "https://github.com/your-repo",
+      microfrontendUrl: "https://electoral-system.example.com",
+    },
+    {
+      title: "RGBWallet",
+      githubUrl: "https://github.com/your-repo",
+      microfrontendUrl: "https://rgbwallet.example.com",
+    },
+    {
+      title: "Liga Acadêmica de Psiquiatria",
+      githubUrl: "https://github.com/your-repo",
+      microfrontendUrl: "https://lap.example.com",
+    },
+    // Adicione mais blocos aqui conforme necessário
+  ];
+
+  // Encontre o índice do bloco central (Main)
+  const mainIdx = architectureBlocks.findIndex((b) => b.title === "Main");
+  const outerBlocks = architectureBlocks.filter((_, idx) => idx !== mainIdx);
+
+  // Crie refs para todos os blocos
+  const blockRefs = architectureBlocks.map(() => useRef<HTMLDivElement>(null));
   const containerRef = useRef<HTMLDivElement>(null);
-  const divRefSimpleStore = useRef<HTMLDivElement>(null);
-  const divRefMain = useRef<HTMLDivElement>(null);
-  const [curvature, setCurvature] = useState(170);
+  const [curvature, setCurvature] = useState(0);
 
   useEffect(() => {
     const width = window.innerWidth;
     if (width > 1200) {
-      setCurvature(170);
+      setCurvature(0);
     } else if (width > 768) {
       setCurvature(120);
     } else {
@@ -58,34 +136,78 @@ export function AnimatedBeamArchitecture({
     }
   }, []);
 
+  // Parâmetros do círculo
+  const radius = 280; // px (aumentado para afastar os blocos do centro)
+  const center = 300; // px (ajuste conforme necessário)
+
   return (
     <div
       className={cn(
-        "bg-background relative flex w-11/12 items-center justify-center",
+        "bg-background relative mx-auto flex h-[600px] w-[600px] items-center justify-center",
         className,
       )}
       ref={containerRef}
+      style={{ minHeight: 600, minWidth: 600 }}
     >
-      <div className="flex size-full flex-row items-center justify-between gap-2 max-md:p-4">
-        <div className="flex flex-col justify-center gap-32 max-md:gap-10">
-          <ArchitectureCard
-            title="Simple Store"
-            githubUrl="https://github.com/your-repo"
-            cardRef={divRefSimpleStore}
-          />
-          <ArchitectureCard
-            title="Main"
-            githubUrl="https://github.com/your-repo"
-            cardRef={divRefMain}
-          />
-        </div>
+      {/* Renderiza o bloco central */}
+      <div
+        style={{
+          position: "absolute",
+          left: center - 80,
+          top: center - 80,
+          zIndex: 20,
+        }}
+      >
+        <ArchitectureCard
+          key={architectureBlocks[mainIdx].title}
+          title={architectureBlocks[mainIdx].title}
+          githubUrl={architectureBlocks[mainIdx].githubUrl}
+          cardRef={blockRefs[mainIdx]}
+        />
       </div>
-      <AnimatedBeam
-        containerRef={containerRef}
-        fromRef={divRefSimpleStore}
-        toRef={divRefMain}
-        curvature={curvature}
-      />
+      {/* Renderiza os blocos ao redor em círculo */}
+      {outerBlocks.map((block, i) => {
+        const angle = (2 * Math.PI * i) / outerBlocks.length;
+        const x = center + radius * Math.cos(angle) - 80;
+        const y = center + radius * Math.sin(angle) - 80;
+        // Descobre o índice real do bloco
+        const realIdx = architectureBlocks.findIndex(
+          (b) => b.title === block.title,
+        );
+        return (
+          <div
+            key={block.title}
+            style={{
+              position: "absolute",
+              left: x,
+              top: y,
+              zIndex: 10,
+            }}
+          >
+            <ArchitectureCard
+              title={block.title}
+              githubUrl={block.githubUrl}
+              microfrontendUrl={block.microfrontendUrl}
+              cardRef={blockRefs[realIdx]}
+            />
+          </div>
+        );
+      })}
+      {/* Renderize AnimatedBeam de cada bloco para o central */}
+      {outerBlocks.map((block, i) => {
+        const realIdx = architectureBlocks.findIndex(
+          (b) => b.title === block.title,
+        );
+        return (
+          <AnimatedBeam
+            key={block.title + "-beam"}
+            containerRef={containerRef}
+            fromRef={blockRefs[realIdx]}
+            toRef={blockRefs[mainIdx]}
+            curvature={curvature}
+          />
+        );
+      })}
     </div>
   );
 }
