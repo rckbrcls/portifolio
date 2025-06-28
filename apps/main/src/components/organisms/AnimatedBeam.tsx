@@ -29,7 +29,7 @@ function ArchitectureCard({
       <div className="flex w-full flex-col items-center gap-2 p-2">
         <Text className="text-nowrap font-bold">{title}</Text>
         <a
-          className="glass-dark flex w-full items-center justify-center gap-2 rounded-lg p-2 transition duration-500 hover:scale-105"
+          className="glass-dark flex w-full items-center justify-center gap-2 rounded p-2 transition duration-500 hover:scale-105"
           href={githubUrl}
           target="_blank"
           rel="noopener noreferrer"
@@ -39,7 +39,7 @@ function ArchitectureCard({
         </a>
         {microfrontendUrl && (
           <a
-            className="glass-dark flex w-full items-center justify-center gap-2 rounded-lg p-2 transition duration-500 hover:scale-105"
+            className="glass-dark flex w-full items-center justify-center gap-2 rounded p-2 transition duration-500 hover:scale-105"
             href={microfrontendUrl}
           >
             <BiSolidComponent />
