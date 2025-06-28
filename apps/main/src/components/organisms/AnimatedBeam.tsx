@@ -144,8 +144,9 @@ export function AnimatedBeamArchitecture({
     }
   }, []);
 
-  // Parâmetros do círculo
-  const radius = 280; // px (aumentado para afastar os blocos do centro)
+  // Parâmetros do "retângulo polar"
+  const radiusX = 380; // Largura do retângulo (lateral) - aumentado
+  const radiusY = 240; // Altura do retângulo (topo/baixo) - aumentado
   const center = 300; // px (ajuste conforme necessário)
 
   return (
@@ -173,11 +174,12 @@ export function AnimatedBeamArchitecture({
           cardRef={blockRefs[mainIdx]}
         />
       </div>
-      {/* Renderiza os blocos ao redor em círculo */}
+      {/* Renderiza os blocos ao redor em formato retangular */}
       {outerBlocks.map((block, i) => {
         const angle = (2 * Math.PI * i) / outerBlocks.length;
-        const x = center + radius * Math.cos(angle) - 80;
-        const y = center + radius * Math.sin(angle) - 80;
+        // Usa raio X para laterais e raio Y para topo/baixo
+        const x = center + radiusX * Math.cos(angle) - 80;
+        const y = center + radiusY * Math.sin(angle) - 80;
         // Descobre o índice real do bloco
         const realIdx = architectureBlocks.findIndex(
           (b) => b.title === block.title,
