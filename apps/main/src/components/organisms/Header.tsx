@@ -12,6 +12,7 @@ import { usePathname } from "next/navigation";
 interface IHeaderButton {
   path: Route;
   icon: React.ReactNode;
+  name?: string;
   selected?: boolean;
 }
 
@@ -52,26 +53,31 @@ const Header = () => {
       path: "/",
       icon: "👋",
       selected: pathname === "/",
+      name: "Home",
     },
     {
       path: "/architecture",
       icon: "🏗️",
       selected: pathname === "/architecture",
+      name: "Architecture",
     },
     {
       path: "/projects",
       icon: "💻",
       selected: pathname === "/projects",
+      name: "Projects",
     },
     {
       path: "/about-me",
       icon: "🙋🏽‍♂️",
       selected: pathname === "/about-me",
+      name: "About Me",
     },
     {
       path: "/contact",
       icon: "✉️",
       selected: pathname === "/contact",
+      name: "Contact",
     },
   ];
 
@@ -82,9 +88,16 @@ const Header = () => {
       {routes.map((route, index) => (
         <Link key={index} href={route.path}>
           <button
-            className={`flex items-center rounded-full p-2 duration-500 hover:scale-110 hover:bg-zinc-800 active:scale-95 active:bg-zinc-900 ${route.selected && "bg-zinc-100 text-zinc-950 hover:bg-zinc-300 active:scale-95 active:bg-zinc-300"}`}
+            className={`group flex items-center rounded-full p-2 px-4 duration-700 hover:scale-110 hover:bg-zinc-800 active:scale-95 active:bg-zinc-900 ${route.selected && "bg-zinc-100 text-zinc-950 hover:bg-zinc-300 active:scale-95 active:bg-zinc-300"}`}
           >
-            {route.icon}
+            <span>{route.icon}</span>
+            {route.name && (
+              <span
+                className={`ml-2 max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-all duration-700 group-hover:max-w-xs group-hover:opacity-100 ${route.selected ? "max-w-xs opacity-100" : ""}`}
+              >
+                {route.name}
+              </span>
+            )}
           </button>
         </Link>
       ))}

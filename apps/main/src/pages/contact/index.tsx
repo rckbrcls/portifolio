@@ -44,7 +44,7 @@ export default function Contact() {
             target="_blank"
             href="https://github.com/rckbrcls"
           >
-            <AiFillGithub size={40} />
+            <AiFillGithub />
             <Text>GitHub</Text>
           </Link>
           <Link
@@ -52,7 +52,7 @@ export default function Contact() {
             target="_blank"
             href="https://www.linkedin.com/in/brcls/"
           >
-            <AiFillLinkedin size={40} />
+            <AiFillLinkedin />
             <Text>LinkedIn</Text>
           </Link>
           <Link
@@ -65,7 +65,7 @@ export default function Contact() {
             }}
           >
             <div className="flex items-center gap-2">
-              <AiFillMail size={40} />
+              📬
               <Text>E-mail</Text>
             </div>
             {showCopyMessage && <p>Copied!</p>}
