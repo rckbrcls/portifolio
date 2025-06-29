@@ -8,23 +8,20 @@ import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { BiSolidComponent } from "react-icons/bi";
 
 // Card component for architecture blocks
-function ArchitectureCard({
-  title,
-  githubUrl,
-  microfrontendUrl,
-  cardRef,
-}: {
-  title: string;
-  githubUrl: string;
-  microfrontendUrl?: string;
-  cardRef: RefObject<HTMLDivElement>;
-}) {
+const ArchitectureCard = React.forwardRef<
+  HTMLDivElement,
+  {
+    title: string;
+    githubUrl: string;
+    microfrontendUrl?: string;
+  }
+>(({ title, githubUrl, microfrontendUrl }, ref) => {
   return (
     <div
       className={
         "glass-dark z-10 flex items-center justify-center rounded-lg p-3"
       }
-      ref={cardRef}
+      ref={ref}
     >
       <div className="flex w-full flex-col items-center gap-2 p-2">
         <Text className="text-nowrap font-bold">{title}</Text>
@@ -49,7 +46,9 @@ function ArchitectureCard({
       </div>
     </div>
   );
-}
+});
+
+ArchitectureCard.displayName = "ArchitectureCard";
 
 interface ArchitectureBlock {
   title: string;
@@ -149,6 +148,19 @@ export function AnimatedBeamArchitecture({
   const radiusY = 240; // Altura do retângulo (topo/baixo) - aumentado
   const center = 300; // px (ajuste conforme necessário)
 
+  // Defina as posições manuais para cada bloco (exceto o central)
+  // Exemplo: [{ left: 100, top: 50 }, ...]
+  const cardPositions = [
+    { left: -150, top: 0 }, // Simple Store
+    { left: -250, top: 200 }, // Video Project Manage
+    { left: 550, top: 0 }, // Alan Turing
+    { left: 600, top: 200 }, // Joystick
+    { left: 550, top: 400 }, // Secret Santa
+    { left: 200, top: 400 }, // Electoral System
+    { left: -150, top: 400 }, // RGBWallet
+    { left: 150, top: 0 }, // Liga Acadêmica de Psiquiatria
+  ];
+
   return (
     <div
       className={cn(
@@ -171,26 +183,23 @@ export function AnimatedBeamArchitecture({
           key={architectureBlocks[mainIdx].title}
           title={architectureBlocks[mainIdx].title}
           githubUrl={architectureBlocks[mainIdx].githubUrl}
-          cardRef={blockRefs[mainIdx]}
+          ref={blockRefs[mainIdx]}
         />
       </div>
-      {/* Renderiza os blocos ao redor em formato retangular */}
+      {/* Renderiza os blocos ao redor em posições manuais */}
       {outerBlocks.map((block, i) => {
-        const angle = (2 * Math.PI * i) / outerBlocks.length;
-        // Usa raio X para laterais e raio Y para topo/baixo
-        const x = center + radiusX * Math.cos(angle) - 80;
-        const y = center + radiusY * Math.sin(angle) - 80;
         // Descobre o índice real do bloco
         const realIdx = architectureBlocks.findIndex(
           (b) => b.title === block.title,
         );
+        const pos = cardPositions[i] || { left: 0, top: 0 };
         return (
           <div
             key={block.title}
             style={{
               position: "absolute",
-              left: x,
-              top: y,
+              left: pos.left,
+              top: pos.top,
               zIndex: 10,
             }}
           >
@@ -198,7 +207,7 @@ export function AnimatedBeamArchitecture({
               title={block.title}
               githubUrl={block.githubUrl}
               microfrontendUrl={block.microfrontendUrl}
-              cardRef={blockRefs[realIdx]}
+              ref={blockRefs[realIdx]}
             />
           </div>
         );
