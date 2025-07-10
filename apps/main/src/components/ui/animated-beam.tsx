@@ -47,6 +47,7 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
   const id = useId();
   const [pathD, setPathD] = useState("");
   const [svgDimensions, setSvgDimensions] = useState({ width: 0, height: 0 });
+  const [updateTrigger, setUpdateTrigger] = useState(0);
 
   // Calculate the gradient coordinates based on the reverse prop
   const gradientCoordinates = reverse
@@ -63,6 +64,11 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
         y2: ["0%", "0%"],
       };
 
+  // Force updates when offsets change (for real-time drag)
+  useEffect(() => {
+    setUpdateTrigger((prev) => prev + 1);
+  }, [startXOffset, startYOffset, endXOffset, endYOffset]);
+
   useEffect(() => {
     const updatePath = () => {
       if (containerRef.current && fromRef.current && toRef.current) {
@@ -70,7 +76,7 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
         const rectA = fromRef.current.getBoundingClientRect();
         const rectB = toRef.current.getBoundingClientRect();
 
-        // Calculate element centers relative to container
+        // Calculate element centers relative to container (WITHOUT offset first)
         const centerA = {
           x: rectA.left - containerRect.left + rectA.width / 2,
           y: rectA.top - containerRect.top + rectA.height / 2,
@@ -80,18 +86,31 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
           y: rectB.top - containerRect.top + rectB.height / 2,
         };
 
+        // Apply drag offset to centers to simulate new positions
+        const draggedCenterA = {
+          x: centerA.x + startXOffset,
+          y: centerA.y + startYOffset,
+        };
+        const draggedCenterB = {
+          x: centerB.x + endXOffset,
+          y: centerB.y + endYOffset,
+        };
+
         // Function to get intersection point with rectangle edge
         const getEdgePoint = (
           center: { x: number; y: number },
           target: { x: number; y: number },
           rect: DOMRect,
           containerRect: DOMRect,
+          xOffset: number = 0,
+          yOffset: number = 0,
         ) => {
           const dx = target.x - center.x;
           const dy = target.y - center.y;
 
-          const rectLeft = rect.left - containerRect.left;
-          const rectTop = rect.top - containerRect.top;
+          // Apply offset to rectangle position to simulate drag position
+          const rectLeft = rect.left - containerRect.left + xOffset;
+          const rectTop = rect.top - containerRect.top + yOffset;
           const rectRight = rectLeft + rect.width;
           const rectBottom = rectTop + rect.height;
 
@@ -126,14 +145,28 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
           return { x: intersectionX, y: intersectionY };
         };
 
-        // Get edge connection points
-        const startPoint = getEdgePoint(centerA, centerB, rectA, containerRect);
-        const endPoint = getEdgePoint(centerB, centerA, rectB, containerRect);
+        // Get edge connection points using dragged centers and offset rectangles
+        const startPoint = getEdgePoint(
+          draggedCenterA,
+          draggedCenterB,
+          rectA,
+          containerRect,
+          startXOffset,
+          startYOffset,
+        );
+        const endPoint = getEdgePoint(
+          draggedCenterB,
+          draggedCenterA,
+          rectB,
+          containerRect,
+          endXOffset,
+          endYOffset,
+        );
 
-        const startX = startPoint.x + startXOffset;
-        const startY = startPoint.y + startYOffset;
-        const endX = endPoint.x + endXOffset;
-        const endY = endPoint.y + endYOffset;
+        const startX = startPoint.x;
+        const startY = startPoint.y;
+        const endX = endPoint.x;
+        const endY = endPoint.y;
 
         // Use container dimensions as SVG dimensions
         const svgWidth = containerRect.width;
@@ -150,6 +183,9 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
       }
     };
 
+    // Update path immediately when offsets change
+    updatePath();
+
     // Initialize ResizeObserver
     const resizeObserver = new ResizeObserver((entries) => {
       // For all entries, recalculate the path
@@ -162,9 +198,6 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
     if (containerRef.current) {
       resizeObserver.observe(containerRef.current);
     }
-
-    // Call the updatePath initially to set the initial path
-    updatePath();
 
     // Clean up the observer on component unmount
     return () => {
@@ -179,6 +212,7 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
     startYOffset,
     endXOffset,
     endYOffset,
+    updateTrigger,
   ]);
 
   return (

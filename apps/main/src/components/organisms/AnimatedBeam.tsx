@@ -139,6 +139,9 @@ const AnimatedBeamWithDrag: React.FC<{
 }) => {
   const isDragging = activeId === `draggable-${blockTitle}`;
 
+  // Force re-render during drag by using dragOffset values as key
+  const dragKey = isDragging ? `${dragOffset.x}-${dragOffset.y}` : "static";
+
   return (
     <AnimatedBeam
       containerRef={containerRef}
@@ -147,7 +150,7 @@ const AnimatedBeamWithDrag: React.FC<{
       curvature={curvature}
       startXOffset={isDragging ? dragOffset.x : 0}
       startYOffset={isDragging ? dragOffset.y : 0}
-      key={`${blockTitle}-beam-${isDragging ? "dragging" : "static"}`}
+      key={`${blockTitle}-beam-${dragKey}`}
     />
   );
 };
