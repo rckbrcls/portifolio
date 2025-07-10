@@ -250,18 +250,6 @@ export function ArchitectureContainer({ className }: { className?: string }) {
     },
   ];
 
-  // Objeto com posições personalizadas de cada card
-  const customPositions: Record<string, { x: number; y: number }> = {
-    "Simple Store": { x: 5, y: 5 },
-    "Video Project Manage": { x: 590, y: 430 },
-    "Alan Turing": { x: 1245, y: 5 },
-    Joystick: { x: 1245, y: 200 },
-    "Secret Santa": { x: 1245, y: 430 },
-    "Electoral System": { x: 5, y: 430 },
-    RGBWallet: { x: 5, y: 200 },
-    "Liga Acadêmica de Psicologia": { x: 560, y: 5 },
-  };
-
   // Encontre o índice do bloco central (Main)
   const mainIdx = architectureBlocks.findIndex((b) => b.title === "Main");
   const outerBlocks = architectureBlocks.filter((_, idx) => idx !== mainIdx);
@@ -274,9 +262,10 @@ export function ArchitectureContainer({ className }: { className?: string }) {
     height: 600,
   });
 
-  // Estado para rastrear posições atuais de cada card
-  const [cardPositions, setCardPositions] =
-    useState<Record<string, { x: number; y: number }>>(customPositions);
+  // Estado para rastrear posições atuais de cada card (apenas para desenvolvimento)
+  const [cardPositions, setCardPositions] = useState<
+    Record<string, { x: number; y: number }>
+  >({});
 
   // Monitorar mudanças no tamanho do container principal
   useEffect(() => {
@@ -299,19 +288,69 @@ export function ArchitectureContainer({ className }: { className?: string }) {
     };
   }, []);
 
-  // Calcular posições usando as posições personalizadas
+  // Calcular posições dinâmicas baseadas no tamanho do container
   const calculateCenterAndPositions = () => {
     const centerX = containerSize.width / 2;
     const centerY = containerSize.height / 2;
 
-    // Usar posições personalizadas para cada card
+    // Margens diferenciadas para topo e parte inferior
+    const marginX = Math.max(20, containerSize.width * 0.02); // Mínimo 20px ou 3% da largura
+    const marginTop = Math.max(20, containerSize.height * 0.03); // Margem menor no topo: 20px ou 3%
+    const marginBottom = Math.max(40, containerSize.height * 0.09); // Margem maior na parte inferior: 40px ou 9%
+
+    // Dimensões dos cards para cálculos precisos
+    const cardWidth = 170;
+    const cardHeight = 120;
+
+    // Posições dinâmicas baseadas em proporções do container
+    const dynamicPositions: Record<string, { x: number; y: number }> = {
+      // Linha superior: 3 cards distribuídos horizontalmente (margem menor no topo)
+      "Simple Store": {
+        x: marginX,
+        y: marginTop,
+      },
+      "Liga Acadêmica de Psicologia": {
+        x: centerX - cardWidth / 1.05, // Centralizado horizontalmente
+        y: marginTop,
+      },
+      "Alan Turing": {
+        x: containerSize.width - marginX - cardWidth,
+        y: marginTop,
+      },
+
+      // Linha do meio: 2 cards nas laterais
+      RGBWallet: {
+        x: marginX,
+        y: centerY - cardHeight / 2, // Centralizado verticalmente
+      },
+      Joystick: {
+        x: containerSize.width - marginX - cardWidth,
+        y: centerY - cardHeight / 2,
+      },
+
+      // Linha inferior: 3 cards distribuídos horizontalmente (margem maior na parte inferior)
+      "Electoral System": {
+        x: marginX,
+        y: containerSize.height - marginBottom - cardHeight,
+      },
+      "Video Project Manage": {
+        x: centerX - cardWidth / 1.35, // Centralizado horizontalmente
+        y: containerSize.height - marginBottom - cardHeight,
+      },
+      "Secret Santa": {
+        x: containerSize.width - marginX - cardWidth,
+        y: containerSize.height - marginBottom - cardHeight,
+      },
+    };
+
+    // Usar posições dinâmicas para cada card
     const positions = outerBlocks.map((block) => {
-      const customPos = customPositions[block.title];
-      return { left: customPos.x, top: customPos.y };
+      const dynamicPos = dynamicPositions[block.title];
+      return { left: dynamicPos.x, top: dynamicPos.y };
     });
 
     return {
-      center: { left: centerX - 85, top: centerY - 60 }, // Centralizar o card principal
+      center: { left: centerX - cardWidth / 2, top: centerY - cardHeight / 2 }, // Centralizar o card principal
       positions,
     };
   };
@@ -328,8 +367,9 @@ export function ArchitectureContainer({ className }: { className?: string }) {
       ref={containerRef}
       style={{
         minWidth: 850, // Largura mínima para que não quebre muito pequeno
-        minHeight: 600, // Altura mínima para que não quebre muito pequeno
-        height: "60vh", // Altura responsiva baseada na viewport
+        minHeight: 620, // Altura mínima ajustada para melhor proporção
+        height: "85vh", // Altura responsiva otimizada
+        maxHeight: 720, // Altura máxima para controlar proporções
       }}
     >
       {/* Renderiza o bloco central */}
