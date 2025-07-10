@@ -70,19 +70,78 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
         const rectA = fromRef.current.getBoundingClientRect();
         const rectB = toRef.current.getBoundingClientRect();
 
+        // Calculate element centers relative to container
+        const centerA = {
+          x: rectA.left - containerRect.left + rectA.width / 2,
+          y: rectA.top - containerRect.top + rectA.height / 2,
+        };
+        const centerB = {
+          x: rectB.left - containerRect.left + rectB.width / 2,
+          y: rectB.top - containerRect.top + rectB.height / 2,
+        };
+
+        // Function to get intersection point with rectangle edge
+        const getEdgePoint = (
+          center: { x: number; y: number },
+          target: { x: number; y: number },
+          rect: DOMRect,
+          containerRect: DOMRect,
+        ) => {
+          const dx = target.x - center.x;
+          const dy = target.y - center.y;
+
+          const rectLeft = rect.left - containerRect.left;
+          const rectTop = rect.top - containerRect.top;
+          const rectRight = rectLeft + rect.width;
+          const rectBottom = rectTop + rect.height;
+
+          // Calculate intersection with rectangle edges
+          let intersectionX = center.x;
+          let intersectionY = center.y;
+
+          if (Math.abs(dx) > Math.abs(dy)) {
+            // Horizontal direction is dominant
+            if (dx > 0) {
+              // Going right
+              intersectionX = rectRight;
+              intersectionY = center.y + (dy * (rectRight - center.x)) / dx;
+            } else {
+              // Going left
+              intersectionX = rectLeft;
+              intersectionY = center.y + (dy * (rectLeft - center.x)) / dx;
+            }
+          } else {
+            // Vertical direction is dominant
+            if (dy > 0) {
+              // Going down
+              intersectionY = rectBottom;
+              intersectionX = center.x + (dx * (rectBottom - center.y)) / dy;
+            } else {
+              // Going up
+              intersectionY = rectTop;
+              intersectionX = center.x + (dx * (rectTop - center.y)) / dy;
+            }
+          }
+
+          return { x: intersectionX, y: intersectionY };
+        };
+
+        // Get edge connection points
+        const startPoint = getEdgePoint(centerA, centerB, rectA, containerRect);
+        const endPoint = getEdgePoint(centerB, centerA, rectB, containerRect);
+
+        const startX = startPoint.x + startXOffset;
+        const startY = startPoint.y + startYOffset;
+        const endX = endPoint.x + endXOffset;
+        const endY = endPoint.y + endYOffset;
+
+        // Use container dimensions as SVG dimensions
         const svgWidth = containerRect.width;
         const svgHeight = containerRect.height;
+
         setSvgDimensions({ width: svgWidth, height: svgHeight });
 
-        const startX =
-          rectA.left - containerRect.left + rectA.width / 2 + startXOffset;
-        const startY =
-          rectA.top - containerRect.top + rectA.height / 2 + startYOffset;
-        const endX =
-          rectB.left - containerRect.left + rectB.width / 2 + endXOffset;
-        const endY =
-          rectB.top - containerRect.top + rectB.height / 2 + endYOffset;
-
+        // Create path with edge connection points
         const controlY = startY - curvature;
         const d = `M ${startX},${startY} Q ${
           (startX + endX) / 2
@@ -132,6 +191,9 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
         "pointer-events-none absolute left-0 top-0 transform-gpu stroke-2",
         className,
       )}
+      style={{
+        overflow: "visible",
+      }}
       viewBox={`0 0 ${svgDimensions.width} ${svgDimensions.height}`}
     >
       <path

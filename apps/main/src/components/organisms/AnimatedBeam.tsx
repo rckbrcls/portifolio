@@ -9,6 +9,7 @@ import { BiSolidComponent } from "react-icons/bi";
 import {
   DndContext,
   DragEndEvent,
+  DragMoveEvent,
   useDraggable,
   DragOverlay,
   closestCenter,
@@ -118,6 +119,39 @@ const DraggableArchitectureCard = React.forwardRef<
 
 DraggableArchitectureCard.displayName = "DraggableArchitectureCard";
 
+// AnimatedBeam wrapper that handles drag offset
+const AnimatedBeamWithDrag: React.FC<{
+  containerRef: RefObject<HTMLElement | null>;
+  fromRef: RefObject<HTMLElement | null>;
+  toRef: RefObject<HTMLElement | null>;
+  curvature: number;
+  blockTitle: string;
+  activeId: string | null;
+  dragOffset: { x: number; y: number };
+}> = ({
+  containerRef,
+  fromRef,
+  toRef,
+  curvature,
+  blockTitle,
+  activeId,
+  dragOffset,
+}) => {
+  const isDragging = activeId === `draggable-${blockTitle}`;
+
+  return (
+    <AnimatedBeam
+      containerRef={containerRef}
+      fromRef={fromRef}
+      toRef={toRef}
+      curvature={curvature}
+      startXOffset={isDragging ? dragOffset.x : 0}
+      startYOffset={isDragging ? dragOffset.y : 0}
+      key={`${blockTitle}-beam-${isDragging ? "dragging" : "static"}`}
+    />
+  );
+};
+
 interface ArchitectureBlock {
   title: string;
   githubUrl: string;
@@ -200,6 +234,10 @@ export function AnimatedBeamArchitecture({
   const containerRef = useRef<HTMLDivElement>(null);
   const [curvature, setCurvature] = useState(0);
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [dragOffset, setDragOffset] = useState<{ x: number; y: number }>({
+    x: 0,
+    y: 0,
+  });
 
   // Estado para armazenar as posições dos blocos
   const initialCardPositions = [
@@ -233,6 +271,14 @@ export function AnimatedBeamArchitecture({
 
   const handleDragStart = (event: any) => {
     setActiveId(event.active.id);
+    setDragOffset({ x: 0, y: 0 });
+  };
+
+  const handleDragMove = (event: DragMoveEvent) => {
+    const { delta } = event;
+    if (delta) {
+      setDragOffset({ x: delta.x, y: delta.y });
+    }
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -256,12 +302,14 @@ export function AnimatedBeamArchitecture({
     }
 
     setActiveId(null);
+    setDragOffset({ x: 0, y: 0 });
   };
 
   return (
     <DndContext
       collisionDetection={closestCenter}
       onDragStart={handleDragStart}
+      onDragMove={handleDragMove}
       onDragEnd={handleDragEnd}
     >
       <div
@@ -270,7 +318,10 @@ export function AnimatedBeamArchitecture({
           className,
         )}
         ref={containerRef}
-        style={{ minHeight: 600, minWidth: 600 }}
+        style={{
+          minHeight: 600,
+          minWidth: 600,
+        }}
       >
         {/* Renderiza o bloco central */}
         <div
@@ -316,12 +367,15 @@ export function AnimatedBeamArchitecture({
             (b) => b.title === block.title,
           );
           return (
-            <AnimatedBeam
+            <AnimatedBeamWithDrag
               key={block.title + "-beam"}
               containerRef={containerRef}
               fromRef={blockRefs[realIdx]}
               toRef={blockRefs[mainIdx]}
               curvature={curvature}
+              blockTitle={block.title}
+              activeId={activeId}
+              dragOffset={dragOffset}
             />
           );
         })}
