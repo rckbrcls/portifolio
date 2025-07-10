@@ -190,7 +190,7 @@ export function ArchitectureContainer({ className }: { className?: string }) {
     { left: 700, top: 50 }, // Alan Turing
     { left: 750, top: 250 }, // Joystick
     { left: 700, top: 450 }, // Secret Santa
-    { left: 400, top: 500 }, // Electoral System
+    { left: 360, top: 500 }, // Electoral System
     { left: 0, top: 450 }, // RGBWallet
     { left: 300, top: 50 }, // Liga Acadêmica de Psicologia
   ];
