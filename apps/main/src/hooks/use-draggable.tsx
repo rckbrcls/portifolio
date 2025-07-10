@@ -106,16 +106,48 @@ export const useDraggable = (options: UseDraggableOptions = {}) => {
       let newX = dragState.current.elementStartX + deltaX;
       let newY = dragState.current.elementStartY + deltaY;
 
-      // Aplicar bounds se especificado
+      // BOUNDS ULTRA ROBUSTOS - aplicar limites à posição final do elemento
       if (options.bounds) {
-        if (options.bounds.left !== undefined)
-          newX = Math.max(options.bounds.left, newX);
-        if (options.bounds.top !== undefined)
-          newY = Math.max(options.bounds.top, newY);
-        if (options.bounds.right !== undefined)
-          newX = Math.min(options.bounds.right, newX);
-        if (options.bounds.bottom !== undefined)
-          newY = Math.min(options.bounds.bottom, newY);
+        // Debug logging (remover em produção)
+        if (process.env.NODE_ENV === "development") {
+          console.log(`Proposed position: (${newX}, ${newY})`);
+          console.log(`Bounds:`, options.bounds);
+        }
+
+        // Aplicar bounds diretamente à posição de transform (não ao getBoundingClientRect)
+        if (options.bounds.left !== undefined) {
+          const limitedX = Math.max(options.bounds.left, newX);
+          if (limitedX !== newX) {
+            console.log(`Left bound applied: ${newX} -> ${limitedX}`);
+          }
+          newX = limitedX;
+        }
+        if (options.bounds.top !== undefined) {
+          const limitedY = Math.max(options.bounds.top, newY);
+          if (limitedY !== newY) {
+            console.log(`Top bound applied: ${newY} -> ${limitedY}`);
+          }
+          newY = limitedY;
+        }
+        if (options.bounds.right !== undefined) {
+          const limitedX = Math.min(options.bounds.right, newX);
+          if (limitedX !== newX) {
+            console.log(`Right bound applied: ${newX} -> ${limitedX}`);
+          }
+          newX = limitedX;
+        }
+        if (options.bounds.bottom !== undefined) {
+          const limitedY = Math.min(options.bounds.bottom, newY);
+          if (limitedY !== newY) {
+            console.log(`Bottom bound applied: ${newY} -> ${limitedY}`);
+          }
+          newY = limitedY;
+        }
+
+        // Debug final position
+        if (process.env.NODE_ENV === "development") {
+          console.log(`Final position: (${newX}, ${newY})`);
+        }
       }
 
       // Aplicar snap to grid se especificado

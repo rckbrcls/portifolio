@@ -61,7 +61,25 @@ const DraggableArchitectureCard = forwardRef<
     initialPosition: { left: number; top: number };
   }
 >(({ title, githubUrl, microfrontendUrl, initialPosition }, forwardedRef) => {
+  // Calcular bounds dinâmicos baseados no container
+  const calculateBounds = () => {
+    // Dimensões estimadas do card baseadas no CSS
+    const cardWidth = 170; // Aproximadamente com padding
+    const cardHeight = 120; // Aproximadamente com padding
+    const containerWidth = 850;
+    const containerHeight = 600;
+
+    return {
+      left: -initialPosition.left, // Permite voltar à posição original
+      top: -initialPosition.top, // Permite voltar à posição original
+      right: containerWidth - initialPosition.left - cardWidth,
+      bottom: containerHeight - initialPosition.top - cardHeight,
+    };
+  };
+
   const { ref, isDragging, position } = useDraggable({
+    // Bounds dinâmicos calculados para cada card
+    bounds: calculateBounds(),
     onDragStart: () => {
       console.log(`Started dragging ${title}`);
     },
@@ -183,16 +201,16 @@ export function ArchitectureContainer({ className }: { className?: string }) {
   const blockRefs = architectureBlocks.map(() => useRef<HTMLDivElement>(null));
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Posições iniciais dos cards em formato circular
+  // Posições iniciais dos cards em formato circular (bem distribuído)
   const initialCardPositions = [
-    { left: 0, top: 50 }, // Simple Store
-    { left: -100, top: 250 }, // Video Project Manage
-    { left: 700, top: 50 }, // Alan Turing
-    { left: 750, top: 250 }, // Joystick
-    { left: 700, top: 450 }, // Secret Santa
-    { left: 360, top: 500 }, // Electoral System
-    { left: 0, top: 450 }, // RGBWallet
-    { left: 300, top: 0 }, // Liga Acadêmica de Psicologia
+    { left: 100, top: 100 }, // Simple Store
+    { left: 50, top: 300 }, // Video Project Manage
+    { left: 600, top: 100 }, // Alan Turing
+    { left: 650, top: 300 }, // Joystick
+    { left: 600, top: 450 }, // Secret Santa
+    { left: 350, top: 480 }, // Electoral System
+    { left: 100, top: 450 }, // RGBWallet
+    { left: 350, top: 50 }, // Liga Acadêmica de Psicologia
   ];
 
   const center = { left: 375, top: 275 }; // Posição do card central
@@ -200,13 +218,13 @@ export function ArchitectureContainer({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "bg-background relative mx-auto flex h-[600px] w-[850px] items-center justify-center",
+        "bg-background glass-dark relative mx-auto flex items-center justify-center overflow-hidden rounded-xl",
         className,
       )}
       ref={containerRef}
       style={{
-        minHeight: 600,
-        minWidth: 850,
+        width: 850, // Largura fixa em vez de w-full
+        height: 600, // Altura fixa
       }}
     >
       {/* Renderiza o bloco central */}
