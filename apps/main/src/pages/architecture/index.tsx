@@ -1,6 +1,6 @@
 import Title from "@/components/atoms/Title";
 import MainLayout from "@/components/MainLayout";
-import { AnimatedBeamArchitecture } from "@/components/organisms/AnimatedBeam";
+import { ArchitectureContainer } from "@/components/organisms/Architecture";
 import React from "react";
 
 const ArchitecturePage = () => {
@@ -13,7 +13,7 @@ const ArchitecturePage = () => {
         className="absolute left-10 top-10"
       /> */}
       <div className="flex h-svh w-full items-center justify-center p-10">
-        <AnimatedBeamArchitecture />
+        <ArchitectureContainer />
       </div>
     </MainLayout>
   );

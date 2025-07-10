@@ -158,11 +158,7 @@ interface BeamConnection {
   to: number; // índice do bloco destino
 }
 
-export function AnimatedBeamArchitecture({
-  className,
-}: {
-  className?: string;
-}) {
+export function ArchitectureContainer({ className }: { className?: string }) {
   // Defina os blocos da arquitetura aqui
   const architectureBlocks: ArchitectureBlock[] = [
     {

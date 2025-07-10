@@ -8,7 +8,7 @@ import Aurora from "@/components/molecules/Aurora";
 import Title from "@/components/atoms/Title";
 import Header from "@/components/organisms/Header";
 import Alert from "@/components/molecules/Alert";
-import { AnimatedBeamArchitecture } from "@/components/organisms/AnimatedBeam";
+import { ArchitectureContainer } from "@/components/organisms/Architecture";
 import { AiFillGithub } from "react-icons/ai";
 import { MdComputer } from "react-icons/md";
 import { Text } from "@/components/atoms/Text";
