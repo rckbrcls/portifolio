@@ -167,6 +167,12 @@ export function ArchitectureContainer({ className }: { className?: string }) {
         "https://github.com/brcls/portifolio-monorepo/tree/main/apps/rgbwallet",
       microfrontendUrl: "/microfrontend/rgbwallet",
     },
+    {
+      title: "Liga Acadêmica de Psicologia",
+      githubUrl:
+        "https://github.com/brcls/portifolio-monorepo/tree/main/apps/liga-academica-psicologia",
+      microfrontendUrl: "/microfrontend/liga-academica-psicologia",
+    },
   ];
 
   // Encontre o índice do bloco central (Main)
@@ -179,13 +185,14 @@ export function ArchitectureContainer({ className }: { className?: string }) {
 
   // Posições iniciais dos cards em formato circular
   const initialCardPositions = [
-    { left: 100, top: 50 }, // Simple Store
-    { left: 50, top: 250 }, // Video Project Manage
+    { left: 0, top: 50 }, // Simple Store
+    { left: 0, top: 250 }, // Video Project Manage
     { left: 700, top: 50 }, // Alan Turing
     { left: 750, top: 250 }, // Joystick
     { left: 700, top: 450 }, // Secret Santa
     { left: 400, top: 500 }, // Electoral System
-    { left: 100, top: 450 }, // RGBWallet
+    { left: 0, top: 450 }, // RGBWallet
+    { left: 300, top: 50 }, // Liga Acadêmica de Psicologia
   ];
 
   const center = { left: 375, top: 275 }; // Posição do card central
