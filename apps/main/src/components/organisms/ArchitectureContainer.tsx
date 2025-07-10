@@ -186,13 +186,13 @@ export function ArchitectureContainer({ className }: { className?: string }) {
   // Posições iniciais dos cards em formato circular
   const initialCardPositions = [
     { left: 0, top: 50 }, // Simple Store
-    { left: 0, top: 250 }, // Video Project Manage
+    { left: -100, top: 250 }, // Video Project Manage
     { left: 700, top: 50 }, // Alan Turing
     { left: 750, top: 250 }, // Joystick
     { left: 700, top: 450 }, // Secret Santa
     { left: 360, top: 500 }, // Electoral System
     { left: 0, top: 450 }, // RGBWallet
-    { left: 300, top: 50 }, // Liga Acadêmica de Psicologia
+    { left: 300, top: 0 }, // Liga Acadêmica de Psicologia
   ];
 
   const center = { left: 375, top: 275 }; // Posição do card central
