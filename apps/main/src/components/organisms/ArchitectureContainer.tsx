@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, forwardRef } from "react";
+import React, { useRef, forwardRef, useState, useEffect } from "react";
 import { Text } from "../atoms/Text";
 import { cn } from "@/lib/utils";
 import { NativeDragLine } from "@/components/ui/native-drag-line";
@@ -59,73 +59,130 @@ const DraggableArchitectureCard = forwardRef<
     githubUrl: string;
     microfrontendUrl?: string;
     initialPosition: { left: number; top: number };
+    containerRef: React.RefObject<HTMLDivElement>;
+    onPositionChange?: (title: string, x: number, y: number) => void;
   }
->(({ title, githubUrl, microfrontendUrl, initialPosition }, forwardedRef) => {
-  // Calcular bounds dinâmicos baseados no container
-  const calculateBounds = () => {
-    // Dimensões estimadas do card baseadas no CSS
-    const cardWidth = 170; // Aproximadamente com padding
-    const cardHeight = 120; // Aproximadamente com padding
-    const containerWidth = 850;
-    const containerHeight = 600;
+>(
+  (
+    {
+      title,
+      githubUrl,
+      microfrontendUrl,
+      initialPosition,
+      containerRef,
+      onPositionChange,
+    },
+    forwardedRef,
+  ) => {
+    const [containerSize, setContainerSize] = useState({
+      width: 850,
+      height: 600,
+    });
 
-    return {
-      left: -initialPosition.left, // Permite voltar à posição original
-      top: -initialPosition.top, // Permite voltar à posição original
-      right: containerWidth - initialPosition.left - cardWidth,
-      bottom: containerHeight - initialPosition.top - cardHeight,
+    // Monitorar mudanças no tamanho do container
+    useEffect(() => {
+      const updateContainerSize = () => {
+        if (containerRef.current) {
+          const { offsetWidth, offsetHeight } = containerRef.current;
+          setContainerSize({ width: offsetWidth, height: offsetHeight });
+        }
+      };
+
+      // Atualizar imediatamente
+      updateContainerSize();
+
+      // Observar mudanças de tamanho
+      const resizeObserver = new ResizeObserver(updateContainerSize);
+      if (containerRef.current) {
+        resizeObserver.observe(containerRef.current);
+      }
+
+      return () => {
+        resizeObserver.disconnect();
+      };
+    }, [containerRef]);
+
+    // Calcular bounds dinâmicos baseados no container REAL
+    const calculateBounds = () => {
+      // Dimensões estimadas do card baseadas no CSS
+      const cardWidth = 170; // Aproximadamente com padding
+      const cardHeight = 120; // Aproximadamente com padding
+
+      return {
+        left: -initialPosition.left, // Permite voltar à posição original
+        top: -initialPosition.top, // Permite voltar à posição original
+        right: containerSize.width - initialPosition.left - cardWidth,
+        bottom: containerSize.height - initialPosition.top - cardHeight,
+      };
     };
-  };
 
-  const { ref, isDragging, position } = useDraggable({
-    // Bounds dinâmicos calculados para cada card
-    bounds: calculateBounds(),
-    onDragStart: () => {
-      console.log(`Started dragging ${title}`);
-    },
-    onDrag: (x, y) => {
-      // As linhas são atualizadas automaticamente pelo NativeDragLine
-    },
-    onDragEnd: () => {
-      console.log(
-        `Stopped dragging ${title} at (${position.x}, ${position.y})`,
-      );
-    },
-  });
+    const { ref, isDragging, position } = useDraggable({
+      // Bounds dinâmicos calculados para cada card
+      bounds: calculateBounds(),
+      onDragStart: () => {
+        console.log(`Started dragging ${title}`);
+      },
+      onDrag: (x, y) => {
+        // Atualizar a posição do card em tempo real
+        if (onPositionChange) {
+          onPositionChange(
+            title,
+            initialPosition.left + x,
+            initialPosition.top + y,
+          );
+        }
+      },
+      onDragEnd: () => {
+        const finalX = initialPosition.left + position.x;
+        const finalY = initialPosition.top + position.y;
+        console.log(`Stopped dragging ${title} at (${finalX}, ${finalY})`);
 
-  // Combinar refs de forma robusta
-  const setRefs = (element: HTMLDivElement | null) => {
-    if (typeof forwardedRef === "function") {
-      forwardedRef(element);
-    } else if (forwardedRef) {
-      forwardedRef.current = element;
-    }
-    (ref as any).current = element;
-  };
+        // Atualizar a posição final
+        if (onPositionChange) {
+          onPositionChange(title, finalX, finalY);
+        }
+      },
+    });
 
-  return (
-    <div
-      ref={setRefs}
-      style={{
-        position: "absolute",
-        left: initialPosition.left,
-        top: initialPosition.top,
-        zIndex: isDragging ? 30 : 10,
-      }}
-      data-draggable="true"
-      className={cn(
-        "transition-shadow duration-200",
-        isDragging ? "scale-105 shadow-xl" : "",
-      )}
-    >
-      <ArchitectureCard
-        title={title}
-        githubUrl={githubUrl}
-        microfrontendUrl={microfrontendUrl}
-      />
-    </div>
-  );
-});
+    // Combinar refs de forma robusta
+    const setRefs = (element: HTMLDivElement | null) => {
+      if (typeof forwardedRef === "function") {
+        forwardedRef(element);
+      } else if (forwardedRef) {
+        forwardedRef.current = element;
+      }
+      (ref as any).current = element;
+    };
+
+    const currentPosition = {
+      x: initialPosition.left + position.x,
+      y: initialPosition.top + position.y,
+    };
+
+    return (
+      <div
+        ref={setRefs}
+        style={{
+          position: "absolute",
+          left: initialPosition.left,
+          top: initialPosition.top,
+          zIndex: isDragging ? 30 : 10,
+        }}
+        data-draggable="true"
+        className={cn(
+          "transition-shadow duration-200",
+          isDragging ? "scale-105 shadow-xl" : "",
+        )}
+      >
+        <ArchitectureCard
+          title={title}
+          githubUrl={githubUrl}
+          microfrontendUrl={microfrontendUrl}
+        />
+      </div>
+    );
+  },
+);
 
 DraggableArchitectureCard.displayName = "DraggableArchitectureCard";
 
@@ -193,6 +250,18 @@ export function ArchitectureContainer({ className }: { className?: string }) {
     },
   ];
 
+  // Objeto com posições personalizadas de cada card
+  const customPositions: Record<string, { x: number; y: number }> = {
+    "Simple Store": { x: 5, y: 5 },
+    "Video Project Manage": { x: 590, y: 430 },
+    "Alan Turing": { x: 1245, y: 5 },
+    Joystick: { x: 1245, y: 200 },
+    "Secret Santa": { x: 1245, y: 430 },
+    "Electoral System": { x: 5, y: 430 },
+    RGBWallet: { x: 5, y: 200 },
+    "Liga Acadêmica de Psicologia": { x: 560, y: 5 },
+  };
+
   // Encontre o índice do bloco central (Main)
   const mainIdx = architectureBlocks.findIndex((b) => b.title === "Main");
   const outerBlocks = architectureBlocks.filter((_, idx) => idx !== mainIdx);
@@ -200,31 +269,67 @@ export function ArchitectureContainer({ className }: { className?: string }) {
   // Crie refs para todos os blocos
   const blockRefs = architectureBlocks.map(() => useRef<HTMLDivElement>(null));
   const containerRef = useRef<HTMLDivElement>(null);
+  const [containerSize, setContainerSize] = useState({
+    width: 850,
+    height: 600,
+  });
 
-  // Posições iniciais dos cards em formato circular (bem distribuído)
-  const initialCardPositions = [
-    { left: 100, top: 100 }, // Simple Store
-    { left: 50, top: 300 }, // Video Project Manage
-    { left: 600, top: 100 }, // Alan Turing
-    { left: 650, top: 300 }, // Joystick
-    { left: 600, top: 450 }, // Secret Santa
-    { left: 350, top: 480 }, // Electoral System
-    { left: 100, top: 450 }, // RGBWallet
-    { left: 350, top: 50 }, // Liga Acadêmica de Psicologia
-  ];
+  // Estado para rastrear posições atuais de cada card
+  const [cardPositions, setCardPositions] =
+    useState<Record<string, { x: number; y: number }>>(customPositions);
 
-  const center = { left: 375, top: 275 }; // Posição do card central
+  // Monitorar mudanças no tamanho do container principal
+  useEffect(() => {
+    const updateContainerSize = () => {
+      if (containerRef.current) {
+        const { offsetWidth, offsetHeight } = containerRef.current;
+        setContainerSize({ width: offsetWidth, height: offsetHeight });
+      }
+    };
+
+    updateContainerSize();
+
+    const resizeObserver = new ResizeObserver(updateContainerSize);
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current);
+    }
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
+
+  // Calcular posições usando as posições personalizadas
+  const calculateCenterAndPositions = () => {
+    const centerX = containerSize.width / 2;
+    const centerY = containerSize.height / 2;
+
+    // Usar posições personalizadas para cada card
+    const positions = outerBlocks.map((block) => {
+      const customPos = customPositions[block.title];
+      return { left: customPos.x, top: customPos.y };
+    });
+
+    return {
+      center: { left: centerX - 85, top: centerY - 60 }, // Centralizar o card principal
+      positions,
+    };
+  };
+
+  const { center, positions: initialCardPositions } =
+    calculateCenterAndPositions();
 
   return (
     <div
       className={cn(
-        "bg-background glass-dark relative mx-auto flex items-center justify-center overflow-hidden rounded-xl",
+        "bg-background glass-dark relative mx-auto flex w-full items-center justify-center overflow-hidden rounded-xl",
         className,
       )}
       ref={containerRef}
       style={{
-        width: 850, // Largura fixa em vez de w-full
-        height: 600, // Altura fixa
+        minWidth: 850, // Largura mínima para que não quebre muito pequeno
+        minHeight: 600, // Altura mínima para que não quebre muito pequeno
+        height: "60vh", // Altura responsiva baseada na viewport
       }}
     >
       {/* Renderiza o bloco central */}
@@ -257,7 +362,14 @@ export function ArchitectureContainer({ className }: { className?: string }) {
             githubUrl={block.githubUrl}
             microfrontendUrl={block.microfrontendUrl}
             initialPosition={pos}
+            containerRef={containerRef}
             ref={blockRefs[realIdx]}
+            onPositionChange={(title, x, y) => {
+              setCardPositions((prev) => ({
+                ...prev,
+                [title]: { x, y },
+              }));
+            }}
           />
         );
       })}
