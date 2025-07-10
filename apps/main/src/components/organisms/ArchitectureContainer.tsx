@@ -1,19 +1,12 @@
 "use client";
 
-import React, { useEffect, useRef, useState, RefObject } from "react";
+import React, { useRef, forwardRef } from "react";
 import { Text } from "../atoms/Text";
 import { cn } from "@/lib/utils";
-import { SimpleLine } from "@/components/ui/simple-line";
+import { NativeDragLine } from "@/components/ui/native-drag-line";
+import { useDraggable } from "@/hooks/use-draggable";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { BiSolidComponent } from "react-icons/bi";
-import {
-  DndContext,
-  DragEndEvent,
-  DragMoveEvent,
-  useDraggable,
-  DragOverlay,
-  closestCenter,
-} from "@dnd-kit/core";
 
 // Card component for architecture blocks
 const ArchitectureCard = React.forwardRef<
@@ -58,54 +51,41 @@ const ArchitectureCard = React.forwardRef<
 
 ArchitectureCard.displayName = "ArchitectureCard";
 
-// Draggable wrapper for architecture cards
-const DraggableArchitectureCard = React.forwardRef<
+// Draggable wrapper usando nossa solução nativa
+const DraggableArchitectureCard = forwardRef<
   HTMLDivElement,
   {
-    id: string;
     title: string;
     githubUrl: string;
     microfrontendUrl?: string;
-    position: { left: number; top: number };
-    isDragging?: boolean;
+    initialPosition: { left: number; top: number };
   }
->(({ id, title, githubUrl, microfrontendUrl, position, isDragging }, ref) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    isDragging: dndIsDragging,
-  } = useDraggable({
-    id,
-  });
+>(({ title, githubUrl, microfrontendUrl, initialPosition }, forwardedRef) => {
+  const { ref, isDragging } = useDraggable();
 
-  const style = {
-    position: "absolute" as const,
-    left: position.left,
-    top: position.top,
-    zIndex: isDragging || dndIsDragging ? 30 : 10,
-    transform: transform
-      ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
-      : undefined,
+  // Combinar refs
+  const setRefs = (element: HTMLDivElement | null) => {
+    if (typeof forwardedRef === "function") {
+      forwardedRef(element);
+    } else if (forwardedRef) {
+      forwardedRef.current = element;
+    }
+    (ref as any).current = element;
   };
 
   return (
     <div
-      ref={(node) => {
-        setNodeRef(node);
-        if (ref && typeof ref === "function") {
-          ref(node);
-        } else if (ref) {
-          ref.current = node;
-        }
+      ref={setRefs}
+      style={{
+        position: "absolute",
+        left: initialPosition.left,
+        top: initialPosition.top,
+        zIndex: isDragging ? 30 : 10,
       }}
-      style={style}
-      {...listeners}
-      {...attributes}
+      data-draggable="true"
       className={cn(
-        "cursor-grab active:cursor-grabbing",
-        isDragging || dndIsDragging ? "opacity-50" : "",
+        "transition-shadow duration-200",
+        isDragging ? "scale-105 shadow-xl" : "",
       )}
     >
       <ArchitectureCard
@@ -119,43 +99,10 @@ const DraggableArchitectureCard = React.forwardRef<
 
 DraggableArchitectureCard.displayName = "DraggableArchitectureCard";
 
-// Wrapper simples para linha
-const LineConnector: React.FC<{
-  containerRef: RefObject<HTMLElement | null>;
-  fromRef: RefObject<HTMLElement | null>;
-  toRef: RefObject<HTMLElement | null>;
-  blockTitle: string;
-  activeId: string | null;
-  dragOffset: { x: number; y: number };
-}> = ({ containerRef, fromRef, toRef, blockTitle, activeId, dragOffset }) => {
-  const isDragging = activeId === `draggable-${blockTitle}`;
-
-  // Force re-render during drag by using dragOffset values as key
-  const dragKey = isDragging ? `${dragOffset.x}-${dragOffset.y}` : "static";
-
-  return (
-    <SimpleLine
-      containerRef={containerRef}
-      fromRef={fromRef}
-      toRef={toRef}
-      startXOffset={isDragging ? dragOffset.x : 0}
-      startYOffset={isDragging ? dragOffset.y : 0}
-      color="#9c40ff"
-      thickness={2}
-      key={`${blockTitle}-line-${dragKey}`}
-    />
-  );
-};
-
 interface ArchitectureBlock {
   title: string;
   githubUrl: string;
   microfrontendUrl?: string;
-}
-
-interface BeamConnection {
-  from: number; // índice do bloco origem
-  to: number; // índice do bloco destino
 }
 
 export function ArchitectureContainer({ className }: { className?: string }) {
@@ -208,12 +155,6 @@ export function ArchitectureContainer({ className }: { className?: string }) {
         "https://github.com/brcls/portifolio-monorepo/tree/main/apps/rgbwallet",
       microfrontendUrl: "/microfrontend/rgbwallet",
     },
-    {
-      title: "Liga Acadêmica de Psiquiatria",
-      githubUrl: "https://github.com/rckbrcls/academic-league-of-psychiatry",
-      microfrontendUrl: "/microfrontend/liga-academica",
-    },
-    // Adicione mais blocos aqui conforme necessário
   ];
 
   // Encontre o índice do bloco central (Main)
@@ -223,173 +164,83 @@ export function ArchitectureContainer({ className }: { className?: string }) {
   // Crie refs para todos os blocos
   const blockRefs = architectureBlocks.map(() => useRef<HTMLDivElement>(null));
   const containerRef = useRef<HTMLDivElement>(null);
-  const [curvature, setCurvature] = useState(0);
-  const [activeId, setActiveId] = useState<string | null>(null);
-  const [dragOffset, setDragOffset] = useState<{ x: number; y: number }>({
-    x: 0,
-    y: 0,
-  });
 
-  // Estado para armazenar as posições dos blocos
+  // Posições iniciais dos cards em formato circular
   const initialCardPositions = [
-    { left: -150, top: 0 }, // Simple Store
-    { left: -250, top: 200 }, // Video Project Manage
-    { left: 550, top: 0 }, // Alan Turing
-    { left: 600, top: 200 }, // Joystick
-    { left: 550, top: 400 }, // Secret Santa
-    { left: 200, top: 400 }, // Electoral System
-    { left: -150, top: 400 }, // RGBWallet
-    { left: 150, top: 0 }, // Liga Acadêmica de Psiquiatria
+    { left: 100, top: 50 }, // Simple Store
+    { left: 50, top: 250 }, // Video Project Manage
+    { left: 700, top: 50 }, // Alan Turing
+    { left: 750, top: 250 }, // Joystick
+    { left: 700, top: 450 }, // Secret Santa
+    { left: 400, top: 500 }, // Electoral System
+    { left: 100, top: 450 }, // RGBWallet
   ];
 
-  const [cardPositions, setCardPositions] = useState(initialCardPositions);
-
-  useEffect(() => {
-    const width = window.innerWidth;
-    if (width > 1200) {
-      setCurvature(0);
-    } else if (width > 768) {
-      setCurvature(120);
-    } else {
-      setCurvature(80);
-    }
-  }, []);
-
-  // Parâmetros do "retângulo polar"
-  const radiusX = 380; // Largura do retângulo (lateral) - aumentado
-  const radiusY = 240; // Altura do retângulo (topo/baixo) - aumentado
-  const center = 300; // px (ajuste conforme necessário)
-
-  const handleDragStart = (event: any) => {
-    setActiveId(event.active.id);
-    setDragOffset({ x: 0, y: 0 });
-  };
-
-  const handleDragMove = (event: DragMoveEvent) => {
-    const { delta } = event;
-    if (delta) {
-      setDragOffset({ x: delta.x, y: delta.y });
-    }
-  };
-
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, delta } = event;
-
-    if (active && delta) {
-      const blockIndex = outerBlocks.findIndex(
-        (block) => `draggable-${block.title}` === active.id,
-      );
-
-      if (blockIndex !== -1) {
-        setCardPositions((prev) => {
-          const newPositions = [...prev];
-          newPositions[blockIndex] = {
-            left: prev[blockIndex].left + delta.x,
-            top: prev[blockIndex].top + delta.y,
-          };
-          return newPositions;
-        });
-      }
-    }
-
-    setActiveId(null);
-    setDragOffset({ x: 0, y: 0 });
-  };
+  const center = { left: 375, top: 275 }; // Posição do card central
 
   return (
-    <DndContext
-      collisionDetection={closestCenter}
-      onDragStart={handleDragStart}
-      onDragMove={handleDragMove}
-      onDragEnd={handleDragEnd}
+    <div
+      className={cn(
+        "bg-background relative mx-auto flex h-[600px] w-[850px] items-center justify-center",
+        className,
+      )}
+      ref={containerRef}
+      style={{
+        minHeight: 600,
+        minWidth: 850,
+      }}
     >
+      {/* Renderiza o bloco central */}
       <div
-        className={cn(
-          "bg-background relative mx-auto flex h-[600px] w-[600px] items-center justify-center",
-          className,
-        )}
-        ref={containerRef}
         style={{
-          minHeight: 600,
-          minWidth: 600,
+          position: "absolute",
+          left: center.left,
+          top: center.top,
+          zIndex: 20,
         }}
       >
-        {/* Renderiza o bloco central */}
-        <div
-          style={{
-            position: "absolute",
-            left: center - 80,
-            top: center - 80,
-            zIndex: 20,
-          }}
-        >
-          <ArchitectureCard
-            key={architectureBlocks[mainIdx].title}
-            title={architectureBlocks[mainIdx].title}
-            githubUrl={architectureBlocks[mainIdx].githubUrl}
-            ref={blockRefs[mainIdx]}
-          />
-        </div>
-
-        {/* Renderiza os blocos ao redor com drag and drop */}
-        {outerBlocks.map((block, i) => {
-          // Descobre o índice real do bloco
-          const realIdx = architectureBlocks.findIndex(
-            (b) => b.title === block.title,
-          );
-          const pos = cardPositions[i] || { left: 0, top: 0 };
-          return (
-            <DraggableArchitectureCard
-              key={block.title}
-              id={`draggable-${block.title}`}
-              title={block.title}
-              githubUrl={block.githubUrl}
-              microfrontendUrl={block.microfrontendUrl}
-              position={pos}
-              isDragging={activeId === `draggable-${block.title}`}
-              ref={blockRefs[realIdx]}
-            />
-          );
-        })}
-
-        {/* Renderize linhas de cada bloco para o central */}
-        {outerBlocks.map((block, i) => {
-          const realIdx = architectureBlocks.findIndex(
-            (b) => b.title === block.title,
-          );
-          return (
-            <LineConnector
-              key={block.title + "-line"}
-              containerRef={containerRef}
-              fromRef={blockRefs[realIdx]}
-              toRef={blockRefs[mainIdx]}
-              blockTitle={block.title}
-              activeId={activeId}
-              dragOffset={dragOffset}
-            />
-          );
-        })}
-
-        {/* DragOverlay para mostrar o item sendo arrastado */}
-        <DragOverlay>
-          {activeId ? (
-            <div className="opacity-75">
-              {(() => {
-                const draggedBlock = outerBlocks.find(
-                  (block) => `draggable-${block.title}` === activeId,
-                );
-                return draggedBlock ? (
-                  <ArchitectureCard
-                    title={draggedBlock.title}
-                    githubUrl={draggedBlock.githubUrl}
-                    microfrontendUrl={draggedBlock.microfrontendUrl}
-                  />
-                ) : null;
-              })()}
-            </div>
-          ) : null}
-        </DragOverlay>
+        <ArchitectureCard
+          key={architectureBlocks[mainIdx].title}
+          title={architectureBlocks[mainIdx].title}
+          githubUrl={architectureBlocks[mainIdx].githubUrl}
+          ref={blockRefs[mainIdx]}
+        />
       </div>
-    </DndContext>
+
+      {/* Renderiza os blocos ao redor com drag and drop nativo */}
+      {outerBlocks.map((block, i) => {
+        const realIdx = architectureBlocks.findIndex(
+          (b) => b.title === block.title,
+        );
+        const pos = initialCardPositions[i] || { left: 0, top: 0 };
+        return (
+          <DraggableArchitectureCard
+            key={block.title}
+            title={block.title}
+            githubUrl={block.githubUrl}
+            microfrontendUrl={block.microfrontendUrl}
+            initialPosition={pos}
+            ref={blockRefs[realIdx]}
+          />
+        );
+      })}
+
+      {/* Renderize linhas nativas de cada bloco para o central */}
+      {outerBlocks.map((block, i) => {
+        const realIdx = architectureBlocks.findIndex(
+          (b) => b.title === block.title,
+        );
+        return (
+          <NativeDragLine
+            key={block.title + "-line"}
+            containerRef={containerRef}
+            fromRef={blockRefs[realIdx]}
+            toRef={blockRefs[mainIdx]}
+            color="#9c40ff"
+            thickness={2}
+          />
+        );
+      })}
+    </div>
   );
 }
