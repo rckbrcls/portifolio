@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState, RefObject } from "react";
 import { Text } from "../atoms/Text";
 import { cn } from "@/lib/utils";
-import { AnimatedBeam } from "@/components/ui/animated-beam";
+import { SimpleLine } from "@/components/ui/simple-line";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { BiSolidComponent } from "react-icons/bi";
 import {
@@ -119,38 +119,30 @@ const DraggableArchitectureCard = React.forwardRef<
 
 DraggableArchitectureCard.displayName = "DraggableArchitectureCard";
 
-// AnimatedBeam wrapper that handles drag offset
-const AnimatedBeamWithDrag: React.FC<{
+// Wrapper simples para linha
+const LineConnector: React.FC<{
   containerRef: RefObject<HTMLElement | null>;
   fromRef: RefObject<HTMLElement | null>;
   toRef: RefObject<HTMLElement | null>;
-  curvature: number;
   blockTitle: string;
   activeId: string | null;
   dragOffset: { x: number; y: number };
-}> = ({
-  containerRef,
-  fromRef,
-  toRef,
-  curvature,
-  blockTitle,
-  activeId,
-  dragOffset,
-}) => {
+}> = ({ containerRef, fromRef, toRef, blockTitle, activeId, dragOffset }) => {
   const isDragging = activeId === `draggable-${blockTitle}`;
 
   // Force re-render during drag by using dragOffset values as key
   const dragKey = isDragging ? `${dragOffset.x}-${dragOffset.y}` : "static";
 
   return (
-    <AnimatedBeam
+    <SimpleLine
       containerRef={containerRef}
       fromRef={fromRef}
       toRef={toRef}
-      curvature={curvature}
       startXOffset={isDragging ? dragOffset.x : 0}
       startYOffset={isDragging ? dragOffset.y : 0}
-      key={`${blockTitle}-beam-${dragKey}`}
+      color="#9c40ff"
+      thickness={2}
+      key={`${blockTitle}-line-${dragKey}`}
     />
   );
 };
@@ -364,18 +356,17 @@ export function AnimatedBeamArchitecture({
           );
         })}
 
-        {/* Renderize AnimatedBeam de cada bloco para o central */}
+        {/* Renderize linhas de cada bloco para o central */}
         {outerBlocks.map((block, i) => {
           const realIdx = architectureBlocks.findIndex(
             (b) => b.title === block.title,
           );
           return (
-            <AnimatedBeamWithDrag
-              key={block.title + "-beam"}
+            <LineConnector
+              key={block.title + "-line"}
               containerRef={containerRef}
               fromRef={blockRefs[realIdx]}
               toRef={blockRefs[mainIdx]}
-              curvature={curvature}
               blockTitle={block.title}
               activeId={activeId}
               dragOffset={dragOffset}
