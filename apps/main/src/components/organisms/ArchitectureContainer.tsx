@@ -51,7 +51,7 @@ const ArchitectureCard = React.forwardRef<
 
 ArchitectureCard.displayName = "ArchitectureCard";
 
-// Draggable wrapper usando nossa solução nativa
+// Draggable wrapper usando nossa solução nativa ultra robusta
 const DraggableArchitectureCard = forwardRef<
   HTMLDivElement,
   {
@@ -61,9 +61,21 @@ const DraggableArchitectureCard = forwardRef<
     initialPosition: { left: number; top: number };
   }
 >(({ title, githubUrl, microfrontendUrl, initialPosition }, forwardedRef) => {
-  const { ref, isDragging } = useDraggable();
+  const { ref, isDragging, position } = useDraggable({
+    onDragStart: () => {
+      console.log(`Started dragging ${title}`);
+    },
+    onDrag: (x, y) => {
+      // As linhas são atualizadas automaticamente pelo NativeDragLine
+    },
+    onDragEnd: () => {
+      console.log(
+        `Stopped dragging ${title} at (${position.x}, ${position.y})`,
+      );
+    },
+  });
 
-  // Combinar refs
+  // Combinar refs de forma robusta
   const setRefs = (element: HTMLDivElement | null) => {
     if (typeof forwardedRef === "function") {
       forwardedRef(element);
