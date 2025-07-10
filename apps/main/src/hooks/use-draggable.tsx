@@ -222,6 +222,14 @@ export const useDraggable = (options: UseDraggableOptions = {}) => {
       // Só responder ao botão esquerdo
       if (e.button !== 0) return;
 
+      // IMPORTANTE: Não bloquear cliques em links!
+      const target = e.target as HTMLElement;
+      const isLink = target.closest("a");
+      if (isLink) {
+        // Se clicou em um link, não iniciar o drag
+        return;
+      }
+
       e.preventDefault();
       e.stopPropagation();
 
@@ -250,6 +258,14 @@ export const useDraggable = (options: UseDraggableOptions = {}) => {
     const handleTouchStart = (e: TouchEvent) => {
       // Só responder ao primeiro toque
       if (e.touches.length !== 1) return;
+
+      // IMPORTANTE: Não bloquear toques em links!
+      const target = e.target as HTMLElement;
+      const isLink = target.closest("a");
+      if (isLink) {
+        // Se tocou em um link, não iniciar o drag
+        return;
+      }
 
       e.preventDefault();
       e.stopPropagation();

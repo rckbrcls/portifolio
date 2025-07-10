@@ -39,6 +39,8 @@ const ArchitectureCard = React.forwardRef<
           <a
             className="glass-dark flex w-full items-center justify-center gap-2 rounded p-2 transition duration-500 hover:scale-105"
             href={microfrontendUrl}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             <BiSolidComponent />
             <Text className="w-full md:text-sm">Microfrontend</Text>
