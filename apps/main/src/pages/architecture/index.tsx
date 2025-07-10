@@ -1,6 +1,6 @@
 import Title from "@/components/atoms/Title";
 import MainLayout from "@/components/MainLayout";
-import { ArchitectureContainer } from "@/components/organisms/Architecture";
+import { ArchitectureContainer } from "@/components/organisms/ArchitectureContainer";
 import React from "react";
 
 const ArchitecturePage = () => {
