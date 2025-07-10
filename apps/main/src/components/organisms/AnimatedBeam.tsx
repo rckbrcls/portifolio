@@ -6,6 +6,13 @@ import { cn } from "@/lib/utils";
 import { AnimatedBeam } from "@/components/ui/animated-beam";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { BiSolidComponent } from "react-icons/bi";
+import {
+  DndContext,
+  DragEndEvent,
+  useDraggable,
+  DragOverlay,
+  closestCenter,
+} from "@dnd-kit/core";
 
 // Card component for architecture blocks
 const ArchitectureCard = React.forwardRef<
@@ -49,6 +56,67 @@ const ArchitectureCard = React.forwardRef<
 });
 
 ArchitectureCard.displayName = "ArchitectureCard";
+
+// Draggable wrapper for architecture cards
+const DraggableArchitectureCard = React.forwardRef<
+  HTMLDivElement,
+  {
+    id: string;
+    title: string;
+    githubUrl: string;
+    microfrontendUrl?: string;
+    position: { left: number; top: number };
+    isDragging?: boolean;
+  }
+>(({ id, title, githubUrl, microfrontendUrl, position, isDragging }, ref) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    isDragging: dndIsDragging,
+  } = useDraggable({
+    id,
+  });
+
+  const style = {
+    position: "absolute" as const,
+    left: position.left,
+    top: position.top,
+    zIndex: isDragging || dndIsDragging ? 30 : 10,
+    transform: transform
+      ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
+      : undefined,
+  };
+
+  return (
+    <div
+      ref={(node) => {
+        setNodeRef(node);
+        if (ref && typeof ref === "function") {
+          ref(node);
+        } else if (ref) {
+          ref.current = node;
+        }
+      }}
+      style={style}
+      {...listeners}
+      {...attributes}
+      className={cn(
+        "cursor-grab active:cursor-grabbing",
+        isDragging || dndIsDragging ? "opacity-50" : "",
+      )}
+    >
+      <ArchitectureCard
+        title={title}
+        githubUrl={githubUrl}
+        microfrontendUrl={microfrontendUrl}
+      />
+    </div>
+  );
+});
+
+DraggableArchitectureCard.displayName = "DraggableArchitectureCard";
 
 interface ArchitectureBlock {
   title: string;
@@ -131,6 +199,21 @@ export function AnimatedBeamArchitecture({
   const blockRefs = architectureBlocks.map(() => useRef<HTMLDivElement>(null));
   const containerRef = useRef<HTMLDivElement>(null);
   const [curvature, setCurvature] = useState(0);
+  const [activeId, setActiveId] = useState<string | null>(null);
+
+  // Estado para armazenar as posições dos blocos
+  const initialCardPositions = [
+    { left: -150, top: 0 }, // Simple Store
+    { left: -250, top: 200 }, // Video Project Manage
+    { left: 550, top: 0 }, // Alan Turing
+    { left: 600, top: 200 }, // Joystick
+    { left: 550, top: 400 }, // Secret Santa
+    { left: 200, top: 400 }, // Electoral System
+    { left: -150, top: 400 }, // RGBWallet
+    { left: 150, top: 0 }, // Liga Acadêmica de Psiquiatria
+  ];
+
+  const [cardPositions, setCardPositions] = useState(initialCardPositions);
 
   useEffect(() => {
     const width = window.innerWidth;
@@ -148,85 +231,121 @@ export function AnimatedBeamArchitecture({
   const radiusY = 240; // Altura do retângulo (topo/baixo) - aumentado
   const center = 300; // px (ajuste conforme necessário)
 
-  // Defina as posições manuais para cada bloco (exceto o central)
-  // Exemplo: [{ left: 100, top: 50 }, ...]
-  const cardPositions = [
-    { left: -150, top: 0 }, // Simple Store
-    { left: -250, top: 200 }, // Video Project Manage
-    { left: 550, top: 0 }, // Alan Turing
-    { left: 600, top: 200 }, // Joystick
-    { left: 550, top: 400 }, // Secret Santa
-    { left: 200, top: 400 }, // Electoral System
-    { left: -150, top: 400 }, // RGBWallet
-    { left: 150, top: 0 }, // Liga Acadêmica de Psiquiatria
-  ];
+  const handleDragStart = (event: any) => {
+    setActiveId(event.active.id);
+  };
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, delta } = event;
+
+    if (active && delta) {
+      const blockIndex = outerBlocks.findIndex(
+        (block) => `draggable-${block.title}` === active.id,
+      );
+
+      if (blockIndex !== -1) {
+        setCardPositions((prev) => {
+          const newPositions = [...prev];
+          newPositions[blockIndex] = {
+            left: prev[blockIndex].left + delta.x,
+            top: prev[blockIndex].top + delta.y,
+          };
+          return newPositions;
+        });
+      }
+    }
+
+    setActiveId(null);
+  };
 
   return (
-    <div
-      className={cn(
-        "bg-background relative mx-auto flex h-[600px] w-[600px] items-center justify-center",
-        className,
-      )}
-      ref={containerRef}
-      style={{ minHeight: 600, minWidth: 600 }}
+    <DndContext
+      collisionDetection={closestCenter}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
     >
-      {/* Renderiza o bloco central */}
       <div
-        style={{
-          position: "absolute",
-          left: center - 80,
-          top: center - 80,
-          zIndex: 20,
-        }}
+        className={cn(
+          "bg-background relative mx-auto flex h-[600px] w-[600px] items-center justify-center",
+          className,
+        )}
+        ref={containerRef}
+        style={{ minHeight: 600, minWidth: 600 }}
       >
-        <ArchitectureCard
-          key={architectureBlocks[mainIdx].title}
-          title={architectureBlocks[mainIdx].title}
-          githubUrl={architectureBlocks[mainIdx].githubUrl}
-          ref={blockRefs[mainIdx]}
-        />
-      </div>
-      {/* Renderiza os blocos ao redor em posições manuais */}
-      {outerBlocks.map((block, i) => {
-        // Descobre o índice real do bloco
-        const realIdx = architectureBlocks.findIndex(
-          (b) => b.title === block.title,
-        );
-        const pos = cardPositions[i] || { left: 0, top: 0 };
-        return (
-          <div
-            key={block.title}
-            style={{
-              position: "absolute",
-              left: pos.left,
-              top: pos.top,
-              zIndex: 10,
-            }}
-          >
-            <ArchitectureCard
+        {/* Renderiza o bloco central */}
+        <div
+          style={{
+            position: "absolute",
+            left: center - 80,
+            top: center - 80,
+            zIndex: 20,
+          }}
+        >
+          <ArchitectureCard
+            key={architectureBlocks[mainIdx].title}
+            title={architectureBlocks[mainIdx].title}
+            githubUrl={architectureBlocks[mainIdx].githubUrl}
+            ref={blockRefs[mainIdx]}
+          />
+        </div>
+
+        {/* Renderiza os blocos ao redor com drag and drop */}
+        {outerBlocks.map((block, i) => {
+          // Descobre o índice real do bloco
+          const realIdx = architectureBlocks.findIndex(
+            (b) => b.title === block.title,
+          );
+          const pos = cardPositions[i] || { left: 0, top: 0 };
+          return (
+            <DraggableArchitectureCard
+              key={block.title}
+              id={`draggable-${block.title}`}
               title={block.title}
               githubUrl={block.githubUrl}
               microfrontendUrl={block.microfrontendUrl}
+              position={pos}
+              isDragging={activeId === `draggable-${block.title}`}
               ref={blockRefs[realIdx]}
             />
-          </div>
-        );
-      })}
-      {/* Renderize AnimatedBeam de cada bloco para o central */}
-      {outerBlocks.map((block, i) => {
-        const realIdx = architectureBlocks.findIndex(
-          (b) => b.title === block.title,
-        );
-        return (
-          <AnimatedBeam
-            key={block.title + "-beam"}
-            containerRef={containerRef}
-            fromRef={blockRefs[realIdx]}
-            toRef={blockRefs[mainIdx]}
-            curvature={curvature}
-          />
-        );
-      })}
-    </div>
+          );
+        })}
+
+        {/* Renderize AnimatedBeam de cada bloco para o central */}
+        {outerBlocks.map((block, i) => {
+          const realIdx = architectureBlocks.findIndex(
+            (b) => b.title === block.title,
+          );
+          return (
+            <AnimatedBeam
+              key={block.title + "-beam"}
+              containerRef={containerRef}
+              fromRef={blockRefs[realIdx]}
+              toRef={blockRefs[mainIdx]}
+              curvature={curvature}
+            />
+          );
+        })}
+
+        {/* DragOverlay para mostrar o item sendo arrastado */}
+        <DragOverlay>
+          {activeId ? (
+            <div className="opacity-75">
+              {(() => {
+                const draggedBlock = outerBlocks.find(
+                  (block) => `draggable-${block.title}` === activeId,
+                );
+                return draggedBlock ? (
+                  <ArchitectureCard
+                    title={draggedBlock.title}
+                    githubUrl={draggedBlock.githubUrl}
+                    microfrontendUrl={draggedBlock.microfrontendUrl}
+                  />
+                ) : null;
+              })()}
+            </div>
+          ) : null}
+        </DragOverlay>
+      </div>
+    </DndContext>
   );
 }
