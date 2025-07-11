@@ -157,20 +157,28 @@ const ArchitectureCardElement = React.forwardRef<
       data-card-id={card.id}
     >
       <div
-        className="flex h-full w-full flex-col items-center justify-between"
+        className="flex h-full w-full flex-col justify-between"
         style={{
-          padding: `${12 * cardScale}px ${8 * cardScale}px ${8 * cardScale}px ${8 * cardScale}px`, // Increased top padding
+          padding: `${8 * cardScale}px`,
           gap: `${6 * cardScale}px`,
         }}
       >
-        <span
-          className="text-center font-bold leading-tight text-white"
+        {/* Title area - centered vertically in top portion */}
+        <div
+          className="flex items-center justify-center"
           style={{
-            fontSize: `${14 * cardScale}px`,
+            minHeight: `${40 * cardScale}px`, // Give the title area some height to center within
           }}
         >
-          {card.title}
-        </span>
+          <span
+            className="text-center font-bold leading-tight text-white"
+            style={{
+              fontSize: `${14 * cardScale}px`,
+            }}
+          >
+            {card.title}
+          </span>
+        </div>
         {/* Buttons container */}
         <div
           className="flex w-full flex-col"
@@ -508,7 +516,7 @@ export function ArchitectureContainer({ className }: { className?: string }) {
     architectureBlocks.forEach((block, index) => {
       const cardWidth = 280; // Increased from 220 to accommodate longer text
       // Special height for Main card (shorter since it has no microfrontend button)
-      const cardHeight = block.title === "Main" ? 90 : 150; // Reduced heights for more compact layout
+      const cardHeight = block.title === "Main" ? 120 : 150; // Increased Main card height from 90 to 120
 
       let position: WorldCoordinates;
 
