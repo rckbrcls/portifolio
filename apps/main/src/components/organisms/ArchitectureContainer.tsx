@@ -485,7 +485,7 @@ export function ArchitectureContainer({ className }: { className?: string }) {
 
       if (block.title === "Main") {
         // Center card - dynamically centered based on container size
-        position = { x: centerX, y: centerY };
+        position = { x: centerX, y: centerY - 50 };
       } else {
         // Arrange other cards in specific positions around the rectangle
         const otherCards = architectureBlocks.filter((b) => b.title !== "Main");
@@ -496,18 +496,18 @@ export function ArchitectureContainer({ className }: { className?: string }) {
         // Define specific positions for each card around the rectangle
         const positions = [
           // Top row
-          { x: centerX - 300, y: centerY - 200 }, // Top-left
-          { x: centerX, y: centerY - 200 }, // Top-center
-          { x: centerX + 300, y: centerY - 200 }, // Top-right
+          { x: centerX - 300, y: centerY - 250 }, // Top-left
+          { x: centerX, y: centerY - 250 }, // Top-center
+          { x: centerX + 300, y: centerY - 250 }, // Top-right
 
           // Middle row (sides)
-          { x: centerX - 400, y: centerY }, // Middle-left
-          { x: centerX + 400, y: centerY }, // Middle-right
+          { x: centerX - 400, y: centerY - 50 }, // Middle-left
+          { x: centerX + 400, y: centerY - 50 }, // Middle-right
 
           // Bottom row
-          { x: centerX - 300, y: centerY + 200 }, // Bottom-left
-          { x: centerX, y: centerY + 200 }, // Bottom-center
-          { x: centerX + 300, y: centerY + 200 }, // Bottom-right
+          { x: centerX - 300, y: centerY + 150 }, // Bottom-left
+          { x: centerX, y: centerY + 150 }, // Bottom-center
+          { x: centerX + 300, y: centerY + 150 }, // Bottom-right
         ];
 
         position = positions[otherCardIndex] || { x: centerX, y: centerY };
