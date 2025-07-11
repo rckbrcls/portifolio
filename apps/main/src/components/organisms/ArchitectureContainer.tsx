@@ -477,9 +477,13 @@ export function ArchitectureContainer({ className }: { className?: string }) {
         // Center card
         position = { x: 300, y: 200 };
       } else {
-        // Arrange other cards in a circle around main
-        const angle = (index * (Math.PI * 2)) / (architectureBlocks.length - 1);
-        const radius = 250;
+        // Arrange other cards in a circle around main, excluding Main from the count
+        const otherCards = architectureBlocks.filter((b) => b.title !== "Main");
+        const otherCardIndex = otherCards.findIndex(
+          (b) => b.title === block.title,
+        );
+        const angle = (otherCardIndex * (Math.PI * 2)) / otherCards.length;
+        const radius = 280; // Increased radius to prevent overlap
         position = {
           x: 300 + Math.cos(angle) * radius,
           y: 200 + Math.sin(angle) * radius,
