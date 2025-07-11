@@ -129,6 +129,11 @@ const ArchitectureCardElement = React.forwardRef<
 >(({ card, viewport, isSelected, isDragging, onMouseDown }, ref) => {
   const screenPos = worldToScreen(card.position, viewport);
 
+  // Excalidraw-style: Maintain consistent UI element size regardless of zoom
+  // Cards scale with viewport but content stays readable
+  const cardScale = Math.max(0.5, Math.min(1.5, viewport.scale));
+  const contentScale = Math.max(0.8, Math.min(1.2, 1 / viewport.scale));
+
   return (
     <div
       ref={ref}
@@ -136,9 +141,10 @@ const ArchitectureCardElement = React.forwardRef<
         position: "absolute",
         left: screenPos.x,
         top: screenPos.y,
-        width: card.size.width * viewport.scale,
-        height: card.size.height * viewport.scale,
-        transform: "translate3d(0, 0, 0)", // Hardware acceleration
+        width: card.size.width,
+        height: card.size.height,
+        transform: `translate3d(0, 0, 0) scale(${cardScale})`, // Hardware acceleration + consistent scale
+        transformOrigin: "top left",
         zIndex: isDragging ? 30 : isSelected ? 20 : 10,
       }}
       className={cn(
@@ -152,8 +158,7 @@ const ArchitectureCardElement = React.forwardRef<
       <div
         className="flex w-full flex-col items-center gap-2 p-2"
         style={{
-          fontSize: `${Math.max(0.7, viewport.scale)}rem`,
-          transform: `scale(${Math.min(1, 1 / viewport.scale)})`,
+          transform: `scale(${contentScale})`,
           transformOrigin: "center center",
         }}
       >
@@ -199,15 +204,18 @@ const ConnectionElement: React.FC<{
   const fromScreen = worldToScreen(fromCard.position, viewport);
   const toScreen = worldToScreen(toCard.position, viewport);
 
-  // Calculate center points of cards
+  // Calculate card scale (same as in ArchitectureCardElement)
+  const cardScale = Math.max(0.5, Math.min(1.5, viewport.scale));
+
+  // Calculate center points of cards using the actual rendered size
   const fromCenter = {
-    x: fromScreen.x + (fromCard.size.width * viewport.scale) / 2,
-    y: fromScreen.y + (fromCard.size.height * viewport.scale) / 2,
+    x: fromScreen.x + (fromCard.size.width * cardScale) / 2,
+    y: fromScreen.y + (fromCard.size.height * cardScale) / 2,
   };
 
   const toCenter = {
-    x: toScreen.x + (toCard.size.width * viewport.scale) / 2,
-    y: toScreen.y + (toCard.size.height * viewport.scale) / 2,
+    x: toScreen.x + (toCard.size.width * cardScale) / 2,
+    y: toScreen.y + (toCard.size.height * cardScale) / 2,
   };
 
   // Generate bezier curve path (Excalidraw style)
