@@ -12,7 +12,7 @@ import { Text } from "../atoms/Text";
 import { cn } from "@/lib/utils";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { BiSolidComponent } from "react-icons/bi";
-import { ZoomInIcon, ZoomOutIcon } from "@radix-ui/react-icons";
+import { ZoomInIcon, ZoomOutIcon, HandIcon } from "@radix-ui/react-icons";
 
 // ===== EXCALIDRAW-STYLE TYPE SYSTEM =====
 interface WorldCoordinates {
@@ -49,6 +49,7 @@ interface AppState {
   connections: Map<string, Connection>;
   selectedCards: Set<string>;
   isDragging: boolean;
+  isPanModeActive: boolean; // New state for pan/zoom mode
   dragState: {
     cardId: string;
     startPosition: WorldCoordinates;
@@ -249,9 +250,11 @@ const ViewportLayer: React.FC<{
   const [isPanning, setIsPanning] = useState(false);
   const [lastPanPoint, setLastPanPoint] = useState({ x: 0, y: 0 });
 
-  // Excalidraw-style wheel handler
+  // Excalidraw-style wheel handler - only active when pan mode is on
   const handleWheel = useCallback(
     (e: WheelEvent) => {
+      if (!appState.isPanModeActive) return; // Only work when pan mode is active
+
       e.preventDefault();
       e.stopPropagation();
 
@@ -284,22 +287,32 @@ const ViewportLayer: React.FC<{
         onViewportChange(newViewport);
       }
     },
-    [appState.viewport, onViewportChange, containerRef],
+    [
+      appState.viewport,
+      appState.isPanModeActive,
+      onViewportChange,
+      containerRef,
+    ],
   );
 
-  // Excalidraw-style mouse handlers
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    if (e.button === 1) {
-      // Middle mouse button
-      e.preventDefault();
-      setIsPanning(true);
-      setLastPanPoint({ x: e.clientX, y: e.clientY });
-    }
-  }, []);
+  // Excalidraw-style mouse handlers - only active when pan mode is on
+  const handleMouseDown = useCallback(
+    (e: React.MouseEvent) => {
+      if (!appState.isPanModeActive) return; // Only work when pan mode is active
+
+      if (e.button === 0 || e.button === 1) {
+        // Left or middle mouse button
+        e.preventDefault();
+        setIsPanning(true);
+        setLastPanPoint({ x: e.clientX, y: e.clientY });
+      }
+    },
+    [appState.isPanModeActive],
+  );
 
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
-      if (!isPanning) return;
+      if (!isPanning || !appState.isPanModeActive) return;
 
       e.preventDefault();
       const deltaX = e.clientX - lastPanPoint.x;
@@ -314,7 +327,13 @@ const ViewportLayer: React.FC<{
       onViewportChange(newViewport);
       setLastPanPoint({ x: e.clientX, y: e.clientY });
     },
-    [isPanning, lastPanPoint, appState.viewport, onViewportChange],
+    [
+      isPanning,
+      lastPanPoint,
+      appState.viewport,
+      appState.isPanModeActive,
+      onViewportChange,
+    ],
   );
 
   const handleMouseUp = useCallback(() => {
@@ -345,7 +364,11 @@ const ViewportLayer: React.FC<{
       style={{
         width: "100%",
         height: "100%",
-        cursor: isPanning ? "grabbing" : "grab",
+        cursor: appState.isPanModeActive
+          ? isPanning
+            ? "grabbing"
+            : "grab"
+          : "default",
         overflow: "hidden",
       }}
       onMouseDown={handleMouseDown}
@@ -469,6 +492,7 @@ export function ArchitectureContainer({ className }: { className?: string }) {
       connections,
       selectedCards: new Set(),
       isDragging: false,
+      isPanModeActive: false,
       dragState: null,
     };
   });
@@ -497,6 +521,9 @@ export function ArchitectureContainer({ className }: { className?: string }) {
   // Drag handling (Excalidraw style)
   const handleCardMouseDown = useCallback(
     (e: React.MouseEvent, cardId: string) => {
+      // Don't allow card dragging when pan mode is active
+      if (appState.isPanModeActive) return;
+
       e.preventDefault();
       e.stopPropagation();
 
@@ -573,7 +600,7 @@ export function ArchitectureContainer({ className }: { className?: string }) {
       document.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("mouseup", handleMouseUp);
     },
-    [appState.viewport, appState.cards],
+    [appState.viewport, appState.cards, appState.isPanModeActive],
   );
 
   // Viewport update handler
@@ -581,6 +608,14 @@ export function ArchitectureContainer({ className }: { className?: string }) {
     setAppState((prev) => ({
       ...prev,
       viewport: newViewport,
+    }));
+  }, []);
+
+  // Toggle pan mode
+  const togglePanMode = useCallback(() => {
+    setAppState((prev) => ({
+      ...prev,
+      isPanModeActive: !prev.isPanModeActive,
     }));
   }, []);
 
@@ -655,6 +690,25 @@ export function ArchitectureContainer({ className }: { className?: string }) {
       {/* Zoom Controls */}
       <div className="absolute bottom-4 right-4 z-50 flex flex-col gap-2">
         <button
+          onClick={togglePanMode}
+          className={cn(
+            "relative transform rounded-lg border p-3 backdrop-blur-sm transition-all duration-300",
+            appState.isPanModeActive
+              ? "scale-110 border-green-400 bg-green-500/30 text-green-100 shadow-lg shadow-green-500/30"
+              : "border-purple-500/50 bg-purple-500/20 text-purple-300 hover:scale-105 hover:bg-purple-500/30 hover:text-purple-100",
+          )}
+          title={
+            appState.isPanModeActive
+              ? "Disable Pan/Zoom Mode"
+              : "Enable Pan/Zoom Mode"
+          }
+        >
+          <HandIcon className="h-5 w-5" />
+          {appState.isPanModeActive && (
+            <div className="absolute -right-1 -top-1 h-3 w-3 animate-pulse rounded-full bg-green-400"></div>
+          )}
+        </button>
+        <button
           onClick={zoomIn}
           className="rounded-lg border border-purple-500/50 bg-purple-500/20 p-2 text-purple-300 backdrop-blur-sm transition-all duration-200 hover:bg-purple-500/30 hover:text-purple-100"
           title="Zoom In"
@@ -679,6 +733,19 @@ export function ArchitectureContainer({ className }: { className?: string }) {
         </button>
       </div>
 
+      {/* Mode Status Indicator */}
+      {appState.isPanModeActive && (
+        <div className="absolute left-1/2 top-4 z-50 -translate-x-1/2 transform rounded-lg border border-green-400 bg-green-500/30 px-4 py-2 shadow-lg shadow-green-500/20 backdrop-blur-sm">
+          <div className="flex items-center gap-2">
+            <div className="h-2 w-2 animate-pulse rounded-full bg-green-400"></div>
+            <Text className="text-sm font-medium text-green-100">
+              Pan & Zoom Mode Active
+            </Text>
+            <HandIcon className="h-4 w-4 text-green-300" />
+          </div>
+        </div>
+      )}
+
       {/* Scale Indicator */}
       {appState.viewport.scale !== 1 && (
         <div className="absolute right-2 top-2 z-50 rounded-lg border border-purple-500/50 bg-purple-500/20 px-2 py-1 backdrop-blur-sm">
@@ -689,9 +756,23 @@ export function ArchitectureContainer({ className }: { className?: string }) {
       )}
 
       {/* Instructions */}
-      <div className="absolute bottom-2 left-2 z-50 rounded-lg border border-purple-500/50 bg-purple-500/20 px-3 py-1 backdrop-blur-sm">
-        <Text className="text-xs text-purple-300">
-          Ctrl+Scroll: Zoom • Scroll: Pan • Drag: Move Cards
+      <div
+        className={cn(
+          "absolute bottom-2 left-2 z-50 rounded-lg border px-3 py-2 backdrop-blur-sm transition-all duration-300",
+          appState.isPanModeActive
+            ? "border-green-400/50 bg-green-500/20"
+            : "border-purple-500/50 bg-purple-500/20",
+        )}
+      >
+        <Text
+          className={cn(
+            "text-xs font-medium",
+            appState.isPanModeActive ? "text-green-200" : "text-purple-300",
+          )}
+        >
+          {appState.isPanModeActive
+            ? "🖱️ Pan Mode: Click+Drag to Pan • Ctrl+Scroll: Zoom • Card Dragging: Disabled"
+            : "✋ Card Mode: Drag Cards to Move • Click Hand Icon to Enable Pan/Zoom"}
         </Text>
       </div>
 
