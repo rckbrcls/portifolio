@@ -9,7 +9,13 @@ import React, {
 } from "react";
 import { Text } from "../atoms/Text";
 import { cn } from "@/lib/utils";
-import { NativeDragLine } from "@/components/ui/native-drag-line";
+import {
+  OptimizedConnectionLine,
+  useConnectionManager,
+} from "@/components/ui/optimized-connection-line";
+import { ExcalidrawLikeConnection } from "@/components/ui/excalidraw-like-connection";
+import { ExcalidrawStyleConnection } from "@/components/ui/excalidraw-style-connection";
+import { ConnectionDebugger } from "@/components/ui/connection-debugger";
 import { useDraggable } from "@/hooks/use-draggable";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { BiSolidComponent } from "react-icons/bi";
@@ -274,6 +280,22 @@ export function ArchitectureContainer({ className }: { className?: string }) {
     Record<string, { x: number; y: number }>
   >({});
 
+  // Configurar conexões para o hook otimizado
+  const connections = outerBlocks.map((block, i) => {
+    const realIdx = architectureBlocks.findIndex(
+      (b) => b.title === block.title,
+    );
+    return {
+      id: `${block.title}-to-main`,
+      fromRef: blockRefs[realIdx],
+      toRef: blockRefs[mainIdx],
+      color: "#9c40ff",
+      thickness: 1,
+    };
+  });
+
+  const { triggerUpdate } = useConnectionManager(connections);
+
   // Monitorar mudanças no tamanho do container principal
   useEffect(() => {
     const updateContainerSize = () => {
@@ -421,12 +443,24 @@ export function ArchitectureContainer({ className }: { className?: string }) {
         }
 
         setScale(newScale);
+
+        // Disparar eventos de transformação de forma síncrona
+        requestAnimationFrame(() => {
+          document.dispatchEvent(new CustomEvent("architecture-transform"));
+          triggerUpdate();
+        });
       } else {
         // Pan com scroll wheel
         setPanOffset((prev) => ({
           x: prev.x - e.deltaX,
           y: prev.y - e.deltaY,
         }));
+
+        // Disparar eventos de transformação de forma síncrona
+        requestAnimationFrame(() => {
+          document.dispatchEvent(new CustomEvent("architecture-transform"));
+          triggerUpdate();
+        });
       }
     },
     [isPanZoomMode, scale, panOffset],
@@ -457,6 +491,12 @@ export function ArchitectureContainer({ className }: { className?: string }) {
       }));
 
       setLastPanPoint({ x: e.clientX, y: e.clientY });
+
+      // Disparar eventos de transformação de forma síncrona
+      requestAnimationFrame(() => {
+        document.dispatchEvent(new CustomEvent("architecture-transform"));
+        triggerUpdate();
+      });
     },
     [isPanning, lastPanPoint],
   );
@@ -488,17 +528,29 @@ export function ArchitectureContainer({ className }: { className?: string }) {
   const resetView = () => {
     setScale(1);
     setPanOffset({ x: 0, y: 0 });
+    requestAnimationFrame(() => {
+      document.dispatchEvent(new CustomEvent("architecture-transform"));
+      triggerUpdate();
+    });
   };
 
   // Funções de zoom
   const zoomIn = () => {
     const newScale = Math.min(3, scale * 1.2);
     setScale(newScale);
+    requestAnimationFrame(() => {
+      document.dispatchEvent(new CustomEvent("architecture-transform"));
+      triggerUpdate();
+    });
   };
 
   const zoomOut = () => {
     const newScale = Math.max(0.3, scale * 0.8);
     setScale(newScale);
+    requestAnimationFrame(() => {
+      document.dispatchEvent(new CustomEvent("architecture-transform"));
+      triggerUpdate();
+    });
   };
 
   // Ref para o container que recebe as transformações
@@ -590,26 +642,23 @@ export function ArchitectureContainer({ className }: { className?: string }) {
         </div>
       )}
 
-      {/* Renderize linhas FORA do container transformado */}
-      {outerBlocks.map((block, i) => {
-        const realIdx = architectureBlocks.findIndex(
-          (b) => b.title === block.title,
-        );
-        return (
-          <NativeDragLine
-            key={block.title + "-line"}
-            containerRef={containerRef}
-            fromRef={blockRefs[realIdx]}
-            toRef={blockRefs[mainIdx]}
-            color="#9c40ff"
-            thickness={1}
-          />
-        );
-      })}
+      {/* Renderize linhas usando a versão ExcalidrawStyle (mais estável) */}
+      {connections.map((connection) => (
+        <ExcalidrawStyleConnection
+          key={connection.id}
+          fromRef={connection.fromRef}
+          toRef={connection.toRef}
+          color={connection.color}
+          thickness={connection.thickness}
+          containerRef={containerRef}
+          animated={false}
+        />
+      ))}
 
       {/* Container com TUDO dentro - aplicando zoom/pan em volta de tudo */}
       <div
         ref={transformedContainerRef}
+        data-connection-container="true"
         style={{
           transform: `scale(${scale}) translate(${panOffset.x}px, ${panOffset.y}px)`,
           transformOrigin: "center center",
@@ -661,6 +710,11 @@ export function ArchitectureContainer({ className }: { className?: string }) {
           );
         })}
       </div>
+
+      {/* Connection Debugger (apenas em desenvolvimento) */}
+      {process.env.NODE_ENV === "development" && (
+        <ConnectionDebugger enabled={true} />
+      )}
     </div>
   );
 }
