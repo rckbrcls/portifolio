@@ -229,11 +229,11 @@ const ConnectionElement: React.FC<{
     <path
       d={path}
       stroke={connection.color || "#9c40ff"}
-      strokeWidth={(connection.thickness || 2) / viewport.scale}
+      strokeWidth={connection.thickness || 2}
       fill="none"
       strokeDasharray="5,5"
       style={{
-        strokeDasharray: `${5 / viewport.scale},${5 / viewport.scale}`,
+        strokeDasharray: "5,5",
       }}
     />
   );
