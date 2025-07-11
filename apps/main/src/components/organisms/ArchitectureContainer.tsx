@@ -194,6 +194,7 @@ interface ArchitectureBlock {
 export function ArchitectureContainer({ className }: { className?: string }) {
   // Estado para controle de zoom e pan
   const [isActive, setIsActive] = useState(false);
+  const [isPanZoomMode, setIsPanZoomMode] = useState(false);
   const [scale, setScale] = useState(1);
   const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
   const [isPanning, setIsPanning] = useState(false);
@@ -364,10 +365,42 @@ export function ArchitectureContainer({ className }: { className?: string }) {
   const { center, positions: initialCardPositions } =
     calculateCenterAndPositions();
 
+  // Função para toggle do modo pan/zoom
+  const togglePanZoomMode = () => {
+    const newPanZoomMode = !isPanZoomMode;
+    setIsPanZoomMode(newPanZoomMode);
+
+    if (isPanning) {
+      setIsPanning(false);
+    }
+
+    // Se estiver desativando o modo, resetar para posição 1:1
+    if (!newPanZoomMode) {
+      setScale(1);
+      setPanOffset({ x: 0, y: 0 });
+    }
+  };
+
+  // Efeito para bloquear/desbloquear scroll global
+  useEffect(() => {
+    if (isPanZoomMode) {
+      // Bloquear scroll global
+      document.body.style.overflow = "hidden";
+    } else {
+      // Restaurar scroll global
+      document.body.style.overflow = "";
+    }
+
+    // Cleanup ao desmontar componente
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isPanZoomMode]);
+
   // Handlers para zoom e pan
   const handleWheel = useCallback(
     (e: WheelEvent) => {
-      if (!isActive) return;
+      if (!isPanZoomMode) return;
 
       e.preventDefault();
       e.stopPropagation();
@@ -402,18 +435,18 @@ export function ArchitectureContainer({ className }: { className?: string }) {
         }));
       }
     },
-    [isActive, scale, panOffset],
+    [isPanZoomMode, scale, panOffset],
   );
 
   const handleMouseDown = useCallback(
     (e: React.MouseEvent) => {
-      if (!isActive || e.button !== 1) return; // Apenas botão do meio
+      if (!isPanZoomMode || e.button !== 1) return; // Apenas botão do meio
 
       e.preventDefault();
       setIsPanning(true);
       setLastPanPoint({ x: e.clientX, y: e.clientY });
     },
-    [isActive],
+    [isPanZoomMode],
   );
 
   const handleMouseMove = useCallback(
@@ -481,7 +514,7 @@ export function ArchitectureContainer({ className }: { className?: string }) {
     <div
       className={cn(
         "bg-background glass-dark relative mx-auto flex w-full items-center justify-center overflow-hidden rounded-xl transition-all duration-200",
-        isActive
+        isPanZoomMode
           ? "border-2 border-purple-500/50 shadow-lg shadow-purple-500/20"
           : "border border-zinc-700/50",
         className,
@@ -492,7 +525,7 @@ export function ArchitectureContainer({ className }: { className?: string }) {
         minHeight: 620,
         height: "90vh",
         maxHeight: 720,
-        cursor: isPanning ? "grabbing" : isActive ? "grab" : "default",
+        cursor: isPanning ? "grabbing" : isPanZoomMode ? "grab" : "default",
       }}
       onMouseEnter={() => setIsActive(true)}
       onMouseLeave={() => {
@@ -501,25 +534,39 @@ export function ArchitectureContainer({ className }: { className?: string }) {
       }}
       onMouseDown={handleMouseDown}
     >
-      {/* Indicador de estado ativo */}
-      {isActive && (
-        <div className="absolute left-2 top-2 z-50 flex items-center gap-2 rounded-lg border border-purple-500/50 bg-purple-500/20 px-3 py-1 backdrop-blur-sm">
-          <div className="h-2 w-2 animate-pulse rounded-full bg-purple-500"></div>
-          <Text className="text-xs font-medium text-purple-300">
-            Zoom/Pan Ativo • Ctrl+Scroll para zoom • Scroll do meio para pan
+      {/* Botão para ativar/desativar modo Pan/Zoom */}
+      <button
+        onClick={togglePanZoomMode}
+        className={cn(
+          "absolute left-2 top-2 z-50 flex items-center gap-2 rounded-lg border px-3 py-2 backdrop-blur-sm transition-all duration-200",
+          isPanZoomMode
+            ? "border-purple-500/50 bg-purple-500/20 text-purple-300"
+            : "border-zinc-600/50 bg-zinc-900/20 text-zinc-400 hover:border-purple-500/30 hover:bg-purple-500/10 hover:text-purple-300",
+        )}
+        title={isPanZoomMode ? "Desativar Pan/Zoom" : "Ativar Pan/Zoom"}
+      >
+        <div
+          className={cn(
+            "h-2 w-2 rounded-full transition-all duration-200",
+            isPanZoomMode ? "animate-pulse bg-purple-500" : "bg-zinc-500",
+          )}
+        ></div>
+        <Text className="text-xs font-medium">
+          {isPanZoomMode ? "Pan/Zoom Ativo" : "Ativar Pan/Zoom"}
+        </Text>
+      </button>
+
+      {/* Indicador de funcionalidades ativas */}
+      {isPanZoomMode && (
+        <div className="absolute left-2 top-16 z-50 rounded-lg border border-purple-500/50 bg-purple-500/20 px-3 py-1 backdrop-blur-sm">
+          <Text className="text-xs text-purple-300">
+            Ctrl+Scroll para zoom • Scroll do meio para pan
           </Text>
-          <button
-            onClick={resetView}
-            className="ml-2 text-purple-300 transition-colors hover:text-purple-100"
-            title="Reset View"
-          >
-            <ZoomOutIcon className="h-3 w-3" />
-          </button>
         </div>
       )}
 
       {/* Indicador de escala */}
-      {isActive && scale !== 1 && (
+      {isPanZoomMode && scale !== 1 && (
         <div className="absolute right-2 top-2 z-50 rounded-lg border border-purple-500/50 bg-purple-500/20 px-2 py-1 backdrop-blur-sm">
           <Text className="font-mono text-xs text-purple-300">
             {Math.round(scale * 100)}%
@@ -528,7 +575,7 @@ export function ArchitectureContainer({ className }: { className?: string }) {
       )}
 
       {/* Controles de Zoom */}
-      {isActive && (
+      {isPanZoomMode && (
         <div className="absolute bottom-4 right-4 z-50 flex flex-col gap-2">
           <button
             onClick={zoomIn}
