@@ -159,7 +159,7 @@ const ArchitectureCardElement = React.forwardRef<
       <div
         className="flex h-full w-full flex-col items-center justify-between"
         style={{
-          padding: `${8 * cardScale}px`,
+          padding: `${12 * cardScale}px ${8 * cardScale}px ${8 * cardScale}px ${8 * cardScale}px`, // Increased top padding
           gap: `${6 * cardScale}px`,
         }}
       >
@@ -508,7 +508,7 @@ export function ArchitectureContainer({ className }: { className?: string }) {
     architectureBlocks.forEach((block, index) => {
       const cardWidth = 280; // Increased from 220 to accommodate longer text
       // Special height for Main card (shorter since it has no microfrontend button)
-      const cardHeight = block.title === "Main" ? 110 : 180;
+      const cardHeight = block.title === "Main" ? 90 : 150; // Reduced heights for more compact layout
 
       let position: WorldCoordinates;
 
