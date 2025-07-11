@@ -166,7 +166,7 @@ const ArchitectureCardElement = React.forwardRef<
           transformOrigin: "center center",
         }}
       >
-        <Text className="text-nowrap text-center text-sm font-bold">
+        <Text className="text-center text-sm font-bold leading-tight">
           {card.title}
         </Text>{" "}
         {/* Added text-sm for better fit */}
@@ -463,11 +463,17 @@ export function ArchitectureContainer({ className }: { className?: string }) {
           "https://github.com/brcls/portifolio-monorepo/tree/main/apps/rgbwallet",
         microfrontendUrl: "/microfrontend/rgbwallet",
       },
+      {
+        title: "Liga Academica de Psiquiatria",
+        githubUrl:
+          "https://github.com/brcls/portifolio-monorepo/tree/main/apps/liga-academica",
+        microfrontendUrl: "/microfrontend/liga-academica",
+      },
     ];
 
     // Create cards with world coordinates
     architectureBlocks.forEach((block, index) => {
-      const cardWidth = 220; // Increased from 170
+      const cardWidth = 280; // Increased from 220 to accommodate longer text
       // Special height for Main card (shorter since it has no microfrontend button)
       const cardHeight = block.title === "Main" ? 110 : 180;
 
@@ -481,17 +487,30 @@ export function ArchitectureContainer({ className }: { className?: string }) {
         // Center card - dynamically centered based on container size
         position = { x: centerX, y: centerY };
       } else {
-        // Arrange other cards in a circle around main, excluding Main from the count
+        // Arrange other cards in specific positions around the rectangle
         const otherCards = architectureBlocks.filter((b) => b.title !== "Main");
         const otherCardIndex = otherCards.findIndex(
           (b) => b.title === block.title,
         );
-        const angle = (otherCardIndex * (Math.PI * 2)) / otherCards.length;
-        const radius = 280; // Increased radius to prevent overlap
-        position = {
-          x: centerX + Math.cos(angle) * radius, // Dynamically centered
-          y: centerY + Math.sin(angle) * radius, // Dynamically centered
-        };
+
+        // Define specific positions for each card around the rectangle
+        const positions = [
+          // Top row
+          { x: centerX - 300, y: centerY - 200 }, // Top-left
+          { x: centerX, y: centerY - 200 }, // Top-center
+          { x: centerX + 300, y: centerY - 200 }, // Top-right
+
+          // Middle row (sides)
+          { x: centerX - 400, y: centerY }, // Middle-left
+          { x: centerX + 400, y: centerY }, // Middle-right
+
+          // Bottom row
+          { x: centerX - 300, y: centerY + 200 }, // Bottom-left
+          { x: centerX, y: centerY + 200 }, // Bottom-center
+          { x: centerX + 300, y: centerY + 200 }, // Bottom-right
+        ];
+
+        position = positions[otherCardIndex] || { x: centerX, y: centerY };
       }
 
       const card: ArchitectureCard = {
