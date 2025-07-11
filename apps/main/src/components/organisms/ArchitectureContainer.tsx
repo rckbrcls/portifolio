@@ -19,9 +19,7 @@ const ArchitectureCard = React.forwardRef<
 >(({ title, githubUrl, microfrontendUrl }, ref) => {
   return (
     <div
-      className={
-        "glass-dark z-10 flex items-center justify-center rounded-lg p-3"
-      }
+      className={"glass-dark flex items-center justify-center rounded-lg p-3"}
       ref={ref}
     >
       <div className="flex w-full flex-col items-center gap-2 p-2">
@@ -426,7 +424,7 @@ export function ArchitectureContainer({ className }: { className?: string }) {
             fromRef={blockRefs[realIdx]}
             toRef={blockRefs[mainIdx]}
             color="#9c40ff"
-            thickness={2}
+            thickness={1}
           />
         );
       })}

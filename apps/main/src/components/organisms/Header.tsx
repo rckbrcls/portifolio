@@ -88,7 +88,7 @@ const Header = () => {
       {routes.map((route, index) => (
         <Link key={index} href={route.path}>
           <button
-            className={`group flex items-center rounded-full p-2 px-4 duration-700 hover:scale-110 hover:bg-zinc-800 active:scale-95 active:bg-zinc-900 ${route.selected && "bg-zinc-100 text-zinc-950 hover:bg-zinc-300 active:scale-95 active:bg-zinc-300"}`}
+            className={`group flex items-center rounded-full p-2 px-4 duration-700 hover:scale-110 hover:bg-zinc-950 active:scale-95 active:bg-zinc-900 ${route.selected && "bg-zinc-100 text-zinc-950 hover:bg-zinc-300 active:scale-95 active:bg-zinc-300"}`}
           >
             <span>{route.icon}</span>
             {route.name && (
