@@ -132,10 +132,8 @@ const ArchitectureCardElement = React.forwardRef<
 >(({ card, viewport, isSelected, isDragging, onMouseDown }, ref) => {
   const screenPos = worldToScreen(card.position, viewport);
 
-  // Excalidraw-style: Maintain consistent UI element size regardless of zoom
-  // Cards scale with viewport but content stays readable
-  const cardScale = Math.max(0.5, Math.min(1.5, viewport.scale));
-  const contentScale = Math.max(0.8, Math.min(1.2, 1 / viewport.scale));
+  // Excalidraw-style: Cards scale uniformly with viewport
+  const cardScale = viewport.scale;
 
   return (
     <div
@@ -144,15 +142,14 @@ const ArchitectureCardElement = React.forwardRef<
         position: "absolute",
         left: screenPos.x,
         top: screenPos.y,
-        width: card.size.width,
-        height: card.size.height, // Use the card's defined height (Main: 120px, others: 160px)
-        transform: `translate3d(0, 0, 0) scale(${cardScale})`, // Hardware acceleration + consistent scale
+        width: card.size.width * cardScale,
+        height: card.size.height * cardScale,
         transformOrigin: "top left",
         zIndex: isDragging ? 30 : isSelected ? 20 : 10,
-        cursor: isDragging ? "grabbing" : "grab", // Dynamic cursor based on drag state
+        cursor: isDragging ? "grabbing" : "grab",
       }}
       className={cn(
-        "glass-dark rounded-xl border-zinc-800 bg-zinc-950 p-2 transition-shadow duration-200", // Reduced padding from p-3 to p-2
+        "glass-dark rounded-xl border-zinc-800 bg-zinc-950 transition-shadow duration-200",
         isSelected && "ring-2 ring-purple-400/50",
         isDragging && "scale-105 shadow-xl",
       )}
@@ -160,38 +157,77 @@ const ArchitectureCardElement = React.forwardRef<
       data-card-id={card.id}
     >
       <div
-        className="flex h-full w-full flex-col items-center justify-between gap-1.5 p-1" // Added h-full to fill card height
+        className="flex h-full w-full flex-col items-center justify-between"
         style={{
-          transform: `scale(${contentScale})`,
-          transformOrigin: "center center",
+          padding: `${8 * cardScale}px`,
+          gap: `${6 * cardScale}px`,
         }}
       >
-        <Text className="text-center text-sm font-bold leading-tight">
+        <span
+          className="text-center font-bold leading-tight text-white"
+          style={{
+            fontSize: `${14 * cardScale}px`,
+          }}
+        >
           {card.title}
-        </Text>{" "}
-        {/* Added text-sm for better fit */}
+        </span>
         {/* Buttons container */}
-        <div className="flex w-full flex-col gap-1.5">
+        <div
+          className="flex w-full flex-col"
+          style={{
+            gap: `${6 * cardScale}px`,
+          }}
+        >
           <a
-            className="glass-dark flex w-full items-center justify-center gap-1.5 rounded-xl border-zinc-800 p-2 transition duration-500 hover:scale-105" // Reduced gap and padding
+            className="glass-dark flex w-full items-center justify-center rounded-xl border-zinc-800 transition duration-500 hover:scale-105"
+            style={{
+              padding: `${8 * cardScale}px`,
+              gap: `${6 * cardScale}px`,
+            }}
             href={card.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
           >
-            <GitHubLogoIcon className="h-3 w-3" /> {/* Reduced icon size */}
-            <Text className="w-full text-xs">Codebase</Text>{" "}
-            {/* Reduced text size */}
+            <GitHubLogoIcon
+              style={{
+                width: `${12 * cardScale}px`,
+                height: `${12 * cardScale}px`,
+              }}
+            />
+            <span
+              className="w-full text-white"
+              style={{
+                fontSize: `${12 * cardScale}px`,
+              }}
+            >
+              Codebase
+            </span>
           </a>
           {card.microfrontendUrl && (
             <a
-              className="glass-dark flex w-full items-center justify-center gap-1.5 rounded-xl border-zinc-800 p-2 transition duration-500 hover:scale-105" // Reduced gap and padding
+              className="glass-dark flex w-full items-center justify-center rounded-xl border-zinc-800 transition duration-500 hover:scale-105"
+              style={{
+                padding: `${8 * cardScale}px`,
+                gap: `${6 * cardScale}px`,
+              }}
               href={card.microfrontendUrl}
               onClick={(e) => e.stopPropagation()}
             >
-              <BiSolidComponent className="h-3 w-3" /> {/* Reduced icon size */}
-              <Text className="w-full text-xs">Microfrontend</Text>{" "}
-              {/* Reduced text size */}
+              <BiSolidComponent
+                style={{
+                  width: `${12 * cardScale}px`,
+                  height: `${12 * cardScale}px`,
+                }}
+              />
+              <span
+                className="w-full text-white"
+                style={{
+                  fontSize: `${12 * cardScale}px`,
+                }}
+              >
+                Microfrontend
+              </span>
             </a>
           )}
         </div>
@@ -216,18 +252,15 @@ const ConnectionElement: React.FC<{
   const fromScreen = worldToScreen(fromCard.position, viewport);
   const toScreen = worldToScreen(toCard.position, viewport);
 
-  // Calculate card scale (same as in ArchitectureCardElement)
-  const cardScale = Math.max(0.5, Math.min(1.5, viewport.scale));
-
-  // Calculate center points of cards using the actual rendered size
+  // Calculate center points of cards using the viewport scale
   const fromCenter = {
-    x: fromScreen.x + (fromCard.size.width * cardScale) / 2,
-    y: fromScreen.y + (fromCard.size.height * cardScale) / 2,
+    x: fromScreen.x + (fromCard.size.width * viewport.scale) / 2,
+    y: fromScreen.y + (fromCard.size.height * viewport.scale) / 2,
   };
 
   const toCenter = {
-    x: toScreen.x + (toCard.size.width * cardScale) / 2,
-    y: toScreen.y + (toCard.size.height * cardScale) / 2,
+    x: toScreen.x + (toCard.size.width * viewport.scale) / 2,
+    y: toScreen.y + (toCard.size.height * viewport.scale) / 2,
   };
 
   // Generate bezier curve path (Excalidraw style)
