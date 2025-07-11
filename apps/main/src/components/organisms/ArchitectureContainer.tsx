@@ -490,7 +490,7 @@ export function ArchitectureContainer({ className }: { className?: string }) {
       style={{
         minWidth: 850,
         minHeight: 620,
-        height: "85vh",
+        height: "90vh",
         maxHeight: 720,
         cursor: isPanning ? "grabbing" : isActive ? "grab" : "default",
       }}
@@ -558,8 +558,26 @@ export function ArchitectureContainer({ className }: { className?: string }) {
         </div>
       )}
 
+      {/* Renderize linhas FORA do container transformado */}
+      {outerBlocks.map((block, i) => {
+        const realIdx = architectureBlocks.findIndex(
+          (b) => b.title === block.title,
+        );
+        return (
+          <NativeDragLine
+            key={block.title + "-line"}
+            containerRef={containerRef}
+            fromRef={blockRefs[realIdx]}
+            toRef={blockRefs[mainIdx]}
+            color="#9c40ff"
+            thickness={1}
+          />
+        );
+      })}
+
       {/* Container com TUDO dentro - aplicando zoom/pan em volta de tudo */}
       <div
+        ref={transformedContainerRef}
         style={{
           transform: `scale(${scale}) translate(${panOffset.x}px, ${panOffset.y}px)`,
           transformOrigin: "center center",
@@ -607,23 +625,6 @@ export function ArchitectureContainer({ className }: { className?: string }) {
                   [title]: { x, y },
                 }));
               }}
-            />
-          );
-        })}
-
-        {/* Renderize linhas dentro do mesmo container transformado */}
-        {outerBlocks.map((block, i) => {
-          const realIdx = architectureBlocks.findIndex(
-            (b) => b.title === block.title,
-          );
-          return (
-            <NativeDragLine
-              key={block.title + "-line"}
-              containerRef={containerRef}
-              fromRef={blockRefs[realIdx]}
-              toRef={blockRefs[mainIdx]}
-              color="#9c40ff"
-              thickness={1}
             />
           );
         })}
