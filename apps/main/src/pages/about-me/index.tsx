@@ -30,7 +30,7 @@ export default function AboutMe() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <FaFileDownload size={30} />
+              📄
               <Text>Download Resume</Text>
               <BorderBeam
                 size={100}

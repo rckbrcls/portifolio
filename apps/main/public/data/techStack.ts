@@ -17,9 +17,15 @@ export type Framework =
   | "Swift"
   | "Svelte";
 
-export type Database = "MongoDB" | "PostgreSQL";
+export type Database = "MongoDB" | "PostgreSQL" | "Redis";
 
-export type ToolOrLibrary = "Tailwind" | "Node.js" | "Webpack" | "Bun" | "Deno";
+export type ToolOrLibrary =
+  | "Tailwind"
+  | "Node.js"
+  | "Webpack"
+  | "Bun"
+  | "Deno"
+  | "AWS";
 
 export type TypeTechStack = Language | Framework | Database | ToolOrLibrary;
 
@@ -44,7 +50,7 @@ export const frameworks: Framework[] = [
   // "Flutter",
 ];
 
-export const databases: Database[] = ["MongoDB", "PostgreSQL"];
+export const databases: Database[] = ["MongoDB", "PostgreSQL", "Redis"];
 
 export const toolsAndLibraries: ToolOrLibrary[] = [
   "Tailwind",
@@ -52,6 +58,7 @@ export const toolsAndLibraries: ToolOrLibrary[] = [
   "Webpack",
   // "Bun",
   // "Deno",
+  "AWS",
 ];
 
 export const techStack: TypeTechStack[] = [

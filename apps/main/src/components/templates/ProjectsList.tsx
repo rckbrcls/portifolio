@@ -139,7 +139,7 @@ export default function ProjectsList() {
     if (window.innerWidth < 768) {
       setMaxCount(0); // exibe todas as opções no dropdown sem resumo
     } else {
-      setMaxCount(8);
+      setMaxCount(2);
     }
   }, []);
 
@@ -155,7 +155,7 @@ export default function ProjectsList() {
       </div>
 
       {/* Seção de Filtros */}
-      <div className="max-md:scrollbar-hidden mx-auto flex w-11/12 items-end gap-4 pt-24 max-md:w-full max-md:overflow-x-scroll max-md:px-4">
+      <div className="max-md:scrollbar-hidden mx-auto grid w-11/12 grid-cols-2 items-end gap-4 pt-24 max-md:w-full max-md:grid-cols-1 max-md:overflow-x-scroll max-md:px-4">
         <div className="flex w-full flex-col gap-2">
           <Label htmlFor="frameworks">Frameworks</Label>
           <MultiSelect

@@ -10,7 +10,7 @@ interface IAuroraProps {
 
 function Aurora({ dark = false }: IAuroraProps) {
   const palettes = dark
-    ? ["#303030", "#303030", "#404040", "#505050", "#606060"]
+    ? ["#000", "#222", "#444", "#666", "#888"]
     : ["#d500f9", "#6366f1", "#ec4899", "#a855f7", "#3b82f6"];
 
   const position = dark ? "fixed" : "absolute";
