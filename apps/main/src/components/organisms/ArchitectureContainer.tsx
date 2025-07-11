@@ -473,9 +473,13 @@ export function ArchitectureContainer({ className }: { className?: string }) {
 
       let position: WorldCoordinates;
 
+      // Calculate center based on container size for better centering
+      const centerX = containerSize.width / 2 + 150; // Offset a bit more to the right
+      const centerY = containerSize.height / 2;
+
       if (block.title === "Main") {
-        // Center card
-        position = { x: 300, y: 200 };
+        // Center card - dynamically centered based on container size
+        position = { x: centerX, y: centerY };
       } else {
         // Arrange other cards in a circle around main, excluding Main from the count
         const otherCards = architectureBlocks.filter((b) => b.title !== "Main");
@@ -485,8 +489,8 @@ export function ArchitectureContainer({ className }: { className?: string }) {
         const angle = (otherCardIndex * (Math.PI * 2)) / otherCards.length;
         const radius = 280; // Increased radius to prevent overlap
         position = {
-          x: 300 + Math.cos(angle) * radius,
-          y: 200 + Math.sin(angle) * radius,
+          x: centerX + Math.cos(angle) * radius, // Dynamically centered
+          y: centerY + Math.sin(angle) * radius, // Dynamically centered
         };
       }
 
