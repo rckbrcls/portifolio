@@ -6,52 +6,173 @@ import React, {
   useState,
   useEffect,
   useCallback,
+  useMemo,
 } from "react";
 import { Text } from "../atoms/Text";
 import { cn } from "@/lib/utils";
-import {
-  OptimizedConnectionLine,
-  useConnectionManager,
-} from "@/components/ui/optimized-connection-line";
-import { ExcalidrawLikeConnection } from "@/components/ui/excalidraw-like-connection";
-import { ExcalidrawStyleConnection } from "@/components/ui/excalidraw-style-connection";
-import { ConnectionDebugger } from "@/components/ui/connection-debugger";
-import { useDraggable } from "@/hooks/use-draggable";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { BiSolidComponent } from "react-icons/bi";
 import { ZoomInIcon, ZoomOutIcon } from "@radix-ui/react-icons";
 
-// Card component for architecture blocks
-const ArchitectureCard = React.forwardRef<
+// ===== EXCALIDRAW-STYLE TYPE SYSTEM =====
+interface WorldCoordinates {
+  x: number;
+  y: number;
+}
+
+interface ViewportState {
+  scale: number;
+  translateX: number;
+  translateY: number;
+}
+
+interface ArchitectureCard {
+  id: string;
+  position: WorldCoordinates;
+  size: { width: number; height: number };
+  title: string;
+  githubUrl: string;
+  microfrontendUrl?: string;
+}
+
+interface Connection {
+  id: string;
+  from: string;
+  to: string;
+  color?: string;
+  thickness?: number;
+}
+
+interface AppState {
+  viewport: ViewportState;
+  cards: Map<string, ArchitectureCard>;
+  connections: Map<string, Connection>;
+  selectedCards: Set<string>;
+  isDragging: boolean;
+  dragState: {
+    cardId: string;
+    startPosition: WorldCoordinates;
+    offset: WorldCoordinates;
+  } | null;
+}
+
+// ===== EXCALIDRAW-STYLE COORDINATE TRANSFORMATIONS =====
+const screenToWorld = (
+  screenCoords: { x: number; y: number },
+  viewport: ViewportState,
+  containerRect: DOMRect,
+): WorldCoordinates => ({
+  x:
+    (screenCoords.x - containerRect.left - viewport.translateX) /
+    viewport.scale,
+  y:
+    (screenCoords.y - containerRect.top - viewport.translateY) / viewport.scale,
+});
+
+const worldToScreen = (
+  worldCoords: WorldCoordinates,
+  viewport: ViewportState,
+): { x: number; y: number } => ({
+  x: worldCoords.x * viewport.scale + viewport.translateX,
+  y: worldCoords.y * viewport.scale + viewport.translateY,
+});
+
+// ===== EXCALIDRAW-STYLE ZOOM MANAGEMENT =====
+const MIN_ZOOM = 0.1;
+const MAX_ZOOM = 5.0;
+const ZOOM_STEP = 0.1;
+
+const getNormalizedZoom = (zoom: number): number => {
+  return Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, zoom));
+};
+
+const getStateForZoom = (
+  viewportX: number,
+  viewportY: number,
+  nextZoom: number,
+  currentState: ViewportState,
+  containerRect: DOMRect,
+): ViewportState => {
+  const appLayerX = viewportX - containerRect.left;
+  const appLayerY = viewportY - containerRect.top;
+  const currentZoom = currentState.scale;
+
+  // Get original scroll position without zoom
+  const baseTranslateX =
+    currentState.translateX + (appLayerX - appLayerX / currentZoom);
+  const baseTranslateY =
+    currentState.translateY + (appLayerY - appLayerY / currentZoom);
+
+  // Get translate offsets for target zoom level
+  const zoomOffsetX = -(appLayerX - appLayerX / nextZoom);
+  const zoomOffsetY = -(appLayerY - appLayerY / nextZoom);
+
+  return {
+    scale: nextZoom,
+    translateX: baseTranslateX + zoomOffsetX,
+    translateY: baseTranslateY + zoomOffsetY,
+  };
+};
+
+// ===== EXCALIDRAW-STYLE COMPONENTS =====
+
+// Card component following Excalidraw element pattern
+const ArchitectureCardElement = React.forwardRef<
   HTMLDivElement,
   {
-    title: string;
-    githubUrl: string;
-    microfrontendUrl?: string;
+    card: ArchitectureCard;
+    viewport: ViewportState;
+    isSelected: boolean;
+    isDragging: boolean;
+    onMouseDown: (e: React.MouseEvent, cardId: string) => void;
   }
->(({ title, githubUrl, microfrontendUrl }, ref) => {
+>(({ card, viewport, isSelected, isDragging, onMouseDown }, ref) => {
+  const screenPos = worldToScreen(card.position, viewport);
+
   return (
     <div
-      className={
-        "glass-dark z-20 flex items-center justify-center rounded-lg bg-zinc-950/50 p-3"
-      }
       ref={ref}
+      style={{
+        position: "absolute",
+        left: screenPos.x,
+        top: screenPos.y,
+        width: card.size.width * viewport.scale,
+        height: card.size.height * viewport.scale,
+        transform: "translate3d(0, 0, 0)", // Hardware acceleration
+        zIndex: isDragging ? 30 : isSelected ? 20 : 10,
+      }}
+      className={cn(
+        "glass-dark rounded-lg bg-zinc-950/50 p-3 transition-shadow duration-200",
+        isSelected && "ring-2 ring-purple-400/50",
+        isDragging && "scale-105 shadow-xl",
+      )}
+      onMouseDown={(e) => onMouseDown(e, card.id)}
+      data-card-id={card.id}
     >
-      <div className="flex w-full flex-col items-center gap-2 p-2">
-        <Text className="text-nowrap font-bold">{title}</Text>
+      <div
+        className="flex w-full flex-col items-center gap-2 p-2"
+        style={{
+          fontSize: `${Math.max(0.7, viewport.scale)}rem`,
+          transform: `scale(${Math.min(1, 1 / viewport.scale)})`,
+          transformOrigin: "center center",
+        }}
+      >
+        <Text className="text-nowrap font-bold">{card.title}</Text>
         <a
           className="glass-dark flex w-full items-center justify-center gap-2 rounded p-2 transition duration-500 hover:scale-105"
-          href={githubUrl}
+          href={card.githubUrl}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={(e) => e.stopPropagation()}
         >
           <GitHubLogoIcon />
           <Text className="w-full md:text-sm">Codebase</Text>
         </a>
-        {microfrontendUrl && (
+        {card.microfrontendUrl && (
           <a
             className="glass-dark flex w-full items-center justify-center gap-2 rounded p-2 transition duration-500 hover:scale-105"
-            href={microfrontendUrl}
+            href={card.microfrontendUrl}
+            onClick={(e) => e.stopPropagation()}
           >
             <BiSolidComponent />
             <Text className="w-full md:text-sm">Microfrontend</Text>
@@ -62,241 +183,289 @@ const ArchitectureCard = React.forwardRef<
   );
 });
 
-ArchitectureCard.displayName = "ArchitectureCard";
+ArchitectureCardElement.displayName = "ArchitectureCardElement";
 
-// Draggable wrapper usando nossa solução nativa ultra robusta
-const DraggableArchitectureCard = forwardRef<
-  HTMLDivElement,
-  {
-    title: string;
-    githubUrl: string;
-    microfrontendUrl?: string;
-    initialPosition: { left: number; top: number };
-    containerRef: React.RefObject<HTMLDivElement>;
-    onPositionChange?: (title: string, x: number, y: number) => void;
-  }
->(
-  (
-    {
-      title,
-      githubUrl,
-      microfrontendUrl,
-      initialPosition,
-      containerRef,
-      onPositionChange,
-    },
-    forwardedRef,
-  ) => {
-    const [containerSize, setContainerSize] = useState({
-      width: 850,
-      height: 600,
-    });
+// SVG Connection component following Excalidraw pattern
+const ConnectionElement: React.FC<{
+  connection: Connection;
+  cards: Map<string, ArchitectureCard>;
+  viewport: ViewportState;
+}> = ({ connection, cards, viewport }) => {
+  const fromCard = cards.get(connection.from);
+  const toCard = cards.get(connection.to);
 
-    // Monitorar mudanças no tamanho do container
-    useEffect(() => {
-      const updateContainerSize = () => {
-        if (containerRef.current) {
-          const { offsetWidth, offsetHeight } = containerRef.current;
-          setContainerSize({ width: offsetWidth, height: offsetHeight });
-        }
-      };
+  if (!fromCard || !toCard) return null;
 
-      // Atualizar imediatamente
-      updateContainerSize();
+  const fromScreen = worldToScreen(fromCard.position, viewport);
+  const toScreen = worldToScreen(toCard.position, viewport);
 
-      // Observar mudanças de tamanho
-      const resizeObserver = new ResizeObserver(updateContainerSize);
-      if (containerRef.current) {
-        resizeObserver.observe(containerRef.current);
-      }
+  // Calculate center points of cards
+  const fromCenter = {
+    x: fromScreen.x + (fromCard.size.width * viewport.scale) / 2,
+    y: fromScreen.y + (fromCard.size.height * viewport.scale) / 2,
+  };
 
-      return () => {
-        resizeObserver.disconnect();
-      };
-    }, [containerRef]);
+  const toCenter = {
+    x: toScreen.x + (toCard.size.width * viewport.scale) / 2,
+    y: toScreen.y + (toCard.size.height * viewport.scale) / 2,
+  };
 
-    // Calcular bounds dinâmicos baseados no container REAL
-    const calculateBounds = () => {
-      // Remover bounds - permitir drag livre
-      return undefined;
-    };
+  // Generate bezier curve path (Excalidraw style)
+  const controlOffset = Math.abs(toCenter.x - fromCenter.x) * 0.3;
+  const path = `M ${fromCenter.x} ${fromCenter.y} 
+               C ${fromCenter.x + controlOffset} ${fromCenter.y}, 
+                 ${toCenter.x - controlOffset} ${toCenter.y}, 
+                 ${toCenter.x} ${toCenter.y}`;
 
-    const { ref, isDragging, position } = useDraggable({
-      // Sem bounds - drag livre
-      bounds: undefined,
-      onDragStart: () => {
-        console.log(`Started dragging ${title}`);
-      },
-      onDrag: (x, y) => {
-        // Atualizar a posição do card em tempo real
-        if (onPositionChange) {
-          onPositionChange(
-            title,
-            initialPosition.left + x,
-            initialPosition.top + y,
-          );
-        }
-      },
-      onDragEnd: () => {
-        const finalX = initialPosition.left + position.x;
-        const finalY = initialPosition.top + position.y;
-        console.log(`Stopped dragging ${title} at (${finalX}, ${finalY})`);
+  return (
+    <path
+      d={path}
+      stroke={connection.color || "#9c40ff"}
+      strokeWidth={(connection.thickness || 2) / viewport.scale}
+      fill="none"
+      strokeDasharray="5,5"
+      style={{
+        strokeDasharray: `${5 / viewport.scale},${5 / viewport.scale}`,
+      }}
+    />
+  );
+};
 
-        // Atualizar a posição final
-        if (onPositionChange) {
-          onPositionChange(title, finalX, finalY);
-        }
-      },
-    });
-
-    // Combinar refs de forma robusta
-    const setRefs = (element: HTMLDivElement | null) => {
-      if (typeof forwardedRef === "function") {
-        forwardedRef(element);
-      } else if (forwardedRef) {
-        forwardedRef.current = element;
-      }
-      (ref as any).current = element;
-    };
-
-    const currentPosition = {
-      x: initialPosition.left + position.x,
-      y: initialPosition.top + position.y,
-    };
-
-    return (
-      <div
-        ref={setRefs}
-        style={{
-          position: "absolute",
-          left: initialPosition.left,
-          top: initialPosition.top,
-          zIndex: isDragging ? 30 : 10,
-        }}
-        data-draggable="true"
-        className={cn(
-          "transition-shadow duration-200",
-          isDragging ? "scale-105 shadow-xl" : "",
-        )}
-      >
-        <ArchitectureCard
-          title={title}
-          githubUrl={githubUrl}
-          microfrontendUrl={microfrontendUrl}
-        />
-      </div>
-    );
-  },
-);
-
-DraggableArchitectureCard.displayName = "DraggableArchitectureCard";
-
-interface ArchitectureBlock {
-  title: string;
-  githubUrl: string;
-  microfrontendUrl?: string;
-}
-
-export function ArchitectureContainer({ className }: { className?: string }) {
-  // Estado para controle de zoom e pan
-  const [isActive, setIsActive] = useState(false);
-  const [isPanZoomMode, setIsPanZoomMode] = useState(false);
-  const [scale, setScale] = useState(1);
-  const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
+// Main viewport component following Excalidraw architecture
+const ViewportLayer: React.FC<{
+  appState: AppState;
+  onViewportChange: (viewport: ViewportState) => void;
+  containerRef: React.RefObject<HTMLDivElement>;
+  children: React.ReactNode;
+}> = ({ appState, onViewportChange, containerRef, children }) => {
   const [isPanning, setIsPanning] = useState(false);
   const [lastPanPoint, setLastPanPoint] = useState({ x: 0, y: 0 });
 
-  // Defina os blocos da arquitetura aqui
-  const architectureBlocks: ArchitectureBlock[] = [
-    {
-      title: "Simple Store",
-      githubUrl:
-        "https://github.com/brcls/portifolio-monorepo/tree/main/apps/lojinha-simples",
-      microfrontendUrl: "/microfrontend/lojinha-simples",
-    },
-    {
-      title: "Video Project Manage",
-      githubUrl:
-        "https://github.com/brcls/portifolio-monorepo/tree/main/apps/video-project-manage",
-      microfrontendUrl: "/microfrontend/video-project-manage",
-    },
-    {
-      title: "Main",
-      githubUrl:
-        "https://github.com/brcls/portifolio-monorepo/tree/main/apps/main",
-    },
-    {
-      title: "Alan Turing",
-      githubUrl:
-        "https://github.com/brcls/portifolio-monorepo/tree/main/apps/alan-turing",
-      microfrontendUrl: "/microfrontend/alan-turing",
-    },
-    {
-      title: "Joystick",
-      githubUrl:
-        "https://github.com/brcls/portifolio-monorepo/tree/main/apps/joystick",
-      microfrontendUrl: "/microfrontend/joystick",
-    },
-    {
-      title: "Secret Santa",
-      githubUrl:
-        "https://github.com/brcls/portifolio-monorepo/tree/main/apps/secret-santa",
-      microfrontendUrl: "/microfrontend/secret-santa",
-    },
-    {
-      title: "Electoral System",
-      githubUrl:
-        "https://github.com/brcls/portifolio-monorepo/tree/main/apps/electoral-system",
-      microfrontendUrl: "/microfrontend/electoral-system",
-    },
-    {
-      title: "RGBWallet",
-      githubUrl:
-        "https://github.com/brcls/portifolio-monorepo/tree/main/apps/rgbwallet",
-      microfrontendUrl: "/microfrontend/rgbwallet",
-    },
-    {
-      title: "Liga Acadêmica de Psicologia",
-      githubUrl:
-        "https://github.com/brcls/portifolio-monorepo/tree/main/apps/liga-academica-psicologia",
-      microfrontendUrl: "/microfrontend/liga-academica-psicologia",
-    },
-  ];
+  // Excalidraw-style wheel handler
+  const handleWheel = useCallback(
+    (e: WheelEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
 
-  // Encontre o índice do bloco central (Main)
-  const mainIdx = architectureBlocks.findIndex((b) => b.title === "Main");
-  const outerBlocks = architectureBlocks.filter((_, idx) => idx !== mainIdx);
+      const container = containerRef.current;
+      if (!container) return;
 
-  // Crie refs para todos os blocos
-  const blockRefs = architectureBlocks.map(() => useRef<HTMLDivElement>(null));
+      const containerRect = container.getBoundingClientRect();
+
+      if (e.ctrlKey || e.metaKey) {
+        // Zoom with cursor position
+        const factor = e.deltaY > 0 ? 0.9 : 1.1;
+        const nextZoom = getNormalizedZoom(appState.viewport.scale * factor);
+
+        const newViewport = getStateForZoom(
+          e.clientX,
+          e.clientY,
+          nextZoom,
+          appState.viewport,
+          containerRect,
+        );
+
+        onViewportChange(newViewport);
+      } else {
+        // Pan
+        const newViewport = {
+          ...appState.viewport,
+          translateX: appState.viewport.translateX - e.deltaX,
+          translateY: appState.viewport.translateY - e.deltaY,
+        };
+        onViewportChange(newViewport);
+      }
+    },
+    [appState.viewport, onViewportChange, containerRef],
+  );
+
+  // Excalidraw-style mouse handlers
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    if (e.button === 1) {
+      // Middle mouse button
+      e.preventDefault();
+      setIsPanning(true);
+      setLastPanPoint({ x: e.clientX, y: e.clientY });
+    }
+  }, []);
+
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (!isPanning) return;
+
+      e.preventDefault();
+      const deltaX = e.clientX - lastPanPoint.x;
+      const deltaY = e.clientY - lastPanPoint.y;
+
+      const newViewport = {
+        ...appState.viewport,
+        translateX: appState.viewport.translateX + deltaX,
+        translateY: appState.viewport.translateY + deltaY,
+      };
+
+      onViewportChange(newViewport);
+      setLastPanPoint({ x: e.clientX, y: e.clientY });
+    },
+    [isPanning, lastPanPoint, appState.viewport, onViewportChange],
+  );
+
+  const handleMouseUp = useCallback(() => {
+    setIsPanning(false);
+  }, []);
+
+  // Event listeners setup (Excalidraw pattern)
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    container.addEventListener("wheel", handleWheel, { passive: false });
+
+    if (isPanning) {
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+    }
+
+    return () => {
+      container.removeEventListener("wheel", handleWheel);
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [handleWheel, handleMouseMove, handleMouseUp, isPanning]);
+
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        cursor: isPanning ? "grabbing" : "grab",
+        overflow: "hidden",
+      }}
+      onMouseDown={handleMouseDown}
+    >
+      {children}
+    </div>
+  );
+};
+
+// ===== MAIN ARCHITECTURE CONTAINER =====
+export function ArchitectureContainer({ className }: { className?: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerSize, setContainerSize] = useState({
     width: 850,
     height: 600,
   });
 
-  // Estado para rastrear posições atuais de cada card (apenas para desenvolvimento)
-  const [cardPositions, setCardPositions] = useState<
-    Record<string, { x: number; y: number }>
-  >({});
+  // Initialize Excalidraw-style app state
+  const [appState, setAppState] = useState<AppState>(() => {
+    const cards = new Map<string, ArchitectureCard>();
+    const connections = new Map<string, Connection>();
 
-  // Configurar conexões para o hook otimizado
-  const connections = outerBlocks.map((block, i) => {
-    const realIdx = architectureBlocks.findIndex(
-      (b) => b.title === block.title,
-    );
+    // Architecture blocks data
+    const architectureBlocks = [
+      {
+        title: "Simple Store",
+        githubUrl:
+          "https://github.com/brcls/portifolio-monorepo/tree/main/apps/lojinha-simples",
+        microfrontendUrl: "/microfrontend/lojinha-simples",
+      },
+      {
+        title: "Video Project Manage",
+        githubUrl:
+          "https://github.com/brcls/portifolio-monorepo/tree/main/apps/video-project-manage",
+        microfrontendUrl: "/microfrontend/video-project-manage",
+      },
+      {
+        title: "Main",
+        githubUrl:
+          "https://github.com/brcls/portifolio-monorepo/tree/main/apps/main",
+      },
+      {
+        title: "Alan Turing",
+        githubUrl:
+          "https://github.com/brcls/portifolio-monorepo/tree/main/apps/alan-turing",
+        microfrontendUrl: "/microfrontend/alan-turing",
+      },
+      {
+        title: "Joystick",
+        githubUrl:
+          "https://github.com/brcls/portifolio-monorepo/tree/main/apps/joystick",
+        microfrontendUrl: "/microfrontend/joystick",
+      },
+      {
+        title: "Secret Santa",
+        githubUrl:
+          "https://github.com/brcls/portifolio-monorepo/tree/main/apps/secret-santa",
+        microfrontendUrl: "/microfrontend/secret-santa",
+      },
+      {
+        title: "Electoral System",
+        githubUrl:
+          "https://github.com/brcls/portifolio-monorepo/tree/main/apps/electoral-system",
+        microfrontendUrl: "/microfrontend/electoral-system",
+      },
+      {
+        title: "RGBWallet",
+        githubUrl:
+          "https://github.com/brcls/portifolio-monorepo/tree/main/apps/rgbwallet",
+        microfrontendUrl: "/microfrontend/rgbwallet",
+      },
+    ];
+
+    // Create cards with world coordinates
+    architectureBlocks.forEach((block, index) => {
+      const cardWidth = 170;
+      const cardHeight = 120;
+
+      let position: WorldCoordinates;
+
+      if (block.title === "Main") {
+        // Center card
+        position = { x: 300, y: 200 };
+      } else {
+        // Arrange other cards in a circle around main
+        const angle = (index * (Math.PI * 2)) / (architectureBlocks.length - 1);
+        const radius = 250;
+        position = {
+          x: 300 + Math.cos(angle) * radius,
+          y: 200 + Math.sin(angle) * radius,
+        };
+      }
+
+      const card: ArchitectureCard = {
+        id: block.title.toLowerCase().replace(/\s+/g, "-"),
+        position,
+        size: { width: cardWidth, height: cardHeight },
+        title: block.title,
+        githubUrl: block.githubUrl,
+        microfrontendUrl: block.microfrontendUrl,
+      };
+
+      cards.set(card.id, card);
+
+      // Create connections to Main (except Main itself)
+      if (block.title !== "Main") {
+        const connection: Connection = {
+          id: `${card.id}-to-main`,
+          from: card.id,
+          to: "main",
+          color: "#9c40ff",
+          thickness: 2,
+        };
+        connections.set(connection.id, connection);
+      }
+    });
+
     return {
-      id: `${block.title}-to-main`,
-      fromRef: blockRefs[realIdx],
-      toRef: blockRefs[mainIdx],
-      color: "#9c40ff",
-      thickness: 1,
+      viewport: { scale: 1, translateX: 0, translateY: 0 },
+      cards,
+      connections,
+      selectedCards: new Set(),
+      isDragging: false,
+      dragState: null,
     };
   });
 
-  const { triggerUpdate } = useConnectionManager(connections);
-
-  // Monitorar mudanças no tamanho do container principal
+  // Container size monitoring (Excalidraw pattern)
   useEffect(() => {
     const updateContainerSize = () => {
       if (containerRef.current) {
@@ -317,252 +486,154 @@ export function ArchitectureContainer({ className }: { className?: string }) {
     };
   }, []);
 
-  // Calcular posições dinâmicas baseadas no tamanho do container
-  const calculateCenterAndPositions = () => {
-    const centerX = containerSize.width / 2;
-    const centerY = containerSize.height / 2;
-
-    // Margens diferenciadas para topo e parte inferior
-    const marginX = Math.max(20, containerSize.width * 0.02); // Mínimo 20px ou 5% da largura
-    const marginTop = Math.max(20, containerSize.height * 0.1); // Margem menor no topo: 20px ou 10%
-    const marginBottom = Math.max(40, containerSize.height * 0.15); // Margem maior na parte inferior: 40px ou 10%
-
-    // Dimensões dos cards para cálculos precisos
-    const cardWidth = 170;
-    const cardHeight = 120;
-
-    // Posições dinâmicas baseadas em proporções do container
-    const dynamicPositions: Record<string, { x: number; y: number }> = {
-      // Linha superior: 3 cards distribuídos horizontalmente (margem menor no topo)
-      "Simple Store": {
-        x: marginX,
-        y: marginTop,
-      },
-      "Liga Acadêmica de Psicologia": {
-        x: centerX - cardWidth / 1.05, // Centralizado horizontalmente
-        y: marginTop,
-      },
-      "Alan Turing": {
-        x: containerSize.width - marginX - cardWidth,
-        y: marginTop,
-      },
-
-      // Linha do meio: 2 cards nas laterais
-      RGBWallet: {
-        x: marginX,
-        y: centerY - cardHeight / 2, // Centralizado verticalmente
-      },
-      Joystick: {
-        x: containerSize.width - marginX - cardWidth,
-        y: centerY - cardHeight / 2,
-      },
-
-      // Linha inferior: 3 cards distribuídos horizontalmente (margem maior na parte inferior)
-      "Electoral System": {
-        x: marginX,
-        y: containerSize.height - marginBottom - cardHeight,
-      },
-      "Video Project Manage": {
-        x: centerX - cardWidth / 1.35, // Centralizado horizontalmente
-        y: containerSize.height - marginBottom - cardHeight,
-      },
-      "Secret Santa": {
-        x: containerSize.width - marginX - cardWidth,
-        y: containerSize.height - marginBottom - cardHeight,
-      },
-    };
-
-    // Usar posições dinâmicas para cada card
-    const positions = outerBlocks.map((block) => {
-      const dynamicPos = dynamicPositions[block.title];
-      return { left: dynamicPos.x, top: dynamicPos.y };
-    });
-
-    return {
-      center: { left: centerX - cardWidth / 2, top: centerY - cardHeight / 2 }, // Centralizar o card principal
-      positions,
-    };
-  };
-
-  const { center, positions: initialCardPositions } =
-    calculateCenterAndPositions();
-
-  // Função para toggle do modo pan/zoom
-  const togglePanZoomMode = () => {
-    const newPanZoomMode = !isPanZoomMode;
-    setIsPanZoomMode(newPanZoomMode);
-
-    if (isPanning) {
-      setIsPanning(false);
-    }
-  };
-
-  // Efeito para bloquear/desbloquear scroll global
-  useEffect(() => {
-    if (isPanZoomMode) {
-      // Bloquear scroll global
-      document.body.style.overflow = "hidden";
-    } else {
-      // Restaurar scroll global
-      document.body.style.overflow = "";
-    }
-
-    // Cleanup ao desmontar componente
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isPanZoomMode]);
-
-  // Handlers para zoom e pan
-  const handleWheel = useCallback(
-    (e: WheelEvent) => {
-      if (!isPanZoomMode) return;
-
+  // Drag handling (Excalidraw style)
+  const handleCardMouseDown = useCallback(
+    (e: React.MouseEvent, cardId: string) => {
       e.preventDefault();
       e.stopPropagation();
 
-      if (e.ctrlKey || e.metaKey) {
-        // Zoom
-        const delta = e.deltaY > 0 ? 0.9 : 1.1;
-        const newScale = Math.max(0.3, Math.min(3, scale * delta));
+      const container = containerRef.current;
+      if (!container) return;
 
-        // Calcular zoom em relação ao cursor
-        const rect = containerRef.current?.getBoundingClientRect();
-        if (rect) {
-          const mouseX = e.clientX - rect.left;
-          const mouseY = e.clientY - rect.top;
+      const containerRect = container.getBoundingClientRect();
+      const worldPos = screenToWorld(
+        { x: e.clientX, y: e.clientY },
+        appState.viewport,
+        containerRect,
+      );
 
-          // Ajustar pan offset para zoom no cursor
-          const scaleDiff = newScale - scale;
-          const newPanX =
-            panOffset.x - ((mouseX - rect.width / 2) * scaleDiff) / scale;
-          const newPanY =
-            panOffset.y - ((mouseY - rect.height / 2) * scaleDiff) / scale;
+      const card = appState.cards.get(cardId);
+      if (!card) return;
 
-          setPanOffset({ x: newPanX, y: newPanY });
-        }
-
-        setScale(newScale);
-
-        // Disparar eventos de transformação de forma síncrona
-        requestAnimationFrame(() => {
-          document.dispatchEvent(new CustomEvent("architecture-transform"));
-          triggerUpdate();
-        });
-      } else {
-        // Pan com scroll wheel
-        setPanOffset((prev) => ({
-          x: prev.x - e.deltaX,
-          y: prev.y - e.deltaY,
-        }));
-
-        // Disparar eventos de transformação de forma síncrona
-        requestAnimationFrame(() => {
-          document.dispatchEvent(new CustomEvent("architecture-transform"));
-          triggerUpdate();
-        });
-      }
-    },
-    [isPanZoomMode, scale, panOffset],
-  );
-
-  const handleMouseDown = useCallback(
-    (e: React.MouseEvent) => {
-      if (!isPanZoomMode || e.button !== 1) return; // Apenas botão do meio
-
-      e.preventDefault();
-      setIsPanning(true);
-      setLastPanPoint({ x: e.clientX, y: e.clientY });
-    },
-    [isPanZoomMode],
-  );
-
-  const handleMouseMove = useCallback(
-    (e: MouseEvent) => {
-      if (!isPanning) return;
-
-      e.preventDefault();
-      const deltaX = e.clientX - lastPanPoint.x;
-      const deltaY = e.clientY - lastPanPoint.y;
-
-      setPanOffset((prev) => ({
-        x: prev.x + deltaX,
-        y: prev.y + deltaY,
+      // Start drag operation
+      setAppState((prev) => ({
+        ...prev,
+        isDragging: true,
+        selectedCards: new Set([cardId]),
+        dragState: {
+          cardId,
+          startPosition: card.position,
+          offset: {
+            x: worldPos.x - card.position.x,
+            y: worldPos.y - card.position.y,
+          },
+        },
       }));
 
-      setLastPanPoint({ x: e.clientX, y: e.clientY });
+      // Global mouse event handlers for drag
+      const handleMouseMove = (e: MouseEvent) => {
+        e.preventDefault();
 
-      // Disparar eventos de transformação de forma síncrona
-      requestAnimationFrame(() => {
-        document.dispatchEvent(new CustomEvent("architecture-transform"));
-        triggerUpdate();
-      });
+        const worldPos = screenToWorld(
+          { x: e.clientX, y: e.clientY },
+          appState.viewport,
+          containerRect,
+        );
+
+        setAppState((prev) => {
+          if (!prev.dragState) return prev;
+
+          const newPosition = {
+            x: worldPos.x - prev.dragState.offset.x,
+            y: worldPos.y - prev.dragState.offset.y,
+          };
+
+          const updatedCards = new Map(prev.cards);
+          const card = updatedCards.get(cardId);
+          if (card) {
+            updatedCards.set(cardId, { ...card, position: newPosition });
+          }
+
+          return {
+            ...prev,
+            cards: updatedCards,
+          };
+        });
+      };
+
+      const handleMouseUp = () => {
+        setAppState((prev) => ({
+          ...prev,
+          isDragging: false,
+          dragState: null,
+        }));
+
+        document.removeEventListener("mousemove", handleMouseMove);
+        document.removeEventListener("mouseup", handleMouseUp);
+      };
+
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
     },
-    [isPanning, lastPanPoint],
+    [appState.viewport, appState.cards],
   );
 
-  const handleMouseUp = useCallback(() => {
-    setIsPanning(false);
+  // Viewport update handler
+  const handleViewportChange = useCallback((newViewport: ViewportState) => {
+    setAppState((prev) => ({
+      ...prev,
+      viewport: newViewport,
+    }));
   }, []);
 
-  // Event listeners para zoom e pan
-  useEffect(() => {
+  // Zoom controls (Excalidraw style)
+  const zoomIn = useCallback(() => {
+    const newScale = getNormalizedZoom(
+      appState.viewport.scale * (1 + ZOOM_STEP),
+    );
     const container = containerRef.current;
     if (!container) return;
 
-    container.addEventListener("wheel", handleWheel, { passive: false });
+    const containerRect = container.getBoundingClientRect();
+    const centerX = containerRect.left + containerRect.width / 2;
+    const centerY = containerRect.top + containerRect.height / 2;
 
-    if (isPanning) {
-      document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseup", handleMouseUp);
-    }
+    const newViewport = getStateForZoom(
+      centerX,
+      centerY,
+      newScale,
+      appState.viewport,
+      containerRect,
+    );
 
-    return () => {
-      container.removeEventListener("wheel", handleWheel);
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
-    };
-  }, [handleWheel, handleMouseMove, handleMouseUp, isPanning]);
+    handleViewportChange(newViewport);
+  }, [appState.viewport, handleViewportChange]);
 
-  // Reset zoom e pan
-  const resetView = () => {
-    setScale(1);
-    setPanOffset({ x: 0, y: 0 });
-    requestAnimationFrame(() => {
-      document.dispatchEvent(new CustomEvent("architecture-transform"));
-      triggerUpdate();
-    });
-  };
+  const zoomOut = useCallback(() => {
+    const newScale = getNormalizedZoom(
+      appState.viewport.scale * (1 - ZOOM_STEP),
+    );
+    const container = containerRef.current;
+    if (!container) return;
 
-  // Funções de zoom
-  const zoomIn = () => {
-    const newScale = Math.min(3, scale * 1.2);
-    setScale(newScale);
-    requestAnimationFrame(() => {
-      document.dispatchEvent(new CustomEvent("architecture-transform"));
-      triggerUpdate();
-    });
-  };
+    const containerRect = container.getBoundingClientRect();
+    const centerX = containerRect.left + containerRect.width / 2;
+    const centerY = containerRect.top + containerRect.height / 2;
 
-  const zoomOut = () => {
-    const newScale = Math.max(0.3, scale * 0.8);
-    setScale(newScale);
-    requestAnimationFrame(() => {
-      document.dispatchEvent(new CustomEvent("architecture-transform"));
-      triggerUpdate();
-    });
-  };
+    const newViewport = getStateForZoom(
+      centerX,
+      centerY,
+      newScale,
+      appState.viewport,
+      containerRect,
+    );
 
-  // Ref para o container que recebe as transformações
-  const transformedContainerRef = useRef<HTMLDivElement>(null);
+    handleViewportChange(newViewport);
+  }, [appState.viewport, handleViewportChange]);
+
+  const resetView = useCallback(() => {
+    handleViewportChange({ scale: 1, translateX: 0, translateY: 0 });
+  }, [handleViewportChange]);
+
+  // Render cards and connections
+  const cardsArray = Array.from(appState.cards.values());
+  const connectionsArray = Array.from(appState.connections.values());
 
   return (
     <div
       className={cn(
         "bg-background glass-dark relative mx-auto flex w-full items-center justify-center overflow-hidden rounded-xl transition-all duration-200",
-        isPanZoomMode
-          ? "border-2 border-purple-500/50 shadow-lg shadow-purple-500/20"
-          : "border border-zinc-700/50",
+        "border border-zinc-700/50",
         className,
       )}
       ref={containerRef}
@@ -571,150 +642,102 @@ export function ArchitectureContainer({ className }: { className?: string }) {
         minHeight: 620,
         height: "90vh",
         maxHeight: 720,
-        cursor: isPanning ? "grabbing" : isPanZoomMode ? "grab" : "default",
       }}
-      onMouseEnter={() => setIsActive(true)}
-      onMouseLeave={() => {
-        setIsActive(false);
-        setIsPanning(false);
-      }}
-      onMouseDown={handleMouseDown}
     >
-      {/* Botão para ativar/desativar modo Pan/Zoom */}
-      <button
-        onClick={togglePanZoomMode}
-        className={cn(
-          "absolute left-2 top-2 z-50 flex items-center gap-2 rounded-lg border px-3 py-2 backdrop-blur-sm transition-all duration-200",
-          isPanZoomMode
-            ? "border-purple-500/50 bg-purple-500/20 text-purple-300"
-            : "border-zinc-600/50 bg-zinc-900/20 text-zinc-400 hover:border-purple-500/30 hover:bg-purple-500/10 hover:text-purple-300",
-        )}
-        title={isPanZoomMode ? "Desativar Pan/Zoom" : "Ativar Pan/Zoom"}
-      >
-        <div
-          className={cn(
-            "h-2 w-2 rounded-full transition-all duration-200",
-            isPanZoomMode ? "animate-pulse bg-purple-500" : "bg-zinc-500",
-          )}
-        ></div>
-        <Text className="text-xs font-medium">
-          {isPanZoomMode ? "Pan/Zoom Ativo" : "Ativar Pan/Zoom"}
-        </Text>
-      </button>
-
-      {/* Indicador de funcionalidades ativas */}
-      {isPanZoomMode && (
-        <div className="absolute bottom-2 left-2 z-50 rounded-lg border border-purple-500/50 bg-purple-500/20 px-3 py-1 backdrop-blur-sm">
-          <Text className="text-xs text-purple-300">
-            Ctrl+Scroll para zoom • Scroll do meio para pan
-          </Text>
-        </div>
-      )}
-
-      {/* Indicador de escala */}
-      {isPanZoomMode && scale !== 1 && (
-        <div className="absolute right-2 top-2 z-50 rounded-lg border border-purple-500/50 bg-purple-500/20 px-2 py-1 backdrop-blur-sm">
-          <Text className="font-mono text-xs text-purple-300">
-            {Math.round(scale * 100)}%
-          </Text>
-        </div>
-      )}
-
-      {/* Controles de Zoom */}
-      {isPanZoomMode && (
-        <div className="absolute bottom-4 right-4 z-50 flex flex-col gap-2">
-          <button
-            onClick={zoomIn}
-            className="rounded-lg border border-purple-500/50 bg-purple-500/20 p-2 text-purple-300 backdrop-blur-sm transition-all duration-200 hover:bg-purple-500/30 hover:text-purple-100"
-            title="Zoom In"
-            disabled={scale >= 3}
-          >
-            <ZoomInIcon className="h-4 w-4" />
-          </button>
-          <button
-            onClick={zoomOut}
-            className="rounded-lg border border-purple-500/50 bg-purple-500/20 p-2 text-purple-300 backdrop-blur-sm transition-all duration-200 hover:bg-purple-500/30 hover:text-purple-100"
-            title="Zoom Out"
-            disabled={scale <= 0.3}
-          >
-            <ZoomOutIcon className="h-4 w-4" />
-          </button>
-        </div>
-      )}
-
-      {/* Renderize linhas usando a versão ExcalidrawStyle (mais estável) */}
-      {connections.map((connection) => (
-        <ExcalidrawStyleConnection
-          key={connection.id}
-          fromRef={connection.fromRef}
-          toRef={connection.toRef}
-          color={connection.color}
-          thickness={connection.thickness}
-          containerRef={containerRef}
-          animated={false}
-        />
-      ))}
-
-      {/* Container com TUDO dentro - aplicando zoom/pan em volta de tudo */}
-      <div
-        ref={transformedContainerRef}
-        data-connection-container="true"
-        style={{
-          transform: `scale(${scale}) translate(${panOffset.x}px, ${panOffset.y}px)`,
-          transformOrigin: "center center",
-          transition: isPanning ? "none" : "transform 0.1s ease-out",
-          width: "100%",
-          height: "100%",
-          position: "relative",
-        }}
-      >
-        {/* Renderiza o bloco central */}
-        <div
-          style={{
-            position: "absolute",
-            left: center.left,
-            top: center.top,
-            zIndex: 20,
-          }}
+      {/* Zoom Controls */}
+      <div className="absolute bottom-4 right-4 z-50 flex flex-col gap-2">
+        <button
+          onClick={zoomIn}
+          className="rounded-lg border border-purple-500/50 bg-purple-500/20 p-2 text-purple-300 backdrop-blur-sm transition-all duration-200 hover:bg-purple-500/30 hover:text-purple-100"
+          title="Zoom In"
+          disabled={appState.viewport.scale >= MAX_ZOOM}
         >
-          <ArchitectureCard
-            key={architectureBlocks[mainIdx].title}
-            title={architectureBlocks[mainIdx].title}
-            githubUrl={architectureBlocks[mainIdx].githubUrl}
-            ref={blockRefs[mainIdx]}
-          />
-        </div>
-
-        {/* Renderiza os blocos ao redor com drag and drop nativo */}
-        {outerBlocks.map((block, i) => {
-          const realIdx = architectureBlocks.findIndex(
-            (b) => b.title === block.title,
-          );
-          const pos = initialCardPositions[i] || { left: 0, top: 0 };
-          return (
-            <DraggableArchitectureCard
-              key={block.title}
-              title={block.title}
-              githubUrl={block.githubUrl}
-              microfrontendUrl={block.microfrontendUrl}
-              initialPosition={pos}
-              containerRef={containerRef}
-              ref={blockRefs[realIdx]}
-              onPositionChange={(title, x, y) => {
-                setCardPositions((prev) => ({
-                  ...prev,
-                  [title]: { x, y },
-                }));
-              }}
-            />
-          );
-        })}
+          <ZoomInIcon className="h-4 w-4" />
+        </button>
+        <button
+          onClick={zoomOut}
+          className="rounded-lg border border-purple-500/50 bg-purple-500/20 p-2 text-purple-300 backdrop-blur-sm transition-all duration-200 hover:bg-purple-500/30 hover:text-purple-100"
+          title="Zoom Out"
+          disabled={appState.viewport.scale <= MIN_ZOOM}
+        >
+          <ZoomOutIcon className="h-4 w-4" />
+        </button>
+        <button
+          onClick={resetView}
+          className="rounded-lg border border-purple-500/50 bg-purple-500/20 px-2 py-1 text-purple-300 backdrop-blur-sm transition-all duration-200 hover:bg-purple-500/30 hover:text-purple-100"
+          title="Reset View"
+        >
+          <Text className="text-xs">Reset</Text>
+        </button>
       </div>
 
-      {/* Connection Debugger (apenas em desenvolvimento) */}
-      {process.env.NODE_ENV === "development" && (
-        <ConnectionDebugger enabled={true} />
+      {/* Scale Indicator */}
+      {appState.viewport.scale !== 1 && (
+        <div className="absolute right-2 top-2 z-50 rounded-lg border border-purple-500/50 bg-purple-500/20 px-2 py-1 backdrop-blur-sm">
+          <Text className="font-mono text-xs text-purple-300">
+            {Math.round(appState.viewport.scale * 100)}%
+          </Text>
+        </div>
       )}
+
+      {/* Instructions */}
+      <div className="absolute bottom-2 left-2 z-50 rounded-lg border border-purple-500/50 bg-purple-500/20 px-3 py-1 backdrop-blur-sm">
+        <Text className="text-xs text-purple-300">
+          Ctrl+Scroll: Zoom • Scroll: Pan • Drag: Move Cards
+        </Text>
+      </div>
+
+      {/* Viewport Layer (Excalidraw architecture) */}
+      <ViewportLayer
+        appState={appState}
+        onViewportChange={handleViewportChange}
+        containerRef={containerRef}
+      >
+        {/* SVG Layer for Connections */}
+        <svg
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            pointerEvents: "none",
+            zIndex: 1,
+          }}
+        >
+          {connectionsArray.map((connection) => (
+            <ConnectionElement
+              key={connection.id}
+              connection={connection}
+              cards={appState.cards}
+              viewport={appState.viewport}
+            />
+          ))}
+        </svg>
+
+        {/* Cards Layer */}
+        <div
+          style={{
+            position: "relative",
+            width: "100%",
+            height: "100%",
+            zIndex: 2,
+          }}
+        >
+          {cardsArray.map((card) => (
+            <ArchitectureCardElement
+              key={card.id}
+              card={card}
+              viewport={appState.viewport}
+              isSelected={appState.selectedCards.has(card.id)}
+              isDragging={
+                appState.isDragging && appState.dragState?.cardId === card.id
+              }
+              onMouseDown={handleCardMouseDown}
+            />
+          ))}
+        </div>
+      </ViewportLayer>
     </div>
   );
 }
