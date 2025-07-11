@@ -145,13 +145,14 @@ const ArchitectureCardElement = React.forwardRef<
         left: screenPos.x,
         top: screenPos.y,
         width: card.size.width,
-        height: card.size.height,
+        height: card.size.height, // Use the card's defined height (Main: 120px, others: 160px)
         transform: `translate3d(0, 0, 0) scale(${cardScale})`, // Hardware acceleration + consistent scale
         transformOrigin: "top left",
         zIndex: isDragging ? 30 : isSelected ? 20 : 10,
+        cursor: isDragging ? "grabbing" : "grab", // Dynamic cursor based on drag state
       }}
       className={cn(
-        "glass-dark rounded-lg bg-zinc-950/50 p-3 transition-shadow duration-200",
+        "glass-dark rounded-xl border-zinc-800 bg-zinc-950 p-2 transition-shadow duration-200", // Reduced padding from p-3 to p-2
         isSelected && "ring-2 ring-purple-400/50",
         isDragging && "scale-105 shadow-xl",
       )}
@@ -159,33 +160,41 @@ const ArchitectureCardElement = React.forwardRef<
       data-card-id={card.id}
     >
       <div
-        className="flex w-full flex-col items-center gap-2 p-2"
+        className="flex h-full w-full flex-col items-center justify-between gap-1.5 p-1" // Added h-full to fill card height
         style={{
           transform: `scale(${contentScale})`,
           transformOrigin: "center center",
         }}
       >
-        <Text className="text-nowrap font-bold">{card.title}</Text>
-        <a
-          className="glass-dark flex w-full items-center justify-center gap-2 rounded p-2 transition duration-500 hover:scale-105"
-          href={card.githubUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <GitHubLogoIcon />
-          <Text className="w-full md:text-sm">Codebase</Text>
-        </a>
-        {card.microfrontendUrl && (
+        <Text className="text-nowrap text-center text-sm font-bold">
+          {card.title}
+        </Text>{" "}
+        {/* Added text-sm for better fit */}
+        {/* Buttons container */}
+        <div className="flex w-full flex-col gap-1.5">
           <a
-            className="glass-dark flex w-full items-center justify-center gap-2 rounded p-2 transition duration-500 hover:scale-105"
-            href={card.microfrontendUrl}
+            className="glass-dark flex w-full items-center justify-center gap-1.5 rounded-xl border-zinc-800 p-2 transition duration-500 hover:scale-105" // Reduced gap and padding
+            href={card.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
           >
-            <BiSolidComponent />
-            <Text className="w-full md:text-sm">Microfrontend</Text>
+            <GitHubLogoIcon className="h-3 w-3" /> {/* Reduced icon size */}
+            <Text className="w-full text-xs">Codebase</Text>{" "}
+            {/* Reduced text size */}
           </a>
-        )}
+          {card.microfrontendUrl && (
+            <a
+              className="glass-dark flex w-full items-center justify-center gap-1.5 rounded-xl border-zinc-800 p-2 transition duration-500 hover:scale-105" // Reduced gap and padding
+              href={card.microfrontendUrl}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <BiSolidComponent className="h-3 w-3" /> {/* Reduced icon size */}
+              <Text className="w-full text-xs">Microfrontend</Text>{" "}
+              {/* Reduced text size */}
+            </a>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -458,8 +467,9 @@ export function ArchitectureContainer({ className }: { className?: string }) {
 
     // Create cards with world coordinates
     architectureBlocks.forEach((block, index) => {
-      const cardWidth = 170;
-      const cardHeight = 120;
+      const cardWidth = 220; // Increased from 170
+      // Special height for Main card (shorter since it has no microfrontend button)
+      const cardHeight = block.title === "Main" ? 110 : 180;
 
       let position: WorldCoordinates;
 
