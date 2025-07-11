@@ -81,7 +81,9 @@ const worldToScreen = (
 // ===== EXCALIDRAW-STYLE ZOOM MANAGEMENT =====
 const MIN_ZOOM = 0.1;
 const MAX_ZOOM = 5.0;
-const ZOOM_STEP = 0.1;
+const ZOOM_STEP = 0.12; // Reduced from 0.2 for more controlled zoom
+const ZOOM_WHEEL_FACTOR = 1.15; // Reduced from 1.3 for smoother zoom (was 1.2)
+const PAN_SENSITIVITY = 1.2; // Reduced from 2.5 for more controlled pan (was 1.5)
 
 const getNormalizedZoom = (zoom: number): number => {
   return Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, zoom));
@@ -264,8 +266,8 @@ const ViewportLayer: React.FC<{
       const containerRect = container.getBoundingClientRect();
 
       if (e.ctrlKey || e.metaKey) {
-        // Zoom with cursor position
-        const factor = e.deltaY > 0 ? 0.9 : 1.1;
+        // Zoom with cursor position - faster zoom
+        const factor = e.deltaY > 0 ? 1 / ZOOM_WHEEL_FACTOR : ZOOM_WHEEL_FACTOR;
         const nextZoom = getNormalizedZoom(appState.viewport.scale * factor);
 
         const newViewport = getStateForZoom(
@@ -278,11 +280,14 @@ const ViewportLayer: React.FC<{
 
         onViewportChange(newViewport);
       } else {
-        // Pan
+        // Pan - faster pan with sensitivity multiplier
+        const panDeltaX = e.deltaX * PAN_SENSITIVITY;
+        const panDeltaY = e.deltaY * PAN_SENSITIVITY;
+
         const newViewport = {
           ...appState.viewport,
-          translateX: appState.viewport.translateX - e.deltaX,
-          translateY: appState.viewport.translateY - e.deltaY,
+          translateX: appState.viewport.translateX - panDeltaX,
+          translateY: appState.viewport.translateY - panDeltaY,
         };
         onViewportChange(newViewport);
       }
@@ -315,8 +320,8 @@ const ViewportLayer: React.FC<{
       if (!isPanning || !appState.isPanModeActive) return;
 
       e.preventDefault();
-      const deltaX = e.clientX - lastPanPoint.x;
-      const deltaY = e.clientY - lastPanPoint.y;
+      const deltaX = (e.clientX - lastPanPoint.x) * PAN_SENSITIVITY;
+      const deltaY = (e.clientY - lastPanPoint.y) * PAN_SENSITIVITY;
 
       const newViewport = {
         ...appState.viewport,
@@ -340,16 +345,22 @@ const ViewportLayer: React.FC<{
     setIsPanning(false);
   }, []);
 
-  // Event listeners setup (Excalidraw pattern)
+  // Event listeners setup with optimized handling
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    container.addEventListener("wheel", handleWheel, { passive: false });
+    // Use passive: false for wheel to prevent default and enable smooth zoom
+    container.addEventListener("wheel", handleWheel, {
+      passive: false,
+      capture: true,
+    });
 
     if (isPanning) {
-      document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseup", handleMouseUp);
+      document.addEventListener("mousemove", handleMouseMove, {
+        passive: false,
+      });
+      document.addEventListener("mouseup", handleMouseUp, { passive: true });
     }
 
     return () => {
@@ -370,6 +381,9 @@ const ViewportLayer: React.FC<{
             : "grab"
           : "default",
         overflow: "hidden",
+        // Optimize rendering performance
+        willChange: appState.isPanModeActive ? "transform" : "auto",
+        contain: "layout style paint",
       }}
       onMouseDown={handleMouseDown}
     >
@@ -603,7 +617,7 @@ export function ArchitectureContainer({ className }: { className?: string }) {
     [appState.viewport, appState.cards, appState.isPanModeActive],
   );
 
-  // Viewport update handler
+  // Viewport update handler with optimized rendering
   const handleViewportChange = useCallback((newViewport: ViewportState) => {
     setAppState((prev) => ({
       ...prev,
@@ -811,6 +825,13 @@ export function ArchitectureContainer({ className }: { className?: string }) {
             width: "100%",
             height: "100%",
             zIndex: 2,
+            // Optimize for transform animations
+            willChange:
+              appState.isPanModeActive || appState.isDragging
+                ? "transform"
+                : "auto",
+            backfaceVisibility: "hidden",
+            perspective: 1000,
           }}
         >
           {cardsArray.map((card) => (
