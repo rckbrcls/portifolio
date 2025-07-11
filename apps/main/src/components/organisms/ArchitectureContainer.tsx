@@ -301,9 +301,9 @@ export function ArchitectureContainer({ className }: { className?: string }) {
     const centerY = containerSize.height / 2;
 
     // Margens diferenciadas para topo e parte inferior
-    const marginX = Math.max(20, containerSize.width * 0.02); // Mínimo 20px ou 3% da largura
-    const marginTop = Math.max(20, containerSize.height * 0.03); // Margem menor no topo: 20px ou 3%
-    const marginBottom = Math.max(40, containerSize.height * 0.09); // Margem maior na parte inferior: 40px ou 9%
+    const marginX = Math.max(20, containerSize.width * 0.02); // Mínimo 20px ou 5% da largura
+    const marginTop = Math.max(20, containerSize.height * 0.1); // Margem menor no topo: 20px ou 10%
+    const marginBottom = Math.max(40, containerSize.height * 0.15); // Margem maior na parte inferior: 40px ou 10%
 
     // Dimensões dos cards para cálculos precisos
     const cardWidth = 170;
@@ -372,12 +372,6 @@ export function ArchitectureContainer({ className }: { className?: string }) {
 
     if (isPanning) {
       setIsPanning(false);
-    }
-
-    // Se estiver desativando o modo, resetar para posição 1:1
-    if (!newPanZoomMode) {
-      setScale(1);
-      setPanOffset({ x: 0, y: 0 });
     }
   };
 
@@ -558,7 +552,7 @@ export function ArchitectureContainer({ className }: { className?: string }) {
 
       {/* Indicador de funcionalidades ativas */}
       {isPanZoomMode && (
-        <div className="absolute left-2 top-16 z-50 rounded-lg border border-purple-500/50 bg-purple-500/20 px-3 py-1 backdrop-blur-sm">
+        <div className="absolute bottom-2 left-2 z-50 rounded-lg border border-purple-500/50 bg-purple-500/20 px-3 py-1 backdrop-blur-sm">
           <Text className="text-xs text-purple-300">
             Ctrl+Scroll para zoom • Scroll do meio para pan
           </Text>
@@ -592,15 +586,6 @@ export function ArchitectureContainer({ className }: { className?: string }) {
             disabled={scale <= 0.3}
           >
             <ZoomOutIcon className="h-4 w-4" />
-          </button>
-          <button
-            onClick={resetView}
-            className="rounded-lg border border-purple-500/50 bg-purple-500/20 p-2 text-purple-300 backdrop-blur-sm transition-all duration-200 hover:bg-purple-500/30 hover:text-purple-100"
-            title="Reset Zoom"
-          >
-            <div className="flex h-4 w-4 items-center justify-center">
-              <Text className="text-xs font-bold">1:1</Text>
-            </div>
           </button>
         </div>
       )}
