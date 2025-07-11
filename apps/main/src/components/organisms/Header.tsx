@@ -56,12 +56,6 @@ const Header = () => {
       name: "Home",
     },
     {
-      path: "/architecture",
-      icon: "🏗️",
-      selected: pathname === "/architecture",
-      name: "Architecture",
-    },
-    {
       path: "/projects",
       icon: "💻",
       selected: pathname === "/projects",

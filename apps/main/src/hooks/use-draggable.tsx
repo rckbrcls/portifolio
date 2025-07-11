@@ -167,6 +167,9 @@ export const useDraggable = (options: UseDraggableOptions = {}) => {
       element.style.transform = `translate(${newX}px, ${newY}px)`;
       element.style.willChange = "transform";
 
+      // Disparar evento personalizado para atualização de conexões
+      document.dispatchEvent(new CustomEvent("connection-update"));
+
       // Detectar drop zones durante o movimento
       if (options.dropZoneSelector) {
         const dropZones = document.querySelectorAll(options.dropZoneSelector);
