@@ -1,12 +1,19 @@
 "use client";
 
-import React, { useRef, forwardRef, useState, useEffect } from "react";
+import React, {
+  useRef,
+  forwardRef,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import { Text } from "../atoms/Text";
 import { cn } from "@/lib/utils";
 import { NativeDragLine } from "@/components/ui/native-drag-line";
 import { useDraggable } from "@/hooks/use-draggable";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { BiSolidComponent } from "react-icons/bi";
+import { ZoomInIcon, ZoomOutIcon } from "@radix-ui/react-icons";
 
 // Card component for architecture blocks
 const ArchitectureCard = React.forwardRef<
@@ -104,21 +111,13 @@ const DraggableArchitectureCard = forwardRef<
 
     // Calcular bounds dinâmicos baseados no container REAL
     const calculateBounds = () => {
-      // Dimensões estimadas do card baseadas no CSS
-      const cardWidth = 170; // Aproximadamente com padding
-      const cardHeight = 120; // Aproximadamente com padding
-
-      return {
-        left: -initialPosition.left, // Permite voltar à posição original
-        top: -initialPosition.top, // Permite voltar à posição original
-        right: containerSize.width - initialPosition.left - cardWidth,
-        bottom: containerSize.height - initialPosition.top - cardHeight,
-      };
+      // Remover bounds - permitir drag livre
+      return undefined;
     };
 
     const { ref, isDragging, position } = useDraggable({
-      // Bounds dinâmicos calculados para cada card
-      bounds: calculateBounds(),
+      // Sem bounds - drag livre
+      bounds: undefined,
       onDragStart: () => {
         console.log(`Started dragging ${title}`);
       },
@@ -193,6 +192,13 @@ interface ArchitectureBlock {
 }
 
 export function ArchitectureContainer({ className }: { className?: string }) {
+  // Estado para controle de zoom e pan
+  const [isActive, setIsActive] = useState(false);
+  const [scale, setScale] = useState(1);
+  const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
+  const [isPanning, setIsPanning] = useState(false);
+  const [lastPanPoint, setLastPanPoint] = useState({ x: 0, y: 0 });
+
   // Defina os blocos da arquitetura aqui
   const architectureBlocks: ArchitectureBlock[] = [
     {
@@ -358,78 +364,270 @@ export function ArchitectureContainer({ className }: { className?: string }) {
   const { center, positions: initialCardPositions } =
     calculateCenterAndPositions();
 
+  // Handlers para zoom e pan
+  const handleWheel = useCallback(
+    (e: WheelEvent) => {
+      if (!isActive) return;
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (e.ctrlKey || e.metaKey) {
+        // Zoom
+        const delta = e.deltaY > 0 ? 0.9 : 1.1;
+        const newScale = Math.max(0.3, Math.min(3, scale * delta));
+
+        // Calcular zoom em relação ao cursor
+        const rect = containerRef.current?.getBoundingClientRect();
+        if (rect) {
+          const mouseX = e.clientX - rect.left;
+          const mouseY = e.clientY - rect.top;
+
+          // Ajustar pan offset para zoom no cursor
+          const scaleDiff = newScale - scale;
+          const newPanX =
+            panOffset.x - ((mouseX - rect.width / 2) * scaleDiff) / scale;
+          const newPanY =
+            panOffset.y - ((mouseY - rect.height / 2) * scaleDiff) / scale;
+
+          setPanOffset({ x: newPanX, y: newPanY });
+        }
+
+        setScale(newScale);
+      } else {
+        // Pan com scroll wheel
+        setPanOffset((prev) => ({
+          x: prev.x - e.deltaX,
+          y: prev.y - e.deltaY,
+        }));
+      }
+    },
+    [isActive, scale, panOffset],
+  );
+
+  const handleMouseDown = useCallback(
+    (e: React.MouseEvent) => {
+      if (!isActive || e.button !== 1) return; // Apenas botão do meio
+
+      e.preventDefault();
+      setIsPanning(true);
+      setLastPanPoint({ x: e.clientX, y: e.clientY });
+    },
+    [isActive],
+  );
+
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (!isPanning) return;
+
+      e.preventDefault();
+      const deltaX = e.clientX - lastPanPoint.x;
+      const deltaY = e.clientY - lastPanPoint.y;
+
+      setPanOffset((prev) => ({
+        x: prev.x + deltaX,
+        y: prev.y + deltaY,
+      }));
+
+      setLastPanPoint({ x: e.clientX, y: e.clientY });
+    },
+    [isPanning, lastPanPoint],
+  );
+
+  const handleMouseUp = useCallback(() => {
+    setIsPanning(false);
+  }, []);
+
+  // Event listeners para zoom e pan
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    container.addEventListener("wheel", handleWheel, { passive: false });
+
+    if (isPanning) {
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+    }
+
+    return () => {
+      container.removeEventListener("wheel", handleWheel);
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [handleWheel, handleMouseMove, handleMouseUp, isPanning]);
+
+  // Reset zoom e pan
+  const resetView = () => {
+    setScale(1);
+    setPanOffset({ x: 0, y: 0 });
+  };
+
+  // Funções de zoom
+  const zoomIn = () => {
+    const newScale = Math.min(3, scale * 1.2);
+    setScale(newScale);
+  };
+
+  const zoomOut = () => {
+    const newScale = Math.max(0.3, scale * 0.8);
+    setScale(newScale);
+  };
+
+  // Ref para o container que recebe as transformações
+  const transformedContainerRef = useRef<HTMLDivElement>(null);
+
   return (
     <div
       className={cn(
-        "bg-background glass-dark relative mx-auto flex w-full items-center justify-center overflow-hidden rounded-xl",
+        "bg-background glass-dark relative mx-auto flex w-full items-center justify-center overflow-hidden rounded-xl transition-all duration-200",
+        isActive
+          ? "border-2 border-purple-500/50 shadow-lg shadow-purple-500/20"
+          : "border border-zinc-700/50",
         className,
       )}
       ref={containerRef}
       style={{
-        minWidth: 850, // Largura mínima para que não quebre muito pequeno
-        minHeight: 620, // Altura mínima ajustada para melhor proporção
-        height: "85vh", // Altura responsiva otimizada
-        maxHeight: 720, // Altura máxima para controlar proporções
+        minWidth: 850,
+        minHeight: 620,
+        height: "85vh",
+        maxHeight: 720,
+        cursor: isPanning ? "grabbing" : isActive ? "grab" : "default",
       }}
+      onMouseEnter={() => setIsActive(true)}
+      onMouseLeave={() => {
+        setIsActive(false);
+        setIsPanning(false);
+      }}
+      onMouseDown={handleMouseDown}
     >
-      {/* Renderiza o bloco central */}
+      {/* Indicador de estado ativo */}
+      {isActive && (
+        <div className="absolute left-2 top-2 z-50 flex items-center gap-2 rounded-lg border border-purple-500/50 bg-purple-500/20 px-3 py-1 backdrop-blur-sm">
+          <div className="h-2 w-2 animate-pulse rounded-full bg-purple-500"></div>
+          <Text className="text-xs font-medium text-purple-300">
+            Zoom/Pan Ativo • Ctrl+Scroll para zoom • Scroll do meio para pan
+          </Text>
+          <button
+            onClick={resetView}
+            className="ml-2 text-purple-300 transition-colors hover:text-purple-100"
+            title="Reset View"
+          >
+            <ZoomOutIcon className="h-3 w-3" />
+          </button>
+        </div>
+      )}
+
+      {/* Indicador de escala */}
+      {isActive && scale !== 1 && (
+        <div className="absolute right-2 top-2 z-50 rounded-lg border border-purple-500/50 bg-purple-500/20 px-2 py-1 backdrop-blur-sm">
+          <Text className="font-mono text-xs text-purple-300">
+            {Math.round(scale * 100)}%
+          </Text>
+        </div>
+      )}
+
+      {/* Controles de Zoom */}
+      {isActive && (
+        <div className="absolute bottom-4 right-4 z-50 flex flex-col gap-2">
+          <button
+            onClick={zoomIn}
+            className="rounded-lg border border-purple-500/50 bg-purple-500/20 p-2 text-purple-300 backdrop-blur-sm transition-all duration-200 hover:bg-purple-500/30 hover:text-purple-100"
+            title="Zoom In"
+            disabled={scale >= 3}
+          >
+            <ZoomInIcon className="h-4 w-4" />
+          </button>
+          <button
+            onClick={zoomOut}
+            className="rounded-lg border border-purple-500/50 bg-purple-500/20 p-2 text-purple-300 backdrop-blur-sm transition-all duration-200 hover:bg-purple-500/30 hover:text-purple-100"
+            title="Zoom Out"
+            disabled={scale <= 0.3}
+          >
+            <ZoomOutIcon className="h-4 w-4" />
+          </button>
+          <button
+            onClick={resetView}
+            className="rounded-lg border border-purple-500/50 bg-purple-500/20 p-2 text-purple-300 backdrop-blur-sm transition-all duration-200 hover:bg-purple-500/30 hover:text-purple-100"
+            title="Reset Zoom"
+          >
+            <div className="flex h-4 w-4 items-center justify-center">
+              <Text className="text-xs font-bold">1:1</Text>
+            </div>
+          </button>
+        </div>
+      )}
+
+      {/* Container com TUDO dentro - aplicando zoom/pan em volta de tudo */}
       <div
         style={{
-          position: "absolute",
-          left: center.left,
-          top: center.top,
-          zIndex: 20,
+          transform: `scale(${scale}) translate(${panOffset.x}px, ${panOffset.y}px)`,
+          transformOrigin: "center center",
+          transition: isPanning ? "none" : "transform 0.1s ease-out",
+          width: "100%",
+          height: "100%",
+          position: "relative",
         }}
       >
-        <ArchitectureCard
-          key={architectureBlocks[mainIdx].title}
-          title={architectureBlocks[mainIdx].title}
-          githubUrl={architectureBlocks[mainIdx].githubUrl}
-          ref={blockRefs[mainIdx]}
-        />
+        {/* Renderiza o bloco central */}
+        <div
+          style={{
+            position: "absolute",
+            left: center.left,
+            top: center.top,
+            zIndex: 20,
+          }}
+        >
+          <ArchitectureCard
+            key={architectureBlocks[mainIdx].title}
+            title={architectureBlocks[mainIdx].title}
+            githubUrl={architectureBlocks[mainIdx].githubUrl}
+            ref={blockRefs[mainIdx]}
+          />
+        </div>
+
+        {/* Renderiza os blocos ao redor com drag and drop nativo */}
+        {outerBlocks.map((block, i) => {
+          const realIdx = architectureBlocks.findIndex(
+            (b) => b.title === block.title,
+          );
+          const pos = initialCardPositions[i] || { left: 0, top: 0 };
+          return (
+            <DraggableArchitectureCard
+              key={block.title}
+              title={block.title}
+              githubUrl={block.githubUrl}
+              microfrontendUrl={block.microfrontendUrl}
+              initialPosition={pos}
+              containerRef={containerRef}
+              ref={blockRefs[realIdx]}
+              onPositionChange={(title, x, y) => {
+                setCardPositions((prev) => ({
+                  ...prev,
+                  [title]: { x, y },
+                }));
+              }}
+            />
+          );
+        })}
+
+        {/* Renderize linhas dentro do mesmo container transformado */}
+        {outerBlocks.map((block, i) => {
+          const realIdx = architectureBlocks.findIndex(
+            (b) => b.title === block.title,
+          );
+          return (
+            <NativeDragLine
+              key={block.title + "-line"}
+              containerRef={containerRef}
+              fromRef={blockRefs[realIdx]}
+              toRef={blockRefs[mainIdx]}
+              color="#9c40ff"
+              thickness={1}
+            />
+          );
+        })}
       </div>
-
-      {/* Renderiza os blocos ao redor com drag and drop nativo */}
-      {outerBlocks.map((block, i) => {
-        const realIdx = architectureBlocks.findIndex(
-          (b) => b.title === block.title,
-        );
-        const pos = initialCardPositions[i] || { left: 0, top: 0 };
-        return (
-          <DraggableArchitectureCard
-            key={block.title}
-            title={block.title}
-            githubUrl={block.githubUrl}
-            microfrontendUrl={block.microfrontendUrl}
-            initialPosition={pos}
-            containerRef={containerRef}
-            ref={blockRefs[realIdx]}
-            onPositionChange={(title, x, y) => {
-              setCardPositions((prev) => ({
-                ...prev,
-                [title]: { x, y },
-              }));
-            }}
-          />
-        );
-      })}
-
-      {/* Renderize linhas nativas de cada bloco para o central */}
-      {outerBlocks.map((block, i) => {
-        const realIdx = architectureBlocks.findIndex(
-          (b) => b.title === block.title,
-        );
-        return (
-          <NativeDragLine
-            key={block.title + "-line"}
-            containerRef={containerRef}
-            fromRef={blockRefs[realIdx]}
-            toRef={blockRefs[mainIdx]}
-            color="#9c40ff"
-            thickness={1}
-          />
-        );
-      })}
     </div>
   );
 }
