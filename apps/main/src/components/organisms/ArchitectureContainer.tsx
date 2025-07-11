@@ -352,26 +352,33 @@ const ViewportLayer: React.FC<{
 
   // Excalidraw-style mouse handlers - only active when pan mode is on
   const handleMouseDown = useCallback(
-    (e: React.MouseEvent) => {
+    (e: React.MouseEvent | React.TouchEvent) => {
       if (!appState.isPanModeActive) return; // Only work when pan mode is active
 
-      if (e.button === 0 || e.button === 1) {
-        // Left or middle mouse button
+      const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
+      const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
+      const button = "button" in e ? e.button : 0;
+
+      if (button === 0 || button === 1 || "touches" in e) {
+        // Left mouse button, middle mouse button, or touch
         e.preventDefault();
         setIsPanning(true);
-        setLastPanPoint({ x: e.clientX, y: e.clientY });
+        setLastPanPoint({ x: clientX, y: clientY });
       }
     },
     [appState.isPanModeActive],
   );
 
   const handleMouseMove = useCallback(
-    (e: MouseEvent) => {
+    (e: MouseEvent | TouchEvent) => {
       if (!isPanning || !appState.isPanModeActive) return;
 
       e.preventDefault();
-      const deltaX = (e.clientX - lastPanPoint.x) * PAN_SENSITIVITY;
-      const deltaY = (e.clientY - lastPanPoint.y) * PAN_SENSITIVITY;
+      const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
+      const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
+
+      const deltaX = (clientX - lastPanPoint.x) * PAN_SENSITIVITY;
+      const deltaY = (clientY - lastPanPoint.y) * PAN_SENSITIVITY;
 
       const newViewport = {
         ...appState.viewport,
@@ -380,7 +387,7 @@ const ViewportLayer: React.FC<{
       };
 
       onViewportChange(newViewport);
-      setLastPanPoint({ x: e.clientX, y: e.clientY });
+      setLastPanPoint({ x: clientX, y: clientY });
     },
     [
       isPanning,
@@ -411,12 +418,19 @@ const ViewportLayer: React.FC<{
         passive: false,
       });
       document.addEventListener("mouseup", handleMouseUp, { passive: true });
+      // Add touch event listeners for mobile
+      document.addEventListener("touchmove", handleMouseMove, {
+        passive: false,
+      });
+      document.addEventListener("touchend", handleMouseUp, { passive: true });
     }
 
     return () => {
       container.removeEventListener("wheel", handleWheel);
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("touchmove", handleMouseMove);
+      document.removeEventListener("touchend", handleMouseUp);
     };
   }, [handleWheel, handleMouseMove, handleMouseUp, isPanning]);
 
@@ -449,6 +463,10 @@ export function ArchitectureContainer({ className }: { className?: string }) {
     width: 850,
     height: 600,
   });
+
+  // Fixed reference size for consistent card positioning across all screen sizes
+  const REFERENCE_WIDTH = 1200;
+  const REFERENCE_HEIGHT = 700;
 
   // Initialize Excalidraw-style app state
   const [appState, setAppState] = useState<AppState>(() => {
@@ -520,9 +538,9 @@ export function ArchitectureContainer({ className }: { className?: string }) {
 
       let position: WorldCoordinates;
 
-      // Calculate center based on container size for better centering
-      const centerX = containerSize.width / 2 + 150; // Offset a bit more to the right
-      const centerY = containerSize.height / 2;
+      // Calculate center based on reference size (fixed positions regardless of screen size)
+      const centerX = REFERENCE_WIDTH / 2; // Use reference width for consistent positioning
+      const centerY = REFERENCE_HEIGHT / 2; // Use reference height for consistent positioning
 
       if (block.title === "Main") {
         // Center card - dynamically centered based on container size
@@ -534,21 +552,21 @@ export function ArchitectureContainer({ className }: { className?: string }) {
           (b) => b.title === block.title,
         );
 
-        // Define specific positions for each card around the rectangle
+        // Define specific positions for each card around the rectangle (fixed positions)
         const positions = [
           // Top row
-          { x: centerX - 300, y: centerY - 250 }, // Top-left
+          { x: centerX - 350, y: centerY - 250 }, // Top-left
           { x: centerX, y: centerY - 250 }, // Top-center
-          { x: centerX + 300, y: centerY - 250 }, // Top-right
+          { x: centerX + 350, y: centerY - 250 }, // Top-right
 
           // Middle row (sides)
-          { x: centerX - 400, y: centerY - 50 }, // Middle-left
-          { x: centerX + 400, y: centerY - 50 }, // Middle-right
+          { x: centerX - 450, y: centerY - 50 }, // Middle-left
+          { x: centerX + 450, y: centerY - 50 }, // Middle-right
 
           // Bottom row
-          { x: centerX - 300, y: centerY + 150 }, // Bottom-left
+          { x: centerX - 350, y: centerY + 150 }, // Bottom-left
           { x: centerX, y: centerY + 150 }, // Bottom-center
-          { x: centerX + 300, y: centerY + 150 }, // Bottom-right
+          { x: centerX + 350, y: centerY + 150 }, // Bottom-right
         ];
 
         position = positions[otherCardIndex] || { x: centerX, y: centerY };
@@ -584,7 +602,7 @@ export function ArchitectureContainer({ className }: { className?: string }) {
       connections,
       selectedCards: new Set(),
       isDragging: false,
-      isPanModeActive: false,
+      isPanModeActive: false, // Disable pan mode by default
       dragState: null,
     };
   });
@@ -773,10 +791,12 @@ export function ArchitectureContainer({ className }: { className?: string }) {
       )}
       ref={containerRef}
       style={{
-        minWidth: 850,
-        minHeight: 620,
-        height: "90vh",
-        maxHeight: 720,
+        width: "100%",
+        height: "100vh", // Full viewport height for mobile
+        minHeight: "400px", // Minimum height for very small screens
+        maxWidth: "100vw", // Full viewport width
+        // Responsive sizing based on screen size
+        maxHeight: "100vh",
       }}
     >
       {/* Zoom Controls */}
@@ -863,7 +883,7 @@ export function ArchitectureContainer({ className }: { className?: string }) {
           )}
         >
           {appState.isPanModeActive
-            ? "🖱️ Pan Mode: Click+Drag to Pan • Ctrl+Scroll: Zoom • Card Dragging: Disabled"
+            ? "🖱️ Pan & Zoom Active: Drag to explore • Pinch/Scroll: Zoom • Card positions are fixed"
             : "✋ Card Mode: Drag Cards to Move • Click Hand Icon to Enable Pan/Zoom"}
         </Text>
       </div>
