@@ -634,8 +634,8 @@ export function ArchitectureContainer({ className }: { className?: string }) {
           viewport: {
             ...prev.viewport,
             scale: scale,
-            translateX: Math.max(translateX + (isMobile ? -85 : -75), 20), // Moved a bit more to the left
-            translateY: Math.max(translateY + (isMobile ? -30 : -20), 20), // Moved even further to the top
+            translateX: translateX + (isMobile ? -60 : -75), // Removed Math.max to allow overflow centering
+            translateY: translateY + (isMobile ? -30 : -20), // Removed Math.max to allow overflow centering
           },
         }));
       }
