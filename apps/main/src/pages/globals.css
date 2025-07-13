@@ -61,3 +61,27 @@ body {
     --radius: 0.5rem;
   }
 }
+
+/* Microfrontend pages - full screen */
+.microfrontend-page {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  overflow: hidden !important;
+}
+
+.microfrontend-page main {
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.microfrontend-page iframe {
+  width: 100vw !important;
+  height: 100vh !important;
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}

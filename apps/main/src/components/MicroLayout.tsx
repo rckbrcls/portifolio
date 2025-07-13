@@ -180,7 +180,7 @@ export default function MicroLayout({
   };
 
   return (
-    <main className="flex">
+    <main className="min-h-screen w-full">
       <DraggableContainer
         id="buttonContainer"
         position={containerPosition}
@@ -203,7 +203,7 @@ export default function MicroLayout({
         </a>
       </DraggableContainer>
 
-      {children}
+      <div className="w-full">{children}</div>
     </main>
   );
 }
