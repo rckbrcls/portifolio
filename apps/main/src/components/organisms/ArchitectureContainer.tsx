@@ -1025,20 +1025,23 @@ export function ArchitectureContainer({ className }: { className?: string }) {
     const newScale = getNormalizedZoom(
       appState.viewport.scale * (1 + ZOOM_STEP),
     );
+
+    // Simple center-based zoom - maintain center position
+    const scaleFactor = newScale / appState.viewport.scale;
     const container = containerRef.current;
     if (!container) return;
 
     const containerRect = container.getBoundingClientRect();
-    const centerX = containerRect.left + containerRect.width / 2;
-    const centerY = containerRect.top + containerRect.height / 2;
+    const centerX = containerRect.width / 2;
+    const centerY = containerRect.height / 2;
 
-    const newViewport = getStateForZoom(
-      centerX,
-      centerY,
-      newScale,
-      appState.viewport,
-      containerRect,
-    );
+    const newViewport = {
+      scale: newScale,
+      translateX:
+        centerX - (centerX - appState.viewport.translateX) * scaleFactor,
+      translateY:
+        centerY - (centerY - appState.viewport.translateY) * scaleFactor,
+    };
 
     handleViewportChange(newViewport);
   }, [appState.viewport, handleViewportChange]);
@@ -1047,20 +1050,23 @@ export function ArchitectureContainer({ className }: { className?: string }) {
     const newScale = getNormalizedZoom(
       appState.viewport.scale * (1 - ZOOM_STEP),
     );
+
+    // Simple center-based zoom - maintain center position
+    const scaleFactor = newScale / appState.viewport.scale;
     const container = containerRef.current;
     if (!container) return;
 
     const containerRect = container.getBoundingClientRect();
-    const centerX = containerRect.left + containerRect.width / 2;
-    const centerY = containerRect.top + containerRect.height / 2;
+    const centerX = containerRect.width / 2;
+    const centerY = containerRect.height / 2;
 
-    const newViewport = getStateForZoom(
-      centerX,
-      centerY,
-      newScale,
-      appState.viewport,
-      containerRect,
-    );
+    const newViewport = {
+      scale: newScale,
+      translateX:
+        centerX - (centerX - appState.viewport.translateX) * scaleFactor,
+      translateY:
+        centerY - (centerY - appState.viewport.translateY) * scaleFactor,
+    };
 
     handleViewportChange(newViewport);
   }, [appState.viewport, handleViewportChange]);
