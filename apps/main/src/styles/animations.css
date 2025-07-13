@@ -1,0 +1,71 @@
+/* CSS Animations para substituir Framer Motion */
+
+/* Blur In Animation */
+@keyframes blurIn {
+  from {
+    filter: blur(10px);
+    opacity: 0;
+  }
+  to {
+    filter: blur(0px);
+    opacity: 1;
+  }
+}
+
+.blur-in {
+  animation: blurIn 1s ease-out;
+}
+
+/* Word Rotate Animation */
+@keyframes wordRotateIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes wordRotateOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+}
+
+.word-rotate-in {
+  animation: wordRotateIn 0.25s ease-out;
+}
+
+.word-rotate-out {
+  animation: wordRotateOut 0.25s ease-out;
+}
+
+/* Hover Animations */
+.hover-lift {
+  transition: transform 0.2s ease-out;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+}
+
+/* Loading skeleton */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}

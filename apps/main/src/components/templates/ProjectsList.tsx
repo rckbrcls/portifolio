@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, lazy, Suspense } from "react";
 import Title from "../atoms/Title";
 import SubTitle from "../atoms/SubTitle";
 import { DownButton } from "../atoms/DownButton";
@@ -31,8 +31,11 @@ import {
   SiDeno,
 } from "react-icons/si";
 
-import { projects } from "../../../public/data/projects/projects";
-import ProjectCard from "../molecules/ProjectCard";
+import { loadProjects } from "../../utils/projectsLazy";
+import { IProject } from "@/interface/IProject";
+
+// Lazy load the ProjectCard component
+const ProjectCard = lazy(() => import("../molecules/ProjectCard"));
 
 // Definições de opções para cada categoria
 const frameworksList = [
@@ -88,6 +91,24 @@ const initialFilterState: FilterState = {
 export default function ProjectsList() {
   const [filters, setFilters] = useState<FilterState>(initialFilterState);
   const [maxCount, setMaxCount] = useState(3);
+  const [projectsData, setProjectsData] = useState<IProject[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Carregamento dos projetos
+  useEffect(() => {
+    const loadProjectsData = async () => {
+      try {
+        const allProjects = await loadProjects();
+        setProjectsData(allProjects);
+      } catch (error) {
+        console.error("Error loading projects:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProjectsData();
+  }, []);
 
   // Função de reset de filtros (torna tudo vazio)
   const resetFilter = () => {
@@ -99,7 +120,6 @@ export default function ProjectsList() {
     category: keyof FilterState,
     selected: string[],
   ) => {
-    console.log(filters, selected);
     setFilters((prev) => ({ ...prev, [category]: selected }));
   };
 
@@ -115,31 +135,42 @@ export default function ProjectsList() {
 
   // Lógica de filtragem
   const filteredProjects = useMemo(() => {
+    console.log("Filtro executado:", { 
+      activeFiltersLength: activeFilters.length, 
+      projectsDataLength: projectsData.length,
+      activeFilters 
+    });
+    
     // Se não houver nenhum filtro selecionado, retorne todos os projetos
     if (activeFilters.length === 0) {
-      return projects;
+      console.log("Nenhum filtro ativo, retornando todos os projetos:", projectsData.length);
+      return projectsData;
     }
 
     // Caso existam filtros selecionados, retornamos projetos que tenham
     // pelo menos um dos filtros no techStack (lógica de OR).
-    return projects.filter((project) => {
+    const filtered = projectsData.filter((project) => {
       // Normaliza o techStack do projeto para letras minúsculas
       const lowerTechs = project.techStack.map((t) =>
         t.toLowerCase().replace(/\s+/g, "-"),
       );
 
-      console.log(lowerTechs);
       // Verifica se pelo menos uma das techs selecionadas está presente
       return lowerTechs.some((tech) => activeFilters.includes(tech));
     });
-  }, [activeFilters]);
+    
+    console.log("Projetos filtrados:", filtered.length);
+    return filtered;
+  }, [activeFilters, projectsData]);
 
   // Ajuste do maxCount conforme a largura de tela
   useEffect(() => {
-    if (window.innerWidth < 768) {
-      setMaxCount(0); // exibe todas as opções no dropdown sem resumo
-    } else {
-      setMaxCount(2);
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth < 768) {
+        setMaxCount(0); // exibe todas as opções no dropdown sem resumo
+      } else {
+        setMaxCount(2);
+      }
     }
   }, []);
 
@@ -223,9 +254,21 @@ export default function ProjectsList() {
 
       {/* Lista de Projetos Filtrados */}
       <div className="mb-14 mt-10 flex w-11/12 flex-col gap-10">
-        {filteredProjects.map((project) => (
-          <ProjectCard key={project.slug} project={project} />
-        ))}
+        {loading ? (
+          // Loading skeleton com o estilo original
+          Array.from({ length: 3 }).map((_, index) => (
+            <div
+              key={index}
+              className="glass-dark h-96 w-full animate-pulse rounded-lg"
+            />
+          ))
+        ) : (
+          <Suspense fallback={<div>Loading projects...</div>}>
+            {filteredProjects.map((project) => (
+              <ProjectCard key={project.slug} project={project} />
+            ))}
+          </Suspense>
+        )}
       </div>
     </div>
   );
