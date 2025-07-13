@@ -52,9 +52,24 @@ function DraggableContainer({
       };
 
       // Aplicar limites durante o drag
+      const padding = 16;
+      const containerWidth = containerRef.current?.offsetWidth || 96;
+      const containerHeight = containerRef.current?.offsetHeight || 120;
       const boundedPosition = {
-        x: Math.max(-50, Math.min(window.innerWidth - 50, newPosition.x)),
-        y: Math.max(0, Math.min(window.innerHeight - 120, newPosition.y)),
+        x: Math.max(
+          padding - 50,
+          Math.min(
+            window.innerWidth - containerWidth - padding + 50,
+            newPosition.x,
+          ),
+        ),
+        y: Math.max(
+          padding,
+          Math.min(
+            window.innerHeight - containerHeight - padding,
+            newPosition.y,
+          ),
+        ),
       };
 
       onPositionChange(boundedPosition);
@@ -65,11 +80,17 @@ function DraggableContainer({
 
       // Snap para as laterais
       if (typeof window !== "undefined") {
+        const padding = 16;
+        const containerWidth = containerRef.current?.offsetWidth || 96;
+        const containerHeight = containerRef.current?.offsetHeight || 120;
         const snapToLeft = position.x < window.innerWidth / 2;
-        const finalX = snapToLeft ? 16 : window.innerWidth - 96;
+        const finalX = snapToLeft
+          ? padding
+          : window.innerWidth - containerWidth - padding;
+
         const finalY = Math.max(
-          0,
-          Math.min(window.innerHeight - 120, position.y),
+          padding,
+          Math.min(window.innerHeight - containerHeight - padding, position.y),
         );
 
         onPositionChange({ x: finalX, y: finalY });
@@ -117,17 +138,14 @@ function DraggableContainer({
     <div
       ref={containerRef}
       style={style}
-      className="glass-dark fixed flex flex-col gap-2 rounded-lg p-2"
+      className="glass-dark fixed flex flex-col gap-2 rounded-full border-zinc-800 bg-zinc-950 p-2"
     >
       {/* Área de drag - barra superior */}
       <div
-        className="group flex h-6 w-full cursor-move items-center justify-center rounded-t-lg bg-gradient-to-r from-transparent via-zinc-400/10 to-transparent transition-all duration-200 hover:via-zinc-400/20"
+        className="glass-dark flex cursor-move items-center justify-center gap-2 rounded-full bg-zinc-900 p-2 text-zinc-500 duration-500 hover:scale-105 hover:bg-zinc-700 hover:text-zinc-200 active:scale-95 active:bg-zinc-900"
         onMouseDown={handleMouseDown}
       >
-        <GripVertical
-          size={14}
-          className="text-zinc-500/60 transition-colors duration-200 group-hover:text-zinc-400/80"
-        />
+        <GripVertical size={20} />
       </div>
 
       {/* Container dos botões */}
@@ -169,14 +187,14 @@ export default function MicroLayout({
         onPositionChange={handlePositionChange}
       >
         <button
-          className="glass-dark flex items-center justify-center gap-2 rounded-lg p-2 text-zinc-500 duration-500 hover:scale-105 hover:bg-zinc-800 hover:text-zinc-200 active:scale-95 active:bg-zinc-900"
+          className="glass-dark flex items-center justify-center gap-2 rounded-full bg-zinc-900 p-2 text-zinc-500 duration-500 hover:scale-105 hover:bg-zinc-700 hover:text-zinc-200 active:scale-95 active:bg-zinc-900"
           onClick={() => router.back()}
         >
           <ChevronLeft size={20} />
         </button>
 
         <a
-          className="glass-dark flex items-center justify-center gap-2 rounded-lg p-2 text-zinc-500 duration-500 hover:scale-105 hover:bg-zinc-800 hover:text-zinc-200 active:scale-95 active:bg-zinc-900"
+          className="glass-dark flex items-center justify-center gap-2 rounded-full bg-zinc-900 p-2 text-zinc-500 duration-500 hover:scale-105 hover:bg-zinc-700 hover:text-zinc-200 active:scale-95 active:bg-zinc-900"
           href={projectGitRoute}
           target="_blank"
           rel="noopener noreferrer"
