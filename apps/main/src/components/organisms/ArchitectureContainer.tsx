@@ -553,20 +553,21 @@ export function ArchitectureContainer({ className }: { className?: string }) {
         );
 
         // Define specific positions for each card around the rectangle (fixed positions)
+        // Increased distances for better mobile spacing
         const positions = [
           // Top row
-          { x: centerX - 350, y: centerY - 250 }, // Top-left
-          { x: centerX, y: centerY - 250 }, // Top-center
-          { x: centerX + 350, y: centerY - 250 }, // Top-right
+          { x: centerX - 450, y: centerY - 350 }, // Top-left
+          { x: centerX, y: centerY - 350 }, // Top-center
+          { x: centerX + 450, y: centerY - 350 }, // Top-right
 
           // Middle row (sides)
-          { x: centerX - 450, y: centerY - 50 }, // Middle-left
-          { x: centerX + 450, y: centerY - 50 }, // Middle-right
+          { x: centerX - 550, y: centerY - 50 }, // Middle-left
+          { x: centerX + 550, y: centerY - 50 }, // Middle-right
 
           // Bottom row
-          { x: centerX - 350, y: centerY + 150 }, // Bottom-left
-          { x: centerX, y: centerY + 150 }, // Bottom-center
-          { x: centerX + 350, y: centerY + 150 }, // Bottom-right
+          { x: centerX - 450, y: centerY + 250 }, // Bottom-left
+          { x: centerX, y: centerY + 250 }, // Bottom-center
+          { x: centerX + 450, y: centerY + 250 }, // Bottom-right
         ];
 
         position = positions[otherCardIndex] || { x: centerX, y: centerY };
@@ -597,7 +598,7 @@ export function ArchitectureContainer({ className }: { className?: string }) {
     });
 
     return {
-      viewport: { scale: 1, translateX: 0, translateY: 0 },
+      viewport: { scale: 0.7, translateX: 0, translateY: 0 }, // Initial values, will be updated by resize observer with mobile detection
       cards,
       connections,
       selectedCards: new Set(),
@@ -613,6 +614,30 @@ export function ArchitectureContainer({ className }: { className?: string }) {
       if (containerRef.current) {
         const { offsetWidth, offsetHeight } = containerRef.current;
         setContainerSize({ width: offsetWidth, height: offsetHeight });
+
+        // Detect mobile devices
+        const isMobile = offsetWidth <= 768;
+
+        // Update viewport translation for responsive centering
+        const scale = isMobile ? 0.45 : 0.7; // Smaller scale for mobile
+
+        // Calculate dynamic centering based on container size and scale
+        const scaledWidth = REFERENCE_WIDTH * scale;
+        const scaledHeight = REFERENCE_HEIGHT * scale;
+
+        // Center the content in the available space
+        const translateX = (offsetWidth - scaledWidth) / 2;
+        const translateY = (offsetHeight - scaledHeight) / 2;
+
+        setAppState((prev) => ({
+          ...prev,
+          viewport: {
+            ...prev.viewport,
+            scale: scale,
+            translateX: Math.max(translateX + (isMobile ? -85 : -75), 20), // Moved a bit more to the left
+            translateY: Math.max(translateY + (isMobile ? -30 : -20), 20), // Moved even further to the top
+          },
+        }));
       }
     };
 
@@ -791,12 +816,11 @@ export function ArchitectureContainer({ className }: { className?: string }) {
       )}
       ref={containerRef}
       style={{
-        width: "100%",
-        height: "100vh", // Full viewport height for mobile
+        width: "90vw",
+        height: "90vh",
         minHeight: "400px", // Minimum height for very small screens
-        maxWidth: "100vw", // Full viewport width
-        // Responsive sizing based on screen size
-        maxHeight: "100vh",
+        maxWidth: "90vw",
+        maxHeight: "90vh",
       }}
     >
       {/* Zoom Controls */}
