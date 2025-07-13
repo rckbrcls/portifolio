@@ -1,73 +1,23 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, lazy, Suspense } from "react";
 import Title from "../atoms/Title";
 import SubTitle from "../atoms/SubTitle";
 import { DownButton } from "../atoms/DownButton";
 import { MultiSelect } from "../ui/multi-select";
 import { Label } from "../ui/label";
 
+import { loadProjects } from "../../utils/projectsLazy";
 import {
-  SiReact,
-  SiNextdotjs,
-  SiFlutter,
-  SiExpress,
-  SiSolid,
-  SiFlask,
-  SiSwift,
-  SiSvelte,
-  SiJavascript,
-  SiTypescript,
-  SiPython,
-  SiDart,
-  SiGo,
-  SiRust,
-  SiMongodb,
-  SiPostgresql,
-  SiTailwindcss,
-  SiNodedotjs,
-  SiWebpack,
-  SiBun,
-  SiDeno,
-} from "react-icons/si";
+  frameworksList,
+  languagesList,
+  databasesList,
+  toolsAndLibrariesList,
+} from "../../utils/filterOptionsLazy";
+import { IProject } from "@/interface/IProject";
 
-import { projects } from "../../../public/data/projects/projects";
-import ProjectCard from "../molecules/ProjectCard";
-
-// Definições de opções para cada categoria
-const frameworksList = [
-  { value: "react", label: "React", icon: SiReact },
-  { value: "react-native", label: "React Native", icon: SiReact },
-  { value: "next.js", label: "Next.js", icon: SiNextdotjs },
-  { value: "express", label: "Express", icon: SiExpress },
-  { value: "solid.js", label: "Solid.js", icon: SiSolid },
-  { value: "flask", label: "Flask", icon: SiFlask },
-  // { value: "flutter", label: "Flutter", icon: SiFlutter },
-  // { value: "swift", label: "Swift", icon: SiSwift },
-  // { value: "svelte", label: "Svelte", icon: SiSvelte },
-];
-
-const languagesList = [
-  { value: "javascript", label: "JavaScript", icon: SiJavascript },
-  { value: "typescript", label: "TypeScript", icon: SiTypescript },
-  { value: "python", label: "Python", icon: SiPython },
-  // { value: "dart", label: "Dart", icon: SiDart },
-  // { value: "go", label: "Go", icon: SiGo },
-  // { value: "rust", label: "Rust", icon: SiRust },
-];
-
-const databasesList = [
-  { value: "mongodb", label: "MongoDB", icon: SiMongodb },
-  { value: "postgresql", label: "PostgreSQL", icon: SiPostgresql },
-];
-
-const toolsAndLibrariesList = [
-  { value: "tailwind", label: "Tailwind", icon: SiTailwindcss },
-  { value: "node.js", label: "Node.js", icon: SiNodedotjs },
-  { value: "webpack", label: "Webpack", icon: SiWebpack },
-  // { value: "bun", label: "Bun", icon: SiBun },
-  // { value: "deno", label: "Deno", icon: SiDeno },
-];
+// Lazy load the ProjectCard component
+const ProjectCard = lazy(() => import("../molecules/ProjectCard"));
 
 // Estado centralizado para filtros
 type FilterState = {
@@ -88,6 +38,24 @@ const initialFilterState: FilterState = {
 export default function ProjectsList() {
   const [filters, setFilters] = useState<FilterState>(initialFilterState);
   const [maxCount, setMaxCount] = useState(3);
+  const [projectsData, setProjectsData] = useState<IProject[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Carregamento dos projetos
+  useEffect(() => {
+    const loadProjectsData = async () => {
+      try {
+        const allProjects = await loadProjects();
+        setProjectsData(allProjects);
+      } catch (error) {
+        console.error("Error loading projects:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProjectsData();
+  }, []);
 
   // Função de reset de filtros (torna tudo vazio)
   const resetFilter = () => {
@@ -99,7 +67,6 @@ export default function ProjectsList() {
     category: keyof FilterState,
     selected: string[],
   ) => {
-    console.log(filters, selected);
     setFilters((prev) => ({ ...prev, [category]: selected }));
   };
 
@@ -117,29 +84,30 @@ export default function ProjectsList() {
   const filteredProjects = useMemo(() => {
     // Se não houver nenhum filtro selecionado, retorne todos os projetos
     if (activeFilters.length === 0) {
-      return projects;
+      return projectsData;
     }
 
     // Caso existam filtros selecionados, retornamos projetos que tenham
     // pelo menos um dos filtros no techStack (lógica de OR).
-    return projects.filter((project) => {
+    return projectsData.filter((project) => {
       // Normaliza o techStack do projeto para letras minúsculas
       const lowerTechs = project.techStack.map((t) =>
         t.toLowerCase().replace(/\s+/g, "-"),
       );
 
-      console.log(lowerTechs);
       // Verifica se pelo menos uma das techs selecionadas está presente
       return lowerTechs.some((tech) => activeFilters.includes(tech));
     });
-  }, [activeFilters]);
+  }, [activeFilters, projectsData]);
 
   // Ajuste do maxCount conforme a largura de tela
   useEffect(() => {
-    if (window.innerWidth < 768) {
-      setMaxCount(0); // exibe todas as opções no dropdown sem resumo
-    } else {
-      setMaxCount(2);
+    if (typeof window !== "undefined") {
+      if (window.innerWidth < 768) {
+        setMaxCount(0); // exibe todas as opções no dropdown sem resumo
+      } else {
+        setMaxCount(2);
+      }
     }
   }, []);
 
@@ -223,9 +191,21 @@ export default function ProjectsList() {
 
       {/* Lista de Projetos Filtrados */}
       <div className="mb-14 mt-10 flex w-11/12 flex-col gap-10">
-        {filteredProjects.map((project) => (
-          <ProjectCard key={project.slug} project={project} />
-        ))}
+        {loading ? (
+          // Loading skeleton com o estilo original
+          Array.from({ length: 3 }).map((_, index) => (
+            <div
+              key={index}
+              className="glass-dark h-96 w-full animate-pulse rounded-lg"
+            />
+          ))
+        ) : (
+          <Suspense fallback={<div>Loading projects...</div>}>
+            {filteredProjects.map((project) => (
+              <ProjectCard key={project.slug} project={project} />
+            ))}
+          </Suspense>
+        )}
       </div>
     </div>
   );

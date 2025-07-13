@@ -46,7 +46,9 @@ const Header = () => {
     };
   }, []);
 
-  const headerClass = background ? "glass-dark border-none" : "bg-none";
+  const headerClass = background
+    ? "glass-dark border border-zinc-700/50"
+    : "bg-none";
 
   const routes: IHeaderButton[] = [
     {
@@ -77,7 +79,7 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed inset-x-0 z-50 mx-auto mt-4 flex w-min select-none items-center justify-center gap-10 rounded-full px-4 py-2 transition duration-1000 ${headerClass}`}
+      className={`fixed inset-x-0 z-50 mx-auto mt-4 flex w-min select-none items-center justify-center gap-10 rounded-full border-zinc-700/30 px-4 py-2 transition duration-1000 ${headerClass}`}
     >
       {routes.map((route, index) => (
         <Link key={index} href={route.path}>
