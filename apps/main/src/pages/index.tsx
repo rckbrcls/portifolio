@@ -88,6 +88,10 @@ export default function Home() {
           </div>
           <Title word="Olá! I'm Erick Barcelos" />
         </div>
+
+        <div className="flex h-svh w-full items-center justify-center p-10">
+          <ArchitectureContainer />
+        </div>
       </div>
     </>
   );
