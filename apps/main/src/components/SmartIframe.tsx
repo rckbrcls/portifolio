@@ -29,8 +29,8 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
           backgroundColor: "#fef2f2",
         }}
       >
-        <h3 style={{ color: "#dc2626" }}>Erro: URL não fornecida</h3>
-        <p>O componente SmartIframe precisa de uma URL válida.</p>
+        <h3 style={{ color: "#dc2626" }}>Error: No URL provided</h3>
+        <p>SmartIframe component requires a valid URL.</p>
       </div>
     );
   }
@@ -49,11 +49,17 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
           backgroundColor: "#fef2f2",
         }}
       >
-        <h3 style={{ color: "#dc2626" }}>Erro: URL inválida</h3>
-        <p>A URL "{src}" não é válida.</p>
+        <h3 style={{ color: "#dc2626" }}>Error: Invalid URL</h3>
+        <p>The URL "{src}" is not valid.</p>
       </div>
     );
   }
+
+  useEffect(() => {
+    // Reset loading state quando src mudar
+    setIsLoaded(false);
+    console.log("🔄 Loading new URL:", src);
+  }, [src]);
 
   useEffect(() => {
     const iframe = iframeRef.current;
@@ -66,7 +72,7 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
       try {
         originToCheck = new URL(src).origin;
       } catch (error) {
-        console.warn("URL inválida para validação de origem:", src);
+        console.warn("Invalid URL for origin validation:", src);
         return;
       }
 
@@ -74,47 +80,62 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
 
       if (event.data.type === "RESIZE") {
         setHeight(event.data.height);
+        console.log("📏 Height adjusted:", event.data.height);
       }
 
       if (event.data.type === "LOADED") {
+        console.log("✅ LOADED message received from:", event.origin);
         setIsLoaded(true);
         onLoad?.();
       }
     };
 
+    // Handler para quando o iframe carrega
+    const handleIframeLoad = () => {
+      console.log("🎯 Iframe loaded visually");
+      setIsLoaded(true);
+      onLoad?.();
+    };
+
+    iframe.addEventListener("load", handleIframeLoad);
     window.addEventListener("message", handleMessage);
 
     return () => {
+      iframe.removeEventListener("load", handleIframeLoad);
       window.removeEventListener("message", handleMessage);
     };
   }, [src, onLoad]);
 
   return (
     <div className={`smart-iframe-container ${className || ""}`}>
-      {/* Loading indicator */}
+      {/* Loading indicator - menos obstrutivo */}
       {!isLoaded && (
         <div
           style={{
             position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
+            top: "20px",
+            left: "20px",
             zIndex: 10,
+            background: "rgba(0, 0, 0, 0.8)",
+            color: "white",
+            padding: "8px 16px",
+            borderRadius: "20px",
+            fontSize: "14px",
+            backdropFilter: "blur(10px)",
           }}
         >
-          <div style={{ textAlign: "center" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <div
               style={{
-                width: "40px",
-                height: "40px",
-                border: "4px solid #f3f3f3",
-                borderTop: "4px solid #3498db",
+                width: "16px",
+                height: "16px",
+                border: "2px solid rgba(255,255,255,0.3)",
+                borderTop: "2px solid white",
                 borderRadius: "50%",
                 animation: "spin 1s linear infinite",
-                margin: "0 auto 10px",
               }}
             ></div>
-            <p>Carregando {title}...</p>
+            <span>Loading {title}...</span>
           </div>
         </div>
       )}
@@ -123,6 +144,11 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
         ref={iframeRef}
         src={src}
         title={title}
+        onLoad={() => {
+          console.log("🚀 Iframe onLoad triggered");
+          setIsLoaded(true);
+          onLoad?.();
+        }}
         style={{
           width: "100%",
           height: "100vh",

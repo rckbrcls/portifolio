@@ -9,5 +9,49 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/index.tsx"></script>
+
+    <!-- Script de comunicação com iframe pai -->
+    <script>
+      // Função para notificar altura atual
+      function notifyHeight() {
+        const height = Math.max(
+          document.body.scrollHeight,
+          document.body.offsetHeight,
+          document.documentElement.clientHeight,
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+        );
+
+        window.parent.postMessage(
+          {
+            type: "RESIZE",
+            height: height + 20, // Adicionar margem extra
+          },
+          "*",
+        );
+      }
+
+      // Notificar quando carregado
+      window.addEventListener("load", function () {
+        window.parent.postMessage(
+          {
+            type: "LOADED",
+          },
+          "*",
+        );
+
+        // Notificar altura inicial
+        setTimeout(notifyHeight, 100);
+      });
+
+      // Observer para mudanças no DOM
+      if (window.ResizeObserver) {
+        const resizeObserver = new ResizeObserver(notifyHeight);
+        resizeObserver.observe(document.body);
+      }
+
+      // Fallback com intervalo
+      setInterval(notifyHeight, 1000);
+    </script>
   </body>
 </html>

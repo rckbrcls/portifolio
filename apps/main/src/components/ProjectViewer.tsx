@@ -18,29 +18,10 @@ const ProjectViewer: React.FC<ProjectViewerProps> = ({
 
     return (
       <div style={{ position: "relative", width: "100%", height: "100vh" }}>
-        {/* Badge de projeto */}
-        <div
-          style={{
-            position: "absolute",
-            top: "16px",
-            right: "16px",
-            background: "#10b981",
-            color: "white",
-            padding: "8px 16px",
-            borderRadius: "20px",
-            fontSize: "14px",
-            fontWeight: "600",
-            zIndex: 100,
-            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-          }}
-        >
-          🚀 {name || slug}
-        </div>
-
         <SmartIframe
           src={fullUrl}
           title={name || slug}
-          onLoad={() => console.log(`✅ ${slug} carregado`)}
+          onLoad={() => console.log(`✅ ${slug} loaded`)}
           className="project-iframe"
         />
 
@@ -69,8 +50,8 @@ const ProjectViewer: React.FC<ProjectViewerProps> = ({
         borderRadius: "8px",
       }}
     >
-      <h3>Projeto não disponível como microfrontend</h3>
-      <p>O projeto "{slug}" não tem uma URL de microfrontend configurada.</p>
+      <h3>Project not available as microfrontend</h3>
+      <p>The project "{slug}" doesn't have a microfrontend URL configured.</p>
     </div>
   );
 };

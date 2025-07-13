@@ -36,12 +36,12 @@ const ProjectMicrofrontend: React.FC = () => {
     return (
       <MicroLayout projectGitRoute="" projectHomeRoute="/projects">
         <Head>
-          <title>Carregando... | rckbrcls</title>
+          <title>Loading... | rckbrcls</title>
         </Head>
         <div className="flex h-screen items-center justify-center">
           <div className="text-center">
             <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-4 border-blue-200 border-t-blue-600"></div>
-            <p>Carregando projeto...</p>
+            <p>Loading project...</p>
           </div>
         </div>
       </MicroLayout>
@@ -52,21 +52,21 @@ const ProjectMicrofrontend: React.FC = () => {
     return (
       <MicroLayout projectGitRoute="" projectHomeRoute="/projects">
         <Head>
-          <title>Projeto não encontrado | rckbrcls</title>
+          <title>Project not found | rckbrcls</title>
         </Head>
         <div className="flex h-screen items-center justify-center">
           <div className="text-center">
             <h1 className="mb-4 text-2xl font-bold text-gray-900">
-              Projeto não encontrado
+              Project not found
             </h1>
             <p className="mb-6 text-gray-600">
-              O projeto "{router.query.slug}" não foi encontrado.
+              The project "{router.query.slug}" was not found.
             </p>
             <a
               href="/projects"
               className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700"
             >
-              Ver todos os projetos
+              View all projects
             </a>
           </div>
         </div>
