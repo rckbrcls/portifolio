@@ -128,101 +128,88 @@ const ArchitectureCardElement = React.forwardRef<
     isSelected: boolean;
     isDragging: boolean;
     onMouseDown: (e: React.MouseEvent, cardId: string) => void;
+    onTouchStart: (e: React.TouchEvent, cardId: string) => void;
   }
->(({ card, viewport, isSelected, isDragging, onMouseDown }, ref) => {
-  const screenPos = worldToScreen(card.position, viewport);
+>(
+  (
+    { card, viewport, isSelected, isDragging, onMouseDown, onTouchStart },
+    ref,
+  ) => {
+    const screenPos = worldToScreen(card.position, viewport);
 
-  // Excalidraw-style: Cards scale uniformly with viewport
-  const cardScale = viewport.scale;
+    // Excalidraw-style: Cards scale uniformly with viewport
+    const cardScale = viewport.scale;
 
-  return (
-    <div
-      ref={ref}
-      style={{
-        position: "absolute",
-        left: screenPos.x,
-        top: screenPos.y,
-        width: card.size.width * cardScale,
-        height: card.size.height * cardScale,
-        transformOrigin: "top left",
-        zIndex: isDragging ? 30 : isSelected ? 20 : 10,
-        cursor: isDragging ? "grabbing" : "grab",
-      }}
-      className={cn(
-        "glass-dark rounded-xl border-zinc-800 bg-zinc-950 transition-shadow duration-200",
-        isSelected && "ring-2 ring-purple-400/50",
-        isDragging && "scale-105 shadow-xl",
-      )}
-      onMouseDown={(e) => onMouseDown(e, card.id)}
-      data-card-id={card.id}
-    >
+    return (
       <div
-        className="flex h-full w-full flex-col justify-between"
+        ref={ref}
         style={{
-          padding: `${8 * cardScale}px`,
-          gap: `${6 * cardScale}px`,
+          position: "absolute",
+          left: screenPos.x,
+          top: screenPos.y,
+          width: card.size.width * cardScale,
+          height: card.size.height * cardScale,
+          transformOrigin: "top left",
+          zIndex: isDragging ? 30 : isSelected ? 20 : 10,
+          cursor: isDragging ? "grabbing" : "grab",
+          // Touch optimizations
+          WebkitUserSelect: "none",
+          userSelect: "none",
+          WebkitTouchCallout: "none",
+          WebkitTapHighlightColor: "transparent",
+          touchAction: "none",
         }}
+        className={cn(
+          "glass-dark rounded-xl border-zinc-800 bg-zinc-950 transition-shadow duration-200",
+          isSelected && "ring-2 ring-purple-400/50",
+          isDragging && "scale-105 shadow-xl",
+        )}
+        onMouseDown={(e) => onMouseDown(e, card.id)}
+        onTouchStart={(e) => onTouchStart(e, card.id)}
+        data-card-id={card.id}
       >
-        {/* Title area - centered vertically in top portion */}
         <div
-          className="flex items-center justify-center"
+          className="flex h-full w-full flex-col justify-between"
           style={{
-            minHeight: `${40 * cardScale}px`, // Give the title area some height to center within
-          }}
-        >
-          <span
-            className="text-center font-bold leading-tight text-white"
-            style={{
-              fontSize: `${14 * cardScale}px`,
-            }}
-          >
-            {card.title}
-          </span>
-        </div>
-        {/* Buttons container */}
-        <div
-          className="flex w-full flex-col"
-          style={{
+            padding: `${8 * cardScale}px`,
             gap: `${6 * cardScale}px`,
           }}
         >
-          <a
-            className="glass-dark flex w-full items-center justify-center rounded-xl border-zinc-800 transition duration-500 hover:scale-105"
+          {/* Title area - centered vertically in top portion */}
+          <div
+            className="flex items-center justify-center"
             style={{
-              padding: `${8 * cardScale}px`,
-              gap: `${6 * cardScale}px`,
+              minHeight: `${40 * cardScale}px`, // Give the title area some height to center within
             }}
-            href={card.githubUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
           >
-            <GitHubLogoIcon
-              style={{
-                width: `${12 * cardScale}px`,
-                height: `${12 * cardScale}px`,
-              }}
-            />
             <span
-              className="w-full text-white"
+              className="text-center font-bold leading-tight text-white"
               style={{
-                fontSize: `${12 * cardScale}px`,
+                fontSize: `${14 * cardScale}px`,
               }}
             >
-              Codebase
+              {card.title}
             </span>
-          </a>
-          {card.microfrontendUrl && (
+          </div>
+          {/* Buttons container */}
+          <div
+            className="flex w-full flex-col"
+            style={{
+              gap: `${6 * cardScale}px`,
+            }}
+          >
             <a
               className="glass-dark flex w-full items-center justify-center rounded-xl border-zinc-800 transition duration-500 hover:scale-105"
               style={{
                 padding: `${8 * cardScale}px`,
                 gap: `${6 * cardScale}px`,
               }}
-              href={card.microfrontendUrl}
+              href={card.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
             >
-              <BiSolidComponent
+              <GitHubLogoIcon
                 style={{
                   width: `${12 * cardScale}px`,
                   height: `${12 * cardScale}px`,
@@ -234,15 +221,41 @@ const ArchitectureCardElement = React.forwardRef<
                   fontSize: `${12 * cardScale}px`,
                 }}
               >
-                Microfrontend
+                Codebase
               </span>
             </a>
-          )}
+            {card.microfrontendUrl && (
+              <a
+                className="glass-dark flex w-full items-center justify-center rounded-xl border-zinc-800 transition duration-500 hover:scale-105"
+                style={{
+                  padding: `${8 * cardScale}px`,
+                  gap: `${6 * cardScale}px`,
+                }}
+                href={card.microfrontendUrl}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <BiSolidComponent
+                  style={{
+                    width: `${12 * cardScale}px`,
+                    height: `${12 * cardScale}px`,
+                  }}
+                />
+                <span
+                  className="w-full text-white"
+                  style={{
+                    fontSize: `${12 * cardScale}px`,
+                  }}
+                >
+                  Microfrontend
+                </span>
+              </a>
+            )}
+          </div>
         </div>
       </div>
-    </div>
-  );
-});
+    );
+  },
+);
 
 ArchitectureCardElement.displayName = "ArchitectureCardElement";
 
@@ -302,6 +315,35 @@ const ViewportLayer: React.FC<{
   const [isPanning, setIsPanning] = useState(false);
   const [lastPanPoint, setLastPanPoint] = useState({ x: 0, y: 0 });
 
+  // Touch state for pinch zoom
+  const [touchState, setTouchState] = useState<{
+    touches: Array<{ x: number; y: number }>;
+    lastDistance: number;
+    lastCenter: { x: number; y: number };
+  }>({ touches: [], lastDistance: 0, lastCenter: { x: 0, y: 0 } });
+
+  // Helper function to get touch distance for pinch zoom
+  const getTouchDistance = (touches: React.TouchList) => {
+    if (touches.length < 2) return 0;
+    const touch1 = touches[0];
+    const touch2 = touches[1];
+    return Math.sqrt(
+      Math.pow(touch2.clientX - touch1.clientX, 2) +
+        Math.pow(touch2.clientY - touch1.clientY, 2),
+    );
+  };
+
+  // Helper function to get center point between two touches
+  const getTouchCenter = (touches: React.TouchList) => {
+    if (touches.length < 2) return { x: 0, y: 0 };
+    const touch1 = touches[0];
+    const touch2 = touches[1];
+    return {
+      x: (touch1.clientX + touch2.clientX) / 2,
+      y: (touch1.clientY + touch2.clientY) / 2,
+    };
+  };
+
   // Excalidraw-style wheel handler - only active when pan mode is on
   const handleWheel = useCallback(
     (e: WheelEvent) => {
@@ -350,7 +392,129 @@ const ViewportLayer: React.FC<{
     ],
   );
 
-  // Excalidraw-style mouse handlers - only active when pan mode is on
+  // Touch handlers for mobile support
+  const handleTouchStart = useCallback(
+    (e: React.TouchEvent) => {
+      if (!appState.isPanModeActive) return;
+
+      e.preventDefault();
+      const touches = e.touches;
+
+      if (touches.length === 1) {
+        // Single touch - start panning
+        setIsPanning(true);
+        setLastPanPoint({ x: touches[0].clientX, y: touches[0].clientY });
+      } else if (touches.length === 2) {
+        // Two touches - prepare for pinch zoom
+        const distance = getTouchDistance(touches);
+        const center = getTouchCenter(touches);
+        setTouchState({
+          touches: Array.from(touches).map((t) => ({
+            x: t.clientX,
+            y: t.clientY,
+          })),
+          lastDistance: distance,
+          lastCenter: center,
+        });
+        setIsPanning(false); // Stop panning when starting pinch
+      }
+    },
+    [appState.isPanModeActive],
+  );
+
+  const handleTouchMove = useCallback(
+    (e: React.TouchEvent) => {
+      if (!appState.isPanModeActive) return;
+
+      e.preventDefault();
+      const touches = e.touches;
+
+      if (touches.length === 1 && isPanning) {
+        // Single touch - pan
+        const touch = touches[0];
+        const deltaX = (touch.clientX - lastPanPoint.x) * PAN_SENSITIVITY;
+        const deltaY = (touch.clientY - lastPanPoint.y) * PAN_SENSITIVITY;
+
+        const newViewport = {
+          ...appState.viewport,
+          translateX: appState.viewport.translateX + deltaX,
+          translateY: appState.viewport.translateY + deltaY,
+        };
+
+        onViewportChange(newViewport);
+        setLastPanPoint({ x: touch.clientX, y: touch.clientY });
+      } else if (touches.length === 2) {
+        // Two touches - pinch zoom
+        const distance = getTouchDistance(touches);
+        const center = getTouchCenter(touches);
+
+        if (touchState.lastDistance > 0) {
+          const container = containerRef.current;
+          if (!container) return;
+
+          const containerRect = container.getBoundingClientRect();
+          const scale = distance / touchState.lastDistance;
+          const nextZoom = getNormalizedZoom(appState.viewport.scale * scale);
+
+          const newViewport = getStateForZoom(
+            center.x,
+            center.y,
+            nextZoom,
+            appState.viewport,
+            containerRect,
+          );
+
+          onViewportChange(newViewport);
+        }
+
+        setTouchState({
+          touches: Array.from(touches).map((t) => ({
+            x: t.clientX,
+            y: t.clientY,
+          })),
+          lastDistance: distance,
+          lastCenter: center,
+        });
+      }
+    },
+    [
+      appState.isPanModeActive,
+      isPanning,
+      lastPanPoint,
+      touchState,
+      appState.viewport,
+      onViewportChange,
+      containerRef,
+    ],
+  );
+
+  const handleTouchEnd = useCallback(
+    (e: React.TouchEvent) => {
+      if (!appState.isPanModeActive) return;
+
+      const touches = e.touches;
+
+      if (touches.length === 0) {
+        // All touches ended
+        setIsPanning(false);
+        setTouchState({
+          touches: [],
+          lastDistance: 0,
+          lastCenter: { x: 0, y: 0 },
+        });
+      } else if (touches.length === 1) {
+        // One touch remaining after pinch - switch to pan
+        setIsPanning(true);
+        setLastPanPoint({ x: touches[0].clientX, y: touches[0].clientY });
+        setTouchState({
+          touches: [],
+          lastDistance: 0,
+          lastCenter: { x: 0, y: 0 },
+        });
+      }
+    },
+    [appState.isPanModeActive],
+  );
   const handleMouseDown = useCallback(
     (e: React.MouseEvent | React.TouchEvent) => {
       if (!appState.isPanModeActive) return; // Only work when pan mode is active
@@ -448,8 +612,17 @@ const ViewportLayer: React.FC<{
         // Optimize rendering performance
         willChange: appState.isPanModeActive ? "transform" : "auto",
         contain: "layout style paint",
+        // Touch optimizations for mobile
+        WebkitUserSelect: "none",
+        userSelect: "none",
+        WebkitTouchCallout: "none",
+        WebkitTapHighlightColor: "transparent",
+        touchAction: appState.isPanModeActive ? "none" : "auto",
       }}
       onMouseDown={handleMouseDown}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
       {children}
     </div>
@@ -738,6 +911,99 @@ export function ArchitectureContainer({ className }: { className?: string }) {
     [appState.viewport, appState.cards, appState.isPanModeActive],
   );
 
+  // Touch handling for cards (mobile support)
+  const handleCardTouchStart = useCallback(
+    (e: React.TouchEvent, cardId: string) => {
+      // Don't allow card dragging when pan mode is active
+      if (appState.isPanModeActive) return;
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      const container = containerRef.current;
+      if (!container) return;
+
+      const touch = e.touches[0];
+      if (!touch) return;
+
+      const containerRect = container.getBoundingClientRect();
+      const worldPos = screenToWorld(
+        { x: touch.clientX, y: touch.clientY },
+        appState.viewport,
+        containerRect,
+      );
+
+      const card = appState.cards.get(cardId);
+      if (!card) return;
+
+      // Start drag operation
+      setAppState((prev) => ({
+        ...prev,
+        isDragging: true,
+        selectedCards: new Set([cardId]),
+        dragState: {
+          cardId,
+          startPosition: card.position,
+          offset: {
+            x: worldPos.x - card.position.x,
+            y: worldPos.y - card.position.y,
+          },
+        },
+      }));
+
+      // Global touch event handlers for drag
+      const handleTouchMove = (e: TouchEvent) => {
+        e.preventDefault();
+
+        const touch = e.touches[0];
+        if (!touch) return;
+
+        const worldPos = screenToWorld(
+          { x: touch.clientX, y: touch.clientY },
+          appState.viewport,
+          containerRect,
+        );
+
+        setAppState((prev) => {
+          if (!prev.dragState) return prev;
+
+          const newPosition = {
+            x: worldPos.x - prev.dragState.offset.x,
+            y: worldPos.y - prev.dragState.offset.y,
+          };
+
+          const updatedCards = new Map(prev.cards);
+          const card = updatedCards.get(cardId);
+          if (card) {
+            updatedCards.set(cardId, { ...card, position: newPosition });
+          }
+
+          return {
+            ...prev,
+            cards: updatedCards,
+          };
+        });
+      };
+
+      const handleTouchEnd = () => {
+        setAppState((prev) => ({
+          ...prev,
+          isDragging: false,
+          dragState: null,
+        }));
+
+        document.removeEventListener("touchmove", handleTouchMove);
+        document.removeEventListener("touchend", handleTouchEnd);
+      };
+
+      document.addEventListener("touchmove", handleTouchMove, {
+        passive: false,
+      });
+      document.addEventListener("touchend", handleTouchEnd);
+    },
+    [appState.viewport, appState.cards, appState.isPanModeActive],
+  );
+
   // Viewport update handler with optimized rendering
   const handleViewportChange = useCallback((newViewport: ViewportState) => {
     setAppState((prev) => ({
@@ -800,7 +1066,32 @@ export function ArchitectureContainer({ className }: { className?: string }) {
   }, [appState.viewport, handleViewportChange]);
 
   const resetView = useCallback(() => {
-    handleViewportChange({ scale: 1, translateX: 0, translateY: 0 });
+    const container = containerRef.current;
+    if (!container) return;
+
+    const { offsetWidth, offsetHeight } = container;
+
+    // Detect mobile devices
+    const isMobile = offsetWidth <= 768;
+
+    // Use the same logic as the initial setup
+    const scale = isMobile ? 0.45 : 0.7;
+
+    // Calculate dynamic centering based on container size and scale
+    const scaledWidth = REFERENCE_WIDTH * scale;
+    const scaledHeight = REFERENCE_HEIGHT * scale;
+
+    // Center the content in the available space
+    const translateX = (offsetWidth - scaledWidth) / 2;
+    const translateY = (offsetHeight - scaledHeight) / 2;
+
+    const initialViewport = {
+      scale: scale,
+      translateX: translateX + (isMobile ? -60 : -75),
+      translateY: translateY + (isMobile ? -30 : -20),
+    };
+
+    handleViewportChange(initialViewport);
   }, [handleViewportChange]);
 
   // Render cards and connections
@@ -821,6 +1112,12 @@ export function ArchitectureContainer({ className }: { className?: string }) {
         minHeight: "400px", // Minimum height for very small screens
         maxWidth: "90vw",
         maxHeight: "90vh",
+        // Mobile touch optimizations
+        WebkitUserSelect: "none",
+        userSelect: "none",
+        WebkitTouchCallout: "none",
+        WebkitTapHighlightColor: "transparent",
+        touchAction: "none", // Prevent default touch behaviors
       }}
     >
       {/* Zoom Controls */}
@@ -966,6 +1263,7 @@ export function ArchitectureContainer({ className }: { className?: string }) {
                 appState.isDragging && appState.dragState?.cardId === card.id
               }
               onMouseDown={handleCardMouseDown}
+              onTouchStart={handleCardTouchStart}
             />
           ))}
         </div>
