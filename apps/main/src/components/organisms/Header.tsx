@@ -89,7 +89,7 @@ const Header = () => {
             <span>{route.icon}</span>
             {route.name && (
               <span
-                className={`ml-2 max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-all duration-700 group-hover:max-w-xs group-hover:opacity-100 ${route.selected ? "max-w-xs opacity-100" : ""}`}
+                className={`ml-2 max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-all duration-700 group-hover:max-w-xs group-hover:opacity-100 max-sm:hidden ${route.selected ? "max-w-xs opacity-100" : ""}`}
               >
                 {route.name}
               </span>
