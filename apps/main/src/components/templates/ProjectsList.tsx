@@ -7,70 +7,17 @@ import { DownButton } from "../atoms/DownButton";
 import { MultiSelect } from "../ui/multi-select";
 import { Label } from "../ui/label";
 
-import {
-  SiReact,
-  SiNextdotjs,
-  SiFlutter,
-  SiExpress,
-  SiSolid,
-  SiFlask,
-  SiSwift,
-  SiSvelte,
-  SiJavascript,
-  SiTypescript,
-  SiPython,
-  SiDart,
-  SiGo,
-  SiRust,
-  SiMongodb,
-  SiPostgresql,
-  SiTailwindcss,
-  SiNodedotjs,
-  SiWebpack,
-  SiBun,
-  SiDeno,
-} from "react-icons/si";
-
 import { loadProjects } from "../../utils/projectsLazy";
+import {
+  frameworksList,
+  languagesList,
+  databasesList,
+  toolsAndLibrariesList,
+} from "../../utils/filterOptionsLazy";
 import { IProject } from "@/interface/IProject";
 
 // Lazy load the ProjectCard component
 const ProjectCard = lazy(() => import("../molecules/ProjectCard"));
-
-// Definições de opções para cada categoria
-const frameworksList = [
-  { value: "react", label: "React", icon: SiReact },
-  { value: "react-native", label: "React Native", icon: SiReact },
-  { value: "next.js", label: "Next.js", icon: SiNextdotjs },
-  { value: "express", label: "Express", icon: SiExpress },
-  { value: "solid.js", label: "Solid.js", icon: SiSolid },
-  { value: "flask", label: "Flask", icon: SiFlask },
-  // { value: "flutter", label: "Flutter", icon: SiFlutter },
-  // { value: "swift", label: "Swift", icon: SiSwift },
-  // { value: "svelte", label: "Svelte", icon: SiSvelte },
-];
-
-const languagesList = [
-  { value: "javascript", label: "JavaScript", icon: SiJavascript },
-  { value: "typescript", label: "TypeScript", icon: SiTypescript },
-  { value: "python", label: "Python", icon: SiPython },
-  // { value: "dart", label: "Dart", icon: SiDart },
-  // { value: "go", label: "Go", icon: SiGo },
-  // { value: "rust", label: "Rust", icon: SiRust },
-];
-
-const databasesList = [
-  { value: "mongodb", label: "MongoDB", icon: SiMongodb },
-  { value: "postgresql", label: "PostgreSQL", icon: SiPostgresql },
-];
-
-const toolsAndLibrariesList = [
-  { value: "tailwind", label: "Tailwind", icon: SiTailwindcss },
-  { value: "node.js", label: "Node.js", icon: SiNodedotjs },
-  { value: "webpack", label: "Webpack", icon: SiWebpack },
-  // { value: "bun", label: "Bun", icon: SiBun },
-  // { value: "deno", label: "Deno", icon: SiDeno },
-];
 
 // Estado centralizado para filtros
 type FilterState = {
@@ -135,21 +82,14 @@ export default function ProjectsList() {
 
   // Lógica de filtragem
   const filteredProjects = useMemo(() => {
-    console.log("Filtro executado:", { 
-      activeFiltersLength: activeFilters.length, 
-      projectsDataLength: projectsData.length,
-      activeFilters 
-    });
-    
     // Se não houver nenhum filtro selecionado, retorne todos os projetos
     if (activeFilters.length === 0) {
-      console.log("Nenhum filtro ativo, retornando todos os projetos:", projectsData.length);
       return projectsData;
     }
 
     // Caso existam filtros selecionados, retornamos projetos que tenham
     // pelo menos um dos filtros no techStack (lógica de OR).
-    const filtered = projectsData.filter((project) => {
+    return projectsData.filter((project) => {
       // Normaliza o techStack do projeto para letras minúsculas
       const lowerTechs = project.techStack.map((t) =>
         t.toLowerCase().replace(/\s+/g, "-"),
@@ -158,14 +98,11 @@ export default function ProjectsList() {
       // Verifica se pelo menos uma das techs selecionadas está presente
       return lowerTechs.some((tech) => activeFilters.includes(tech));
     });
-    
-    console.log("Projetos filtrados:", filtered.length);
-    return filtered;
   }, [activeFilters, projectsData]);
 
   // Ajuste do maxCount conforme a largura de tela
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       if (window.innerWidth < 768) {
         setMaxCount(0); // exibe todas as opções no dropdown sem resumo
       } else {
