@@ -70,21 +70,6 @@ export const projects: IProject[] = [
   },
 
   {
-    slug: "joystick",
-    description: `A full-stack mock marketplace for video games, developed as
-     part of a course on Introduction to Web Development. The project covers 
-     the entire ecosystem from frontend to backend.`,
-    name: "Joystick",
-    techStack: ["React", "JavaScript", "MongoDB", "Node.js", "Webpack"],
-    timeline: null,
-    gitLink:
-      "https://github.com/brcls/portifolio-monorepo/tree/main/apps/joystick",
-    members: ["Erick Barcelos"],
-    microRoute: process.env.NEXT_PUBLIC_JOYSTICK_URL as string,
-    coverImage: "/images/projects/joystick/home.png",
-    status: "finished",
-  },
-  {
     slug: "secret-santa",
     description: `A Secret Santa system where participants’ names and emails 
     are entered, and then a random draw is conducted. 
@@ -169,6 +154,21 @@ export const projects: IProject[] = [
     microRoute: process.env.NEXT_PUBLIC_LIGA_URL as string,
     members: ["Erick Barcelos"],
     coverImage: "/images/projects/liga-academica/liga.png",
+    status: "finished",
+  },
+  {
+    slug: "joystick",
+    description: `A full-stack mock marketplace for video games, developed as
+     part of a course on Introduction to Web Development. The project covers 
+     the entire ecosystem from frontend to backend.`,
+    name: "Joystick",
+    techStack: ["React", "JavaScript", "MongoDB", "Node.js", "Webpack"],
+    timeline: null,
+    gitLink:
+      "https://github.com/brcls/portifolio-monorepo/tree/main/apps/joystick",
+    members: ["Erick Barcelos"],
+    microRoute: process.env.NEXT_PUBLIC_JOYSTICK_URL as string,
+    coverImage: "",
     status: "finished",
   },
   // {

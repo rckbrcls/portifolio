@@ -7,13 +7,16 @@ import { DownButton } from "../atoms/DownButton";
 import { MultiSelect } from "../ui/multi-select";
 import { Label } from "../ui/label";
 
-import { loadProjects } from "../../utils/projectsLazy";
+// Simplified imports - only what's actually used
 import {
-  frameworksList,
-  languagesList,
-  databasesList,
-  toolsAndLibrariesList,
-} from "../../utils/filterOptionsLazy";
+  loadFeaturedProjects,
+  loadAllProjectsAfterInitial,
+} from "../../utils/projectsLazy";
+
+import {
+  getFilterOptions,
+  getAllFilterOptions,
+} from "../../utils/filterOptionsOptimized";
 import { IProject } from "@/interface/IProject";
 
 // Lazy load the ProjectCard component
@@ -40,22 +43,65 @@ export default function ProjectsList() {
   const [maxCount, setMaxCount] = useState(3);
   const [projectsData, setProjectsData] = useState<IProject[]>([]);
   const [loading, setLoading] = useState(true);
+  const [displayedProjects, setDisplayedProjects] = useState<IProject[]>([]);
+  const [projectsPerBatch] = useState(6);
+  const [currentBatch, setCurrentBatch] = useState(1);
 
-  // Carregamento dos projetos
+  // State para opções de filtro
+  const [filterOptions, setFilterOptions] = useState(getFilterOptions());
+  const [filterOptionsLoaded, setFilterOptionsLoaded] = useState(false);
+
+  // Carregamento das opções de filtro completas
+  useEffect(() => {
+    const loadAllOptions = async () => {
+      if (!filterOptionsLoaded) {
+        const allOptions = await getAllFilterOptions();
+        setFilterOptions(allOptions);
+        setFilterOptionsLoaded(true);
+      }
+    };
+
+    // Carrega as opções completas após um delay
+    setTimeout(loadAllOptions, 1500);
+  }, [filterOptionsLoaded]);
+
+  // Carregamento inicial dos projetos com ultra compressão
   useEffect(() => {
     const loadProjectsData = async () => {
       try {
-        const allProjects = await loadProjects();
-        setProjectsData(allProjects);
+        // Carrega primeiro os dados comprimidos (menor bundle)
+        const featuredProjects = await loadFeaturedProjects();
+        setProjectsData(featuredProjects);
+        setDisplayedProjects(featuredProjects);
+        setLoading(false);
+
+        // Carrega o restante em background após 500ms
+        setTimeout(async () => {
+          const allProjects = await loadAllProjectsAfterInitial();
+          setProjectsData(allProjects);
+
+          // Verifica se não há filtros ativos (todos os arrays estão vazios)
+          const hasActiveFilters =
+            filters.frameworks.length > 0 ||
+            filters.languages.length > 0 ||
+            filters.databases.length > 0 ||
+            filters.tools.length > 0;
+
+          // Se não há filtros ativos, atualiza os projetos exibidos também
+          if (!hasActiveFilters) {
+            setDisplayedProjects(
+              allProjects.slice(0, currentBatch * projectsPerBatch),
+            );
+          }
+        }, 500);
       } catch (error) {
         console.error("Error loading projects:", error);
-      } finally {
         setLoading(false);
       }
     };
 
     loadProjectsData();
-  }, []);
+  }, [projectsPerBatch]); // Removeu activeFilters e currentBatch da dependência
 
   // Função de reset de filtros (torna tudo vazio)
   const resetFilter = () => {
@@ -80,16 +126,19 @@ export default function ProjectsList() {
     ];
   }, [filters]);
 
-  // Lógica de filtragem
+  // Lógica de filtragem - agora aplica sobre displayedProjects se não há filtros ativos
   const filteredProjects = useMemo(() => {
-    // Se não houver nenhum filtro selecionado, retorne todos os projetos
+    const sourceProjects =
+      activeFilters.length === 0 ? displayedProjects : projectsData;
+
+    // Se não houver nenhum filtro selecionado, retorne os projetos exibidos atualmente
     if (activeFilters.length === 0) {
-      return projectsData;
+      return sourceProjects;
     }
 
     // Caso existam filtros selecionados, retornamos projetos que tenham
     // pelo menos um dos filtros no techStack (lógica de OR).
-    return projectsData.filter((project) => {
+    return sourceProjects.filter((project) => {
       // Normaliza o techStack do projeto para letras minúsculas
       const lowerTechs = project.techStack.map((t) =>
         t.toLowerCase().replace(/\s+/g, "-"),
@@ -98,7 +147,18 @@ export default function ProjectsList() {
       // Verifica se pelo menos uma das techs selecionadas está presente
       return lowerTechs.some((tech) => activeFilters.includes(tech));
     });
-  }, [activeFilters, projectsData]);
+  }, [activeFilters, projectsData, displayedProjects]);
+
+  // Função para carregar mais projetos
+  const loadMoreProjects = () => {
+    if (displayedProjects.length < projectsData.length) {
+      const nextBatch = currentBatch + 1;
+      const endIndex = nextBatch * projectsPerBatch;
+      const newDisplayedProjects = projectsData.slice(0, endIndex);
+      setDisplayedProjects(newDisplayedProjects);
+      setCurrentBatch(nextBatch);
+    }
+  };
 
   // Ajuste do maxCount conforme a largura de tela
   useEffect(() => {
@@ -129,7 +189,7 @@ export default function ProjectsList() {
           <MultiSelect
             id="frameworks"
             className="min-w-60 rounded-lg"
-            options={frameworksList}
+            options={filterOptions.frameworks}
             onValueChange={(selected) =>
               handleFilterChange("frameworks", selected)
             }
@@ -144,7 +204,7 @@ export default function ProjectsList() {
           <MultiSelect
             id="languages"
             className="min-w-60 rounded-lg"
-            options={languagesList}
+            options={filterOptions.languages}
             onValueChange={(selected) =>
               handleFilterChange("languages", selected)
             }
@@ -159,7 +219,7 @@ export default function ProjectsList() {
           <MultiSelect
             id="databases"
             className="min-w-60 rounded-lg"
-            options={databasesList}
+            options={filterOptions.databases}
             onValueChange={(selected) =>
               handleFilterChange("databases", selected)
             }
@@ -174,7 +234,7 @@ export default function ProjectsList() {
           <MultiSelect
             id="tools"
             className="min-w-60 rounded-lg"
-            options={toolsAndLibrariesList}
+            options={filterOptions.tools}
             onValueChange={(selected) => handleFilterChange("tools", selected)}
             defaultValue={filters.tools}
             placeholder="Select tools"
@@ -206,6 +266,21 @@ export default function ProjectsList() {
             ))}
           </Suspense>
         )}
+
+        {/* Botão Load More - só aparece se não há filtros ativos e há mais projetos para carregar */}
+        {!loading &&
+          activeFilters.length === 0 &&
+          displayedProjects.length < projectsData.length && (
+            <div className="mt-8 flex justify-center">
+              <button
+                onClick={loadMoreProjects}
+                className="glass-dark flex items-center justify-center gap-2 text-nowrap rounded-lg px-8 py-3 transition duration-700 hover:scale-[1.01] hover:bg-zinc-800 active:scale-95 active:bg-zinc-800"
+              >
+                Load More Projects (
+                {projectsData.length - displayedProjects.length} remaining)
+              </button>
+            </div>
+          )}
       </div>
     </div>
   );

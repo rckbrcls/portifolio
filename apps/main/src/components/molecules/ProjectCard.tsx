@@ -3,11 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { IProject } from "@/interface/IProject";
 import SubTitle from "../atoms/SubTitle";
-import { techStackIcons } from "../../../public/data/techStackIcons";
+import TechStackIcon from "../atoms/TechStackIcon";
 import { Text } from "@/components/atoms/Text";
 import { AiFillGithub } from "react-icons/ai";
 import { BiSolidComponent } from "react-icons/bi";
-import { FaPager } from "react-icons/fa6";
+import { FaPager } from "react-icons/fa";
+import { TypeTechStack } from "../../../public/data/techStack";
 
 interface IProjectCardProps {
   project: IProject;
@@ -15,7 +16,29 @@ interface IProjectCardProps {
 
 const ProjectCard = ({ project }: IProjectCardProps) => {
   const renderImage = () => {
-    if (!project.coverImage) return null;
+    if (!project.coverImage) {
+      // Placeholder quando não há imagem
+      return (
+        <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-zinc-800 to-zinc-900">
+          <div className="text-center">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-zinc-700">
+              <svg
+                className="h-8 w-8 text-zinc-500"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </div>
+            <Text className="text-sm text-zinc-400">No preview available</Text>
+          </div>
+        </div>
+      );
+    }
 
     return (
       <Image
@@ -55,7 +78,10 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
                 key={index}
                 className="flex items-center gap-2 rounded-lg border border-zinc-700/30 bg-zinc-950/5 px-4 backdrop-blur"
               >
-                {techStackIcons[tech as keyof typeof techStackIcons]}
+                <TechStackIcon
+                  tech={tech as TypeTechStack}
+                  className="h-5 w-5"
+                />
                 <Text>{tech}</Text>
               </div>
             ))}
@@ -85,7 +111,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <AiFillGithub size={28} />
+                <AiFillGithub className="h-7 w-7" />
                 <Text className="max-sm:hidden">Repository</Text>
               </a>
             )}
@@ -102,7 +128,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
                   }
                 }}
               >
-                <BiSolidComponent size={28} />
+                <BiSolidComponent className="h-7 w-7" />
                 <Text className="max-sm:hidden">Microfrontend</Text>
               </Link>
             )}
@@ -113,7 +139,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <FaPager size={28} />
+                <FaPager className="h-7 w-7" />
                 <Text className="max-sm:hidden">Project</Text>
               </a>
             )}
