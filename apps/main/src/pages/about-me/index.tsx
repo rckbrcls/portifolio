@@ -8,6 +8,7 @@ import { FaFileDownload } from "react-icons/fa";
 import { BorderBeam } from "@/components/ui/border-beam";
 import Head from "next/head";
 import { DownButton } from "@/components/atoms/DownButton";
+import Footer from "@/components/organisms/Footer";
 
 export default function AboutMe() {
   return (
@@ -45,6 +46,7 @@ export default function AboutMe() {
         </div>
         <BoxGrid />
       </div>
+      <Footer />
     </MainLayout>
   );
 }

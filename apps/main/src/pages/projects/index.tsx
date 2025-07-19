@@ -3,6 +3,7 @@ import ProjectsList from "@/components/templates/ProjectsList";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
+import Footer from "@/components/organisms/Footer";
 
 const ProjectsPage = () => {
   const router = useRouter();
@@ -31,6 +32,7 @@ const ProjectsPage = () => {
         <title>Projects | rckbrcls</title>
       </Head>
       <ProjectsList />
+      <Footer />
     </MainLayout>
   );
 };
