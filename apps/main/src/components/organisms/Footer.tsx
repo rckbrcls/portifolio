@@ -16,23 +16,19 @@ const Footer = () => {
   const navigationLinks = [
     {
       path: "/",
-      icon: <PiHandWavingFill className="text-lg" />,
-      name: "Home",
+      name: "🏠 Home",
     },
     {
       path: "/about-me",
-      icon: <FaCircleInfo className="text-lg" />,
-      name: "About Me",
+      name: "👨‍💻 About Me",
     },
     {
       path: "/projects",
-      icon: <MdComputer className="text-lg" />,
-      name: "Projects",
+      name: "💼 Projects",
     },
     {
       path: "/contact",
-      icon: <RiContactsBook2Fill className="text-lg" />,
-      name: "Contact",
+      name: "📬 Contact",
     },
   ];
 
@@ -64,9 +60,9 @@ const Footer = () => {
               Erick Barcelos
             </SubTitle>
             <Text className="text-sm leading-relaxed text-gray-400">
-              Software developer passionate about building interactive
-              experiences and exploring microfrontend architectures. Always
-              learning something new!
+              Junior software developer passionate about building creative
+              projects and learning new technologies. Always exploring and
+              growing!
             </Text>
           </div>
 
@@ -80,7 +76,6 @@ const Footer = () => {
                   href={link.path}
                   className="flex items-center gap-2 text-sm text-gray-400 transition-colors duration-200 hover:text-purple-400"
                 >
-                  {link.icon}
                   <span>{link.name}</span>
                 </Link>
               ))}
@@ -151,12 +146,7 @@ const Footer = () => {
               of ☕
             </Text>
             <div className="flex items-center gap-4 text-xs text-gray-500">
-              <Text className="text-xs">
-                <span className="text-purple-400">
-                  Microfrontend Architecture
-                </span>{" "}
-                • Made with passion in Brazil 🇧🇷
-              </Text>
+              <Text className="text-xs">Made with passion in Brazil 🇧🇷</Text>
             </div>
           </div>
         </div>
