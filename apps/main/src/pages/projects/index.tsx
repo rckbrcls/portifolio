@@ -3,6 +3,8 @@ import ProjectsList from "@/components/templates/ProjectsList";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
+import Footer from "@/components/organisms/Footer";
+import { motion } from "framer-motion";
 
 const ProjectsPage = () => {
   const router = useRouter();
@@ -30,7 +32,20 @@ const ProjectsPage = () => {
       <Head>
         <title>Projects | rckbrcls</title>
       </Head>
-      <ProjectsList />
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <ProjectsList />
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+      >
+        <Footer />
+      </motion.div>
     </MainLayout>
   );
 };
