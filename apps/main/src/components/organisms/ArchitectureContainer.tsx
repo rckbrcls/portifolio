@@ -350,7 +350,17 @@ const ViewportLayer: React.FC<{
   // Excalidraw-style wheel handler - only active when pan mode is on
   const handleWheel = useCallback(
     (e: WheelEvent) => {
-      if (!appState.isPanModeActive) return; // Only work when pan mode is active
+      console.log(
+        "[DEBUG] handleWheel called - isPanModeActive:",
+        appState.isPanModeActive,
+      );
+
+      if (!appState.isPanModeActive) {
+        console.log("[DEBUG] Ignoring wheel event - pan mode inactive");
+        return; // Only work when pan mode is active
+      }
+
+      console.log("[DEBUG] Processing wheel event - pan mode active");
 
       // Prevent default scroll behavior when pan mode is active
       e.preventDefault();
@@ -460,15 +470,33 @@ const ViewportLayer: React.FC<{
           const scale = distance / touchState.lastDistance;
           const nextZoom = getNormalizedZoom(appState.viewport.scale * scale);
 
-          const newViewport = getStateForZoom(
-            center.x,
-            center.y,
-            nextZoom,
-            appState.viewport,
-            containerRect,
-          );
+          // Para zoom out em mobile, usar centralização melhorada
+          if (scale < 1) {
+            // Zoom out - usar centro da tela para melhor experiência
+            const centerX = containerRect.width / 2 + containerRect.left;
+            const centerY = containerRect.height / 2 + containerRect.top;
 
-          onViewportChange(newViewport);
+            const newViewport = getStateForZoom(
+              centerX,
+              centerY,
+              nextZoom,
+              appState.viewport,
+              containerRect,
+            );
+
+            onViewportChange(newViewport);
+          } else {
+            // Zoom in - usar centro do pinch
+            const newViewport = getStateForZoom(
+              center.x,
+              center.y,
+              nextZoom,
+              appState.viewport,
+              containerRect,
+            );
+
+            onViewportChange(newViewport);
+          }
         }
 
         setTouchState({
@@ -575,6 +603,18 @@ const ViewportLayer: React.FC<{
     const container = containerRef.current;
     if (!container) return;
 
+    // Cleanup function to remove all listeners
+    const cleanup = () => {
+      container.removeEventListener("wheel", handleWheel);
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("touchmove", handleMouseMove);
+      document.removeEventListener("touchend", handleMouseUp);
+    };
+
+    // Always cleanup first to avoid duplicate listeners
+    cleanup();
+
     // Only add wheel listener when pan mode is active
     if (appState.isPanModeActive) {
       container.addEventListener("wheel", handleWheel, {
@@ -595,15 +635,14 @@ const ViewportLayer: React.FC<{
       document.addEventListener("touchend", handleMouseUp, { passive: true });
     }
 
-    return () => {
-      // Always try to remove wheel listener in cleanup
-      container.removeEventListener("wheel", handleWheel);
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
-      document.removeEventListener("touchmove", handleMouseMove);
-      document.removeEventListener("touchend", handleMouseUp);
-    };
-  }, [handleWheel, handleMouseMove, handleMouseUp, isPanning, appState.isPanModeActive]);
+    return cleanup;
+  }, [
+    handleWheel,
+    handleMouseMove,
+    handleMouseUp,
+    isPanning,
+    appState.isPanModeActive,
+  ]);
 
   return (
     <div
@@ -1206,8 +1245,8 @@ export function ArchitectureContainer({ className }: { className?: string }) {
           )}
         >
           {appState.isPanModeActive
-            ? "🖱️ Pan & Zoom Active: Drag to explore • Pinch/Scroll: Zoom • Card positions are fixed"
-            : "✋ Card Mode: Drag Cards to Move • Click Hand Icon to Enable Pan/Zoom"}
+            ? "🖱️ Pan & Zoom Active • [DEBUG: Pan Mode ON] • Drag to explore • Pinch/Scroll: Zoom"
+            : "✋ Card Mode • [DEBUG: Pan Mode OFF] • Drag Cards to Move • Click Hand Icon to Enable Pan/Zoom"}
         </Text>
       </div>
 
