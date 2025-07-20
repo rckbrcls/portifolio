@@ -152,6 +152,7 @@ const ArchitectureCardElement = React.forwardRef<
           transformOrigin: "top left",
           zIndex: isDragging ? 30 : isSelected ? 20 : 10,
           cursor: isDragging ? "grabbing" : "grab",
+          borderRadius: `${8 * cardScale}px`, // Border radius que escala com o card
           // Touch optimizations
           WebkitUserSelect: "none",
           userSelect: "none",
@@ -160,7 +161,7 @@ const ArchitectureCardElement = React.forwardRef<
           touchAction: "none",
         }}
         className={cn(
-          "glass-dark rounded-xl border-zinc-800 bg-zinc-950 transition-shadow duration-200",
+          "glass-dark border-zinc-800 bg-zinc-950 transition-shadow duration-200",
           isSelected && "ring-2 ring-purple-400/50",
           isDragging && "scale-105 shadow-xl",
         )}
@@ -199,10 +200,11 @@ const ArchitectureCardElement = React.forwardRef<
             }}
           >
             <a
-              className="glass-dark flex w-full items-center justify-center rounded-xl border-zinc-800 transition duration-500 hover:scale-105"
+              className="glass-dark flex w-full items-center justify-center border-zinc-800 transition duration-500 hover:scale-105"
               style={{
                 padding: `${8 * cardScale}px`,
                 gap: `${6 * cardScale}px`,
+                borderRadius: `${6 * cardScale}px`, // Border radius que escala com o card
               }}
               href={card.githubUrl}
               target="_blank"
@@ -226,10 +228,11 @@ const ArchitectureCardElement = React.forwardRef<
             </a>
             {card.microfrontendUrl && (
               <a
-                className="glass-dark flex w-full items-center justify-center rounded-xl border-zinc-800 transition duration-500 hover:scale-105"
+                className="glass-dark flex w-full items-center justify-center border-zinc-800 transition duration-500 hover:scale-105"
                 style={{
                   padding: `${8 * cardScale}px`,
                   gap: `${6 * cardScale}px`,
+                  borderRadius: `${6 * cardScale}px`, // Border radius que escala com o card
                 }}
                 href={card.microfrontendUrl}
                 onClick={(e) => e.stopPropagation()}
@@ -347,8 +350,19 @@ const ViewportLayer: React.FC<{
   // Excalidraw-style wheel handler - only active when pan mode is on
   const handleWheel = useCallback(
     (e: WheelEvent) => {
-      if (!appState.isPanModeActive) return; // Only work when pan mode is active
+      console.log(
+        "[DEBUG] handleWheel called - isPanModeActive:",
+        appState.isPanModeActive,
+      );
 
+      if (!appState.isPanModeActive) {
+        console.log("[DEBUG] Ignoring wheel event - pan mode inactive");
+        return; // Only work when pan mode is active
+      }
+
+      console.log("[DEBUG] Processing wheel event - pan mode active");
+
+      // Prevent default scroll behavior when pan mode is active
       e.preventDefault();
       e.stopPropagation();
 
@@ -456,15 +470,33 @@ const ViewportLayer: React.FC<{
           const scale = distance / touchState.lastDistance;
           const nextZoom = getNormalizedZoom(appState.viewport.scale * scale);
 
-          const newViewport = getStateForZoom(
-            center.x,
-            center.y,
-            nextZoom,
-            appState.viewport,
-            containerRect,
-          );
+          // Para zoom out em mobile, usar centralização melhorada
+          if (scale < 1) {
+            // Zoom out - usar centro da tela para melhor experiência
+            const centerX = containerRect.width / 2 + containerRect.left;
+            const centerY = containerRect.height / 2 + containerRect.top;
 
-          onViewportChange(newViewport);
+            const newViewport = getStateForZoom(
+              centerX,
+              centerY,
+              nextZoom,
+              appState.viewport,
+              containerRect,
+            );
+
+            onViewportChange(newViewport);
+          } else {
+            // Zoom in - usar centro do pinch
+            const newViewport = getStateForZoom(
+              center.x,
+              center.y,
+              nextZoom,
+              appState.viewport,
+              containerRect,
+            );
+
+            onViewportChange(newViewport);
+          }
         }
 
         setTouchState({
@@ -571,11 +603,25 @@ const ViewportLayer: React.FC<{
     const container = containerRef.current;
     if (!container) return;
 
-    // Use passive: false for wheel to prevent default and enable smooth zoom
-    container.addEventListener("wheel", handleWheel, {
-      passive: false,
-      capture: true,
-    });
+    // Cleanup function to remove all listeners
+    const cleanup = () => {
+      container.removeEventListener("wheel", handleWheel);
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("touchmove", handleMouseMove);
+      document.removeEventListener("touchend", handleMouseUp);
+    };
+
+    // Always cleanup first to avoid duplicate listeners
+    cleanup();
+
+    // Only add wheel listener when pan mode is active
+    if (appState.isPanModeActive) {
+      container.addEventListener("wheel", handleWheel, {
+        passive: false,
+        capture: true,
+      });
+    }
 
     if (isPanning) {
       document.addEventListener("mousemove", handleMouseMove, {
@@ -589,14 +635,14 @@ const ViewportLayer: React.FC<{
       document.addEventListener("touchend", handleMouseUp, { passive: true });
     }
 
-    return () => {
-      container.removeEventListener("wheel", handleWheel);
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
-      document.removeEventListener("touchmove", handleMouseMove);
-      document.removeEventListener("touchend", handleMouseUp);
-    };
-  }, [handleWheel, handleMouseMove, handleMouseUp, isPanning]);
+    return cleanup;
+  }, [
+    handleWheel,
+    handleMouseMove,
+    handleMouseUp,
+    isPanning,
+    appState.isPanModeActive,
+  ]);
 
   return (
     <div
@@ -1123,7 +1169,7 @@ export function ArchitectureContainer({ className }: { className?: string }) {
         userSelect: "none",
         WebkitTouchCallout: "none",
         WebkitTapHighlightColor: "transparent",
-        touchAction: "none", // Prevent default touch behaviors
+        touchAction: appState.isPanModeActive ? "none" : "auto", // Only prevent touch when pan mode is active
       }}
     >
       {/* Zoom Controls */}
@@ -1131,7 +1177,7 @@ export function ArchitectureContainer({ className }: { className?: string }) {
         <button
           onClick={togglePanMode}
           className={cn(
-            "relative transform rounded-lg border p-3 backdrop-blur-sm transition-all duration-300",
+            "relative flex min-h-[44px] min-w-[44px] transform items-center justify-center rounded-lg border p-3 backdrop-blur-sm transition-all duration-300",
             appState.isPanModeActive
               ? "scale-110 border-green-400 bg-green-500/30 text-green-100 shadow-lg shadow-green-500/30"
               : "border-purple-500/50 bg-purple-500/20 text-purple-300 hover:scale-105 hover:bg-purple-500/30 hover:text-purple-100",
@@ -1142,48 +1188,35 @@ export function ArchitectureContainer({ className }: { className?: string }) {
               : "Enable Pan/Zoom Mode"
           }
         >
-          <HandIcon className="h-5 w-5" />
+          <HandIcon className="h-5 w-5 flex-shrink-0" />
           {appState.isPanModeActive && (
             <div className="absolute -right-1 -top-1 h-3 w-3 animate-pulse rounded-full bg-green-400"></div>
           )}
         </button>
         <button
           onClick={zoomIn}
-          className="rounded-lg border border-purple-500/50 bg-purple-500/20 p-2 text-purple-300 backdrop-blur-sm transition-all duration-200 hover:bg-purple-500/30 hover:text-purple-100"
+          className="flex min-h-[40px] min-w-[40px] items-center justify-center rounded-lg border border-purple-500/50 bg-purple-500/20 p-2 text-purple-300 backdrop-blur-sm transition-all duration-200 hover:bg-purple-500/30 hover:text-purple-100"
           title="Zoom In"
           disabled={appState.viewport.scale >= MAX_ZOOM}
         >
-          <ZoomInIcon className="h-4 w-4" />
+          <ZoomInIcon className="h-4 w-4 flex-shrink-0" />
         </button>
         <button
           onClick={zoomOut}
-          className="rounded-lg border border-purple-500/50 bg-purple-500/20 p-2 text-purple-300 backdrop-blur-sm transition-all duration-200 hover:bg-purple-500/30 hover:text-purple-100"
+          className="flex min-h-[40px] min-w-[40px] items-center justify-center rounded-lg border border-purple-500/50 bg-purple-500/20 p-2 text-purple-300 backdrop-blur-sm transition-all duration-200 hover:bg-purple-500/30 hover:text-purple-100"
           title="Zoom Out"
           disabled={appState.viewport.scale <= MIN_ZOOM}
         >
-          <ZoomOutIcon className="h-4 w-4" />
+          <ZoomOutIcon className="h-4 w-4 flex-shrink-0" />
         </button>
         <button
           onClick={resetView}
-          className="rounded-lg border border-purple-500/50 bg-purple-500/20 px-2 py-1 text-purple-300 backdrop-blur-sm transition-all duration-200 hover:bg-purple-500/30 hover:text-purple-100"
+          className="flex min-h-[32px] min-w-[40px] items-center justify-center rounded-lg border border-purple-500/50 bg-purple-500/20 px-2 py-1 text-purple-300 backdrop-blur-sm transition-all duration-200 hover:bg-purple-500/30 hover:text-purple-100"
           title="Reset View"
         >
-          <Text className="text-xs">Reset</Text>
+          <Text className="flex-shrink-0 text-xs">Reset</Text>
         </button>
       </div>
-
-      {/* Mode Status Indicator */}
-      {appState.isPanModeActive && (
-        <div className="absolute left-1/2 top-4 z-50 -translate-x-1/2 transform rounded-lg border border-green-400 bg-green-500/30 px-4 py-2 shadow-lg shadow-green-500/20 backdrop-blur-sm">
-          <div className="flex items-center gap-2">
-            <div className="h-2 w-2 animate-pulse rounded-full bg-green-400"></div>
-            <Text className="text-sm font-medium text-green-100">
-              Pan & Zoom Mode Active
-            </Text>
-            <HandIcon className="h-4 w-4 text-green-300" />
-          </div>
-        </div>
-      )}
 
       {/* Scale Indicator */}
       {appState.viewport.scale !== 1 && (
@@ -1194,10 +1227,12 @@ export function ArchitectureContainer({ className }: { className?: string }) {
         </div>
       )}
 
-      {/* Instructions */}
+      {/* Instructions - Top left aligned */}
       <div
         className={cn(
-          "absolute bottom-2 left-2 z-50 rounded-lg border px-3 py-2 backdrop-blur-sm transition-all duration-300",
+          "absolute left-2 top-2 z-40 transform rounded-lg border px-3 py-2 backdrop-blur-sm transition-all duration-300",
+
+          "max-w-[calc(100%-6rem)]", // Evita overflow
           appState.isPanModeActive
             ? "border-green-400/50 bg-green-500/20"
             : "border-purple-500/50 bg-purple-500/20",
@@ -1205,13 +1240,13 @@ export function ArchitectureContainer({ className }: { className?: string }) {
       >
         <Text
           className={cn(
-            "text-xs font-medium",
+            "text-left text-xs font-medium leading-relaxed",
             appState.isPanModeActive ? "text-green-200" : "text-purple-300",
           )}
         >
           {appState.isPanModeActive
-            ? "🖱️ Pan & Zoom Active: Drag to explore • Pinch/Scroll: Zoom • Card positions are fixed"
-            : "✋ Card Mode: Drag Cards to Move • Click Hand Icon to Enable Pan/Zoom"}
+            ? "🖱️ Pan & Zoom Active • [DEBUG: Pan Mode ON] • Drag to explore • Pinch/Scroll: Zoom"
+            : "✋ Card Mode • [DEBUG: Pan Mode OFF] • Drag Cards to Move • Click Hand Icon to Enable Pan/Zoom"}
         </Text>
       </div>
 

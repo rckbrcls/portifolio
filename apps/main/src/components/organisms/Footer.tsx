@@ -34,17 +34,17 @@ const Footer = () => {
 
   const socialLinks = [
     {
-      href: "https://github.com/brcls",
+      href: "https://github.com/rckbrcls",
       icon: <AiFillGithub className="text-2xl" />,
       name: "GitHub",
     },
     {
-      href: "https://linkedin.com/in/erickpatrickbarcelos",
+      href: "https://linkedin.com/in/brcls",
       icon: <AiFillLinkedin className="text-2xl" />,
       name: "LinkedIn",
     },
     {
-      href: "mailto:erickpatrickbarcelos@gmail.com",
+      href: "mailto:erickbarcelosdev@gmail.com",
       icon: <AiFillMail className="text-2xl" />,
       name: "Email",
     },
