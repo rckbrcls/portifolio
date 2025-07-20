@@ -21,7 +21,7 @@ export default function AboutMe() {
 
       <div className="w-full">
         {/* Hero Section */}
-        <div className="flex w-full flex-col items-center justify-center gap-8 px-4 py-24 text-center">
+        <div className="flex w-full flex-col items-center justify-center gap-6 px-4 py-20 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -39,7 +39,7 @@ export default function AboutMe() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="max-w-4xl"
+            className="max-w-3xl"
           >
             <Text className="text-xl leading-relaxed text-gray-300">
               Hey there! I'm Erick, a passionate junior developer from Brazil
@@ -55,12 +55,12 @@ export default function AboutMe() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true, margin: "-100px" }}
-          className="mx-auto max-w-4xl px-4 py-16 text-center"
+          className="mx-auto max-w-4xl px-4 py-12 text-center"
         >
-          <SubTitle className="mb-6 text-3xl" gradient>
+          <SubTitle className="mb-4 text-3xl" gradient>
             Who I Am
           </SubTitle>
-          <Text className="mb-8 text-lg leading-relaxed text-gray-300">
+          <Text className="mb-6 text-lg leading-relaxed text-gray-300">
             I'm a junior software engineer who's passionate about learning and
             growing in the tech world. I enjoy working with modern web
             technologies and I'm always excited to take on new challenges. My
@@ -102,7 +102,7 @@ export default function AboutMe() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true, margin: "-100px" }}
-          className="mx-auto max-w-6xl px-4 py-8"
+          className="mx-auto max-w-6xl px-4 py-10"
         >
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             <motion.div
@@ -155,10 +155,10 @@ export default function AboutMe() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true, margin: "-100px" }}
-          className="mx-auto max-w-7xl px-4 py-16"
+          className="mx-auto max-w-7xl px-4 py-12"
         >
-          <div className="mb-12 text-center">
-            <SubTitle className="mb-6 text-3xl" gradient>
+          <div className="mb-10 text-center">
+            <SubTitle className="mb-4 text-3xl" gradient>
               My Story in Pictures
             </SubTitle>
             <Text className="mx-auto max-w-2xl text-lg leading-relaxed text-gray-300">
