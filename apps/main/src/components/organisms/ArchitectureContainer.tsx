@@ -318,6 +318,9 @@ const ViewportLayer: React.FC<{
   const [isPanning, setIsPanning] = useState(false);
   const [lastPanPoint, setLastPanPoint] = useState({ x: 0, y: 0 });
 
+  // Ref to track if wheel listener is currently attached
+  const wheelListenerAttachedRef = useRef(false);
+
   // Touch state for pinch zoom
   const [touchState, setTouchState] = useState<{
     touches: Array<{ x: number; y: number }>;
@@ -346,65 +349,6 @@ const ViewportLayer: React.FC<{
       y: (touch1.clientY + touch2.clientY) / 2,
     };
   };
-
-  // Excalidraw-style wheel handler - only active when pan mode is on
-  const handleWheel = useCallback(
-    (e: WheelEvent) => {
-      console.log(
-        "[DEBUG] handleWheel called - isPanModeActive:",
-        appState.isPanModeActive,
-      );
-
-      if (!appState.isPanModeActive) {
-        console.log("[DEBUG] Ignoring wheel event - pan mode inactive");
-        return; // Only work when pan mode is active
-      }
-
-      console.log("[DEBUG] Processing wheel event - pan mode active");
-
-      // Prevent default scroll behavior when pan mode is active
-      e.preventDefault();
-      e.stopPropagation();
-
-      const container = containerRef.current;
-      if (!container) return;
-
-      const containerRect = container.getBoundingClientRect();
-
-      if (e.ctrlKey || e.metaKey) {
-        // Zoom with cursor position - faster zoom
-        const factor = e.deltaY > 0 ? 1 / ZOOM_WHEEL_FACTOR : ZOOM_WHEEL_FACTOR;
-        const nextZoom = getNormalizedZoom(appState.viewport.scale * factor);
-
-        const newViewport = getStateForZoom(
-          e.clientX,
-          e.clientY,
-          nextZoom,
-          appState.viewport,
-          containerRect,
-        );
-
-        onViewportChange(newViewport);
-      } else {
-        // Pan - faster pan with sensitivity multiplier
-        const panDeltaX = e.deltaX * PAN_SENSITIVITY;
-        const panDeltaY = e.deltaY * PAN_SENSITIVITY;
-
-        const newViewport = {
-          ...appState.viewport,
-          translateX: appState.viewport.translateX - panDeltaX,
-          translateY: appState.viewport.translateY - panDeltaY,
-        };
-        onViewportChange(newViewport);
-      }
-    },
-    [
-      appState.viewport,
-      appState.isPanModeActive,
-      onViewportChange,
-      containerRef,
-    ],
-  );
 
   // Touch handlers for mobile support
   const handleTouchStart = useCallback(
@@ -598,29 +542,76 @@ const ViewportLayer: React.FC<{
     setIsPanning(false);
   }, []);
 
-  // Event listeners setup with optimized handling
+  // Event listeners setup with more aggressive cleanup
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    // Cleanup function to remove all listeners
-    const cleanup = () => {
-      container.removeEventListener("wheel", handleWheel);
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
-      document.removeEventListener("touchmove", handleMouseMove);
-      document.removeEventListener("touchend", handleMouseUp);
+    // Create a new wheel handler for this effect cycle
+    const currentWheelHandler = (e: WheelEvent) => {
+      // Always check current state, not captured state
+      if (!appState.isPanModeActive) return;
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      const containerRect = container.getBoundingClientRect();
+
+      if (e.ctrlKey || e.metaKey) {
+        const factor = e.deltaY > 0 ? 1 / ZOOM_WHEEL_FACTOR : ZOOM_WHEEL_FACTOR;
+        const nextZoom = getNormalizedZoom(appState.viewport.scale * factor);
+
+        const newViewport = getStateForZoom(
+          e.clientX,
+          e.clientY,
+          nextZoom,
+          appState.viewport,
+          containerRect,
+        );
+
+        onViewportChange(newViewport);
+      } else {
+        const panDeltaX = e.deltaX * PAN_SENSITIVITY;
+        const panDeltaY = e.deltaY * PAN_SENSITIVITY;
+
+        const newViewport = {
+          ...appState.viewport,
+          translateX: appState.viewport.translateX - panDeltaX,
+          translateY: appState.viewport.translateY - panDeltaY,
+        };
+        onViewportChange(newViewport);
+      }
     };
 
-    // Always cleanup first to avoid duplicate listeners
-    cleanup();
+    // Aggressive cleanup - remove all possible wheel listeners
+    const forceCleanup = () => {
+      try {
+        // Remove with all possible combinations
+        container.removeEventListener("wheel", currentWheelHandler, true);
+        container.removeEventListener("wheel", currentWheelHandler, false);
+        container.removeEventListener("wheel", currentWheelHandler);
+
+        wheelListenerAttachedRef.current = false;
+
+        document.removeEventListener("mousemove", handleMouseMove);
+        document.removeEventListener("mouseup", handleMouseUp);
+        document.removeEventListener("touchmove", handleMouseMove);
+        document.removeEventListener("touchend", handleMouseUp);
+      } catch (e) {
+        // Ignore cleanup errors
+      }
+    };
+
+    // Always force cleanup first
+    forceCleanup();
 
     // Only add wheel listener when pan mode is active
     if (appState.isPanModeActive) {
-      container.addEventListener("wheel", handleWheel, {
+      container.addEventListener("wheel", currentWheelHandler, {
         passive: false,
         capture: true,
       });
+      wheelListenerAttachedRef.current = true;
     }
 
     if (isPanning) {
@@ -628,20 +619,23 @@ const ViewportLayer: React.FC<{
         passive: false,
       });
       document.addEventListener("mouseup", handleMouseUp, { passive: true });
-      // Add touch event listeners for mobile
       document.addEventListener("touchmove", handleMouseMove, {
         passive: false,
       });
       document.addEventListener("touchend", handleMouseUp, { passive: true });
     }
 
-    return cleanup;
+    return () => {
+      forceCleanup();
+    };
   }, [
-    handleWheel,
+    // Include appState.isPanModeActive directly to force re-creation
+    appState.isPanModeActive,
+    appState.viewport,
+    onViewportChange,
     handleMouseMove,
     handleMouseUp,
     isPanning,
-    appState.isPanModeActive,
   ]);
 
   return (
@@ -1245,8 +1239,8 @@ export function ArchitectureContainer({ className }: { className?: string }) {
           )}
         >
           {appState.isPanModeActive
-            ? "🖱️ Pan & Zoom Active • [DEBUG: Pan Mode ON] • Drag to explore • Pinch/Scroll: Zoom"
-            : "✋ Card Mode • [DEBUG: Pan Mode OFF] • Drag Cards to Move • Click Hand Icon to Enable Pan/Zoom"}
+            ? "🖱️ Pan & Zoom Active • Drag to explore • Pinch/Scroll: Zoom"
+            : "✋ Card Mode • Drag Cards to Move • Click Hand Icon to Enable Pan/Zoom"}
         </Text>
       </div>
 
