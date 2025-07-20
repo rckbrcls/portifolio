@@ -6,6 +6,7 @@ import SubTitle from "../atoms/SubTitle";
 import { DownButton } from "../atoms/DownButton";
 import { MultiSelect } from "../ui/multi-select";
 import { Label } from "../ui/label";
+import { motion } from "framer-motion";
 
 // Simplified imports - only what's actually used
 import {
@@ -173,17 +174,35 @@ export default function ProjectsList() {
 
   return (
     <div className="mx-auto flex flex-col items-center justify-center">
-      <div className="flex h-svh w-11/12 flex-col items-center justify-center gap-4 md:w-2/3">
+      {/* Hero Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="flex w-full flex-col items-center justify-center gap-8 px-4 py-24 text-center"
+      >
         <Title className="md:text-9xl" word="Projects" type="blur" gradient />
-        <SubTitle className="text-center text-xl md:text-3xl">
-          Here you can explore some of my personal, professional, and academic
-          projects. You can filter them by the technologies used in each one.
-        </SubTitle>
-        <DownButton text="See my projects" />
-      </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="max-w-4xl"
+        >
+          <SubTitle className="text-center text-xl md:text-3xl">
+            Here you can explore some of my personal, professional, and academic
+            projects. You can filter them by the technologies used in each one.
+          </SubTitle>
+        </motion.div>
+      </motion.div>
 
       {/* Seção de Filtros */}
-      <div className="max-md:scrollbar-hidden mx-auto grid w-11/12 grid-cols-2 items-end gap-4 pt-24 max-md:w-full max-md:grid-cols-1 max-md:overflow-x-scroll max-md:px-4">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true, margin: "-100px" }}
+        className="max-md:scrollbar-hidden mx-auto grid w-11/12 grid-cols-2 items-end gap-4 pb-12 max-md:w-full max-md:grid-cols-1 max-md:overflow-x-scroll max-md:px-4"
+      >
         <div className="flex w-full flex-col gap-2">
           <Label htmlFor="frameworks">Frameworks</Label>
           <MultiSelect
@@ -247,10 +266,16 @@ export default function ProjectsList() {
         >
           reset filter
         </button>
-      </div>
+      </motion.div>
 
       {/* Lista de Projetos Filtrados */}
-      <div className="mb-14 mt-10 flex w-11/12 flex-col gap-10">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true, margin: "-100px" }}
+        className="mb-14 mt-10 flex w-11/12 flex-col gap-10"
+      >
         {loading ? (
           // Loading skeleton com o estilo original
           Array.from({ length: 3 }).map((_, index) => (
@@ -281,7 +306,7 @@ export default function ProjectsList() {
               </button>
             </div>
           )}
-      </div>
+      </motion.div>
     </div>
   );
 }

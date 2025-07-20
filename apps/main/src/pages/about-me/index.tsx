@@ -21,7 +21,7 @@ export default function AboutMe() {
 
       <div className="w-full">
         {/* Hero Section */}
-        <div className="flex min-h-screen w-full flex-col items-center justify-center gap-8 px-4 text-center">
+        <div className="flex w-full flex-col items-center justify-center gap-8 px-4 py-24 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -39,7 +39,7 @@ export default function AboutMe() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="max-w-3xl"
+            className="max-w-4xl"
           >
             <Text className="text-xl leading-relaxed text-gray-300">
               Hey there! I'm Erick, a passionate junior developer from Brazil
@@ -47,12 +47,35 @@ export default function AboutMe() {
               that solve real problems.
             </Text>
           </motion.div>
+        </div>
 
+        {/* Introduction Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true, margin: "-100px" }}
+          className="mx-auto max-w-4xl px-4 py-16 text-center"
+        >
+          <SubTitle className="mb-6 text-3xl" gradient>
+            Who I Am
+          </SubTitle>
+          <Text className="mb-8 text-lg leading-relaxed text-gray-300">
+            I'm a junior software engineer who's passionate about learning and
+            growing in the tech world. I enjoy working with modern web
+            technologies and I'm always excited to take on new challenges. My
+            goal is to build meaningful applications while continuously
+            improving my skills and contributing to projects that make a
+            difference.
+          </Text>
+
+          {/* Resume Download Button */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="mt-4 flex justify-center"
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="flex justify-center"
           >
             <a
               className="glass-dark group flex h-14 items-center justify-center gap-3 text-nowrap rounded-lg px-8 py-4 text-base font-bold transition duration-300 hover:scale-105 hover:border-purple-400/40"
@@ -71,27 +94,6 @@ export default function AboutMe() {
               />
             </a>
           </motion.div>
-        </div>
-
-        {/* Introduction Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true, margin: "-100px" }}
-          className="mx-auto max-w-4xl px-4 py-16 text-center"
-        >
-          <SubTitle className="mb-6 text-3xl" gradient>
-            Who I Am
-          </SubTitle>
-          <Text className="text-lg leading-relaxed text-gray-300">
-            I'm a junior software engineer who's passionate about learning and
-            growing in the tech world. I enjoy working with modern web
-            technologies and I'm always excited to take on new challenges. My
-            goal is to build meaningful applications while continuously
-            improving my skills and contributing to projects that make a
-            difference.
-          </Text>
         </motion.div>
 
         {/* Skills & Interests Quick Grid */}
