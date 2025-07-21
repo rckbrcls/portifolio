@@ -414,33 +414,26 @@ const ViewportLayer: React.FC<{
           const scale = distance / touchState.lastDistance;
           const nextZoom = getNormalizedZoom(appState.viewport.scale * scale);
 
-          // Para zoom out em mobile, usar centralização melhorada
-          if (scale < 1) {
-            // Zoom out - usar centro da tela para melhor experiência
-            const centerX = containerRect.width / 2 + containerRect.left;
-            const centerY = containerRect.height / 2 + containerRect.top;
+          // Fix pinch zoom: use pinch center relative to container
+          const pinchX = center.x - containerRect.left;
+          const pinchY = center.y - containerRect.top;
 
-            const newViewport = getStateForZoom(
-              centerX,
-              centerY,
-              nextZoom,
-              appState.viewport,
-              containerRect,
-            );
+          // 1. Get world coords under pinch center before zoom
+          const worldBefore = screenToWorld(
+            { x: center.x, y: center.y },
+            appState.viewport,
+            containerRect,
+          );
+          // 2. Calculate new translate so worldBefore stays under pinch center after zoom
+          const newTranslateX = pinchX - worldBefore.x * nextZoom;
+          const newTranslateY = pinchY - worldBefore.y * nextZoom;
 
-            onViewportChange(newViewport);
-          } else {
-            // Zoom in - usar centro do pinch
-            const newViewport = getStateForZoom(
-              center.x,
-              center.y,
-              nextZoom,
-              appState.viewport,
-              containerRect,
-            );
-
-            onViewportChange(newViewport);
-          }
+          const newViewport = {
+            scale: nextZoom,
+            translateX: newTranslateX,
+            translateY: newTranslateY,
+          };
+          onViewportChange(newViewport);
         }
 
         setTouchState({
@@ -869,9 +862,6 @@ export function ArchitectureContainer({ className }: { className?: string }) {
   // Drag handling (Excalidraw style)
   const handleCardMouseDown = useCallback(
     (e: React.MouseEvent, cardId: string) => {
-      // Don't allow card dragging when pan mode is active
-      if (appState.isPanModeActive) return;
-
       e.preventDefault();
       e.stopPropagation();
 
@@ -954,9 +944,6 @@ export function ArchitectureContainer({ className }: { className?: string }) {
   // Touch handling for cards (mobile support)
   const handleCardTouchStart = useCallback(
     (e: React.TouchEvent, cardId: string) => {
-      // Don't allow card dragging when pan mode is active
-      if (appState.isPanModeActive) return;
-
       e.preventDefault();
       e.stopPropagation();
 
@@ -1189,24 +1176,44 @@ export function ArchitectureContainer({ className }: { className?: string }) {
         </button>
         <button
           onClick={zoomIn}
-          className="flex min-h-[40px] min-w-[40px] items-center justify-center rounded-lg border border-purple-500/50 bg-purple-500/20 p-2 text-purple-300 backdrop-blur-sm transition-all duration-200 hover:bg-purple-500/30 hover:text-purple-100"
+          className={cn(
+            "flex min-h-[40px] min-w-[40px] items-center justify-center rounded-lg border p-2 backdrop-blur-sm transition-all duration-200",
+            appState.isPanModeActive
+              ? "border-purple-500/50 bg-purple-500/20 text-purple-300 hover:bg-purple-500/30 hover:text-purple-100"
+              : "cursor-not-allowed border-gray-600/50 bg-gray-600/20 text-gray-500",
+          )}
           title="Zoom In"
-          disabled={appState.viewport.scale >= MAX_ZOOM}
+          disabled={
+            !appState.isPanModeActive || appState.viewport.scale >= MAX_ZOOM
+          }
         >
           <ZoomInIcon className="h-4 w-4 flex-shrink-0" />
         </button>
         <button
           onClick={zoomOut}
-          className="flex min-h-[40px] min-w-[40px] items-center justify-center rounded-lg border border-purple-500/50 bg-purple-500/20 p-2 text-purple-300 backdrop-blur-sm transition-all duration-200 hover:bg-purple-500/30 hover:text-purple-100"
+          className={cn(
+            "flex min-h-[40px] min-w-[40px] items-center justify-center rounded-lg border p-2 backdrop-blur-sm transition-all duration-200",
+            appState.isPanModeActive
+              ? "border-purple-500/50 bg-purple-500/20 text-purple-300 hover:bg-purple-500/30 hover:text-purple-100"
+              : "cursor-not-allowed border-gray-600/50 bg-gray-600/20 text-gray-500",
+          )}
           title="Zoom Out"
-          disabled={appState.viewport.scale <= MIN_ZOOM}
+          disabled={
+            !appState.isPanModeActive || appState.viewport.scale <= MIN_ZOOM
+          }
         >
           <ZoomOutIcon className="h-4 w-4 flex-shrink-0" />
         </button>
         <button
           onClick={resetView}
-          className="flex min-h-[32px] min-w-[40px] items-center justify-center rounded-lg border border-purple-500/50 bg-purple-500/20 px-2 py-1 text-purple-300 backdrop-blur-sm transition-all duration-200 hover:bg-purple-500/30 hover:text-purple-100"
+          className={cn(
+            "flex min-h-[32px] min-w-[40px] items-center justify-center rounded-lg border px-2 py-1 backdrop-blur-sm transition-all duration-200",
+            appState.isPanModeActive
+              ? "border-purple-500/50 bg-purple-500/20 text-purple-300 hover:bg-purple-500/30 hover:text-purple-100"
+              : "cursor-not-allowed border-gray-600/50 bg-gray-600/20 text-gray-500",
+          )}
           title="Reset View"
+          disabled={!appState.isPanModeActive}
         >
           <Text className="flex-shrink-0 text-xs">Reset</Text>
         </button>
@@ -1239,8 +1246,8 @@ export function ArchitectureContainer({ className }: { className?: string }) {
           )}
         >
           {appState.isPanModeActive
-            ? "🖱️ Pan & Zoom Active • Drag to explore • Pinch/Scroll: Zoom"
-            : "✋ Card Mode • Drag Cards to Move • Click Hand Icon to Enable Pan/Zoom"}
+            ? "✅ All options enabled: Pan, Zoom, drag cards, explore freely."
+            : "🚫 All options disabled: cards fixed, no pan/zoom. Click the hand icon to unlock all interactions."}
         </Text>
       </div>
 
@@ -1303,6 +1310,20 @@ export function ArchitectureContainer({ className }: { className?: string }) {
           ))}
         </div>
       </ViewportLayer>
+
+      {/* Overlay simples de bloqueio quando pan mode está inativo */}
+      {!appState.isPanModeActive && (
+        <div
+          className="absolute inset-0 z-30"
+          style={{
+            pointerEvents: "auto",
+            background: "transparent",
+          }}
+          onMouseDown={(e) => e.preventDefault()}
+          onTouchStart={(e) => e.preventDefault()}
+          onWheel={(e) => e.preventDefault()}
+        />
+      )}
     </div>
   );
 }
