@@ -414,33 +414,26 @@ const ViewportLayer: React.FC<{
           const scale = distance / touchState.lastDistance;
           const nextZoom = getNormalizedZoom(appState.viewport.scale * scale);
 
-          // Para zoom out em mobile, usar centralização melhorada
-          if (scale < 1) {
-            // Zoom out - usar centro da tela para melhor experiência
-            const centerX = containerRect.width / 2 + containerRect.left;
-            const centerY = containerRect.height / 2 + containerRect.top;
+          // Fix pinch zoom: use pinch center relative to container
+          const pinchX = center.x - containerRect.left;
+          const pinchY = center.y - containerRect.top;
 
-            const newViewport = getStateForZoom(
-              centerX,
-              centerY,
-              nextZoom,
-              appState.viewport,
-              containerRect,
-            );
+          // 1. Get world coords under pinch center before zoom
+          const worldBefore = screenToWorld(
+            { x: center.x, y: center.y },
+            appState.viewport,
+            containerRect,
+          );
+          // 2. Calculate new translate so worldBefore stays under pinch center after zoom
+          const newTranslateX = pinchX - worldBefore.x * nextZoom;
+          const newTranslateY = pinchY - worldBefore.y * nextZoom;
 
-            onViewportChange(newViewport);
-          } else {
-            // Zoom in - usar centro do pinch
-            const newViewport = getStateForZoom(
-              center.x,
-              center.y,
-              nextZoom,
-              appState.viewport,
-              containerRect,
-            );
-
-            onViewportChange(newViewport);
-          }
+          const newViewport = {
+            scale: nextZoom,
+            translateX: newTranslateX,
+            translateY: newTranslateY,
+          };
+          onViewportChange(newViewport);
         }
 
         setTouchState({
