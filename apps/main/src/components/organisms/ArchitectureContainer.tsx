@@ -869,9 +869,6 @@ export function ArchitectureContainer({ className }: { className?: string }) {
   // Drag handling (Excalidraw style)
   const handleCardMouseDown = useCallback(
     (e: React.MouseEvent, cardId: string) => {
-      // Don't allow card dragging when pan mode is active
-      if (appState.isPanModeActive) return;
-
       e.preventDefault();
       e.stopPropagation();
 
@@ -954,9 +951,6 @@ export function ArchitectureContainer({ className }: { className?: string }) {
   // Touch handling for cards (mobile support)
   const handleCardTouchStart = useCallback(
     (e: React.TouchEvent, cardId: string) => {
-      // Don't allow card dragging when pan mode is active
-      if (appState.isPanModeActive) return;
-
       e.preventDefault();
       e.stopPropagation();
 
@@ -1189,24 +1183,44 @@ export function ArchitectureContainer({ className }: { className?: string }) {
         </button>
         <button
           onClick={zoomIn}
-          className="flex min-h-[40px] min-w-[40px] items-center justify-center rounded-lg border border-purple-500/50 bg-purple-500/20 p-2 text-purple-300 backdrop-blur-sm transition-all duration-200 hover:bg-purple-500/30 hover:text-purple-100"
+          className={cn(
+            "flex min-h-[40px] min-w-[40px] items-center justify-center rounded-lg border p-2 backdrop-blur-sm transition-all duration-200",
+            appState.isPanModeActive
+              ? "border-purple-500/50 bg-purple-500/20 text-purple-300 hover:bg-purple-500/30 hover:text-purple-100"
+              : "cursor-not-allowed border-gray-600/50 bg-gray-600/20 text-gray-500",
+          )}
           title="Zoom In"
-          disabled={appState.viewport.scale >= MAX_ZOOM}
+          disabled={
+            !appState.isPanModeActive || appState.viewport.scale >= MAX_ZOOM
+          }
         >
           <ZoomInIcon className="h-4 w-4 flex-shrink-0" />
         </button>
         <button
           onClick={zoomOut}
-          className="flex min-h-[40px] min-w-[40px] items-center justify-center rounded-lg border border-purple-500/50 bg-purple-500/20 p-2 text-purple-300 backdrop-blur-sm transition-all duration-200 hover:bg-purple-500/30 hover:text-purple-100"
+          className={cn(
+            "flex min-h-[40px] min-w-[40px] items-center justify-center rounded-lg border p-2 backdrop-blur-sm transition-all duration-200",
+            appState.isPanModeActive
+              ? "border-purple-500/50 bg-purple-500/20 text-purple-300 hover:bg-purple-500/30 hover:text-purple-100"
+              : "cursor-not-allowed border-gray-600/50 bg-gray-600/20 text-gray-500",
+          )}
           title="Zoom Out"
-          disabled={appState.viewport.scale <= MIN_ZOOM}
+          disabled={
+            !appState.isPanModeActive || appState.viewport.scale <= MIN_ZOOM
+          }
         >
           <ZoomOutIcon className="h-4 w-4 flex-shrink-0" />
         </button>
         <button
           onClick={resetView}
-          className="flex min-h-[32px] min-w-[40px] items-center justify-center rounded-lg border border-purple-500/50 bg-purple-500/20 px-2 py-1 text-purple-300 backdrop-blur-sm transition-all duration-200 hover:bg-purple-500/30 hover:text-purple-100"
+          className={cn(
+            "flex min-h-[32px] min-w-[40px] items-center justify-center rounded-lg border px-2 py-1 backdrop-blur-sm transition-all duration-200",
+            appState.isPanModeActive
+              ? "border-purple-500/50 bg-purple-500/20 text-purple-300 hover:bg-purple-500/30 hover:text-purple-100"
+              : "cursor-not-allowed border-gray-600/50 bg-gray-600/20 text-gray-500",
+          )}
           title="Reset View"
+          disabled={!appState.isPanModeActive}
         >
           <Text className="flex-shrink-0 text-xs">Reset</Text>
         </button>
@@ -1239,8 +1253,8 @@ export function ArchitectureContainer({ className }: { className?: string }) {
           )}
         >
           {appState.isPanModeActive
-            ? "🖱️ Pan & Zoom Active • Drag to explore • Pinch/Scroll: Zoom"
-            : "✋ Card Mode • Drag Cards to Move • Click Hand Icon to Enable Pan/Zoom"}
+            ? "✅ All options enabled: Pan, Zoom, drag cards, explore freely."
+            : "🚫 All options disabled: cards fixed, no pan/zoom. Click the hand icon to unlock all interactions."}
         </Text>
       </div>
 
@@ -1303,6 +1317,20 @@ export function ArchitectureContainer({ className }: { className?: string }) {
           ))}
         </div>
       </ViewportLayer>
+
+      {/* Overlay simples de bloqueio quando pan mode está inativo */}
+      {!appState.isPanModeActive && (
+        <div
+          className="absolute inset-0 z-30"
+          style={{
+            pointerEvents: "auto",
+            background: "transparent",
+          }}
+          onMouseDown={(e) => e.preventDefault()}
+          onTouchStart={(e) => e.preventDefault()}
+          onWheel={(e) => e.preventDefault()}
+        />
+      )}
     </div>
   );
 }
