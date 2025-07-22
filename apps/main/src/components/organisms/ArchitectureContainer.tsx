@@ -944,7 +944,7 @@ export function ArchitectureContainer({ className }: { className?: string }) {
   // Touch handling for cards (mobile support)
   const handleCardTouchStart = useCallback(
     (e: React.TouchEvent, cardId: string) => {
-      e.preventDefault();
+      // Não chama preventDefault para não bloquear drag no mobile
       e.stopPropagation();
 
       const container = containerRef.current;
@@ -980,7 +980,7 @@ export function ArchitectureContainer({ className }: { className?: string }) {
 
       // Global touch event handlers for drag
       const handleTouchMove = (e: TouchEvent) => {
-        e.preventDefault();
+        // Não chama preventDefault para não bloquear drag no mobile
 
         const touch = e.touches[0];
         if (!touch) return;
