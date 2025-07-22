@@ -3,10 +3,6 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { Route } from "next";
-import { PiHandWavingFill } from "react-icons/pi";
-import { MdComputer } from "react-icons/md";
-import { FaCircleInfo } from "react-icons/fa6";
-import { RiContactsBook2Fill } from "react-icons/ri";
 import { usePathname } from "next/navigation";
 
 interface IHeaderButton {
@@ -79,17 +75,17 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed inset-x-0 z-50 mx-auto mt-4 flex w-min select-none items-center justify-center gap-10 rounded-full border-zinc-700/30 px-4 py-2 transition duration-1000 ${headerClass}`}
+      className={`fixed inset-x-0 bottom-4 z-50 mx-auto flex w-min select-none items-center justify-center gap-4 rounded-full border-zinc-700/30 p-1 transition duration-1000 ${headerClass}`}
     >
       {routes.map((route, index) => (
         <Link key={index} href={route.path}>
           <button
-            className={`group flex items-center rounded-full p-2 px-4 duration-700 hover:scale-110 hover:bg-zinc-950 active:scale-95 active:bg-zinc-900 ${route.selected && "bg-zinc-100 text-zinc-950 hover:bg-zinc-300 active:scale-95 active:bg-zinc-300"}`}
+            className={`group flex items-center rounded-full px-4 py-1 duration-700 hover:scale-105 hover:bg-zinc-950 active:scale-95 active:bg-zinc-900 ${route.selected && "bg-zinc-100 text-zinc-950 hover:bg-zinc-300 active:scale-95 active:bg-zinc-300"}`}
           >
             <span>{route.icon}</span>
             {route.name && (
               <span
-                className={`ml-2 max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-all duration-700 group-hover:max-w-xs group-hover:opacity-100 max-sm:hidden ${route.selected ? "max-w-xs opacity-100" : ""}`}
+                className={`ml-2 max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-all duration-700 group-hover:max-w-xs group-hover:opacity-100 max-sm:hidden ${route.selected ? "max-w-xs opacity-100 hover:text-white" : ""}`}
               >
                 {route.name}
               </span>
