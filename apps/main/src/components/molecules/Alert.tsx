@@ -19,7 +19,7 @@ const Alert = () => {
   return (
     <>
       {showAlert && (
-        <div className="glass-dark fixed right-1/2 top-4 z-50 flex w-11/12 translate-x-1/2 transform flex-col items-center justify-between gap-4 rounded-lg border border-none border-zinc-700/30 p-4 text-start transition duration-700 md:flex-row">
+        <div className="glass-dark fixed bottom-4 right-1/2 z-50 flex w-11/12 translate-x-1/2 transform flex-col items-center justify-between gap-4 rounded-lg border border-none border-zinc-700/30 p-4 text-start transition duration-700 md:flex-row">
           <Text>
             This portfolio is a work in progress, but rest assured, one day it
             will be a polished masterpiece! 😉
