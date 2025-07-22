@@ -41,7 +41,7 @@ export default function Home() {
             Section: Initial
         ========================== */}
         <div className="relative flex h-svh flex-col items-center justify-center text-center">
-          <Aurora />
+          <Aurora className="h-svh" />
           <div className="relative my-4 h-2/5 w-full select-none">
             <Image
               src="/images/assets/me.png"
@@ -60,7 +60,7 @@ export default function Home() {
         ========================== */}
         <div
           ref={architectureRef}
-          className="relative flex flex-col items-center justify-center px-4 py-20 text-center"
+          className="relative flex flex-col items-center justify-center gap-6 px-4 py-10 text-center"
         >
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -81,7 +81,7 @@ export default function Home() {
               isContentInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
             }
             transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
-            className="mt-8 max-w-4xl"
+            className="max-w-4xl"
           >
             <SubTitle className="mb-6" gradient>
               Microfrontend Ecosystem
@@ -103,7 +103,7 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={areCardsInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
-            className="mt-12 grid w-full max-w-6xl grid-cols-1 gap-6 md:grid-cols-3"
+            className="grid w-full max-w-6xl grid-cols-1 gap-6 md:grid-cols-3"
           >
             {/* Main App Card */}
             <motion.div
@@ -114,7 +114,7 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.8 }}
               className="glass-dark rounded-2xl border-purple-500/20 p-6 transition-all duration-300 hover:border-purple-400/40"
             >
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 max-sm:w-full">
                 <span className="text-2xl">🏗️</span>
               </div>
               <SubTitle className="mb-3 text-lg">Main Hub</SubTitle>
@@ -133,7 +133,7 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 1.0 }}
               className="glass-dark rounded-2xl border-purple-500/20 p-6 transition-all duration-300 hover:border-purple-400/40"
             >
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 max-sm:w-full">
                 <span className="text-2xl">🧩</span>
               </div>
               <SubTitle className="mb-3 text-lg">Mini Projects</SubTitle>
@@ -152,7 +152,7 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 1.2 }}
               className="glass-dark rounded-2xl border-pink-500/20 p-6 transition-all duration-300 hover:border-pink-400/40"
             >
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-purple-500">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-purple-500 max-sm:w-full">
                 <span className="text-2xl">🔗</span>
               </div>
               <SubTitle className="mb-3 text-lg">Communication</SubTitle>
@@ -170,7 +170,7 @@ export default function Home() {
               areCardsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
             }
             transition={{ duration: 0.6, delay: 1.4 }}
-            className="mt-16 grid w-full max-w-6xl grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4"
+            className="grid w-full max-w-6xl grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4"
           >
             {[
               {
@@ -216,16 +216,14 @@ export default function Home() {
         {/* =========================
             Section: Interactive Architecture
         ========================== */}
-        <div className="relative flex flex-col items-center justify-center px-4 py-20 text-center">
+        <div className="relative mt-10 flex flex-col items-center justify-center gap-6 border-t border-zinc-700/50 px-4 py-10 text-center">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
             viewport={{ once: true, margin: "-100px" }}
           >
-            <SubTitle className="mb-6" gradient>
-              Play Around with the Setup
-            </SubTitle>
+            <SubTitle gradient>Play Around with the Setup</SubTitle>
           </motion.div>
 
           <motion.div
@@ -233,7 +231,7 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
             viewport={{ once: true, margin: "-50px" }}
-            className="mb-12 max-w-4xl"
+            className="mb-6 max-w-4xl"
           >
             <Text className="mb-6 text-lg leading-relaxed text-gray-300">
               Here's a fun{" "}
@@ -245,19 +243,19 @@ export default function Home() {
             </Text>
 
             <div className="mx-auto grid max-w-2xl grid-cols-1 gap-4 text-sm text-gray-400 md:grid-cols-2">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center justify-center gap-2">
                 <span className="text-purple-400">🖱️</span>
                 <span>Drag cards around for fun</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center justify-center gap-2">
                 <span className="text-pink-400">🔍</span>
                 <span>Zoom in and out with scroll</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center justify-center gap-2">
                 <span className="text-purple-300">📱</span>
                 <span>Works great on mobile too</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center justify-center gap-2">
                 <span className="text-pink-300">🔗</span>
                 <span>Click to check out the code</span>
               </div>
@@ -270,7 +268,6 @@ export default function Home() {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
             viewport={{ once: true, margin: "-100px" }}
-            className="mb-20 mt-12 flex h-[70vh] min-h-[600px] w-full max-w-7xl items-center justify-center"
           >
             <ArchitectureContainer />
           </motion.div>

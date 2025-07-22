@@ -1,10 +1,12 @@
 // @ts-nocheck
 "use client";
 import { useState, memo, lazy, Suspense } from "react";
-import { twMerge } from "tailwind-merge";
+import { ClassNameValue, twMerge } from "tailwind-merge";
+import { cn } from "@/lib/utils";
 
 interface IAuroraProps {
   dark?: boolean;
+  className?: ClassNameValue;
 }
 
 // Lazy load the heavy MeshGradientRenderer
@@ -34,7 +36,7 @@ const AuroraFallback = ({
   </div>
 );
 
-function Aurora({ dark = false }: IAuroraProps) {
+function Aurora({ dark = false, className }: IAuroraProps) {
   const palettes = dark
     ? ["#000", "#222", "#444", "#666", "#888"]
     : ["#d500f9", "#6366f1", "#ec4899", "#a855f7", "#3b82f6"];
@@ -42,7 +44,9 @@ function Aurora({ dark = false }: IAuroraProps) {
   const position = dark ? "fixed" : "absolute";
 
   return (
-    <div className={twMerge("left-0 top-0 -z-10 h-screen w-full", position)}>
+    <div
+      className={cn("left-0 top-0 -z-10 h-screen w-full", position, className)}
+    >
       <Suspense fallback={<AuroraFallback dark={dark} position={position} />}>
         <MeshGradientRenderer
           className="h-full w-full"

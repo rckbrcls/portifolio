@@ -1141,10 +1141,10 @@ export function ArchitectureContainer({ className }: { className?: string }) {
       ref={containerRef}
       style={{
         width: "90vw",
-        height: "80vh",
+        height: "80svh",
         minHeight: "400px", // Minimum height for very small screens
         maxWidth: "90vw",
-        maxHeight: "80vh",
+        maxHeight: "80svh",
         // Mobile touch optimizations
         WebkitUserSelect: "none",
         userSelect: "none",
