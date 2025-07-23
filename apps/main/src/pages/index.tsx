@@ -100,7 +100,7 @@ export default function Home() {
               duration: 0.9,
             }}
           >
-            <Title word="Architecture" gradient />
+            <Title word="Architecture" gradient type="blur" />
           </motion.div>
 
           <motion.div
