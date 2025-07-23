@@ -43,9 +43,7 @@ const Header = () => {
     };
   }, []);
 
-  const headerClass = background
-    ? "glass-dark border border-zinc-700/50"
-    : "bg-none";
+  const headerClass = background ? "glass-dark" : "bg-none";
 
   const routes: IHeaderButton[] = [
     {

@@ -163,7 +163,7 @@ const ArchitectureCardElement = React.forwardRef<
           touchAction: "none",
         }}
         className={cn(
-          "glass-dark border-zinc-800 bg-zinc-950 transition-shadow duration-200",
+          "glass-dark bg-zinc-950 transition-shadow duration-200",
           isSelected && "ring-2 ring-purple-400/50",
           isDragging && "scale-105 shadow-xl",
         )}
@@ -202,7 +202,7 @@ const ArchitectureCardElement = React.forwardRef<
             }}
           >
             <a
-              className="glass-dark flex w-full items-center justify-center border-zinc-800 transition duration-500 hover:scale-105"
+              className="glass-dark flex w-full items-center justify-center transition duration-500 hover:scale-105"
               style={{
                 padding: `${8 * cardScale}px`,
                 gap: `${6 * cardScale}px`,
@@ -1139,7 +1139,7 @@ export function ArchitectureContainer({ className }: { className?: string }) {
         "bg-background glass-dark relative flex items-center justify-center overflow-hidden transition-all duration-200",
         appState.isPanModeActive
           ? "fixed inset-0 z-[9999] h-screen w-screen rounded-none border-none"
-          : "mx-auto w-full rounded-xl border border-zinc-700/50",
+          : "mx-auto w-full rounded-xl border",
         className,
       )}
       ref={containerRef}
