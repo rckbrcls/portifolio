@@ -76,12 +76,9 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
             {project?.techStack?.map((tech, index) => (
               <div
                 key={index}
-                className="flex items-center gap-2 rounded-lg border border-zinc-700/30 bg-zinc-950/5 px-4 backdrop-blur"
+                className="glass-dark flex items-center gap-2 rounded-full px-4 py-1"
               >
-                <TechStackIcon
-                  tech={tech as TypeTechStack}
-                  className="h-5 w-5"
-                />
+                <TechStackIcon tech={tech as TypeTechStack} />
                 <Text>{tech}</Text>
               </div>
             ))}
@@ -94,7 +91,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
             {project?.members.map((member, index) => (
               <div
                 key={index}
-                className="flex items-center rounded-lg border border-zinc-700/30 bg-zinc-950/5 px-4 backdrop-blur"
+                className="glass-dark flex items-center rounded-full px-4 py-1"
               >
                 <Text className="text-nowrap">{member}</Text>
               </div>
@@ -106,7 +103,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
           <div className="flex gap-2">
             {project?.gitLink && (
               <a
-                className="flex w-full items-center justify-center gap-2 text-nowrap rounded-lg border border-zinc-700/30 bg-zinc-950/5 px-6 py-2 text-xl font-black backdrop-blur transition duration-500 hover:scale-[1.01] hover:bg-zinc-900 active:scale-95 active:bg-zinc-900 md:h-16"
+                className="glass-dark flex w-full items-center justify-center gap-2 text-nowrap rounded-lg border px-6 font-black backdrop-blur transition duration-500 hover:scale-[1.01] hover:bg-zinc-900 active:scale-95 active:bg-zinc-900 md:h-16"
                 href={project.gitLink}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -118,7 +115,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
             {project?.microRoute && (
               <Link
                 href={`/microfrontend/${project.slug}`}
-                className="flex w-full items-center justify-center gap-2 text-nowrap rounded-lg border border-zinc-700/30 bg-zinc-950/5 px-6 py-2 text-xl font-black backdrop-blur transition duration-500 hover:scale-[1.01] hover:bg-zinc-900 active:scale-95 active:bg-zinc-900 md:h-16"
+                className="glass-dark flex w-full items-center justify-center gap-2 text-nowrap rounded-lg border px-6 font-black backdrop-blur transition duration-500 hover:scale-[1.01] hover:bg-zinc-900 active:scale-95 active:bg-zinc-900 md:h-16"
                 onClick={() => {
                   if (typeof window !== "undefined") {
                     sessionStorage.setItem(
@@ -135,7 +132,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
             {project?.link && (
               <a
                 href={project.link}
-                className="flex w-full items-center justify-center gap-2 text-nowrap rounded-lg border border-zinc-700/30 bg-zinc-950/5 px-6 py-2 text-xl font-black backdrop-blur transition duration-500 hover:scale-[1.01] hover:bg-zinc-900 active:scale-95 active:bg-zinc-900 md:h-16"
+                className="glass-dark border5 flex w-full items-center justify-center gap-2 text-nowrap rounded-lg px-6 font-black backdrop-blur transition duration-500 hover:scale-[1.01] hover:bg-zinc-900 active:scale-95 active:bg-zinc-900 md:h-16"
                 target="_blank"
                 rel="noopener noreferrer"
               >

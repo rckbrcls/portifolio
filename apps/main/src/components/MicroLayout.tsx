@@ -138,7 +138,7 @@ function DraggableContainer({
     <div
       ref={containerRef}
       style={style}
-      className="glass-dark fixed flex flex-col gap-2 rounded-full border-zinc-800 bg-zinc-950 p-2"
+      className="glass-dark fixed flex flex-col gap-2 rounded-full bg-zinc-950 p-2"
     >
       {/* Área de drag - barra superior */}
       <div

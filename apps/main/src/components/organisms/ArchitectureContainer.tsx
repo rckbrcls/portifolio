@@ -8,6 +8,8 @@ import React, {
   useCallback,
   useMemo,
 } from "react";
+import { FiMaximize } from "react-icons/fi";
+import { FaCompress } from "react-icons/fa";
 import { Text } from "../atoms/Text";
 import { cn } from "@/lib/utils";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
@@ -161,7 +163,7 @@ const ArchitectureCardElement = React.forwardRef<
           touchAction: "none",
         }}
         className={cn(
-          "glass-dark border-zinc-800 bg-zinc-950 transition-shadow duration-200",
+          "glass-dark bg-zinc-950 transition-shadow duration-200",
           isSelected && "ring-2 ring-purple-400/50",
           isDragging && "scale-105 shadow-xl",
         )}
@@ -200,7 +202,7 @@ const ArchitectureCardElement = React.forwardRef<
             }}
           >
             <a
-              className="glass-dark flex w-full items-center justify-center border-zinc-800 transition duration-500 hover:scale-105"
+              className="glass-dark flex w-full items-center justify-center transition duration-500 hover:scale-105"
               style={{
                 padding: `${8 * cardScale}px`,
                 gap: `${6 * cardScale}px`,
@@ -1134,23 +1136,24 @@ export function ArchitectureContainer({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "bg-background glass-dark relative mx-auto flex w-full items-center justify-center overflow-hidden rounded-xl transition-all duration-200",
-        "border border-zinc-700/50",
+        "bg-background glass-dark relative flex items-center justify-center overflow-hidden transition-all duration-200",
+        appState.isPanModeActive
+          ? "fixed inset-0 z-[9999] h-screen w-screen rounded-none border-none"
+          : "mx-auto w-full rounded-xl border",
         className,
       )}
       ref={containerRef}
       style={{
-        width: "90vw",
-        height: "90vh",
-        minHeight: "400px", // Minimum height for very small screens
-        maxWidth: "90vw",
-        maxHeight: "90vh",
-        // Mobile touch optimizations
+        width: appState.isPanModeActive ? "100vw" : "90vw",
+        height: appState.isPanModeActive ? "100dvh" : "80svh",
+        minHeight: appState.isPanModeActive ? undefined : "400px",
+        maxWidth: appState.isPanModeActive ? undefined : "90vw",
+        maxHeight: appState.isPanModeActive ? undefined : "80svh",
         WebkitUserSelect: "none",
         userSelect: "none",
         WebkitTouchCallout: "none",
         WebkitTapHighlightColor: "transparent",
-        touchAction: appState.isPanModeActive ? "none" : "auto", // Only prevent touch when pan mode is active
+        touchAction: appState.isPanModeActive ? "none" : "auto",
       }}
     >
       {/* Zoom Controls */}
@@ -1165,11 +1168,15 @@ export function ArchitectureContainer({ className }: { className?: string }) {
           )}
           title={
             appState.isPanModeActive
-              ? "Disable Pan/Zoom Mode"
-              : "Enable Pan/Zoom Mode"
+              ? "Disable Interactive Fullscreen Mode"
+              : "Enable Interactive Fullscreen Mode"
           }
         >
-          <HandIcon className="h-5 w-5 flex-shrink-0" />
+          {appState.isPanModeActive ? (
+            <FaCompress className="h-5 w-5 flex-shrink-0" />
+          ) : (
+            <FiMaximize className="h-5 w-5 flex-shrink-0" />
+          )}
           {appState.isPanModeActive && (
             <div className="absolute -right-1 -top-1 h-3 w-3 animate-pulse rounded-full bg-green-400"></div>
           )}
@@ -1246,8 +1253,8 @@ export function ArchitectureContainer({ className }: { className?: string }) {
           )}
         >
           {appState.isPanModeActive
-            ? "✅ All options enabled: Pan, Zoom, drag cards, explore freely."
-            : "🚫 All options disabled: cards fixed, no pan/zoom. Click the hand icon to unlock all interactions."}
+            ? "🟩 Interactive Fullscreen Mode enabled! You can pan, zoom, and drag cards."
+            : "🟥 Interactive Fullscreen Mode disabled. Cards are fixed and interactions are off."}
         </Text>
       </div>
 

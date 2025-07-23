@@ -2,8 +2,7 @@
 
 import React, { useState, useMemo, useEffect, lazy, Suspense } from "react";
 import Title from "../atoms/Title";
-import SubTitle from "../atoms/SubTitle";
-import { DownButton } from "../atoms/DownButton";
+import { Text } from "../atoms/Text";
 import { MultiSelect } from "../ui/multi-select";
 import { Label } from "../ui/label";
 import { motion } from "framer-motion";
@@ -167,31 +166,42 @@ export default function ProjectsList() {
       if (window.innerWidth < 768) {
         setMaxCount(0); // exibe todas as opções no dropdown sem resumo
       } else {
-        setMaxCount(2);
+        setMaxCount(0);
       }
     }
   }, []);
 
   return (
-    <div className="mx-auto flex flex-col items-center justify-center">
+    <div className="mx-auto flex min-h-svh flex-col items-center justify-center gap-4">
       {/* Hero Section */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="flex w-full flex-col items-center justify-center gap-8 px-4 py-24 text-center"
+        transition={{
+          type: "spring",
+          stiffness: 60,
+          damping: 18,
+          duration: 0.9,
+        }}
+        className="flex w-full flex-col items-center justify-center gap-8 border-b border-zinc-700/30 px-4 pb-10 pt-24 text-center"
       >
-        <Title className="md:text-9xl" word="Projects" type="blur" gradient />
+        <Title word="Projects" type="blur" gradient />
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          transition={{
+            type: "spring",
+            stiffness: 60,
+            damping: 18,
+            duration: 0.7,
+            delay: 0.3,
+          }}
           className="max-w-4xl"
         >
-          <SubTitle className="text-center text-xl md:text-3xl">
+          <Text className="mb-8 text-center leading-relaxed">
             Here you can explore some of my personal, professional, and academic
             projects. You can filter them by the technologies used in each one.
-          </SubTitle>
+          </Text>
         </motion.div>
       </motion.div>
 
@@ -199,15 +209,22 @@ export default function ProjectsList() {
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+        transition={{
+          type: "spring",
+          stiffness: 60,
+          damping: 18,
+          duration: 0.7,
+        }}
         viewport={{ once: true, margin: "-100px" }}
-        className="max-md:scrollbar-hidden mx-auto grid w-11/12 grid-cols-2 items-end gap-4 pb-12 max-md:w-full max-md:grid-cols-1 max-md:overflow-x-scroll max-md:px-4"
+        className="max-md:scrollbar-hidden mx-auto grid w-11/12 grid-cols-4 items-end gap-4 pt-10 max-md:w-full max-md:grid-cols-1 max-md:overflow-x-scroll max-md:px-4"
       >
         <div className="flex w-full flex-col gap-2">
-          <Label htmlFor="frameworks">Frameworks</Label>
+          <Label htmlFor="frameworks" className="font-semibold text-purple-400">
+            Frameworks
+          </Label>
           <MultiSelect
             id="frameworks"
-            className="min-w-60 rounded-lg"
+            className="min-w-60 rounded-lg font-medium text-gray-200"
             options={filterOptions.frameworks}
             onValueChange={(selected) =>
               handleFilterChange("frameworks", selected)
@@ -219,10 +236,12 @@ export default function ProjectsList() {
         </div>
 
         <div className="flex w-full flex-col gap-2">
-          <Label htmlFor="languages">Languages</Label>
+          <Label htmlFor="languages" className="font-semibold text-purple-400">
+            Languages
+          </Label>
           <MultiSelect
             id="languages"
-            className="min-w-60 rounded-lg"
+            className="min-w-60 rounded-lg font-medium text-gray-200"
             options={filterOptions.languages}
             onValueChange={(selected) =>
               handleFilterChange("languages", selected)
@@ -234,10 +253,12 @@ export default function ProjectsList() {
         </div>
 
         <div className="flex w-full flex-col gap-2">
-          <Label htmlFor="databases">Databases</Label>
+          <Label htmlFor="databases" className="font-semibold text-purple-400">
+            Databases
+          </Label>
           <MultiSelect
             id="databases"
-            className="min-w-60 rounded-lg"
+            className="min-w-60 rounded-lg font-medium text-gray-200"
             options={filterOptions.databases}
             onValueChange={(selected) =>
               handleFilterChange("databases", selected)
@@ -249,10 +270,12 @@ export default function ProjectsList() {
         </div>
 
         <div className="flex w-full flex-col gap-2">
-          <Label htmlFor="tools">Tools &amp; Libraries</Label>
+          <Label htmlFor="tools" className="font-semibold text-purple-400">
+            Tools &amp; Libraries
+          </Label>
           <MultiSelect
             id="tools"
-            className="min-w-60 rounded-lg"
+            className="min-w-60 rounded-lg font-medium text-gray-200"
             options={filterOptions.tools}
             onValueChange={(selected) => handleFilterChange("tools", selected)}
             defaultValue={filters.tools}
@@ -262,7 +285,7 @@ export default function ProjectsList() {
         </div>
         <button
           onClick={resetFilter}
-          className="glass-dark flex h-12 w-min items-center justify-center gap-2 text-nowrap rounded-lg px-6 py-2 transition duration-700 hover:scale-[1.01] hover:bg-zinc-800 active:scale-95 active:bg-zinc-800"
+          className="glass-dark flex h-12 w-min items-center justify-center gap-2 text-nowrap rounded-lg px-6 py-2 font-semibold text-purple-300 transition duration-700 hover:scale-[1.01] hover:bg-zinc-800 active:scale-95 active:bg-zinc-800"
         >
           reset filter
         </button>
@@ -272,16 +295,21 @@ export default function ProjectsList() {
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+        transition={{
+          type: "spring",
+          stiffness: 60,
+          damping: 18,
+          duration: 0.7,
+        }}
         viewport={{ once: true, margin: "-100px" }}
-        className="mb-14 mt-10 flex w-11/12 flex-col gap-10"
+        className="mb-14 flex w-11/12 flex-col gap-10"
       >
         {loading ? (
           // Loading skeleton com o estilo original
           Array.from({ length: 3 }).map((_, index) => (
             <div
               key={index}
-              className="glass-dark h-96 w-full animate-pulse rounded-lg"
+              className="glass-dark h-96 w-full animate-pulse rounded-xl border-2 border-purple-900/20"
             />
           ))
         ) : (
@@ -299,7 +327,7 @@ export default function ProjectsList() {
             <div className="mt-8 flex justify-center">
               <button
                 onClick={loadMoreProjects}
-                className="glass-dark flex items-center justify-center gap-2 text-nowrap rounded-lg px-8 py-3 transition duration-700 hover:scale-[1.01] hover:bg-zinc-800 active:scale-95 active:bg-zinc-800"
+                className="glass-dark flex items-center justify-center gap-2 text-nowrap rounded-lg px-8 py-3 font-semibold text-purple-300 transition duration-700 hover:scale-[1.01] hover:bg-zinc-800 active:scale-95 active:bg-zinc-800"
               >
                 Load More Projects (
                 {projectsData.length - displayedProjects.length} remaining)
