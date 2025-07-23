@@ -48,12 +48,7 @@ export default function Contact() {
           transition={{ duration: 0.6 }}
           className="flex min-h-[70vh] flex-col items-center justify-center gap-8 text-center"
         >
-          <Title
-            className="md:text-9xl"
-            word="Let's Connect"
-            type="blur"
-            gradient
-          />
+          <Title word="Let's Connect" type="blur" gradient />
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}

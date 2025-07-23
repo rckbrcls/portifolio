@@ -40,18 +40,27 @@ function DraggableContainer({
     e.preventDefault();
   };
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length === 1) {
+      const touch = e.touches[0];
+      setIsDragging(true);
+      setDragStart({
+        x: touch.clientX - position.x,
+        y: touch.clientY - position.y,
+      });
+      e.preventDefault();
+    }
+  };
+
   useEffect(() => {
     if (!isDragging) return;
 
     const handleMouseMove = (e: MouseEvent) => {
       e.preventDefault();
-
       const newPosition = {
         x: e.clientX - dragStart.x,
         y: e.clientY - dragStart.y,
       };
-
-      // Aplicar limites durante o drag
       const padding = 16;
       const containerWidth = containerRef.current?.offsetWidth || 96;
       const containerHeight = containerRef.current?.offsetHeight || 120;
@@ -71,14 +80,42 @@ function DraggableContainer({
           ),
         ),
       };
-
       onPositionChange(boundedPosition);
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length === 1) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const newPosition = {
+          x: touch.clientX - dragStart.x,
+          y: touch.clientY - dragStart.y,
+        };
+        const padding = 16;
+        const containerWidth = containerRef.current?.offsetWidth || 96;
+        const containerHeight = containerRef.current?.offsetHeight || 120;
+        const boundedPosition = {
+          x: Math.max(
+            padding - 50,
+            Math.min(
+              window.innerWidth - containerWidth - padding + 50,
+              newPosition.x,
+            ),
+          ),
+          y: Math.max(
+            padding,
+            Math.min(
+              window.innerHeight - containerHeight - padding,
+              newPosition.y,
+            ),
+          ),
+        };
+        onPositionChange(boundedPosition);
+      }
     };
 
     const handleMouseUp = () => {
       setIsDragging(false);
-
-      // Snap para as laterais
       if (typeof window !== "undefined") {
         const padding = 16;
         const containerWidth = containerRef.current?.offsetWidth || 96;
@@ -87,21 +124,37 @@ function DraggableContainer({
         const finalX = snapToLeft
           ? padding
           : window.innerWidth - containerWidth - padding;
-
         const finalY = Math.max(
           padding,
           Math.min(window.innerHeight - containerHeight - padding, position.y),
         );
-
         onPositionChange({ x: finalX, y: finalY });
       }
     };
 
-    // Adicionar listeners no document para capturar eventos mesmo sobre iframes
+    const handleTouchEnd = () => {
+      setIsDragging(false);
+      if (typeof window !== "undefined") {
+        const padding = 16;
+        const containerWidth = containerRef.current?.offsetWidth || 96;
+        const containerHeight = containerRef.current?.offsetHeight || 120;
+        const snapToLeft = position.x < window.innerWidth / 2;
+        const finalX = snapToLeft
+          ? padding
+          : window.innerWidth - containerWidth - padding;
+        const finalY = Math.max(
+          padding,
+          Math.min(window.innerHeight - containerHeight - padding, position.y),
+        );
+        onPositionChange({ x: finalX, y: finalY });
+      }
+    };
+
     document.addEventListener("mousemove", handleMouseMove, { passive: false });
     document.addEventListener("mouseup", handleMouseUp, { passive: false });
+    document.addEventListener("touchmove", handleTouchMove, { passive: false });
+    document.addEventListener("touchend", handleTouchEnd, { passive: false });
 
-    // Bloquear eventos de iframe durante drag
     const iframes = document.querySelectorAll("iframe");
     iframes.forEach((iframe) => {
       iframe.style.pointerEvents = "none";
@@ -110,16 +163,14 @@ function DraggableContainer({
     document.body.style.userSelect = "none";
     document.body.style.cursor = "grabbing";
 
-    // Cleanup
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
-
-      // Restaurar eventos de iframe
+      document.removeEventListener("touchmove", handleTouchMove);
+      document.removeEventListener("touchend", handleTouchEnd);
       iframes.forEach((iframe) => {
         iframe.style.pointerEvents = "auto";
       });
-
       document.body.style.userSelect = "";
       document.body.style.cursor = "";
     };
@@ -144,6 +195,7 @@ function DraggableContainer({
       <div
         className="glass-dark flex cursor-move items-center justify-center gap-2 rounded-full bg-zinc-900 p-2 text-zinc-500 duration-500 hover:scale-105 hover:bg-zinc-700 hover:text-zinc-200 active:scale-95 active:bg-zinc-900"
         onMouseDown={handleMouseDown}
+        onTouchStart={handleTouchStart}
       >
         <GripVertical size={20} />
       </div>

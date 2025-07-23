@@ -1,11 +1,14 @@
 "use client";
 
 import React, { useState, useMemo, useEffect, lazy, Suspense } from "react";
+import { MdOutlineFolderOpen } from "react-icons/md";
+import { MdOutlineWebAsset } from "react-icons/md";
 import Title from "../atoms/Title";
 import { Text } from "../atoms/Text";
 import { MultiSelect } from "../ui/multi-select";
 import { Label } from "../ui/label";
 import { motion } from "framer-motion";
+import { DirectionAwareTabs } from "@/components/ui/direction-aware-tabs";
 
 // Simplified imports - only what's actually used
 import {
@@ -149,7 +152,17 @@ export default function ProjectsList() {
     });
   }, [activeFilters, projectsData, displayedProjects]);
 
-  // Função para carregar mais projetos
+  // Separa projetos normais e microfrontends
+  const normalProjects = useMemo(
+    () => filteredProjects.filter((p) => !p.microRoute),
+    [filteredProjects],
+  );
+  const microfrontendProjects = useMemo(
+    () => filteredProjects.filter((p) => p.microRoute),
+    [filteredProjects],
+  );
+
+  // Função para carregar mais projetos (moved above tabs definition)
   const loadMoreProjects = () => {
     if (displayedProjects.length < projectsData.length) {
       const nextBatch = currentBatch + 1;
@@ -159,6 +172,123 @@ export default function ProjectsList() {
       setCurrentBatch(nextBatch);
     }
   };
+
+  // Tabs para DirectionAwareTabs
+  const tabs = [
+    {
+      id: 0,
+      label: "Projects",
+      content: (
+        <Suspense
+          fallback={
+            <div className="flex flex-col items-center justify-center py-12">
+              <div className="mb-4 h-10 w-10 animate-spin rounded-full border-t-4 border-solid border-purple-400"></div>
+              <span className="text-lg font-semibold text-purple-400 drop-shadow">
+                Loading projects...
+              </span>
+              <span className="mt-2 text-xs text-purple-300">
+                Please wait while we fetch your awesome projects!
+              </span>
+            </div>
+          }
+        >
+          {normalProjects.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-12">
+              <div className="mb-4 flex h-12 w-12 animate-bounce items-center justify-center rounded-full bg-gradient-to-tr from-purple-400 to-purple-700">
+                <MdOutlineWebAsset className="h-7 w-7 text-white" />
+              </div>
+              <span className="text-lg font-semibold text-purple-400 drop-shadow">
+                Oops! No projects here yet.
+              </span>
+              <span className="mt-2 text-xs text-purple-300">
+                Try changing your filters!
+              </span>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-4">
+              {normalProjects.map((project) => (
+                <ProjectCard key={project.slug} project={project} />
+              ))}
+            </div>
+          )}
+        </Suspense>
+      ),
+    },
+    {
+      id: 1,
+      label: "Microfrontend",
+      content: (
+        <>
+          <Suspense
+            fallback={
+              <div className="flex flex-col items-center justify-center py-12">
+                <div className="mb-4 h-10 w-10 animate-spin rounded-full border-t-4 border-solid border-pink-400"></div>
+                <span className="text-lg font-semibold text-pink-400 drop-shadow">
+                  Loading microfrontends...
+                </span>
+                <span className="mt-2 text-xs text-pink-300">
+                  Please wait while we fetch your microfrontend projects!
+                </span>
+              </div>
+            }
+          >
+            {microfrontendProjects.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-12">
+                <div className="mb-4 flex h-12 w-12 animate-bounce items-center justify-center rounded-full bg-gradient-to-tr from-pink-400 to-purple-400">
+                  <MdOutlineWebAsset className="h-7 w-7 text-white" />
+                </div>
+                <span className="text-lg font-semibold text-pink-400 drop-shadow">
+                  No microfrontends found!
+                </span>
+                <span className="mt-2 text-xs text-pink-300">
+                  Try adjusting your filters!
+                </span>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-4">
+                {microfrontendProjects.map((project) => (
+                  <ProjectCard key={project.slug} project={project} />
+                ))}
+              </div>
+            )}
+          </Suspense>
+          {/* Botão Load More - só aparece se não há filtros ativos e há mais microfrontends para carregar, e só na tab de microfrontends */}
+          {!loading &&
+            activeFilters.length === 0 &&
+            microfrontendProjects.length <
+              projectsData.filter((p) => p.microRoute).length && (
+              <div className="mt-8 flex justify-center">
+                <button
+                  onClick={() => {
+                    // Carrega mais microfrontends
+                    const allMicrofrontends = projectsData.filter(
+                      (p) => p.microRoute,
+                    );
+                    const nextBatch = currentBatch + 1;
+                    const endIndex = nextBatch * projectsPerBatch;
+                    const newDisplayedMicrofrontends = allMicrofrontends.slice(
+                      0,
+                      endIndex,
+                    );
+                    setDisplayedProjects([
+                      ...normalProjects,
+                      ...newDisplayedMicrofrontends,
+                    ]);
+                    setCurrentBatch(nextBatch);
+                  }}
+                  className="glass-dark flex items-center justify-center gap-2 text-nowrap rounded-lg px-8 py-3 font-semibold text-purple-300 transition duration-700 hover:scale-[1.01] hover:bg-zinc-800 active:scale-95 active:bg-zinc-800"
+                >
+                  Load More Microfrontends (
+                  {projectsData.filter((p) => p.microRoute).length -
+                    microfrontendProjects.length}{" "}
+                  remaining)
+                </button>
+              </div>
+            )}
+        </>
+      ),
+    },
+  ];
 
   // Ajuste do maxCount conforme a largura de tela
   useEffect(() => {
@@ -291,7 +421,7 @@ export default function ProjectsList() {
         </button>
       </motion.div>
 
-      {/* Lista de Projetos Filtrados */}
+      {/* Tabs de projetos */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -305,7 +435,6 @@ export default function ProjectsList() {
         className="mb-14 flex w-11/12 flex-col gap-10"
       >
         {loading ? (
-          // Loading skeleton com o estilo original
           Array.from({ length: 3 }).map((_, index) => (
             <div
               key={index}
@@ -313,27 +442,8 @@ export default function ProjectsList() {
             />
           ))
         ) : (
-          <Suspense fallback={<div>Loading projects...</div>}>
-            {filteredProjects.map((project) => (
-              <ProjectCard key={project.slug} project={project} />
-            ))}
-          </Suspense>
+          <DirectionAwareTabs tabs={tabs} />
         )}
-
-        {/* Botão Load More - só aparece se não há filtros ativos e há mais projetos para carregar */}
-        {!loading &&
-          activeFilters.length === 0 &&
-          displayedProjects.length < projectsData.length && (
-            <div className="mt-8 flex justify-center">
-              <button
-                onClick={loadMoreProjects}
-                className="glass-dark flex items-center justify-center gap-2 text-nowrap rounded-lg px-8 py-3 font-semibold text-purple-300 transition duration-700 hover:scale-[1.01] hover:bg-zinc-800 active:scale-95 active:bg-zinc-800"
-              >
-                Load More Projects (
-                {projectsData.length - displayedProjects.length} remaining)
-              </button>
-            </div>
-          )}
       </motion.div>
     </div>
   );

@@ -75,7 +75,7 @@ const Header = () => {
   return (
     <header
       className={cn(
-        `fixed inset-x-0 top-4 z-50 mx-auto flex w-min select-none items-center justify-center gap-4 rounded-full border-zinc-700/30 p-1 transition duration-700 max-sm:w-11/12 max-sm:justify-between`,
+        `fixed inset-x-0 top-2 z-50 mx-auto flex w-min select-none items-center justify-center gap-4 rounded-full border-zinc-700/30 p-1 transition duration-700`,
         headerClass,
       )}
     >
@@ -92,7 +92,7 @@ const Header = () => {
             {route.name && (
               <span
                 className={cn(
-                  `ml-2 max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-all duration-700 group-hover:max-w-xs group-hover:opacity-100 max-sm:hidden`,
+                  `ml-2 max-w-0 overflow-hidden whitespace-nowrap text-xs font-bold opacity-0 transition-all duration-700 group-hover:max-w-xs group-hover:opacity-100 max-sm:hidden`,
                   route.selected ? "max-w-xs opacity-100 hover:text-white" : "",
                 )}
               >
