@@ -3,6 +3,7 @@
 import { useState, memo, lazy, Suspense } from "react";
 import { ClassNameValue, twMerge } from "tailwind-merge";
 import { cn } from "@/lib/utils";
+import { useEffect } from "react";
 
 interface IAuroraProps {
   dark?: boolean;
@@ -60,13 +61,22 @@ function Aurora({ dark = false, className }: IAuroraProps) {
     : ["#d500f9", "#6366f1", "#ec4899", "#a855f7", "#3b82f6"];
 
   const position = dark ? "fixed" : "absolute";
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
     <div
       className={cn("left-0 top-0 -z-10 h-screen w-full", position, className)}
     >
       <Suspense fallback={<AuroraFallback dark={dark} position={position} />}>
-        <AuroraGradient dark={dark} palettes={palettes} />
+        {isClient ? (
+          <AuroraGradient dark={dark} palettes={palettes} />
+        ) : (
+          <AuroraFallback dark={dark} position={position} />
+        )}
       </Suspense>
     </div>
   );
