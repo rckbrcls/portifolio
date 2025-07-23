@@ -36,6 +36,24 @@ const AuroraFallback = ({
   </div>
 );
 
+function AuroraGradient({
+  dark,
+  palettes,
+}: {
+  dark: boolean;
+  palettes: string[];
+}) {
+  return (
+    <MeshGradientRenderer
+      className="h-full w-full"
+      colors={palettes}
+      speed={0.01}
+      wireframe={dark}
+      backgroundColor={"#000000"}
+    />
+  );
+}
+
 function Aurora({ dark = false, className }: IAuroraProps) {
   const palettes = dark
     ? ["#000", "#222", "#444", "#666", "#888"]
@@ -48,13 +66,7 @@ function Aurora({ dark = false, className }: IAuroraProps) {
       className={cn("left-0 top-0 -z-10 h-screen w-full", position, className)}
     >
       <Suspense fallback={<AuroraFallback dark={dark} position={position} />}>
-        <MeshGradientRenderer
-          className="h-full w-full"
-          colors={palettes}
-          speed={0.01}
-          wireframe={dark}
-          backgroundColor={"#000000"}
-        />
+        <AuroraGradient dark={dark} palettes={palettes} />
       </Suspense>
     </div>
   );
