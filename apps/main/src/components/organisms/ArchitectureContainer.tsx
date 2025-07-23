@@ -8,6 +8,8 @@ import React, {
   useCallback,
   useMemo,
 } from "react";
+import { FiMaximize } from "react-icons/fi";
+import { FaCompress } from "react-icons/fa";
 import { Text } from "../atoms/Text";
 import { cn } from "@/lib/utils";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
@@ -1143,7 +1145,7 @@ export function ArchitectureContainer({ className }: { className?: string }) {
       ref={containerRef}
       style={{
         width: appState.isPanModeActive ? "100vw" : "90vw",
-        height: appState.isPanModeActive ? "100vh" : "80svh",
+        height: appState.isPanModeActive ? "100dvh" : "80svh",
         minHeight: appState.isPanModeActive ? undefined : "400px",
         maxWidth: appState.isPanModeActive ? undefined : "90vw",
         maxHeight: appState.isPanModeActive ? undefined : "80svh",
@@ -1166,11 +1168,15 @@ export function ArchitectureContainer({ className }: { className?: string }) {
           )}
           title={
             appState.isPanModeActive
-              ? "Disable Pan/Zoom Mode"
-              : "Enable Pan/Zoom Mode"
+              ? "Disable Interactive Fullscreen Mode"
+              : "Enable Interactive Fullscreen Mode"
           }
         >
-          <HandIcon className="h-5 w-5 flex-shrink-0" />
+          {appState.isPanModeActive ? (
+            <FaCompress className="h-5 w-5 flex-shrink-0" />
+          ) : (
+            <FiMaximize className="h-5 w-5 flex-shrink-0" />
+          )}
           {appState.isPanModeActive && (
             <div className="absolute -right-1 -top-1 h-3 w-3 animate-pulse rounded-full bg-green-400"></div>
           )}
@@ -1247,8 +1253,8 @@ export function ArchitectureContainer({ className }: { className?: string }) {
           )}
         >
           {appState.isPanModeActive
-            ? "✅ All options enabled: Pan, Zoom, drag cards, explore freely."
-            : "🚫 All options disabled: cards fixed, no pan/zoom. Click the hand icon to unlock all interactions."}
+            ? "🟩 Interactive Fullscreen Mode enabled! You can pan, zoom, and drag cards."
+            : "🟥 Interactive Fullscreen Mode disabled. Cards are fixed and interactions are off."}
         </Text>
       </div>
 
