@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useMemo, useEffect, lazy, Suspense } from "react";
+import { MdOutlineFolderOpen } from "react-icons/md";
+import { MdOutlineWebAsset } from "react-icons/md";
 import Title from "../atoms/Title";
 import { Text } from "../atoms/Text";
 import { MultiSelect } from "../ui/multi-select";
@@ -191,8 +193,16 @@ export default function ProjectsList() {
           }
         >
           {normalProjects.length === 0 ? (
-            <div className="text-center text-purple-300">
-              No normal projects found.
+            <div className="flex flex-col items-center justify-center py-12">
+              <div className="mb-4 flex h-12 w-12 animate-bounce items-center justify-center rounded-full bg-gradient-to-tr from-purple-400 to-purple-700">
+                <MdOutlineWebAsset className="h-7 w-7 text-white" />
+              </div>
+              <span className="text-lg font-semibold text-purple-400 drop-shadow">
+                Oops! No projects here yet.
+              </span>
+              <span className="mt-2 text-xs text-purple-300">
+                Try changing your filters!
+              </span>
             </div>
           ) : (
             <div className="flex flex-col gap-4">
@@ -223,8 +233,16 @@ export default function ProjectsList() {
             }
           >
             {microfrontendProjects.length === 0 ? (
-              <div className="text-center text-purple-300">
-                No microfrontend projects found.
+              <div className="flex flex-col items-center justify-center py-12">
+                <div className="mb-4 flex h-12 w-12 animate-bounce items-center justify-center rounded-full bg-gradient-to-tr from-pink-400 to-purple-400">
+                  <MdOutlineWebAsset className="h-7 w-7 text-white" />
+                </div>
+                <span className="text-lg font-semibold text-pink-400 drop-shadow">
+                  No microfrontends found!
+                </span>
+                <span className="mt-2 text-xs text-pink-300">
+                  Try adjusting your filters!
+                </span>
               </div>
             ) : (
               <div className="flex flex-col gap-4">
