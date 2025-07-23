@@ -75,7 +75,7 @@ const Header = () => {
   return (
     <header
       className={cn(
-        `fixed inset-x-0 top-4 z-50 mx-auto flex w-min select-none items-center justify-center gap-4 rounded-full border-zinc-700/30 p-1 transition duration-700`,
+        `fixed inset-x-0 top-2 z-50 mx-auto flex w-min select-none items-center justify-center gap-4 rounded-full border-zinc-700/30 p-1 transition duration-700`,
         headerClass,
       )}
     >
