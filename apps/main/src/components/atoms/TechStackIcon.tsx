@@ -76,7 +76,10 @@ const TechStackIcon: React.FC<TechStackIconProps> = ({ tech, className }) => {
   }
 
   return (
-    <div className={className || "h-5 w-5"} title={tech}>
+    <div
+      className={className || "flex h-5 w-5 items-center justify-center"}
+      title={tech}
+    >
       <IconComponent />
     </div>
   );
