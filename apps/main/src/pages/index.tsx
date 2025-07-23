@@ -38,6 +38,7 @@ export default function Home() {
   const architectureRef = useRef(null);
   const contentRef = useRef(null);
   const cardsRef = useRef(null);
+  const portfolioRef = useRef(null);
 
   const isArchitectureInView = useInView(architectureRef, {
     once: true,
@@ -48,6 +49,7 @@ export default function Home() {
     margin: "-50px",
   });
   const areCardsInView = useInView(cardsRef, { once: true, margin: "-100px" });
+  const isPortfolioInView = useInView(portfolioRef, { once: true, amount: 0 });
 
   return (
     <>
@@ -214,28 +216,24 @@ export default function Home() {
 
           {/* Sobre o Portfólio */}
           <motion.div
+            ref={portfolioRef}
             initial={{ opacity: 0, y: 15 }}
-            animate={
-              areCardsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }
-            }
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{
               type: "spring",
               stiffness: 60,
               damping: 18,
               duration: 1.1,
-              delay: 1.2,
+              delay: 0.2,
             }}
+            viewport={{ once: true, amount: 0.2 }}
             className="grid w-full max-w-6xl grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4"
           >
             {portfolioCards.map((item, index) => (
               <div
                 key={item.title}
                 className="glass-dark rounded-xl p-4 text-center transition-all duration-300"
-                style={{
-                  opacity: areCardsInView ? 1 : 0,
-                  transform: areCardsInView ? "scale(1)" : "scale(0.8)",
-                  transition: `opacity 0.4s ${1.6 + index * 0.1}s, transform 0.4s ${1.6 + index * 0.1}s`,
-                }}
+                // Removido controle manual de opacity/transform, agora só pelo motion
               >
                 <div className="mb-2 text-2xl">{item.icon}</div>
                 <SubTitle className="mb-1 text-sm">{item.title}</SubTitle>
