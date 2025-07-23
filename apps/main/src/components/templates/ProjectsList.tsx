@@ -6,6 +6,7 @@ import { Text } from "../atoms/Text";
 import { MultiSelect } from "../ui/multi-select";
 import { Label } from "../ui/label";
 import { motion } from "framer-motion";
+import { DirectionAwareTabs } from "@/components/ui/direction-aware-tabs";
 
 // Simplified imports - only what's actually used
 import {
