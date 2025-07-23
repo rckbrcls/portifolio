@@ -27,12 +27,7 @@ export default function AboutMe() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <Title
-              className="md:text-9xl"
-              word="About Me"
-              type="blur"
-              gradient
-            />
+            <Title word="About Me" type="blur" gradient />
           </motion.div>
 
           <motion.div

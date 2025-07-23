@@ -69,14 +69,14 @@ export default function Home() {
           <div className="relative my-4 h-2/5 w-full select-none">
             <Image
               src="/images/assets/me.png"
-              alt="Picture of Erick Barcelos"
+              alt="Picture of Erick"
               fill
               className="select-none object-contain"
               priority
               quality={100}
             />
           </div>
-          <Title word="Olá! I'm Erick Barcelos" />
+          <Title word="Olá! I'm Erick" />
         </div>
 
         {/* =========================
