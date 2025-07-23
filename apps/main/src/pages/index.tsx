@@ -13,6 +13,28 @@ import { Text } from "@/components/atoms/Text";
 import Footer from "@/components/organisms/Footer";
 
 export default function Home() {
+  const portfolioCards = [
+    {
+      icon: "👨‍💻",
+      title: "Dev Space",
+      desc: "My projects, ideas and experiments. All built by me.",
+    },
+    {
+      icon: "🛠️",
+      title: "Tech Variety",
+      desc: "I explore different stacks and frameworks.",
+    },
+    {
+      icon: "🌱",
+      title: "Always Learning",
+      desc: "Portfolio grows as I do.",
+    },
+    {
+      icon: "📬",
+      title: "Contact",
+      desc: "Reach out for feedback or collab!",
+    },
+  ];
   const architectureRef = useRef(null);
   const contentRef = useRef(null);
   const cardsRef = useRef(null);
@@ -163,7 +185,7 @@ export default function Home() {
             </motion.div>
           </motion.div>
 
-          {/* Benefits Section */}
+          {/* Sobre o Portfólio */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={
@@ -172,43 +194,20 @@ export default function Home() {
             transition={{ duration: 0.6, delay: 1.4 }}
             className="grid w-full max-w-6xl grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4"
           >
-            {[
-              {
-                icon: "⚡",
-                title: "Fast Loading",
-                desc: "Only loads what you need",
-              },
-              {
-                icon: "🔧",
-                title: "Easy Updates",
-                desc: "Change one without breaking others",
-              },
-              {
-                icon: "📦",
-                title: "Solo Deploy",
-                desc: "Each project goes live independently",
-              },
-              {
-                icon: "🚀",
-                title: "Room to Grow",
-                desc: "Add new projects anytime",
-              },
-            ].map((benefit, index) => (
-              <motion.div
-                key={benefit.title}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={
-                  areCardsInView
-                    ? { opacity: 1, scale: 1 }
-                    : { opacity: 0, scale: 0.8 }
-                }
-                transition={{ duration: 0.4, delay: 1.6 + index * 0.1 }}
+            {portfolioCards.map((item, index) => (
+              <div
+                key={item.title}
                 className="glass-dark rounded-xl p-4 text-center transition-all duration-300"
+                style={{
+                  opacity: areCardsInView ? 1 : 0,
+                  transform: areCardsInView ? "scale(1)" : "scale(0.8)",
+                  transition: `opacity 0.4s ${1.6 + index * 0.1}s, transform 0.4s ${1.6 + index * 0.1}s`,
+                }}
               >
-                <div className="mb-2 text-2xl">{benefit.icon}</div>
-                <SubTitle className="mb-1 text-sm">{benefit.title}</SubTitle>
-                <Text className="text-xs text-gray-500">{benefit.desc}</Text>
-              </motion.div>
+                <div className="mb-2 text-2xl">{item.icon}</div>
+                <SubTitle className="mb-1 text-sm">{item.title}</SubTitle>
+                <Text className="text-xs text-gray-500">{item.desc}</Text>
+              </div>
             ))}
           </motion.div>
         </div>

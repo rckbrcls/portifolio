@@ -1134,23 +1134,24 @@ export function ArchitectureContainer({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "bg-background glass-dark relative mx-auto flex w-full items-center justify-center overflow-hidden rounded-xl transition-all duration-200",
-        "border border-zinc-700/50",
+        "bg-background glass-dark relative flex items-center justify-center overflow-hidden transition-all duration-200",
+        appState.isPanModeActive
+          ? "fixed inset-0 z-[9999] h-screen w-screen rounded-none border-none"
+          : "mx-auto w-full rounded-xl border border-zinc-700/50",
         className,
       )}
       ref={containerRef}
       style={{
-        width: "90vw",
-        height: "80svh",
-        minHeight: "400px", // Minimum height for very small screens
-        maxWidth: "90vw",
-        maxHeight: "80svh",
-        // Mobile touch optimizations
+        width: appState.isPanModeActive ? "100vw" : "90vw",
+        height: appState.isPanModeActive ? "100vh" : "80svh",
+        minHeight: appState.isPanModeActive ? undefined : "400px",
+        maxWidth: appState.isPanModeActive ? undefined : "90vw",
+        maxHeight: appState.isPanModeActive ? undefined : "80svh",
         WebkitUserSelect: "none",
         userSelect: "none",
         WebkitTouchCallout: "none",
         WebkitTapHighlightColor: "transparent",
-        touchAction: appState.isPanModeActive ? "none" : "auto", // Only prevent touch when pan mode is active
+        touchAction: appState.isPanModeActive ? "none" : "auto",
       }}
     >
       {/* Zoom Controls */}
