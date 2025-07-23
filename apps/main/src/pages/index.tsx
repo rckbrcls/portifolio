@@ -134,15 +134,27 @@ export default function Home() {
           <motion.div
             ref={cardsRef}
             initial={{ opacity: 0, y: 20 }}
-            animate={areCardsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ type: "spring", stiffness: 60, damping: 18, duration: 1.1 }}
+            animate={
+              areCardsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
+            }
+            transition={{
+              type: "spring",
+              stiffness: 60,
+              damping: 18,
+              duration: 1.1,
+            }}
             className="grid w-full max-w-6xl grid-cols-1 gap-6 md:grid-cols-3"
           >
             {/* Main App Card */}
             <motion.div
               initial={false}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ type: "spring", stiffness: 60, damping: 18, duration: 1.1 }}
+              transition={{
+                type: "spring",
+                stiffness: 60,
+                damping: 18,
+                duration: 1.1,
+              }}
               className="glass-dark rounded-2xl border-purple-500/20 p-6 transition-all duration-300 hover:border-purple-400/40"
             >
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 max-sm:w-full">
@@ -159,7 +171,12 @@ export default function Home() {
             <motion.div
               initial={false}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ type: "spring", stiffness: 60, damping: 18, duration: 1.1 }}
+              transition={{
+                type: "spring",
+                stiffness: 60,
+                damping: 18,
+                duration: 1.1,
+              }}
               className="glass-dark rounded-2xl border-purple-500/20 p-6 transition-all duration-300 hover:border-purple-400/40"
             >
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 max-sm:w-full">
@@ -176,7 +193,12 @@ export default function Home() {
             <motion.div
               initial={false}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ type: "spring", stiffness: 60, damping: 18, duration: 1.1 }}
+              transition={{
+                type: "spring",
+                stiffness: 60,
+                damping: 18,
+                duration: 1.1,
+              }}
               className="glass-dark rounded-2xl border-pink-500/20 p-6 transition-all duration-300 hover:border-pink-400/40"
             >
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-purple-500 max-sm:w-full">
