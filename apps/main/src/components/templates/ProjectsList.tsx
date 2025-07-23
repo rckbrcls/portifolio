@@ -216,7 +216,7 @@ export default function ProjectsList() {
           duration: 0.7,
         }}
         viewport={{ once: true, margin: "-100px" }}
-        className="max-md:scrollbar-hidden mx-auto grid w-11/12 grid-cols-4 items-end gap-4 pt-10 max-md:w-full max-md:grid-cols-1 max-md:overflow-x-scroll max-md:px-4"
+        className="max-md:scrollbar-hidden mx-auto flex w-11/12 items-end gap-4 pt-10 max-md:w-full max-md:overflow-x-scroll max-md:px-4"
       >
         <div className="flex w-full flex-col gap-2">
           <Label htmlFor="frameworks" className="font-semibold text-purple-400">
