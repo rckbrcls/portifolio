@@ -16,7 +16,7 @@ export default function App({ Component, pageProps }: AppProps) {
           content="A portfolio showcasing innovative web development projects, cutting-edge applications, and creative solutions. Explore my work in frontend, backend, and full-stack development."
         />
       </Head>
-      <Aurora dark />
+
       <SpeedInsights />
       <Component {...pageProps} />
     </>
