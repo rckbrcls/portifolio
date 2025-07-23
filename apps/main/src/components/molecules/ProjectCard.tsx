@@ -103,7 +103,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
           <div className="flex gap-2">
             {project?.gitLink && (
               <a
-                className="glass-dark flex w-full items-center justify-center gap-2 text-nowrap rounded-lg border px-6 font-black backdrop-blur transition duration-500 hover:scale-[1.01] hover:bg-zinc-900 active:scale-95 active:bg-zinc-900 md:h-16"
+                className="glass-dark flex w-full items-center justify-center gap-2 text-nowrap rounded-lg px-6 py-2 font-black transition duration-500 hover:scale-[1.01] hover:bg-zinc-900 active:scale-95 active:bg-zinc-900"
                 href={project.gitLink}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -115,7 +115,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
             {project?.microRoute && (
               <Link
                 href={`/microfrontend/${project.slug}`}
-                className="glass-dark flex w-full items-center justify-center gap-2 text-nowrap rounded-lg border px-6 font-black backdrop-blur transition duration-500 hover:scale-[1.01] hover:bg-zinc-900 active:scale-95 active:bg-zinc-900 md:h-16"
+                className="glass-dark flex w-full items-center justify-center gap-2 text-nowrap rounded-lg px-6 py-2 font-black transition duration-500 hover:scale-[1.01] hover:bg-zinc-900 active:scale-95 active:bg-zinc-900"
                 onClick={() => {
                   if (typeof window !== "undefined") {
                     sessionStorage.setItem(
@@ -132,7 +132,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
             {project?.link && (
               <a
                 href={project.link}
-                className="glass-dark border5 flex w-full items-center justify-center gap-2 text-nowrap rounded-lg px-6 font-black backdrop-blur transition duration-500 hover:scale-[1.01] hover:bg-zinc-900 active:scale-95 active:bg-zinc-900 md:h-16"
+                className="glass-dark border5 flex w-full items-center justify-center gap-2 text-nowrap rounded-lg px-6 py-2 font-black transition duration-500 hover:scale-[1.01] hover:bg-zinc-900 active:scale-95 active:bg-zinc-900"
                 target="_blank"
                 rel="noopener noreferrer"
               >
