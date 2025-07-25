@@ -157,9 +157,9 @@ export default function Home() {
                 damping: 18,
                 duration: 1.1,
               }}
-              className="glass-dark rounded-2xl border-purple-500/20 p-6 transition-all duration-300 hover:border-purple-400/40"
+              className="glass-dark rounded-2xl border-purple-500/20 p-6 text-left transition-all duration-300 hover:border-purple-400/40"
             >
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 max-sm:w-full">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500">
                 <span className="text-2xl">🏗️</span>
               </div>
               <SubTitle className="mb-3 text-lg">Main Hub</SubTitle>
@@ -179,9 +179,9 @@ export default function Home() {
                 damping: 18,
                 duration: 1.1,
               }}
-              className="glass-dark rounded-2xl border-purple-500/20 p-6 transition-all duration-300 hover:border-purple-400/40"
+              className="glass-dark rounded-2xl border-purple-500/20 p-6 text-left transition-all duration-300 hover:border-purple-400/40"
             >
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 max-sm:w-full">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500">
                 <span className="text-2xl">🧩</span>
               </div>
               <SubTitle className="mb-3 text-lg">Mini Projects</SubTitle>
@@ -201,9 +201,9 @@ export default function Home() {
                 damping: 18,
                 duration: 1.1,
               }}
-              className="glass-dark rounded-2xl border-pink-500/20 p-6 transition-all duration-300 hover:border-pink-400/40"
+              className="glass-dark rounded-2xl border-pink-500/20 p-6 text-left transition-all duration-300 hover:border-pink-400/40"
             >
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-purple-500 max-sm:w-full">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-purple-500">
                 <span className="text-2xl">🔗</span>
               </div>
               <SubTitle className="mb-3 text-lg">Communication</SubTitle>
