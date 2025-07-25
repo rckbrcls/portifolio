@@ -121,7 +121,7 @@ export default function Home() {
             <SubTitle className="mb-6" gradient>
               Microfrontend Ecosystem
             </SubTitle>
-            <Text className="mb-8 text-xl leading-relaxed text-gray-300">
+            <Text className="mb-8 leading-relaxed text-gray-300">
               I built this portfolio as a{" "}
               <span className="font-semibold text-purple-400">
                 microfrontend experiment
@@ -274,7 +274,7 @@ export default function Home() {
             viewport={{ once: true, amount: 0.2 }}
             className="mb-6 max-w-4xl"
           >
-            <Text className="mb-6 text-lg leading-relaxed text-gray-300">
+            <Text className="mb-6 leading-relaxed text-gray-300">
               Here's a fun{" "}
               <span className="font-semibold text-purple-400">
                 interactive map
