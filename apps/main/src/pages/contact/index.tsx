@@ -95,7 +95,7 @@ export default function Contact() {
               className="flex-1"
             >
               <Link
-                className="glass-dark flex w-full items-center justify-center gap-3 text-nowrap rounded-lg px-8 py-4 text-lg font-bold transition duration-300 hover:border-purple-400/40"
+                className="glass-dark flex w-full items-center justify-center gap-3 text-nowrap rounded-lg px-8 py-4 text-base font-bold transition duration-300 hover:border-purple-400/40"
                 target="_blank"
                 href="https://github.com/rckbrcls"
               >
@@ -110,7 +110,7 @@ export default function Contact() {
               className="flex-1"
             >
               <Link
-                className="glass-dark flex w-full items-center justify-center gap-3 text-nowrap rounded-lg px-8 py-4 text-lg font-bold transition duration-300 hover:border-purple-400/40"
+                className="glass-dark flex w-full items-center justify-center gap-3 text-nowrap rounded-lg px-8 py-4 text-base font-bold transition duration-300 hover:border-purple-400/40"
                 target="_blank"
                 href="https://www.linkedin.com/in/brcls/"
               >
@@ -125,7 +125,7 @@ export default function Contact() {
               className="flex-1"
             >
               <Link
-                className="glass-dark flex w-full items-center justify-center gap-3 text-nowrap rounded-lg px-8 py-4 text-lg font-bold transition duration-300 hover:border-purple-400/40"
+                className="glass-dark flex w-full items-center justify-center gap-3 text-nowrap rounded-lg px-8 py-4 text-base font-bold transition duration-300 hover:border-purple-400/40"
                 href="mailto:erickbarcelosdev@gmail.com?subject=Let's work together!"
                 onClick={() => {
                   setShowCopyMessage(true);
