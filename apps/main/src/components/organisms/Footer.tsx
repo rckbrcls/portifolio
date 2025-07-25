@@ -5,10 +5,6 @@ import React from "react";
 import { Text } from "@/components/atoms/Text";
 import SubTitle from "@/components/atoms/SubTitle";
 import { AiFillGithub, AiFillLinkedin, AiFillMail } from "react-icons/ai";
-import { PiHandWavingFill } from "react-icons/pi";
-import { MdComputer } from "react-icons/md";
-import { FaCircleInfo } from "react-icons/fa6";
-import { RiContactsBook2Fill } from "react-icons/ri";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -53,7 +49,7 @@ const Footer = () => {
   return (
     <footer className="glass-dark border-t border-gray-800/50">
       <div className="container mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {/* About Section */}
           <div className="space-y-4">
             <SubTitle className="text-lg" gradient>
@@ -80,39 +76,6 @@ const Footer = () => {
                 </Link>
               ))}
             </nav>
-          </div>
-
-          {/* Projects Highlight */}
-          <div className="space-y-4">
-            <SubTitle className="text-lg text-gray-200">
-              Featured Projects
-            </SubTitle>
-            <div className="space-y-2">
-              <Link
-                href="/microfrontend/joystick"
-                className="block text-sm text-gray-400 transition-colors duration-200 hover:text-purple-400"
-              >
-                🎮 Joystick Game Library
-              </Link>
-              <Link
-                href="/microfrontend/alan-turing"
-                className="block text-sm text-gray-400 transition-colors duration-200 hover:text-purple-400"
-              >
-                🤖 Alan Turing Tribute
-              </Link>
-              <Link
-                href="/microfrontend/electoral-system"
-                className="block text-sm text-gray-400 transition-colors duration-200 hover:text-purple-400"
-              >
-                🗳️ Electoral System
-              </Link>
-              <Link
-                href="/microfrontend/lojinha-simples"
-                className="block text-sm text-gray-400 transition-colors duration-200 hover:text-purple-400"
-              >
-                🛒 Simple Store
-              </Link>
-            </div>
           </div>
 
           {/* Social & Contact */}
