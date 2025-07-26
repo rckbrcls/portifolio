@@ -62,34 +62,32 @@ export default function AboutMe() {
             improving my skills and contributing to projects that make a
             difference.
           </Text>
-
-          {/* Resume Download Button */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="flex justify-center"
-          >
-            <a
-              className="glass-dark flex w-full items-center justify-center gap-3 text-nowrap rounded-lg px-8 py-4 text-base font-bold transition duration-300 hover:border-purple-400/40"
-              href="/files/Resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <FaFileDownload className="transition-colors group-hover:text-purple-400" />
-              <Text>Download Resume</Text>
-              <BorderBeam
-                size={100}
-                duration={5}
-                delay={9}
-                colorFrom="#6366f1"
-                colorTo="#ec4899"
-              />
-            </a>
-          </motion.div>
         </motion.div>
-
+        {/* Resume Download Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          viewport={{ once: true }}
+          className="flex justify-center"
+        >
+          <a
+            className="glass-dark flex w-full items-center justify-center gap-3 text-nowrap rounded-lg px-8 py-4 text-base font-bold transition duration-300 hover:border-purple-400/40"
+            href="/files/Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaFileDownload className="transition-colors group-hover:text-purple-400" />
+            <Text>Download Resume</Text>
+            <BorderBeam
+              size={100}
+              duration={5}
+              delay={9}
+              colorFrom="#6366f1"
+              colorTo="#ec4899"
+            />
+          </a>
+        </motion.div>
         {/* Skills & Interests Quick Grid */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
