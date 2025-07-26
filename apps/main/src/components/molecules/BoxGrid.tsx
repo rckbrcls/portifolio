@@ -42,7 +42,7 @@ const BoxGrid = memo(() => {
         <div
           key={index}
           className={twMerge(
-            "glass-dark group flex min-h-[70svh] items-center overflow-hidden rounded-lg max-md:h-[85svh]",
+            `glass-dark group flex min-h-[70svh] items-center overflow-hidden rounded-2xl border-2 border-transparent transition-all duration-300 ${index % 2 === 0 ? "border-purple-500/20 hover:border-purple-400/40" : "border-pink-500/20 hover:border-pink-400/40"} max-md:h-[85svh]`,
             className,
           )}
         >

@@ -18,7 +18,7 @@ export default function AboutMe() {
         <title>About me | rckbrcls</title>
       </Head>
 
-      <div className="w-full">
+      <div className="mx-auto flex w-11/12 flex-col">
         {/* Hero Section */}
         <div className="flex w-full flex-col items-center justify-center gap-6 px-4 py-20 text-center">
           <motion.div
@@ -35,7 +35,7 @@ export default function AboutMe() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="max-w-3xl"
           >
-            <Text className="text-xl leading-relaxed text-gray-300">
+            <Text className="leading-relaxed text-gray-300">
               Hey there! I'm Erick, a passionate junior developer from Brazil
               who loves learning new technologies and building creative projects
               that solve real problems.
@@ -49,12 +49,12 @@ export default function AboutMe() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true, margin: "-100px" }}
-          className="mx-auto max-w-4xl px-4 py-12 text-center"
+          className="mx-auto px-4 py-12 text-center"
         >
           <SubTitle className="mb-4 text-3xl" gradient>
             Who I Am
           </SubTitle>
-          <Text className="mb-6 text-lg leading-relaxed text-gray-300">
+          <Text className="mb-6 leading-relaxed text-gray-300">
             I'm a junior software engineer who's passionate about learning and
             growing in the tech world. I enjoy working with modern web
             technologies and I'm always excited to take on new challenges. My
@@ -72,12 +72,12 @@ export default function AboutMe() {
             className="flex justify-center"
           >
             <a
-              className="glass-dark group flex h-14 items-center justify-center gap-3 text-nowrap rounded-lg px-8 py-4 text-base font-bold transition duration-300 hover:scale-105 hover:border-purple-400/40"
+              className="glass-dark flex w-full items-center justify-center gap-3 text-nowrap rounded-lg px-8 py-4 text-base font-bold transition duration-300 hover:border-purple-400/40"
               href="/files/Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <FaFileDownload className="text-lg transition-colors group-hover:text-purple-400" />
+              <FaFileDownload className="transition-colors group-hover:text-purple-400" />
               <Text>Download Resume</Text>
               <BorderBeam
                 size={100}
@@ -96,80 +96,107 @@ export default function AboutMe() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true, margin: "-100px" }}
-          className="mx-auto max-w-6xl px-4 py-10"
+          className="mx-auto w-full py-4"
         >
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              viewport={{ once: true }}
-              className="glass-dark rounded-xl p-6 text-center"
+              initial={false}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{
+                type: "spring",
+                stiffness: 60,
+                damping: 18,
+                duration: 1.1,
+              }}
+              className="glass-dark w-full rounded-2xl border-purple-500/20 p-6 transition-all duration-300 hover:border-purple-400/40"
             >
-              <div className="mb-4 text-4xl">🚀</div>
-              <SubTitle className="mb-2 text-lg">Learning Stack</SubTitle>
-              <Text className="text-sm text-gray-400">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500">
+                {/* Rocket Icon */}
+                <span
+                  role="img"
+                  aria-label="Rocket"
+                  className="text-2xl text-white"
+                >
+                  🚀
+                </span>
+              </div>
+              <SubTitle className="mb-3 text-base">Learning Stack</SubTitle>
+              <Text className="text-base text-gray-400">
                 React • Next.js • TypeScript • Python • Node.js
               </Text>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="glass-dark rounded-xl p-6 text-center"
-            >
-              <div className="mb-4 text-4xl">🎨</div>
-              <SubTitle className="mb-2 text-lg">Hobbies</SubTitle>
-              <Text className="text-sm text-gray-400">
-                Drawing • Sports • Gaming • Music
+              <Text className="mt-1 text-xs text-gray-500">
+                Always learning something new!
               </Text>
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              viewport={{ once: true }}
-              className="glass-dark rounded-xl p-6 text-center"
+              initial={false}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                type: "spring",
+                stiffness: 60,
+                damping: 18,
+                duration: 1.1,
+              }}
+              className="glass-dark w-full rounded-2xl border-pink-500/20 p-6 transition-all duration-300 hover:border-pink-400/40"
             >
-              <div className="mb-4 text-4xl">🌎</div>
-              <SubTitle className="mb-2 text-lg">Location</SubTitle>
-              <Text className="text-sm text-gray-400">
-                Brazil 🇧🇷 • Remote Friendly
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-purple-500">
+                {/* Palette Icon */}
+                <span
+                  role="img"
+                  aria-label="Palette"
+                  className="text-2xl text-white"
+                >
+                  🎨
+                </span>
+              </div>
+              <SubTitle className="mb-3 text-base">Hobbies</SubTitle>
+              <Text className="text-base text-gray-400">
+                Drawing • Sports • Gaming • Music
+              </Text>
+              <Text className="mt-1 text-xs text-gray-500">
+                Creativity fuels my code!
+              </Text>
+            </motion.div>
+
+            <motion.div
+              initial={false}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{
+                type: "spring",
+                stiffness: 60,
+                damping: 18,
+                duration: 1.1,
+              }}
+              className="glass-dark w-full rounded-2xl border-purple-500/20 p-6 transition-all duration-300 hover:border-purple-400/40"
+            >
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500">
+                {/* Globe Icon */}
+                <span
+                  role="img"
+                  aria-label="Globe"
+                  className="text-2xl text-white"
+                >
+                  🌎
+                </span>
+              </div>
+              <SubTitle className="mb-3 text-base">Location</SubTitle>
+              <Text className="text-base text-gray-400">Brazil 🇧🇷</Text>
+              <Text className="mt-1 text-xs text-gray-500">
+                Remote friendly
               </Text>
             </motion.div>
           </div>
         </motion.div>
 
-        {/* Personal Stories Section */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true, margin: "-100px" }}
-          className="mx-auto max-w-7xl px-4 py-12"
+          transition={{ duration: 0.6, delay: 0.2 }}
+          viewport={{ once: true }}
+          className="w-full"
         >
-          <div className="mb-10 text-center">
-            <SubTitle className="mb-4 text-3xl" gradient>
-              My Story in Pictures
-            </SubTitle>
-            <Text className="mx-auto max-w-2xl text-lg leading-relaxed text-gray-300">
-              Beyond code, I'm someone who loves life's simple pleasures. Here's
-              a glimpse into who I am when I'm not building amazing software.
-            </Text>
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="w-full"
-          >
-            <BoxGrid />
-          </motion.div>
+          <BoxGrid />
         </motion.div>
       </div>
       <Footer />
