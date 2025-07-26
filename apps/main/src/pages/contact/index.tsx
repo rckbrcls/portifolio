@@ -40,13 +40,13 @@ export default function Contact() {
       <Head>
         <title>Contact | rckbrcls</title>
       </Head>
-      <div className="mx-auto flex flex-col gap-10 pb-20 pt-24">
+      <div className="mx-auto flex flex-col pb-20 pt-24">
         {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="flex flex-col items-center justify-center gap-8 text-center"
+          className="mx-auto mb-10 flex w-11/12 flex-col items-center justify-center gap-8 border-b border-zinc-700/30 pb-10 text-center"
         >
           <Title word="Let's Connect" type="blur" gradient />
 
@@ -70,7 +70,7 @@ export default function Contact() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true, margin: "-100px" }}
-          className="border-t border-zinc-700/30 pt-10 text-center"
+          className="mx-auto w-11/12 pb-6 text-center"
         >
           <SubTitle className="mb-4 text-2xl" gradient>
             Ready to build something amazing together?
