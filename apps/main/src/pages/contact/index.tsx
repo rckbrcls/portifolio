@@ -40,7 +40,7 @@ export default function Contact() {
       <Head>
         <title>Contact | rckbrcls</title>
       </Head>
-      <div className="mx-auto flex w-11/12 flex-col gap-10 py-20">
+      <div className="mx-auto flex flex-col gap-10 pb-20 pt-24">
         {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -81,7 +81,7 @@ export default function Contact() {
           </Text>
         </motion.div>
 
-        <div className="flex w-full flex-col gap-4">
+        <div className="mx-auto flex w-11/12 flex-col gap-4">
           {/* Social Links */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -154,7 +154,7 @@ export default function Contact() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true, margin: "-100px" }}
           >
-            <div className="mb-10 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
               <motion.div
                 initial={false}
                 animate={{ opacity: 1, x: 0 }}

@@ -291,7 +291,7 @@ export default function ProjectsList() {
   }, []);
 
   return (
-    <div className="mx-auto flex min-h-svh flex-col items-center justify-center gap-4">
+    <div className="mx-auto flex flex-col items-center justify-center gap-4 pb-20 pt-24">
       {/* Hero Section */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -302,7 +302,7 @@ export default function ProjectsList() {
           damping: 18,
           duration: 0.9,
         }}
-        className="mb-10 flex w-full flex-col items-center justify-center gap-8 border-b border-zinc-700/30 px-4 pb-10 pt-24 text-center"
+        className="mb-10 flex w-full flex-col items-center justify-center gap-8 border-b border-zinc-700/30 px-4 pb-10 text-center"
       >
         <Title word="Projects" type="blur" gradient />
         <motion.div
@@ -421,7 +421,7 @@ export default function ProjectsList() {
           duration: 0.7,
         }}
         viewport={{ once: true, margin: "-100px" }}
-        className="mb-14 flex w-11/12 flex-col gap-10"
+        className="flex w-11/12 flex-col gap-10"
       >
         {loading ? (
           Array.from({ length: 3 }).map((_, index) => (
