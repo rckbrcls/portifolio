@@ -2,7 +2,6 @@
 import React from "react";
 import MainLayout from "@/components/MainLayout";
 import Title from "@/components/atoms/Title";
-import SubTitle from "@/components/atoms/SubTitle";
 import { Text } from "@/components/atoms/Text";
 import BoxGrid from "@/components/molecules/BoxGrid";
 import { FaFileDownload } from "react-icons/fa";

@@ -246,7 +246,7 @@ export default function Home() {
         {/* =========================
             Section: Interactive Architecture
         ========================== */}
-        <div className="relative mt-10 flex flex-col items-center justify-center gap-6 border-t border-zinc-700/50 px-4 py-20 text-center">
+        <div className="relative mt-10 flex flex-col items-center justify-center gap-6 border-t border-zinc-700/30 px-4 py-20 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
