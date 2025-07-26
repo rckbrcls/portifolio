@@ -56,7 +56,7 @@ export default function Contact() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="max-w-2xl"
           >
-            <Text className="text-xl leading-relaxed text-gray-300">
+            <Text className="leading-relaxed">
               I'm always excited to collaborate on new projects, discuss ideas,
               or just chat about tech! Feel free to reach out through any of the
               channels below.

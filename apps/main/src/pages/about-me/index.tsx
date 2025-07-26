@@ -8,7 +8,6 @@ import BoxGrid from "@/components/molecules/BoxGrid";
 import { FaFileDownload } from "react-icons/fa";
 import { BorderBeam } from "@/components/ui/border-beam";
 import Head from "next/head";
-import { DownButton } from "@/components/atoms/DownButton";
 import { motion } from "framer-motion";
 import Footer from "@/components/organisms/Footer";
 
