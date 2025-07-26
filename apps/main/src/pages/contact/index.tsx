@@ -95,7 +95,7 @@ export default function Contact() {
               className="flex-1"
             >
               <Link
-                className="glass-dark flex w-full items-center justify-center gap-3 text-nowrap rounded-lg px-8 py-4 text-base font-bold transition duration-300 hover:border-purple-400/40"
+                className="glass-dark flex w-full items-center justify-center gap-3 text-nowrap rounded-lg px-8 py-4 font-bold transition duration-300 hover:border-purple-400/40"
                 target="_blank"
                 href="https://github.com/rckbrcls"
               >
@@ -110,7 +110,7 @@ export default function Contact() {
               className="flex-1"
             >
               <Link
-                className="glass-dark flex w-full items-center justify-center gap-3 text-nowrap rounded-lg px-8 py-4 text-base font-bold transition duration-300 hover:border-purple-400/40"
+                className="glass-dark flex w-full items-center justify-center gap-3 text-nowrap rounded-lg px-8 py-4 font-bold transition duration-300 hover:border-purple-400/40"
                 target="_blank"
                 href="https://www.linkedin.com/in/brcls/"
               >
@@ -125,7 +125,7 @@ export default function Contact() {
               className="flex-1"
             >
               <Link
-                className="glass-dark flex w-full items-center justify-center gap-3 text-nowrap rounded-lg px-8 py-4 text-base font-bold transition duration-300 hover:border-purple-400/40"
+                className="glass-dark flex w-full items-center justify-center gap-3 text-nowrap rounded-lg px-8 py-4 font-bold transition duration-300 hover:border-purple-400/40"
                 href="mailto:erickbarcelosdev@gmail.com?subject=Let's work together!"
                 onClick={() => {
                   setShowCopyMessage(true);
@@ -169,8 +169,8 @@ export default function Contact() {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500">
                   <FaMapMarkerAlt className="text-2xl text-white" />
                 </div>
-                <SubTitle className="mb-3 text-base">Location</SubTitle>
-                <Text className="text-base text-gray-400">Brazil 🇧🇷</Text>
+                <SubTitle className="mb-3">Location</SubTitle>
+                <Text className="text-gray-400">Brazil 🇧🇷</Text>
                 <Text className="mt-1 text-xs text-gray-500">
                   Remote friendly
                 </Text>
@@ -190,8 +190,8 @@ export default function Contact() {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-purple-500">
                   <FaClock className="text-2xl text-white" />
                 </div>
-                <SubTitle className="mb-3 text-base">Response Time</SubTitle>
-                <Text className="text-base text-gray-400">Usually within</Text>
+                <SubTitle className="mb-3">Response Time</SubTitle>
+                <Text className="text-gray-400">Usually within</Text>
                 <Text className="mt-1 text-xs text-gray-500">24-48 hours</Text>
               </motion.div>
 
@@ -209,10 +209,8 @@ export default function Contact() {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500">
                   <FaCode className="text-2xl text-white" />
                 </div>
-                <SubTitle className="mb-3 text-base">Interests</SubTitle>
-                <Text className="text-base text-gray-400">
-                  Software Engineering
-                </Text>
+                <SubTitle className="mb-3">Interests</SubTitle>
+                <Text className="text-gray-400">Software Engineering</Text>
                 <Text className="mt-1 text-xs text-gray-500">
                   Web Development • AI • Open Source
                 </Text>
@@ -232,8 +230,8 @@ export default function Contact() {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-purple-500">
                   <FaCoffee className="text-2xl text-white" />
                 </div>
-                <SubTitle className="mb-3 text-base">Let's Chat About</SubTitle>
-                <Text className="text-base text-gray-400">New projects</Text>
+                <SubTitle className="mb-3">Let's Chat About</SubTitle>
+                <Text className="text-gray-400">New projects</Text>
                 <Text className="mt-1 text-xs text-gray-500">
                   Ideas • Collaborations • Tech
                 </Text>
