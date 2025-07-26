@@ -97,19 +97,19 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
           <div className="flex gap-2">
             {project?.gitLink && (
               <a
-                className="glass-dark flex w-full items-center justify-center gap-2 text-nowrap rounded-lg px-6 py-2 font-black transition duration-500 hover:scale-[1.01] hover:bg-zinc-900 active:scale-95 active:bg-zinc-900"
+                className="glass-dark flex w-full items-center justify-center gap-3 text-nowrap rounded-lg px-8 py-4 text-lg font-bold transition duration-300 hover:border-purple-400/40"
                 href={project.gitLink}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <AiFillGithub className="h-7 w-7" />
+                <AiFillGithub className="text-2xl" />
                 <Text className="max-sm:hidden">Repository</Text>
               </a>
             )}
             {project?.microRoute && (
               <Link
                 href={`/microfrontend/${project.slug}`}
-                className="glass-dark flex w-full items-center justify-center gap-2 text-nowrap rounded-lg px-6 py-2 font-black transition duration-500 hover:scale-[1.01] hover:bg-zinc-900 active:scale-95 active:bg-zinc-900"
+                className="glass-dark flex w-full items-center justify-center gap-3 text-nowrap rounded-lg px-8 py-4 text-lg font-bold transition duration-300 hover:border-purple-400/40"
                 onClick={() => {
                   if (typeof window !== "undefined") {
                     sessionStorage.setItem(
@@ -119,18 +119,18 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
                   }
                 }}
               >
-                <BiSolidComponent className="h-7 w-7" />
+                <BiSolidComponent className="text-2xl" />
                 <Text className="max-sm:hidden">Microfrontend</Text>
               </Link>
             )}
             {project?.link && (
               <a
                 href={project.link}
-                className="glass-dark border5 flex w-full items-center justify-center gap-2 text-nowrap rounded-lg px-6 py-2 font-black transition duration-500 hover:scale-[1.01] hover:bg-zinc-900 active:scale-95 active:bg-zinc-900"
+                className="glass-dark flex w-full items-center justify-center gap-3 text-nowrap rounded-lg px-8 py-4 text-lg font-bold transition duration-300 hover:border-purple-400/40"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <FaPager className="h-7 w-7" />
+                <FaPager className="text-2xl" />
                 <Text className="max-sm:hidden">Project</Text>
               </a>
             )}

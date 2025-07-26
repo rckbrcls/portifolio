@@ -12,26 +12,22 @@ const BoxGrid = memo(() => {
   const aboutMeBoxes: IBox[] = [
     {
       className: "md:col-span-2",
-      text: `I'm a software engineer who’s always excited about technology and innovation.  
-    I’m constantly exploring new ideas and finding creative solutions to stay ahead in this ever-evolving field.`,
+      text: `Curiosity drives my code. I love experimenting, learning, and building projects that solve real problems.`,
       image: Me,
     },
     {
       className: "md:row-span-2",
       image: Ororu,
-      text: `This is Ororu, my affectionate pitbull and adventure buddy.  
-    She brightens my days and reminds me that joy often comes from the simplest things.`,
+      text: `This is Ororu, my pitbull and adventure buddy. She reminds me that happiness is found in the simplest things.`,
     },
     {
       className: "md:col-span-2",
       image: DrawPrimal,
-      text: `When I’m not coding, I’m either drawing or playing sports.  
-    Creativity and movement keep my mind sharp and my body energized.`,
+      text: `When I'm not coding, I'm drawing or playing sports. Creativity and movement keep me inspired.`,
     },
     {
       className: "md:col-span-3",
-      text: `If I’m away from my computer, I’m probably exploring a beach or getting lost in nature.  
-    Traveling recharges me and fuels my inspiration for everything I do.`,
+      text: `If I'm away from my computer, I'm probably exploring beaches or enjoying nature. Traveling recharges my energy and inspires everything I do.`,
       image: Rio,
     },
   ];
@@ -42,7 +38,7 @@ const BoxGrid = memo(() => {
         <div
           key={index}
           className={twMerge(
-            "glass-dark group flex min-h-[70svh] items-center overflow-hidden rounded-lg max-md:h-[85svh]",
+            `glass-dark group flex min-h-[70svh] items-center overflow-hidden rounded-2xl border-2 border-transparent transition-all duration-300 ${index % 2 === 0 ? "border-purple-500/20 hover:border-purple-400/40" : "border-pink-500/20 hover:border-pink-400/40"} max-md:h-[85svh]`,
             className,
           )}
         >

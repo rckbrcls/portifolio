@@ -48,25 +48,25 @@ const Header = () => {
   const routes: IHeaderButton[] = [
     {
       path: "/",
-      icon: "👋",
+      icon: "🏠",
       selected: pathname === "/",
       name: "Home",
     },
     {
       path: "/projects",
-      icon: "💻",
+      icon: "💼",
       selected: pathname === "/projects",
       name: "Projects",
     },
     {
       path: "/about-me",
-      icon: "🙋🏽‍♂️",
+      icon: "👨‍💻",
       selected: pathname === "/about-me",
       name: "About Me",
     },
     {
       path: "/contact",
-      icon: "✉️",
+      icon: "📬",
       selected: pathname === "/contact",
       name: "Contact",
     },

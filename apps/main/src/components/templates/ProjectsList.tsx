@@ -162,17 +162,6 @@ export default function ProjectsList() {
     [filteredProjects],
   );
 
-  // Função para carregar mais projetos (moved above tabs definition)
-  const loadMoreProjects = () => {
-    if (displayedProjects.length < projectsData.length) {
-      const nextBatch = currentBatch + 1;
-      const endIndex = nextBatch * projectsPerBatch;
-      const newDisplayedProjects = projectsData.slice(0, endIndex);
-      setDisplayedProjects(newDisplayedProjects);
-      setCurrentBatch(nextBatch);
-    }
-  };
-
   // Tabs para DirectionAwareTabs
   const tabs = [
     {
@@ -302,7 +291,7 @@ export default function ProjectsList() {
   }, []);
 
   return (
-    <div className="mx-auto flex min-h-svh flex-col items-center justify-center gap-4">
+    <div className="mx-auto flex flex-col items-center justify-center gap-4 pb-20 pt-24">
       {/* Hero Section */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -313,7 +302,7 @@ export default function ProjectsList() {
           damping: 18,
           duration: 0.9,
         }}
-        className="flex w-full flex-col items-center justify-center gap-8 border-b border-zinc-700/30 px-4 pb-10 pt-24 text-center"
+        className="mb-10 flex w-full flex-col items-center justify-center gap-8 border-b border-zinc-700/30 px-4 pb-10 text-center"
       >
         <Title word="Projects" type="blur" gradient />
         <motion.div
@@ -328,7 +317,7 @@ export default function ProjectsList() {
           }}
           className="max-w-4xl"
         >
-          <Text className="mb-8 text-center leading-relaxed">
+          <Text className="text-center leading-relaxed">
             Here you can explore some of my personal, professional, and academic
             projects. You can filter them by the technologies used in each one.
           </Text>
@@ -346,7 +335,7 @@ export default function ProjectsList() {
           duration: 0.7,
         }}
         viewport={{ once: true, margin: "-100px" }}
-        className="max-md:scrollbar-hidden mx-auto flex w-11/12 items-end gap-4 pt-10 max-md:w-full max-md:overflow-x-scroll max-md:px-4"
+        className="max-md:scrollbar-hidden mx-auto flex w-11/12 items-end gap-4 max-md:w-full max-md:overflow-x-scroll max-md:px-4"
       >
         <div className="flex w-full flex-col gap-2">
           <Label htmlFor="frameworks" className="font-semibold text-purple-400">
@@ -432,7 +421,7 @@ export default function ProjectsList() {
           duration: 0.7,
         }}
         viewport={{ once: true, margin: "-100px" }}
-        className="mb-14 flex w-11/12 flex-col gap-10"
+        className="flex w-11/12 flex-col gap-10"
       >
         {loading ? (
           Array.from({ length: 3 }).map((_, index) => (

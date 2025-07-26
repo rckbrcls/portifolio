@@ -100,7 +100,7 @@ export default function Home() {
               duration: 0.9,
             }}
           >
-            <Title word="Architecture" gradient type="blur" />
+            <Title word="Architecture" gradient type="blur" className="mt-10" />
           </motion.div>
 
           <motion.div
@@ -121,7 +121,7 @@ export default function Home() {
             <SubTitle className="mb-6" gradient>
               Microfrontend Ecosystem
             </SubTitle>
-            <Text className="mb-8 text-xl leading-relaxed text-gray-300">
+            <Text className="mb-8 leading-relaxed text-gray-300">
               I built this portfolio as a{" "}
               <span className="font-semibold text-purple-400">
                 microfrontend experiment
@@ -157,9 +157,9 @@ export default function Home() {
                 damping: 18,
                 duration: 1.1,
               }}
-              className="glass-dark rounded-2xl border-purple-500/20 p-6 transition-all duration-300 hover:border-purple-400/40"
+              className="glass-dark rounded-2xl border-purple-500/20 p-6 text-left transition-all duration-300 hover:border-purple-400/40"
             >
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 max-sm:w-full">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500">
                 <span className="text-2xl">🏗️</span>
               </div>
               <SubTitle className="mb-3 text-lg">Main Hub</SubTitle>
@@ -179,9 +179,9 @@ export default function Home() {
                 damping: 18,
                 duration: 1.1,
               }}
-              className="glass-dark rounded-2xl border-purple-500/20 p-6 transition-all duration-300 hover:border-purple-400/40"
+              className="glass-dark rounded-2xl border-purple-500/20 p-6 text-left transition-all duration-300 hover:border-purple-400/40"
             >
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 max-sm:w-full">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500">
                 <span className="text-2xl">🧩</span>
               </div>
               <SubTitle className="mb-3 text-lg">Mini Projects</SubTitle>
@@ -201,9 +201,9 @@ export default function Home() {
                 damping: 18,
                 duration: 1.1,
               }}
-              className="glass-dark rounded-2xl border-pink-500/20 p-6 transition-all duration-300 hover:border-pink-400/40"
+              className="glass-dark rounded-2xl border-pink-500/20 p-6 text-left transition-all duration-300 hover:border-pink-400/40"
             >
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-purple-500 max-sm:w-full">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-purple-500">
                 <span className="text-2xl">🔗</span>
               </div>
               <SubTitle className="mb-3 text-lg">Communication</SubTitle>
@@ -246,7 +246,7 @@ export default function Home() {
         {/* =========================
             Section: Interactive Architecture
         ========================== */}
-        <div className="relative mt-10 flex flex-col items-center justify-center gap-6 border-t border-zinc-700/50 px-4 py-10 text-center">
+        <div className="relative mt-10 flex flex-col items-center justify-center gap-6 border-t border-zinc-700/30 px-4 py-20 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -274,7 +274,7 @@ export default function Home() {
             viewport={{ once: true, amount: 0.2 }}
             className="mb-6 max-w-4xl"
           >
-            <Text className="mb-6 text-lg leading-relaxed text-gray-300">
+            <Text className="mb-6 leading-relaxed text-gray-300">
               Here's a fun{" "}
               <span className="font-semibold text-purple-400">
                 interactive map
