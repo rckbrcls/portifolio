@@ -35,6 +35,7 @@ export default function Home() {
       desc: "Reach out for feedback or collab!",
     },
   ];
+
   const architectureRef = useRef(null);
   const contentRef = useRef(null);
   const cardsRef = useRef(null);
@@ -49,7 +50,6 @@ export default function Home() {
     margin: "-50px",
   });
   const areCardsInView = useInView(cardsRef, { once: true, margin: "-100px" });
-  const isPortfolioInView = useInView(portfolioRef, { once: true, amount: 0 });
 
   return (
     <>
