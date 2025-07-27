@@ -21,7 +21,6 @@ const ProjectViewer: React.FC<ProjectViewerProps> = ({
         <SmartIframe
           src={fullUrl}
           title={name || slug}
-          onLoad={() => console.log(`✅ ${slug} loaded`)}
           className="project-iframe"
         />
 
