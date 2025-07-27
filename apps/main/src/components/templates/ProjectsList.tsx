@@ -265,7 +265,7 @@ export default function ProjectsList() {
                     ]);
                     setCurrentBatch(nextBatch);
                   }}
-                  className="glass-dark flex items-center justify-center gap-2 text-nowrap rounded-lg px-8 py-3 font-semibold text-purple-300 transition duration-700 hover:scale-[1.01] hover:bg-zinc-800 active:scale-95 active:bg-zinc-800"
+                  className="glass-dark flex items-center justify-center gap-2 rounded-lg px-4 py-3 font-semibold text-purple-300 transition duration-700 hover:scale-[1.01] hover:bg-zinc-800 active:scale-95 active:bg-zinc-800"
                 >
                   Load More Microfrontends (
                   {projectsData.filter((p) => p.microRoute).length -

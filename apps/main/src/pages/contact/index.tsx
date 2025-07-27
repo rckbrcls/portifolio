@@ -169,7 +169,9 @@ export default function Contact() {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500">
                   <FaMapMarkerAlt className="text-2xl text-white" />
                 </div>
-                <SubTitle className="mb-3">Location</SubTitle>
+                <SubTitle className="mb-3 text-lg max-sm:mb-1">
+                  Location
+                </SubTitle>
                 <Text className="text-gray-400">Brazil 🇧🇷</Text>
                 <Text className="mt-1 text-xs text-gray-500">
                   Remote friendly
@@ -190,7 +192,9 @@ export default function Contact() {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-purple-500">
                   <FaClock className="text-2xl text-white" />
                 </div>
-                <SubTitle className="mb-3">Response Time</SubTitle>
+                <SubTitle className="mb-3 text-lg max-sm:mb-1">
+                  Response Time
+                </SubTitle>
                 <Text className="text-gray-400">Usually within</Text>
                 <Text className="mt-1 text-xs text-gray-500">24-48 hours</Text>
               </motion.div>
@@ -209,7 +213,9 @@ export default function Contact() {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500">
                   <FaCode className="text-2xl text-white" />
                 </div>
-                <SubTitle className="mb-3">Interests</SubTitle>
+                <SubTitle className="mb-3 text-lg max-sm:mb-1">
+                  Interests
+                </SubTitle>
                 <Text className="text-gray-400">Software Engineering</Text>
                 <Text className="mt-1 text-xs text-gray-500">
                   Web Development • AI • Open Source
@@ -230,7 +236,9 @@ export default function Contact() {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-purple-500">
                   <FaCoffee className="text-2xl text-white" />
                 </div>
-                <SubTitle className="mb-3">Let's Chat About</SubTitle>
+                <SubTitle className="mb-3 text-lg max-sm:mb-1">
+                  Let's Chat About
+                </SubTitle>
                 <Text className="text-gray-400">New projects</Text>
                 <Text className="mt-1 text-xs text-gray-500">
                   Ideas • Collaborations • Tech

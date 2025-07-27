@@ -1328,7 +1328,6 @@ export function ArchitectureContainer({ className }: { className?: string }) {
           }}
           onMouseDown={(e) => e.preventDefault()}
           onTouchStart={(e) => e.preventDefault()}
-          onWheel={(e) => e.preventDefault()}
         />
       )}
     </div>

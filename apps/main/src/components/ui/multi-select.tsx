@@ -150,8 +150,6 @@ export const MultiSelect = React.forwardRef<
       }
     };
 
-    console.log(maxCount);
-
     return (
       <Popover
         open={isPopoverOpen}

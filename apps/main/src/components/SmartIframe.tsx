@@ -58,7 +58,6 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
   useEffect(() => {
     // Reset loading state quando src mudar
     setIsLoaded(false);
-    console.log("🔄 Loading new URL:", src);
   }, [src]);
 
   useEffect(() => {
@@ -80,11 +79,9 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
 
       if (event.data.type === "RESIZE") {
         setHeight(event.data.height);
-        console.log("📏 Height adjusted:", event.data.height);
       }
 
       if (event.data.type === "LOADED") {
-        console.log("✅ LOADED message received from:", event.origin);
         setIsLoaded(true);
         onLoad?.();
       }
@@ -92,7 +89,6 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
 
     // Handler para quando o iframe carrega
     const handleIframeLoad = () => {
-      console.log("🎯 Iframe loaded visually");
       setIsLoaded(true);
       onLoad?.();
     };
@@ -145,7 +141,6 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
         src={src}
         title={title}
         onLoad={() => {
-          console.log("🚀 Iframe onLoad triggered");
           setIsLoaded(true);
           onLoad?.();
         }}

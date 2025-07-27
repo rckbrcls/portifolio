@@ -35,6 +35,7 @@ export default function Home() {
       desc: "Reach out for feedback or collab!",
     },
   ];
+
   const architectureRef = useRef(null);
   const contentRef = useRef(null);
   const cardsRef = useRef(null);
@@ -49,7 +50,6 @@ export default function Home() {
     margin: "-50px",
   });
   const areCardsInView = useInView(cardsRef, { once: true, margin: "-100px" });
-  const isPortfolioInView = useInView(portfolioRef, { once: true, amount: 0 });
 
   return (
     <>
@@ -162,7 +162,7 @@ export default function Home() {
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500">
                 <span className="text-2xl">🏗️</span>
               </div>
-              <SubTitle className="mb-3 text-lg">Main Hub</SubTitle>
+              <SubTitle className="mb-3 text-lg max-sm:mb-1">Main Hub</SubTitle>
               <Text className="text-sm text-gray-400">
                 The central app that brings everything together - handles
                 navigation and shared stuff between projects.
@@ -184,7 +184,9 @@ export default function Home() {
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500">
                 <span className="text-2xl">🧩</span>
               </div>
-              <SubTitle className="mb-3 text-lg">Mini Projects</SubTitle>
+              <SubTitle className="mb-3 text-lg max-sm:mb-1">
+                Mini Projects
+              </SubTitle>
               <Text className="text-sm text-gray-400">
                 Each project is its own thing with different tech stacks - great
                 for experimenting with new frameworks and ideas.
@@ -206,7 +208,9 @@ export default function Home() {
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-purple-500">
                 <span className="text-2xl">🔗</span>
               </div>
-              <SubTitle className="mb-3 text-lg">Communication</SubTitle>
+              <SubTitle className="mb-3 text-lg max-sm:mb-1">
+                Communication
+              </SubTitle>
               <Text className="text-sm text-gray-400">
                 How the apps talk to each other - sharing data and keeping
                 everything in sync.

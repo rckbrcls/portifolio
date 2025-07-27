@@ -17,7 +17,7 @@ export default function AboutMe() {
         <title>About me | rckbrcls</title>
       </Head>
 
-      <div className="mx-auto flex w-full flex-col pb-20 pt-24">
+      <div className="mx-auto flex w-full flex-col overflow-hidden pb-20 pt-24">
         {/* Hero Section */}
         <div className="mb-10 w-full border-b border-zinc-700/30 pb-10">
           <div className="mx-auto flex w-11/12 items-end justify-between gap-6 text-start max-sm:flex-col max-sm:text-center">
