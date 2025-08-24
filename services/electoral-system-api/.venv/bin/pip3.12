@@ -1,4 +1,4 @@
-#!/Users/erickpatrickbarcelos/codes/electoral-system/server/.venv/bin/python3.12
+#!/home/rckbrcls/projects/portifolio-monorepo/services/electoral-system-api/.venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
