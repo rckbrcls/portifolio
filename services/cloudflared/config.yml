@@ -9,8 +9,8 @@
 # Example: tunnel: 12345678-abcd-ef12-3456-abcdef123456
 # And ensure the credentials file exists in this same directory
 
-tunnel: 6394228e-a1dc-437a-95b4-53b5fede8780
-credentials-file: /etc/cloudflared/6394228e-a1dc-437a-95b4-53b5fede8780.json
+tunnel: a70573f9-d4f2-4117-93e1-177fa7ff3fe3
+credentials-file: /etc/cloudflared/a70573f9-d4f2-4117-93e1-177fa7ff3fe3.json
 
 # Ingress rules: map hostnames to local services
 # Update hostnames to your domain (managed in Cloudflare DNS)

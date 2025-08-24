@@ -1,19 +1,3 @@
--- Database: electoralsystem
-
--- DROP DATABASE IF EXISTS electoralsystem;
-
-CREATE DATABASE electoralsystem
-    WITH
-    OWNER = postgres
-    ENCODING = 'UTF8'
-    LC_COLLATE = 'C'
-    LC_CTYPE = 'C'
-    LOCALE_PROVIDER = 'libc'
-    TABLESPACE = pg_default
-    CONNECTION LIMIT = -1
-    IS_TEMPLATE = False;
-
--- Criação da tabela partido
 CREATE TABLE partido (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
@@ -138,17 +122,3 @@ CREATE TRIGGER trg_check_unique_support_team_per_year
 BEFORE INSERT OR UPDATE ON participante_equipe
 FOR EACH ROW
 EXECUTE FUNCTION check_unique_support_team_per_year();
-
-DROP TABLE IF EXISTS participante_equipe CASCADE;
-DROP TABLE IF EXISTS equipe_apoio CASCADE;
-DROP TABLE IF EXISTS doacao CASCADE;
-DROP TABLE IF EXISTS doador CASCADE;
-DROP TABLE IF EXISTS pleito CASCADE;
-DROP TABLE IF EXISTS processo_judicial CASCADE;
-DROP TABLE IF EXISTS candidato CASCADE;
-DROP TABLE IF EXISTS pessoa CASCADE;
-DROP TABLE IF EXISTS cargo CASCADE;
-DROP TABLE IF EXISTS partido CASCADE;
-
-DROP FUNCTION IF EXISTS check_unique_candidacy_per_year() CASCADE;
-DROP FUNCTION IF EXISTS check_unique_support_team_per_year() CASCADE;
