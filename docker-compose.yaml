@@ -4,47 +4,57 @@ services:
     build:
       context: ./services/electoral-system-api
       dockerfile: Dockerfile
+    # Restrito ao host local, o Cloudflare Tunnel fará o proxy
     ports:
-      - "5001:5000" # Porta do host : Porta no container
+      - "127.0.0.1:5001:5000" # host:container
     environment:
-      - DATABASE_URL=postgresql://user:password@postgres:5432/electoral_db
+      # A app lê DB_* (ver app/db.py). Mantemos credenciais do serviço postgres abaixo.
+      DB_HOST: postgres
+      DB_NAME: electoral_db
+      DB_USER: user
+      DB_PASS: password
     depends_on:
       - postgres
+    restart: unless-stopped
 
   joystick-api:
     build:
       context: ./services/joystick-api
       dockerfile: Dockerfile
+    # Restrito ao host local, o Cloudflare Tunnel fará o proxy
     ports:
-      - "3001:3000" # Porta do host : Porta no container
+      - "127.0.0.1:3001:3000"
     depends_on:
       - mongodb
+    restart: unless-stopped
 
   rgbwallet-api:
     build:
       context: ./services/rgbwallet-api
       dockerfile: Dockerfile
     ports:
-      - "3002:3000"
+      - "127.0.0.1:3002:3000"
     depends_on:
       - mongodb
+    restart: unless-stopped
 
   secret-santa-api:
     build:
       context: ./services/secret-santa-api
       dockerfile: Dockerfile
     ports:
-      - "3003:3000"
+      - "127.0.0.1:3003:3000"
     depends_on:
       - mongodb
+    restart: unless-stopped
 
   mongodb:
     image: mongo:6
     container_name: mongodb
-    ports:
-      - "27017:27017"
+    # Sem publicar porta no host; acesso apenas pela rede interna do Docker
     volumes:
       - mongodb_data:/data/db
+    restart: unless-stopped
 
   postgres:
     image: postgres:15
@@ -53,10 +63,26 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
       POSTGRES_DB: electoral_db
-    ports:
-      - "5432:5432"
+    # Sem publicar porta no host; acesso apenas pela rede interna do Docker
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  # Cloudflare Tunnel para expor as APIs sem expor DBs
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    restart: unless-stopped
+    # O config.yml define as rotas (ingress) para cada API por hostname
+    command: tunnel --config /etc/cloudflared/config.yml run
+    volumes:
+      # Monte todo o diretório que contém config.yml e <TUNNEL_ID>.json
+      - ./services/cloudflared:/etc/cloudflared:ro
+    depends_on:
+      - electoral-system-api
+      - joystick-api
+      - rgbwallet-api
+      - secret-santa-api
 
 volumes:
   mongodb_data:
