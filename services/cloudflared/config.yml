@@ -1,0 +1,27 @@
+# Cloudflare Tunnel configuration for services/* APIs
+# 1) Create a named tunnel and credentials:
+#    cloudflared tunnel create monorepo-services
+#    (this will generate a <TUNNEL_ID>.json credentials file)
+# 2) Place the credentials file under this folder and set the same filename here.
+# 3) Point your DNS (in Cloudflare) or run `cloudflared tunnel route dns` to map hostnames.
+
+# Replace with your real tunnel ID
+# Example: tunnel: 12345678-abcd-ef12-3456-abcdef123456
+# And ensure the credentials file exists in this same directory
+
+tunnel: a70573f9-d4f2-4117-93e1-177fa7ff3fe3
+credentials-file: /etc/cloudflared/a70573f9-d4f2-4117-93e1-177fa7ff3fe3.json
+
+# Ingress rules: map hostnames to local services
+# Update hostnames to your domain (managed in Cloudflare DNS)
+ingress:
+  - hostname: electoral-api.erickbarcelos.com
+    service: http://electoral-system-api:5000
+  - hostname: joystick-api.erickbarcelos.com
+    service: http://joystick-api:3000
+  - hostname: rgbwallet-api.erickbarcelos.com
+    service: http://rgbwallet-api:3000
+  - hostname: secret-santa-api.erickbarcelos.com
+    service: http://secret-santa-api:3000
+  # Catch-all (optional): return 404 for unknown hosts
+  - service: http_status:404

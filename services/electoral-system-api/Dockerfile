@@ -1,5 +1,5 @@
 # Base image
-FROM python:3.10
+FROM python:3.12-slim
 
 # Define a pasta de trabalho
 WORKDIR /app
@@ -17,4 +17,5 @@ COPY . .
 EXPOSE 5000
 
 # Comando para iniciar a aplicação
-CMD ["python", "app.py"]
+# Usa o run.py que instancia o app Flask
+CMD ["python", "run.py"]

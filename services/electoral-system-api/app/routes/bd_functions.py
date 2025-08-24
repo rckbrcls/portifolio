@@ -42,6 +42,16 @@ def limpar_banco():
 def alimentar_banco():
     conn = get_db_connection()
     cur = conn.cursor()
+    # Se o banco já foi alimentado, não re-inserir (previne erros por triggers em execuções repetidas)
+    cur.execute("SELECT count(*) FROM partido;")
+    try:
+        partida_count = cur.fetchone()[0]
+    except Exception:
+        partida_count = 0
+    if partida_count > 0:
+        cur.close()
+        return jsonify({"message": "Banco já alimentado"}), 200
+
     cur.execute('''
         INSERT INTO partido (nome, programa) VALUES 
             ('Partido Socialista', 'Lutamos pela justiça social e redistribuição de riqueza.'),

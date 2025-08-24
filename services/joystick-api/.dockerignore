@@ -1,0 +1,21 @@
+node_modules
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+.cache
+coverage
+
+# VCS / editor
+.git
+.gitignore
+.vscode
+.DS_Store
+
+# Builds
+build
+.dist
+dist
+
+# Docker files
+Dockerfile
+.dockerignore

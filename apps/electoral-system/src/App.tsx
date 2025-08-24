@@ -7,8 +7,12 @@ import {
 } from "solid-js";
 import { Header } from "./components/Header";
 
+// Base API URL comes from Vite environment variable VITE_API_URL
+const API_URL =
+  import.meta.env.VITE_API_URL ?? "https://electoral-api.erickbarcelos.com";
+
 async function fetchCandidatos(): Promise<Candidatura[]> {
-  const response = await fetch("http://127.0.0.1:5000/candidato");
+  const response = await fetch(`${API_URL}/candidato`);
   if (!response.ok) {
     throw new Error("Erro ao buscar dados");
   }
@@ -18,7 +22,7 @@ async function fetchCandidatos(): Promise<Candidatura[]> {
 }
 
 async function fetchPartidos(): Promise<Partido[]> {
-  const response = await fetch("http://127.0.0.1:5000/partido");
+  const response = await fetch(`${API_URL}/partido`);
   if (!response.ok) {
     throw new Error("Erro ao buscar dados");
   }
@@ -27,7 +31,7 @@ async function fetchPartidos(): Promise<Partido[]> {
 }
 
 async function fetchCargos(): Promise<Cargo[]> {
-  const response = await fetch("http://127.0.0.1:5000/cargo");
+  const response = await fetch(`${API_URL}/cargo`);
   if (!response.ok) {
     throw new Error("Erro ao buscar dados");
   }
@@ -35,7 +39,7 @@ async function fetchCargos(): Promise<Cargo[]> {
   return data;
 }
 async function fetchProcessosJudiciaias(): Promise<ProcessoJudicial[]> {
-  const response = await fetch("http://127.0.0.1:5000/processo_judicial");
+  const response = await fetch(`${API_URL}/processo_judicial`);
   if (!response.ok) {
     throw new Error("Erro ao buscar dados");
   }
@@ -43,7 +47,7 @@ async function fetchProcessosJudiciaias(): Promise<ProcessoJudicial[]> {
   return data;
 }
 async function fetchPessoas(): Promise<Pessoa[]> {
-  const response = await fetch("http://127.0.0.1:5000/pessoa");
+  const response = await fetch(`${API_URL}/pessoa`);
   if (!response.ok) {
     throw new Error("Erro ao buscar dados");
   }
@@ -51,7 +55,7 @@ async function fetchPessoas(): Promise<Pessoa[]> {
   return data;
 }
 async function fetchEquipesDeApoio(): Promise<EquipeDeApoio[]> {
-  const response = await fetch("http://127.0.0.1:5000/equipe_apoio");
+  const response = await fetch(`${API_URL}/equipe_apoio`);
   if (!response.ok) {
     throw new Error("Erro ao buscar dados");
   }
@@ -59,7 +63,7 @@ async function fetchEquipesDeApoio(): Promise<EquipeDeApoio[]> {
   return data;
 }
 async function fetchDoacoes(): Promise<Doacao[]> {
-  const response = await fetch("http://127.0.0.1:5000/doacao");
+  const response = await fetch(`${API_URL}/doacao`);
   if (!response.ok) {
     throw new Error("Erro ao buscar dados");
   }
@@ -136,7 +140,7 @@ const App: Component = () => {
 
   async function deleteCandidato(id: number): Promise<void> {
     try {
-      const response = await fetch(`http://127.0.0.1:5000/candidato/${id}`, {
+      const response = await fetch(`${API_URL}/candidato/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -156,7 +160,7 @@ const App: Component = () => {
   }
   async function deleteCargo(id: number): Promise<void> {
     try {
-      const response = await fetch(`http://127.0.0.1:5000/cargo/${id}`, {
+      const response = await fetch(`${API_URL}/cargo/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -175,7 +179,7 @@ const App: Component = () => {
   }
   async function deletePartido(id: number): Promise<void> {
     try {
-      const response = await fetch(`http://127.0.0.1:5000/partido/${id}`, {
+      const response = await fetch(`${API_URL}/partido/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -196,7 +200,7 @@ const App: Component = () => {
   }
   async function deleteDoacao(id: number): Promise<void> {
     try {
-      const response = await fetch(`http://127.0.0.1:5000/doacao/${id}`, {
+      const response = await fetch(`${API_URL}/doacao/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -217,7 +221,7 @@ const App: Component = () => {
   }
   async function deletePessoa(id: number): Promise<void> {
     try {
-      const response = await fetch(`http://127.0.0.1:5000/pessoa/${id}`, {
+      const response = await fetch(`${API_URL}/pessoa/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -238,15 +242,12 @@ const App: Component = () => {
   }
   async function deleteProcessoJudicial(id: number): Promise<void> {
     try {
-      const response = await fetch(
-        `http://127.0.0.1:5000/processo_judicial/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
+      const response = await fetch(`${API_URL}/processo_judicial/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+      });
 
       if (!response.ok) {
         throw new Error("Erro ao excluir dados");
@@ -264,7 +265,7 @@ const App: Component = () => {
   }
   async function deleteEquipeApoio(id: number): Promise<void> {
     try {
-      const response = await fetch(`http://127.0.0.1:5000/equipe_apoio/${id}`, {
+      const response = await fetch(`${API_URL}/equipe_apoio/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

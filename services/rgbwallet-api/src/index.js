@@ -7,6 +7,9 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const router = require('./routers/router');
 
+// Init DB connection (must run before routes)
+require('./connections/database');
+
 const server = express();
 
 server.use(cors());
@@ -15,6 +18,7 @@ server.use(bodyParser.json());
 server.use('/', router);
 
 
-server.listen(3001, () => {
-    console.log("server no ar")
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+    console.log(`server no ar na porta ${PORT}`)
 })

@@ -9,6 +9,11 @@ const auth = require('../middleaware/auth');
 
 const router = express.Router();
 
+// Health / root route
+router.get('/', (req, res) => {
+	return res.json({ title: 'RGBWallet API' });
+});
+
 router.post("/", userController.login);
 router.get("/admin",auth,admController.getUsers);
 router.delete("/admin",auth,admController.deleteUser);
