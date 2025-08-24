@@ -8,8 +8,9 @@ import {
 import { Header } from "./components/Header";
 
 // Base API URL comes from Vite environment variable VITE_API_URL
+// Use optional chaining in case import.meta or import.meta.env is undefined at runtime
 const API_URL =
-  import.meta.env.VITE_API_URL ?? "https://electoral-api.erickbarcelos.com";
+  import.meta?.env?.VITE_API_URL ?? "https://electoral-api.erickbarcelos.com";
 
 async function fetchCandidatos(): Promise<Candidatura[]> {
   const response = await fetch(`${API_URL}/candidato`);
