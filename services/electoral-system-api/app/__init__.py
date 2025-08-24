@@ -18,6 +18,7 @@ from .routes.doador import doador_bp
 from .routes.doacao import doacao_bp
 from .routes.pleito import pleito_bp
 from .routes.bd_functions import bd_functions_bp
+from .routes.root import root_bp
 from flask_cors import CORS
 
 def create_app():
@@ -41,5 +42,6 @@ def create_app():
     app.register_blueprint(doacao_bp)
     app.register_blueprint(pleito_bp)
     app.register_blueprint(bd_functions_bp)
+    app.register_blueprint(root_bp)
 
     return app
