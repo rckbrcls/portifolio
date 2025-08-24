@@ -6,7 +6,7 @@ from flask import Flask
 # Adiciona o caminho da pasta raiz ao sys.path
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
-from .db import get_db_connection
+from .db import get_db_connection, register_db
 from .routes.partido import partido_bp
 from .routes.cargo import cargo_bp
 from .routes.pessoa import pessoa_bp
@@ -25,6 +25,9 @@ def create_app():
 
     cors = CORS(app, support_credentials=True, origins='*')
     app.config['CORS_HEADERS'] = 'Content-Type'
+
+    # Registra fechamento automático da conexão ao final de cada request
+    register_db(app)
 
     # Registro dos Blueprints para todas as tabelas
     app.register_blueprint(partido_bp)
