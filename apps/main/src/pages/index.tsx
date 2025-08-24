@@ -116,7 +116,7 @@ export default function Home() {
               duration: 1.1,
               delay: 0.2,
             }}
-            className="max-w-4xl"
+            className="max-w-6xl"
           >
             <SubTitle className="mb-6" gradient>
               Microfrontend Ecosystem
@@ -276,7 +276,7 @@ export default function Home() {
               delay: 0.1,
             }}
             viewport={{ once: true, amount: 0.2 }}
-            className="mb-6 max-w-4xl"
+            className="mb-6 max-w-6xl"
           >
             <Text className="mb-6 leading-relaxed text-gray-300">
               Here's a fun{" "}
@@ -324,6 +324,99 @@ export default function Home() {
           </motion.div>
         </div>
 
+        {/* =========================
+            Section: Personal Server
+        ========================== */}
+        <motion.section
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{
+            type: "spring",
+            stiffness: 60,
+            damping: 18,
+            duration: 1.1,
+          }}
+          viewport={{ once: true, amount: 0.2 }}
+          className="relative mt-10 flex w-full flex-col items-center justify-center gap-6 border-t border-zinc-700/30 px-4 py-16 text-center"
+        >
+          <Title word="Personal Server" gradient type="blur" />
+          <div className="w-full max-w-2xl p-2">
+            <div className="relative mx-auto w-full select-none">
+              <Image
+                src="/images/assets/server.png"
+                width={900}
+                height={540}
+                alt="Personal server - Ubuntu"
+                className="object-contain"
+                priority
+              />
+            </div>
+          </div>
+          <div className="max-w-6xl text-left">
+            <SubTitle className="mb-4">
+              A dedicated machine for learning and deployments
+            </SubTitle>
+            <Text className="mb-4 leading-relaxed text-gray-300">
+              This server is my personal computer provisioned with{" "}
+              <span className="font-semibold text-purple-400">
+                Ubuntu Server
+              </span>
+              . I use it as a small-scale production environment to learn, test
+              and validate deployment patterns, networking and integrations.
+            </Text>
+
+            <SubTitle className="mb-2 text-sm">How it's configured</SubTitle>
+            <Text className="mb-4 text-sm leading-relaxed text-gray-400">
+              Services run inside{" "}
+              <span className="font-semibold text-purple-400">Docker</span>{" "}
+              containers for isolation and reproducible deployments. For secure
+              external exposure I rely on{" "}
+              <span className="font-semibold text-purple-400">
+                Cloudflare Tunnel
+              </span>{" "}
+              as a proxy, allowing me to test HTTPS, routing and request flows
+              without opening raw ports. This setup mirrors many production
+              concerns (CI/CD, env vars, secrets and container orchestration)
+              while staying lightweight for experimentation.
+            </Text>
+
+            <SubTitle className="mb-2 text-sm">
+              Projects hosted on the server
+            </SubTitle>
+            <ul className="mb-4 list-inside list-disc text-sm text-gray-400">
+              <li>
+                <span className="font-semibold text-purple-300">
+                  electoral-system
+                </span>{" "}
+                — academic API, containerized and served via a tunnel
+              </li>
+              <li>
+                <span className="font-semibold text-purple-300">rgbwallet</span>{" "}
+                — personal experiment / API
+              </li>
+              <li>
+                <span className="font-semibold text-purple-300">
+                  secret-santa
+                </span>{" "}
+                — backend for a Secret Santa app
+              </li>
+              <li>
+                <span className="font-semibold text-purple-300">joystick</span>{" "}
+                — prototype with API integrations
+              </li>
+            </ul>
+
+            <SubTitle className="mb-2 text-sm">Skills demonstrated</SubTitle>
+            <Text className="text-sm leading-relaxed text-gray-400">
+              System administration (Ubuntu Server), containerization with
+              Docker, secure tunneling with Cloudflare, local production
+              hardening and integration of multiple microfrontends and APIs.
+              These projects are small, diverse stacks used to practice
+              deployment, monitoring and cross-service communication in an
+              ecosystem configured for production-like testing.
+            </Text>
+          </div>
+        </motion.section>
         <Footer />
       </div>
     </>
