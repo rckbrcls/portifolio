@@ -29,7 +29,7 @@ export default function ItemCarrinho(props) {
     e.preventDefault();
 
     api
-      .delete(`http://localhost:3000/users/cart/${props._id}`, {
+  .delete(`/users/cart/${props._id}`, {
         headers: {
           "x-access-token": sessionStorage.getItem("token"),
         },

@@ -31,7 +31,7 @@ export default function ItemListaDeJogos(props) {
   function handleRemoveItem(e) {
     e.preventDefault();
     api
-      .delete(`http://localhost:3000/games/admin/${props._id}`, {
+      .delete(`/games/admin/${props._id}`, {
         headers: {
           "x-access-token": sessionStorage.getItem("token"),
         },

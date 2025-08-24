@@ -22,7 +22,7 @@ export default function CadastrarJogo() {
 
     api({
       method: "post",
-      url: `http://localhost:3000/games`,
+      url: `/games`,
       headers: {
         "x-access-token": sessionStorage.getItem("token"),
       },

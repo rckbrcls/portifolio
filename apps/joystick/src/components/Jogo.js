@@ -26,7 +26,7 @@ export default function Jogo(props) {
 
     api({
       method: "put",
-      url: `http://localhost:3000/users/${props._id}`,
+  url: `/users/${props._id}`,
       headers: {
         "x-access-token": token,
       },

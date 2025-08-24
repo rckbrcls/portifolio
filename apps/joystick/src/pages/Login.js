@@ -22,7 +22,7 @@ export default function Login() {
     console.log(password);
 
     api
-      .post(`http://localhost:3000/users/authenticate`, {
+  .post(`/users/authenticate`, {
         email: email,
         password: password,
       })

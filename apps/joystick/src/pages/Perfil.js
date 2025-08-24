@@ -14,7 +14,7 @@ export default function Perfil() {
   useEffect(() => {
     atualizarToken();
     api
-      .get(`http://localhost:3000/users`, {
+  .get(`/users`, {
         headers: {
           "x-access-token": sessionStorage.getItem("token"),
         },
@@ -30,9 +30,9 @@ export default function Perfil() {
   function handleAtualizarUser(e) {
     e.preventDefault();
 
-    api({
-      method: "put",
-      url: `http://localhost:3000/users`,
+      api({
+        method: "post",
+        url: `/users`,
       headers: {
         "x-access-token": sessionStorage.getItem("token"),
       },

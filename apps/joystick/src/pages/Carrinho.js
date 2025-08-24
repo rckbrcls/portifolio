@@ -25,7 +25,7 @@ export default function Carrinho() {
 
     api({
       method: "get",
-      url: `http://localhost:3000/users/cart`,
+      url: `/users/cart`,
       headers: {
         "x-access-token": sessionStorage.getItem("token"),
       },
@@ -43,7 +43,7 @@ export default function Carrinho() {
       setLastGame(id);
       api({
         method: "get",
-        url: `http://localhost:3000/games/${id}`,
+        url: `/games/${id}`,
       })
         .then((data) => {
           if (lastGame !== id) setJogos((oldArray) => [...oldArray, data.data]);
@@ -57,7 +57,7 @@ export default function Carrinho() {
   function handleEsvaziar(e) {
     e.preventDefault();
     api
-      .delete(`http://localhost:3000/users/cart`, {
+      .delete(`/users/cart`, {
         headers: {
           "x-access-token": sessionStorage.getItem("token"),
         },
@@ -76,7 +76,7 @@ export default function Carrinho() {
     e.preventDefault();
     api({
       method: "post",
-      url: `http://localhost:3000/users/finish`,
+      url: `/users/finish`,
       headers: {
         "x-access-token": sessionStorage.getItem("token"),
       },

@@ -18,7 +18,7 @@ export default function Cadastro() {
     e.preventDefault();
 
     api
-      .post("http://localhost:3000/users", user)
+  .post("/users", user)
       .then(() => {
         navigate("/");
       })

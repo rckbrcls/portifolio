@@ -30,7 +30,7 @@ export default function Explorar() {
 
   useEffect(() => {
     api
-      .get("http://localhost:3000/games")
+  .get("/games")
       .then(({ data }) => {
         setJogos(data);
       })

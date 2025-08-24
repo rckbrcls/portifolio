@@ -18,7 +18,7 @@ export default function DetalheJogo() {
 
   useEffect(() => {
     api
-      .get(`http://localhost:3000/games/${idJogo}`)
+  .get(`/games/${idJogo}`)
       .then(({ data }) => {
         setTitle(data.title);
         setDescription(data.description);

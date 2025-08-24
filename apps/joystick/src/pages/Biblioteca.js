@@ -22,7 +22,7 @@ export default function Biblioteca() {
     atualizarToken();
     api({
       method: "get",
-      url: `http://localhost:3000/users/library`,
+      url: `/users/library`,
       headers: {
         "x-access-token": sessionStorage.getItem("token"),
       },
@@ -40,7 +40,7 @@ export default function Biblioteca() {
       setLastGame(id);
       api({
         method: "get",
-        url: `http://localhost:3000/games/${id}`,
+        url: `/games/${id}`,
       })
         .then((data) => {
           if (lastGame !== id) setJogos((oldArray) => [...oldArray, data.data]);

@@ -21,7 +21,7 @@ export default function EditarJogo() {
 
   useEffect(() => {
     api
-      .get(`http://localhost:3000/games/${id}`)
+  .get(`/games/${id}`)
       .then(({ data }) => {
         setGame(data);
         setNewGame(data);
@@ -34,9 +34,9 @@ export default function EditarJogo() {
   function handleEditarJogo(e) {
     e.preventDefault();
 
-    api({
-      method: "put",
-      url: `http://localhost:3000/games/admin/${id}`,
+      api({
+        method: "put",
+        url: `/games/admin/${id}`,
       headers: {
         "x-access-token": sessionStorage.getItem("token"),
       },

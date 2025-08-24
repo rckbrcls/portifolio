@@ -22,7 +22,7 @@ export default function FinalizarCompra() {
     e.preventDefault();
     api({
       method: "post",
-      url: `http://localhost:3000/users/finish`,
+      url: `/users/finish`,
       headers: {
         "x-access-token": sessionStorage.getItem("token"),
       },

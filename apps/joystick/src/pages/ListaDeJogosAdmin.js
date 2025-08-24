@@ -9,7 +9,7 @@ export default function ListaDeJogosAdmin() {
   useEffect(() => {
     atualizarToken();
     api
-      .get("http://localhost:3000/games")
+  .get("/games")
       .then(({ data }) => {
         setJogos(data);
       })
