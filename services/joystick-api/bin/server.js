@@ -11,6 +11,23 @@ server.listen(port);
 server.on("error", onError);
 server.on("listening", onListening);
 console.log("API rodando na porta " + port);
+// Log whether SALT_KEY is configured (do not print the secret itself).
+const saltKeyPresent = !!(global && global.SALT_KEY) || !!process.env.SALT_KEY;
+console.log("SALT_KEY configured:", saltKeyPresent);
+// Print a short fingerprint of the secret so we can detect mismatched secrets between runs
+try {
+  const crypto = require("crypto");
+  const secret = global.SALT_KEY || process.env.SALT_KEY || "";
+  if (secret) {
+    const fp = crypto.createHash("sha256").update(String(secret)).digest("hex").slice(0, 8);
+    console.log("SALT_KEY fingerprint:", fp);
+  } else {
+    console.log("SALT_KEY fingerprint: (no secret)");
+  }
+} catch (err) {
+  // non-fatal - fingerprint is only for debug
+  console.warn("Could not compute SALT_KEY fingerprint:", err && err.message);
+}
 
 function normalizePort(val) {
   const port = parseInt(val, 10);
