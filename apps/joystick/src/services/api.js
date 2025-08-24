@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const DEFAULT_API = "http://localhost:3000";
+const DEFAULT_API = "https://joystick-api.erickbarcelos.com";
 // Resolve BASE_URL from Vite (import.meta.env) if available, then webpack DefinePlugin (process.env), then fallback
 let resolvedBase;
 try {
@@ -9,7 +9,12 @@ try {
 } catch (e) {
   resolvedBase = undefined;
 }
-if (!resolvedBase && typeof process !== "undefined" && process.env && process.env.VITE_API_URL) {
+if (
+  !resolvedBase &&
+  typeof process !== "undefined" &&
+  process.env &&
+  process.env.VITE_API_URL
+) {
   resolvedBase = process.env.VITE_API_URL;
 }
 const BASE_URL = resolvedBase || DEFAULT_API;
