@@ -7,6 +7,9 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const router = require('./routers/router');
 
+// Init DB connection (must run before routes)
+require('./connections/database');
+
 const server = express();
 
 server.use(cors());

@@ -24,6 +24,8 @@ services:
     # Restrito ao host local, o Cloudflare Tunnel fará o proxy
     ports:
       - "127.0.0.1:3001:3000"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/joystickdb
     depends_on:
       - mongodb
     restart: unless-stopped
@@ -34,6 +36,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "127.0.0.1:3002:3000"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/RGBWallet
     depends_on:
       - mongodb
     restart: unless-stopped
@@ -44,6 +48,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "127.0.0.1:3003:3000"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/secretsantadb
     depends_on:
       - mongodb
     restart: unless-stopped
