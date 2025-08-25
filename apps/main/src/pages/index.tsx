@@ -36,6 +36,35 @@ export default function Home() {
     },
   ];
 
+  const serverProjects = [
+    {
+      icon: "🏛️",
+      title: "electoral-system",
+      desc: "Academic API, containerized and served via a tunnel",
+    },
+    {
+      icon: "💡",
+      title: "rgbwallet",
+      desc: "Personal experiment / API",
+    },
+    {
+      icon: "🎁",
+      title: "secret-santa",
+      desc: "Backend for a Secret Santa app",
+    },
+    {
+      icon: "🕹️",
+      title: "joystick",
+      desc: "Prototype with API integrations",
+    },
+  ];
+  const projectLinks: Record<string, { app?: string; repo?: string }> = {
+    "electoral-system": { app: "#", repo: "#" },
+    rgbwallet: { app: "#", repo: "#" },
+    "secret-santa": { app: "#", repo: "#" },
+    joystick: { app: "#", repo: "#" },
+  };
+
   const architectureRef = useRef(null);
   const contentRef = useRef(null);
   const cardsRef = useRef(null);
@@ -116,7 +145,7 @@ export default function Home() {
               duration: 1.1,
               delay: 0.2,
             }}
-            className="max-w-4xl"
+            className="max-w-6xl"
           >
             <SubTitle className="mb-6" gradient>
               Microfrontend Ecosystem
@@ -276,7 +305,7 @@ export default function Home() {
               delay: 0.1,
             }}
             viewport={{ once: true, amount: 0.2 }}
-            className="mb-6 max-w-4xl"
+            className="mb-6 max-w-6xl"
           >
             <Text className="mb-6 leading-relaxed text-gray-300">
               Here's a fun{" "}
@@ -324,6 +353,357 @@ export default function Home() {
           </motion.div>
         </div>
 
+        {/* =========================
+    Section: Personal Server (server-focused, enriched)
+========================== */}
+        <motion.section
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{
+            type: "spring",
+            stiffness: 60,
+            damping: 18,
+            duration: 1.1,
+          }}
+          viewport={{ once: true, amount: 0.2 }}
+          className="relative mt-10 w-full border-t border-zinc-700/30 px-4 py-20"
+        >
+          {/* soft glow background */}
+          <div className="pointer-events-none absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(60%_50%_at_50%_0%,#000_10%,transparent_70%)]">
+            <div className="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-purple-500/20 via-pink-500/10 to-transparent blur-3xl" />
+          </div>
+
+          <div className="mx-auto flex w-full max-w-6xl flex-col items-center text-center">
+            <Title word="Personal Server" gradient type="blur" />
+            <SubTitle className="mt-2">
+              A lightweight production-like lab
+            </SubTitle>
+
+            <Text className="mt-4 max-w-3xl text-gray-300">
+              This box hosts a small ecosystem of{" "}
+              <span className="font-semibold text-purple-400">
+                Dockerized APIs
+              </span>{" "}
+              securely exposed through{" "}
+              <span className="font-semibold text-purple-400">
+                Cloudflare Tunnel
+              </span>
+              . It’s my sandbox to practice clean deployments, HTTPS routing,
+              environment isolation and microfrontend ↔ API interactions — all
+              reproducible and minimal by design.
+            </Text>
+
+            {/* server showcase + richer stack */}
+            <div className="mt-10 grid w-full grid-cols-1 items-start gap-8 md:grid-cols-2">
+              {/* visual card */}
+              <div className="order-2 md:order-1">
+                <div className="glass-dark relative overflow-hidden rounded-2xl border-purple-500/20 p-4">
+                  <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 blur-2xl" />
+                  <div className="relative mx-auto w-full select-none">
+                    <Image
+                      src="/images/assets/server.png"
+                      width={900}
+                      height={540}
+                      alt="Personal server - Ubuntu"
+                      className="mx-auto rounded-xl object-contain"
+                      priority
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* expanded stack & capabilities */}
+              <div className="order-1 md:order-2">
+                <div className="glass-dark rounded-2xl border-pink-500/20 p-6 text-left">
+                  <SubTitle className="mb-3 text-base">
+                    Stack & Capabilities
+                  </SubTitle>
+
+                  {/* Deployment */}
+                  <div className="mb-3 text-xs uppercase tracking-wide text-gray-400">
+                    Deployment
+                  </div>
+                  <div className="mb-4 flex flex-wrap gap-2">
+                    {[
+                      "Docker & Compose",
+                      "Idempotent deploys",
+                      "Zero-downtime mindset",
+                      "Compose profiles",
+                      "Per-service .env",
+                    ].map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-gray-300"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Networking */}
+                  <div className="mb-3 text-xs uppercase tracking-wide text-gray-400">
+                    Networking
+                  </div>
+                  <div className="mb-4 flex flex-wrap gap-2">
+                    {[
+                      "Cloudflare Tunnel (HTTPS)",
+                      "Subdomain routing",
+                      "Reverse proxy",
+                      "Rate limiting (policy-ready)",
+                      "CORS per API",
+                    ].map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-gray-300"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Security & Config */}
+                  <div className="mb-3 text-xs uppercase tracking-wide text-gray-400">
+                    Security & Config
+                  </div>
+                  <div className="mb-4 flex flex-wrap gap-2">
+                    {[
+                      "Env files & secrets",
+                      "Least-privilege tokens",
+                      "Read-only containers (when possible)",
+                      "Isolated networks",
+                      "Health endpoints",
+                    ].map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-gray-300"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Observability */}
+                  <div className="mb-3 text-xs uppercase tracking-wide text-gray-400">
+                    Observability
+                  </div>
+                  <div className="mb-2 flex flex-wrap gap-2">
+                    {[
+                      "docker logs tailing",
+                      "Structured logs",
+                      "Basic uptime checks",
+                      "Healthchecks",
+                      "Per-service status",
+                    ].map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-gray-300"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* how it goes live — server-focused explanation */}
+            <div className="mt-14 grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {/* 1. Deployment Flow */}
+              <div className="glass-dark rounded-2xl border-purple-500/20 p-6 text-left">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500">
+                  <span className="text-2xl">🚀</span>
+                </div>
+                <SubTitle className="mb-2 text-base">Deployment Flow</SubTitle>
+                <ul className="list-disc pl-5 text-sm text-gray-400">
+                  <li>Each API has a Dockerfile and a Compose service.</li>
+                  <li>
+                    Configs come from{" "}
+                    <code className="rounded bg-white/10 px-1">.env</code> files
+                    (not committed).
+                  </li>
+                  <li>
+                    <code className="rounded bg-white/10 px-1">
+                      docker compose up -d
+                    </code>{" "}
+                    applies changes idempotently.
+                  </li>
+                  <li>
+                    Healthchecks signal readiness; reverse proxy routes traffic.
+                  </li>
+                </ul>
+              </div>
+
+              {/* 2. Networking & Routing */}
+              <div className="glass-dark rounded-2xl border-purple-500/20 p-6 text-left">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500">
+                  <span className="text-2xl">🌐</span>
+                </div>
+                <SubTitle className="mb-2 text-base">
+                  Networking & Routing
+                </SubTitle>
+                <ul className="list-disc pl-5 text-sm text-gray-400">
+                  <li>
+                    Public subdomains mapped to internal ports via Cloudflare
+                    Tunnel.
+                  </li>
+                  <li>Reverse proxy forwards to services by hostname.</li>
+                  <li>
+                    CORS is narrowed per API; rate limits ready to plug in.
+                  </li>
+                </ul>
+              </div>
+
+              {/* 3. Runtime & Autostart */}
+              <div className="glass-dark rounded-2xl border-purple-500/20 p-6 text-left">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500">
+                  <span className="text-2xl">⚙️</span>
+                </div>
+                <SubTitle className="mb-2 text-base">
+                  Runtime & Autostart
+                </SubTitle>
+                <ul className="list-disc pl-5 text-sm text-gray-400">
+                  <li>Compose keeps services up with restart policies.</li>
+                  <li>On boot, the stack comes back automatically.</li>
+                  <li>Profiles let me start only the APIs I need.</li>
+                </ul>
+              </div>
+
+              {/* 4. Secrets & Config */}
+              <div className="glass-dark rounded-2xl border-purple-500/20 p-6 text-left">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500">
+                  <span className="text-2xl">🔐</span>
+                </div>
+                <SubTitle className="mb-2 text-base">Secrets & Config</SubTitle>
+                <ul className="list-disc pl-5 text-sm text-gray-400">
+                  <li>
+                    Per-service{" "}
+                    <code className="rounded bg-white/10 px-1">.env</code> files
+                    (mounted via Compose).
+                  </li>
+                  <li>Cloudflare tokens scoped with least privilege.</li>
+                  <li>Isolated Docker networks for internal traffic.</li>
+                </ul>
+              </div>
+
+              {/* 5. Observability & Logs */}
+              <div className="glass-dark rounded-2xl border-purple-500/20 p-6 text-left">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500">
+                  <span className="text-2xl">📈</span>
+                </div>
+                <SubTitle className="mb-2 text-base">
+                  Observability & Logs
+                </SubTitle>
+                <ul className="list-disc pl-5 text-sm text-gray-400">
+                  <li>
+                    Structured logs via{" "}
+                    <code className="rounded bg-white/10 px-1">
+                      docker logs -f
+                    </code>
+                    .
+                  </li>
+                  <li>
+                    <code className="rounded bg-white/10 px-1">/health</code>{" "}
+                    endpoints for quick status checks.
+                  </li>
+                  <li>Simple uptime pings to detect regressions.</li>
+                </ul>
+              </div>
+
+              {/* 6. Quick Commands */}
+              <div className="glass-dark rounded-2xl border-purple-500/20 p-6 text-left">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500">
+                  <span className="text-2xl">⌨️</span>
+                </div>
+                <SubTitle className="mb-2 text-base">Quick Commands</SubTitle>
+                <div className="rounded-xl border border-white/10 bg-white/5 p-3 text-[12px] leading-relaxed text-gray-200">
+                  {`# apply changes / (re)start
+docker compose up -d
+
+# pull latest images then restart
+docker compose pull && docker compose up -d
+
+# follow logs of an API
+docker compose logs -f <service-name>
+
+# view health status (if exposed)
+curl https://api.example.dev/health`}
+                </div>
+              </div>
+            </div>
+
+            {/* APIs on the server — minimal cards (icon + title + two buttons) */}
+            <div className="mt-14 w-full">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 60,
+                  damping: 18,
+                  duration: 1.1,
+                }}
+                viewport={{ once: true, amount: 0.2 }}
+                className="mb-6 text-left"
+              >
+                <SubTitle className="mb-1">
+                  APIs running on this server
+                </SubTitle>
+                <Text className="text-sm text-gray-400">
+                  Minimal cards — details live on each project page.
+                </Text>
+              </motion.div>
+
+              <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-3 lg:grid-cols-4">
+                {serverProjects.map((proj) => {
+                  const links = projectLinks[proj.title] ?? {};
+                  return (
+                    <motion.div
+                      key={proj.title}
+                      initial={{ opacity: 0, y: 12 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, amount: 0.2 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 60,
+                        damping: 18,
+                        duration: 0.9,
+                      }}
+                      className="glass-dark group flex flex-col justify-between rounded-2xl border-purple-500/20 p-6 text-left transition-all duration-300 hover:-translate-y-1 hover:border-purple-400/40"
+                    >
+                      <div>
+                        <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 shadow-inner">
+                          <span className="text-2xl">{proj.icon}</span>
+                        </div>
+                        <SubTitle className="mb-6 text-lg">
+                          {proj.title}
+                        </SubTitle>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <a
+                          href={links.app ?? "#"}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex w-full items-center justify-center rounded border border-pink-500/20 bg-gradient-to-r from-pink-500/20 to-purple-500/20 px-3 py-1.5 text-xs text-pink-100 transition-colors hover:from-pink-500/30 hover:to-purple-500/30"
+                        >
+                          Microfront
+                        </a>
+                        <a
+                          href={links.repo ?? "#"}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex w-full items-center justify-center rounded border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-gray-200 transition-colors hover:bg-white/10"
+                        >
+                          GitHub
+                        </a>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </motion.section>
         <Footer />
       </div>
     </>

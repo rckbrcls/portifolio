@@ -8,8 +8,13 @@ import {
 import { Header } from "./components/Header";
 
 // Base API URL comes from Vite environment variable VITE_API_URL
+// Prefer the compile-time inlined __VITE_API_URL__ constant to avoid any import.meta access.
+const DEFAULT_API_URL = "https://electoral-api.erickbarcelos.com";
+// __VITE_API_URL__ is defined via `define` in vite.config.ts; it's replaced at build time.
+declare const __VITE_API_URL__: string | undefined;
 const API_URL =
-  import.meta.env.VITE_API_URL ?? "https://electoral-api.erickbarcelos.com";
+  (typeof __VITE_API_URL__ !== "undefined" && __VITE_API_URL__) ||
+  DEFAULT_API_URL;
 
 async function fetchCandidatos(): Promise<Candidatura[]> {
   const response = await fetch(`${API_URL}/candidato`);
