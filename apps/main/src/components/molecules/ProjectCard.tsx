@@ -17,7 +17,6 @@ interface IProjectCardProps {
 const ProjectCard = ({ project }: IProjectCardProps) => {
   const renderImage = () => {
     if (!project.coverImage) {
-      // Placeholder quando não há imagem
       return (
         <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-zinc-800 to-zinc-900">
           <div className="text-center">

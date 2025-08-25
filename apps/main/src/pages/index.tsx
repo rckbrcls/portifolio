@@ -11,6 +11,7 @@ import { ArchitectureContainer } from "@/components/organisms/ArchitectureContai
 import SubTitle from "@/components/atoms/SubTitle";
 import { Text } from "@/components/atoms/Text";
 import Footer from "@/components/organisms/Footer";
+import Link from "next/link";
 
 export default function Home() {
   const portfolioCards = [
@@ -41,29 +42,31 @@ export default function Home() {
       icon: "🏛️",
       title: "electoral-system",
       desc: "Academic API, containerized and served via a tunnel",
+      api_link: "https://electoral-api.erickbarcelos.com",
+      repo: "https://github.com/brcls/portifolio-monorepo/tree/main/services/electoral-system-api",
     },
     {
       icon: "💡",
       title: "rgbwallet",
       desc: "Personal experiment / API",
+      api_link: "https://rgbwallet-api.erickbarcelos.com",
+      repo: "https://github.com/brcls/portifolio-monorepo/tree/main/services/rgbwallet-api",
     },
     {
       icon: "🎁",
       title: "secret-santa",
       desc: "Backend for a Secret Santa app",
+      api_link: "https://secret-santa-api.erickbarcelos.com",
+      repo: "https://github.com/brcls/portifolio-monorepo/tree/main/services/secret-santa-api",
     },
     {
       icon: "🕹️",
       title: "joystick",
       desc: "Prototype with API integrations",
+      api_link: "https://joystick-api.erickbarcelos.com",
+      repo: "https://github.com/brcls/portifolio-monorepo/tree/main/services/joystick-api",
     },
   ];
-  const projectLinks: Record<string, { app?: string; repo?: string }> = {
-    "electoral-system": { app: "#", repo: "#" },
-    rgbwallet: { app: "#", repo: "#" },
-    "secret-santa": { app: "#", repo: "#" },
-    joystick: { app: "#", repo: "#" },
-  };
 
   const architectureRef = useRef(null);
   const contentRef = useRef(null);
@@ -354,8 +357,8 @@ export default function Home() {
         </div>
 
         {/* =========================
-    Section: Personal Server (server-focused, enriched)
-========================== */}
+            Section: Personal Server (server-focused, enriched)
+        ========================== */}
         <motion.section
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -655,7 +658,6 @@ curl https://api.example.dev/health`}
 
               <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-3 lg:grid-cols-4">
                 {serverProjects.map((proj) => {
-                  const links = projectLinks[proj.title] ?? {};
                   return (
                     <motion.div
                       key={proj.title}
@@ -680,22 +682,22 @@ curl https://api.example.dev/health`}
                       </div>
 
                       <div className="flex items-center gap-2">
-                        <a
-                          href={links.app ?? "#"}
+                        <Link
+                          href={proj.api_link ?? "#"}
                           target="_blank"
                           rel="noreferrer"
                           className="flex w-full items-center justify-center rounded border border-pink-500/20 bg-gradient-to-r from-pink-500/20 to-purple-500/20 px-3 py-1.5 text-xs text-pink-100 transition-colors hover:from-pink-500/30 hover:to-purple-500/30"
                         >
                           Microfront
-                        </a>
-                        <a
-                          href={links.repo ?? "#"}
+                        </Link>
+                        <Link
+                          href={proj.repo ?? "#"}
                           target="_blank"
                           rel="noreferrer"
                           className="flex w-full items-center justify-center rounded border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-gray-200 transition-colors hover:bg-white/10"
                         >
                           GitHub
-                        </a>
+                        </Link>
                       </div>
                     </motion.div>
                   );

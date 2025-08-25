@@ -142,7 +142,7 @@ export const projects: IProject[] = [
     gitLink:
       "https://github.com/brcls/portifolio-monorepo/tree/main/apps/rgbwallet",
     members: ["Erick Barcelos"],
-    microRoute: "/rgbwallet",
+    microRoute: process.env.NEXT_PUBLIC_RGBWALLET_URL as string,
     coverImage: "/images/projects/rgbwallet/rgbwallet-logo.png",
     status: "finished",
     localServer: true,

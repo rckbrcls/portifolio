@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useMemo, useEffect, lazy, Suspense } from "react";
-import { MdOutlineFolderOpen } from "react-icons/md";
 import { MdOutlineWebAsset } from "react-icons/md";
 import Title from "../atoms/Title";
 import { Text } from "../atoms/Text";
@@ -46,18 +45,11 @@ export default function ProjectsList() {
   const [maxCount, setMaxCount] = useState(3);
   const [projectsData, setProjectsData] = useState<IProject[]>([]);
   const [loading, setLoading] = useState(true);
-  const [displayedProjects, setDisplayedProjects] = useState<IProject[]>([]);
-  const [projectsPerBatch] = useState(6);
-  const [currentBatch, setCurrentBatch] = useState(1);
   const [localServer, setLocalServer] = useState(false);
   const [activeTabId, setActiveTabId] = useState<number>(0);
-  const [isFetchingAllProjects, setIsFetchingAllProjects] = useState(false);
-
-  // State para opções de filtro
   const [filterOptions, setFilterOptions] = useState(getFilterOptions());
   const [filterOptionsLoaded, setFilterOptionsLoaded] = useState(false);
 
-  // Carregamento das opções de filtro completas
   useEffect(() => {
     const loadAllOptions = async () => {
       if (!filterOptionsLoaded) {
@@ -67,39 +59,19 @@ export default function ProjectsList() {
       }
     };
 
-    // Carrega as opções completas após um delay
-    setTimeout(loadAllOptions, 1500);
+    loadAllOptions();
   }, [filterOptionsLoaded]);
 
   // Carregamento inicial dos projetos com ultra compressão
   useEffect(() => {
     const loadProjectsData = async () => {
       try {
-        // Carrega primeiro os dados comprimidos (menor bundle)
         const featuredProjects = await loadFeaturedProjects();
         setProjectsData(featuredProjects);
-        setDisplayedProjects(featuredProjects);
         setLoading(false);
 
-        // Carrega o restante em background após 500ms
-        setTimeout(async () => {
-          const allProjects = await loadAllProjectsAfterInitial();
-          setProjectsData(allProjects);
-
-          // Verifica se não há filtros ativos (todos os arrays estão vazios)
-          const hasActiveFilters =
-            filters.frameworks.length > 0 ||
-            filters.languages.length > 0 ||
-            filters.databases.length > 0 ||
-            filters.tools.length > 0;
-
-          // Se não há filtros ativos, atualiza os projetos exibidos também
-          if (!hasActiveFilters) {
-            setDisplayedProjects(
-              allProjects.slice(0, currentBatch * projectsPerBatch),
-            );
-          }
-        }, 500);
+        const allProjects = await loadAllProjectsAfterInitial();
+        setProjectsData(allProjects);
       } catch (error) {
         console.error("Error loading projects:", error);
         setLoading(false);
@@ -107,14 +79,12 @@ export default function ProjectsList() {
     };
 
     loadProjectsData();
-  }, [projectsPerBatch]); // Removeu activeFilters e currentBatch da dependência
+  }, []);
 
-  // Função de reset de filtros (torna tudo vazio)
   const resetFilter = () => {
     setFilters(initialFilterState);
   };
 
-  // Handler genérico para atualizar um tipo de filtro
   const handleFilterChange = (
     category: keyof FilterState,
     selected: string[],
@@ -132,73 +102,9 @@ export default function ProjectsList() {
     ];
   }, [filters]);
 
-  // Reset pagination when filters that affect the list change
-  useEffect(() => {
-    setCurrentBatch(1);
-  }, [localServer, activeFilters]);
-
-  // When localServer is active and we're on the Microfrontend tab (id === 1)
-  // ensure we show at least up to 4 local microfrontends initially (if available).
-  // This prevents the situation where only a single featured microfrontend
-  // is shown and the rest require the user to press "Load more" immediately.
-  useEffect(() => {
-    try {
-      if (!(localServer && activeTabId === 1 && activeFilters.length === 0)) {
-        return;
-      }
-
-      if (!projectsData || projectsData.length === 0) return;
-
-      const allLocalMicrofrontends = projectsData.filter(
-        (p) => p.microRoute && Boolean((p as any).localServer),
-      );
-
-      const requiredCount = Math.min(4, allLocalMicrofrontends.length);
-      if (requiredCount === 0) return;
-
-      const currentlyLocalDisplayed = displayedProjects.filter(
-        (p) => p.microRoute && Boolean((p as any).localServer),
-      );
-
-      if (currentlyLocalDisplayed.length >= requiredCount) return;
-
-      // Take the next slice of local microfrontends to reach the required count
-      const toAdd = allLocalMicrofrontends.slice(
-        currentlyLocalDisplayed.length,
-        requiredCount,
-      );
-
-      if (toAdd.length === 0) return;
-
-      const merged = [...displayedProjects, ...toAdd];
-      const uniqueBySlug = Array.from(
-        merged
-          .reduce((map, p) => map.set((p as any).slug, p), new Map())
-          .values(),
-      );
-
-      setDisplayedProjects(uniqueBySlug);
-    } catch (err) {
-      // swallow any unexpected errors to avoid breaking the UI
-      console.warn("ensure local microfrontends effect failed:", err);
-    }
-  }, [
-    localServer,
-    activeTabId,
-    activeFilters,
-    projectsData,
-    displayedProjects,
-  ]);
-
-  // Lógica de filtragem - agora aplica sobre displayedProjects se não há filtros ativos
   const filteredProjects = useMemo(() => {
-    const sourceProjects =
-      activeFilters.length === 0 ? displayedProjects : projectsData;
+    let projectsToFilter = projectsData;
 
-    // Começamos com a lista base (displayedProjects ou todos os projetos)
-    let projectsToFilter = sourceProjects;
-
-    // Se houver filtros de tech, aplicamos primeiro a filtragem por tech (lógica OR)
     if (activeFilters.length > 0) {
       projectsToFilter = projectsToFilter.filter((project) => {
         const lowerTechs = project.techStack.map((t) =>
@@ -208,7 +114,6 @@ export default function ProjectsList() {
       });
     }
 
-    // Aplica o filtro de localServer quando ativado e somente na tab Microfrontend (id === 1)
     if (localServer && activeTabId === 1) {
       projectsToFilter = projectsToFilter.filter((project) =>
         Boolean((project as any).localServer),
@@ -216,15 +121,8 @@ export default function ProjectsList() {
     }
 
     return projectsToFilter;
-  }, [
-    activeFilters,
-    projectsData,
-    displayedProjects,
-    localServer,
-    activeTabId,
-  ]);
+  }, [activeFilters, projectsData, localServer, activeTabId]);
 
-  // Separa projetos normais e microfrontends
   const normalProjects = useMemo(
     () => filteredProjects.filter((p) => !p.microRoute),
     [filteredProjects],
@@ -313,171 +211,8 @@ export default function ProjectsList() {
               </div>
             )}
           </Suspense>
-          {/* Botão Load More - só aparece se não há filtros ativos e há mais microfrontends para carregar, e só na tab de microfrontends */}
-          {!loading &&
-            activeFilters.length === 0 &&
-            (() => {
-              // compute microfrontends matching current localServer state
-              const allMicrofrontends = projectsData.filter(
-                (p) =>
-                  p.microRoute &&
-                  (!localServer || Boolean((p as any).localServer)),
-              );
-
-              const hasMore =
-                microfrontendProjects.length < allMicrofrontends.length;
-
-              return hasMore ? (
-                <div className="mt-8 flex justify-center">
-                  <button
-                    onClick={async () => {
-                      try {
-                        // Carrega mais microfrontends (respeitando localServer)
-                        let allMicrofrontends = projectsData.filter(
-                          (p) =>
-                            p.microRoute &&
-                            (!localServer || Boolean((p as any).localServer)),
-                        );
-
-                        const currentlyDisplayedMicroSlugs = displayedProjects
-                          .filter((p) => p.microRoute)
-                          .map((p) => (p as any).slug);
-
-                        let alreadyCount = currentlyDisplayedMicroSlugs.length;
-                        const nextBatch = currentBatch + 1;
-                        const endIndex = nextBatch * projectsPerBatch;
-
-                        let newToAdd = allMicrofrontends.slice(
-                          alreadyCount,
-                          endIndex,
-                        );
-
-                        // If nothing to add it may be because the full projects list
-                        // hasn't been loaded yet. Fetch the full list on demand
-                        // and recompute.
-                        if (newToAdd.length === 0 && !isFetchingAllProjects) {
-                          setIsFetchingAllProjects(true);
-                          try {
-                            const allProjects =
-                              await loadAllProjectsAfterInitial();
-                            setProjectsData(allProjects);
-                            allMicrofrontends = allProjects.filter(
-                              (p) =>
-                                p.microRoute &&
-                                (!localServer ||
-                                  Boolean((p as any).localServer)),
-                            );
-
-                            alreadyCount = displayedProjects.filter(
-                              (p) => p.microRoute,
-                            ).length;
-                            newToAdd = allMicrofrontends.slice(
-                              alreadyCount,
-                              endIndex,
-                            );
-                          } catch (e) {
-                            // eslint-disable-next-line no-console
-                            console.error(
-                              "[LoadMore] failed to fetch all projects:",
-                              e,
-                            );
-                          } finally {
-                            setIsFetchingAllProjects(false);
-                          }
-                        }
-
-                        // DEBUG logs
-                        // eslint-disable-next-line no-console
-                        console.debug(
-                          "[LoadMore] projectsData.length:",
-                          projectsData.length,
-                        );
-                        // eslint-disable-next-line no-console
-                        console.debug(
-                          "[LoadMore] allMicrofrontends.length:",
-                          allMicrofrontends.length,
-                        );
-                        // eslint-disable-next-line no-console
-                        console.debug(
-                          "[LoadMore] currentlyDisplayedMicroSlugs.length:",
-                          alreadyCount,
-                        );
-                        // eslint-disable-next-line no-console
-                        console.debug(
-                          "[LoadMore] newToAdd.length:",
-                          newToAdd.length,
-                          "endIndex:",
-                          endIndex,
-                        );
-
-                        if (newToAdd.length === 0) {
-                          // If slice returned empty but there are still microfrontends
-                          // available, try to force-append up to projectsPerBatch items.
-                          if (allMicrofrontends.length > alreadyCount) {
-                            const forced = allMicrofrontends.slice(
-                              alreadyCount,
-                              Math.min(
-                                alreadyCount + projectsPerBatch,
-                                allMicrofrontends.length,
-                              ),
-                            );
-                            // eslint-disable-next-line no-console
-                            console.debug(
-                              "[LoadMore] forcing append count:",
-                              forced.length,
-                            );
-                            if (forced.length > 0) {
-                              const mergedForced = [
-                                ...displayedProjects,
-                                ...forced,
-                              ];
-                              const uniqueForced = Array.from(
-                                mergedForced
-                                  .reduce(
-                                    (map, p) => map.set((p as any).slug, p),
-                                    new Map(),
-                                  )
-                                  .values(),
-                              );
-                              setDisplayedProjects(uniqueForced);
-                              setCurrentBatch(nextBatch);
-                              return;
-                            }
-                          }
-
-                          // eslint-disable-next-line no-console
-                          console.warn(
-                            "[LoadMore] nothing to add on Load More after fetch",
-                          );
-                          return;
-                        }
-
-                        // append to existing displayedProjects and dedupe by slug
-                        const merged = [...displayedProjects, ...newToAdd];
-                        const uniqueBySlug = Array.from(
-                          merged
-                            .reduce(
-                              (map, p) => map.set((p as any).slug, p),
-                              new Map(),
-                            )
-                            .values(),
-                        );
-                        setDisplayedProjects(uniqueBySlug);
-                        setCurrentBatch(nextBatch);
-                      } catch (err) {
-                        // eslint-disable-next-line no-console
-                        console.error("[LoadMore] unexpected error:", err);
-                      }
-                    }}
-                    className="glass-dark flex items-center justify-center gap-2 rounded-lg px-4 py-3 font-semibold text-purple-300 transition duration-700 hover:scale-[1.01] hover:bg-zinc-800 active:scale-95 active:bg-zinc-800"
-                  >
-                    Load More Microfrontends (
-                    {allMicrofrontends.length - microfrontendProjects.length}{" "}
-                    remaining)
-                  </button>
-                </div>
-              ) : null;
-            })()}
+          {/* removed load-more functionality: all microfrontends are now loaded into projectsData
+                  and filtering determines what's shown */}
         </>
       ),
     },
