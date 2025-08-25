@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useMemo, useEffect, lazy, Suspense } from "react";
-import { MdOutlineFolderOpen } from "react-icons/md";
 import { MdOutlineWebAsset } from "react-icons/md";
 import Title from "../atoms/Title";
 import { Text } from "../atoms/Text";
@@ -46,15 +45,11 @@ export default function ProjectsList() {
   const [maxCount, setMaxCount] = useState(3);
   const [projectsData, setProjectsData] = useState<IProject[]>([]);
   const [loading, setLoading] = useState(true);
-  const [displayedProjects, setDisplayedProjects] = useState<IProject[]>([]);
-  const [projectsPerBatch] = useState(6);
-  const [currentBatch, setCurrentBatch] = useState(1);
-
-  // State para opções de filtro
+  const [localServer, setLocalServer] = useState(false);
+  const [activeTabId, setActiveTabId] = useState<number>(0);
   const [filterOptions, setFilterOptions] = useState(getFilterOptions());
   const [filterOptionsLoaded, setFilterOptionsLoaded] = useState(false);
 
-  // Carregamento das opções de filtro completas
   useEffect(() => {
     const loadAllOptions = async () => {
       if (!filterOptionsLoaded) {
@@ -64,39 +59,19 @@ export default function ProjectsList() {
       }
     };
 
-    // Carrega as opções completas após um delay
-    setTimeout(loadAllOptions, 1500);
+    loadAllOptions();
   }, [filterOptionsLoaded]);
 
   // Carregamento inicial dos projetos com ultra compressão
   useEffect(() => {
     const loadProjectsData = async () => {
       try {
-        // Carrega primeiro os dados comprimidos (menor bundle)
         const featuredProjects = await loadFeaturedProjects();
         setProjectsData(featuredProjects);
-        setDisplayedProjects(featuredProjects);
         setLoading(false);
 
-        // Carrega o restante em background após 500ms
-        setTimeout(async () => {
-          const allProjects = await loadAllProjectsAfterInitial();
-          setProjectsData(allProjects);
-
-          // Verifica se não há filtros ativos (todos os arrays estão vazios)
-          const hasActiveFilters =
-            filters.frameworks.length > 0 ||
-            filters.languages.length > 0 ||
-            filters.databases.length > 0 ||
-            filters.tools.length > 0;
-
-          // Se não há filtros ativos, atualiza os projetos exibidos também
-          if (!hasActiveFilters) {
-            setDisplayedProjects(
-              allProjects.slice(0, currentBatch * projectsPerBatch),
-            );
-          }
-        }, 500);
+        const allProjects = await loadAllProjectsAfterInitial();
+        setProjectsData(allProjects);
       } catch (error) {
         console.error("Error loading projects:", error);
         setLoading(false);
@@ -104,14 +79,12 @@ export default function ProjectsList() {
     };
 
     loadProjectsData();
-  }, [projectsPerBatch]); // Removeu activeFilters e currentBatch da dependência
+  }, []);
 
-  // Função de reset de filtros (torna tudo vazio)
   const resetFilter = () => {
     setFilters(initialFilterState);
   };
 
-  // Handler genérico para atualizar um tipo de filtro
   const handleFilterChange = (
     category: keyof FilterState,
     selected: string[],
@@ -129,30 +102,27 @@ export default function ProjectsList() {
     ];
   }, [filters]);
 
-  // Lógica de filtragem - agora aplica sobre displayedProjects se não há filtros ativos
   const filteredProjects = useMemo(() => {
-    const sourceProjects =
-      activeFilters.length === 0 ? displayedProjects : projectsData;
+    let projectsToFilter = projectsData;
 
-    // Se não houver nenhum filtro selecionado, retorne os projetos exibidos atualmente
-    if (activeFilters.length === 0) {
-      return sourceProjects;
+    if (activeFilters.length > 0) {
+      projectsToFilter = projectsToFilter.filter((project) => {
+        const lowerTechs = project.techStack.map((t) =>
+          t.toLowerCase().replace(/\s+/g, "-"),
+        );
+        return lowerTechs.some((tech) => activeFilters.includes(tech));
+      });
     }
 
-    // Caso existam filtros selecionados, retornamos projetos que tenham
-    // pelo menos um dos filtros no techStack (lógica de OR).
-    return sourceProjects.filter((project) => {
-      // Normaliza o techStack do projeto para letras minúsculas
-      const lowerTechs = project.techStack.map((t) =>
-        t.toLowerCase().replace(/\s+/g, "-"),
+    if (localServer && activeTabId === 1) {
+      projectsToFilter = projectsToFilter.filter((project) =>
+        Boolean((project as any).localServer),
       );
+    }
 
-      // Verifica se pelo menos uma das techs selecionadas está presente
-      return lowerTechs.some((tech) => activeFilters.includes(tech));
-    });
-  }, [activeFilters, projectsData, displayedProjects]);
+    return projectsToFilter;
+  }, [activeFilters, projectsData, localServer, activeTabId]);
 
-  // Separa projetos normais e microfrontends
   const normalProjects = useMemo(
     () => filteredProjects.filter((p) => !p.microRoute),
     [filteredProjects],
@@ -241,39 +211,8 @@ export default function ProjectsList() {
               </div>
             )}
           </Suspense>
-          {/* Botão Load More - só aparece se não há filtros ativos e há mais microfrontends para carregar, e só na tab de microfrontends */}
-          {!loading &&
-            activeFilters.length === 0 &&
-            microfrontendProjects.length <
-              projectsData.filter((p) => p.microRoute).length && (
-              <div className="mt-8 flex justify-center">
-                <button
-                  onClick={() => {
-                    // Carrega mais microfrontends
-                    const allMicrofrontends = projectsData.filter(
-                      (p) => p.microRoute,
-                    );
-                    const nextBatch = currentBatch + 1;
-                    const endIndex = nextBatch * projectsPerBatch;
-                    const newDisplayedMicrofrontends = allMicrofrontends.slice(
-                      0,
-                      endIndex,
-                    );
-                    setDisplayedProjects([
-                      ...normalProjects,
-                      ...newDisplayedMicrofrontends,
-                    ]);
-                    setCurrentBatch(nextBatch);
-                  }}
-                  className="glass-dark flex items-center justify-center gap-2 rounded-lg px-4 py-3 font-semibold text-purple-300 transition duration-700 hover:scale-[1.01] hover:bg-zinc-800 active:scale-95 active:bg-zinc-800"
-                >
-                  Load More Microfrontends (
-                  {projectsData.filter((p) => p.microRoute).length -
-                    microfrontendProjects.length}{" "}
-                  remaining)
-                </button>
-              </div>
-            )}
+          {/* removed load-more functionality: all microfrontends are now loaded into projectsData
+                  and filtering determines what's shown */}
         </>
       ),
     },
@@ -431,7 +370,11 @@ export default function ProjectsList() {
             />
           ))
         ) : (
-          <DirectionAwareTabs tabs={tabs} />
+          <DirectionAwareTabs
+            tabs={tabs}
+            onLocalServerChange={(v) => setLocalServer(v)}
+            onTabChange={(id) => setActiveTabId(id)}
+          />
         )}
       </motion.div>
     </div>
