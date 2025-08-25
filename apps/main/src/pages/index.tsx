@@ -688,7 +688,7 @@ curl https://api.example.dev/health`}
                           rel="noreferrer"
                           className="flex w-full items-center justify-center rounded border border-pink-500/20 bg-gradient-to-r from-pink-500/20 to-purple-500/20 px-3 py-1.5 text-xs text-pink-100 transition-colors hover:from-pink-500/30 hover:to-purple-500/30"
                         >
-                          Microfront
+                          API Link
                         </Link>
                         <Link
                           href={proj.repo ?? "#"}
