@@ -1,4 +1,6 @@
-import { ReactNode, useMemo, useState } from "react";
+"use client";
+
+import { ReactNode, useMemo, useState, useEffect } from "react";
 import { AnimatePresence, MotionConfig, motion } from "framer-motion";
 import useMeasure from "react-use-measure";
 
@@ -17,13 +19,23 @@ interface OgImageSectionProps {
   onChange?: () => void;
 }
 
+const STORAGE_KEY = "directionAwareTabs.activeTab";
+
 function DirectionAwareTabs({
   tabs,
   className,
   rounded,
   onChange,
 }: OgImageSectionProps) {
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState<number>(() => {
+    try {
+      if (typeof window === "undefined") return 0;
+      const stored = sessionStorage.getItem(STORAGE_KEY);
+      return stored ? parseInt(stored, 10) : 0;
+    } catch (err) {
+      return 0;
+    }
+  });
   const [direction, setDirection] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [ref, bounds] = useMeasure();
@@ -38,9 +50,26 @@ function DirectionAwareTabs({
       const newDirection = newTabId > activeTab ? 1 : -1;
       setDirection(newDirection);
       setActiveTab(newTabId);
-      onChange ? onChange() : null;
+      try {
+        if (typeof window !== "undefined")
+          sessionStorage.setItem(STORAGE_KEY, String(newTabId));
+      } catch (err) {
+        /* ignore storage errors */
+      }
+
+      if (onChange) onChange();
     }
   };
+
+  // Persist activeTab whenever it changes (covers other ways state might change)
+  useEffect(() => {
+    try {
+      if (typeof window !== "undefined")
+        sessionStorage.setItem(STORAGE_KEY, String(activeTab));
+    } catch (err) {
+      /* ignore */
+    }
+  }, [activeTab]);
 
   const variants = {
     initial: (direction: number) => ({
