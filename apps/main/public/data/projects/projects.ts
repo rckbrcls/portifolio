@@ -83,6 +83,7 @@ export const projects: IProject[] = [
     microRoute: process.env.NEXT_PUBLIC_SECRET_SANTA_URL as string,
     coverImage: "/images/projects/secret-santa/home.png",
     status: "finished",
+    localServer: true,
   },
   {
     slug: "video-project-manage",
@@ -121,6 +122,7 @@ export const projects: IProject[] = [
     microRoute: process.env.NEXT_PUBLIC_ELECTORAL_SYSTEM_URL as string,
     coverImage: "/images/projects/electoral-system/home.png",
     status: "finished",
+    localServer: true,
   },
   {
     slug: "rgbwallet",
@@ -143,6 +145,7 @@ export const projects: IProject[] = [
     microRoute: "/rgbwallet",
     coverImage: "/images/projects/rgbwallet/rgbwallet-logo.png",
     status: "finished",
+    localServer: true,
   },
   {
     slug: "liga-academica",
@@ -170,6 +173,7 @@ export const projects: IProject[] = [
     microRoute: process.env.NEXT_PUBLIC_JOYSTICK_URL as string,
     coverImage: "",
     status: "finished",
+    localServer: true,
   },
   // {
   //   slug: "tagit",

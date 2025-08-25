@@ -19,4 +19,5 @@ export interface IProject {
   projectVisualization?: IVisualization[];
   coverImage?: StaticImageData | string;
   status: TProjectStatus;
+  localServer?: boolean;
 }
