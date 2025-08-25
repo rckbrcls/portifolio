@@ -207,7 +207,7 @@ function DirectionAwareTabs({
                 : "",
             )}
           >
-            <span className="lowercase">Local Server</span>
+            <span>Local Server</span>
           </button>
         )}
       </div>
