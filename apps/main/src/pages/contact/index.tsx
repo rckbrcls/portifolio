@@ -62,14 +62,14 @@ export default function Contact() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="flex w-full flex-col items-end gap-4"
+              className="flex w-full flex-col items-end gap-4 md:inline-flex md:w-auto md:flex-col"
             >
               <motion.div
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
                 <Link
-                  className="glass-dark flex items-center gap-4 rounded-xl px-6 py-5 transition-all duration-300 hover:border-purple-400/50"
+                  className="glass-dark flex w-full items-center gap-4 rounded-3xl rounded-xl px-6 py-5 transition-all duration-300 hover:border-purple-400/50"
                   target="_blank"
                   href="https://github.com/rckbrcls"
                 >
@@ -88,7 +88,7 @@ export default function Contact() {
                 whileTap={{ scale: 0.98 }}
               >
                 <Link
-                  className="glass-dark flex items-center gap-4 rounded-xl px-6 py-5 transition-all duration-300 hover:border-purple-400/50"
+                  className="glass-dark flex w-full items-center gap-4 rounded-3xl rounded-xl px-6 py-5 transition-all duration-300 hover:border-purple-400/50"
                   target="_blank"
                   href="https://www.linkedin.com/in/brcls/"
                 >
@@ -107,7 +107,7 @@ export default function Contact() {
                 whileTap={{ scale: 0.98 }}
               >
                 <Link
-                  className="glass-dark flex items-center gap-4 rounded-xl px-6 py-5 transition-all duration-300 hover:border-purple-400/50"
+                  className="glass-dark flex w-full items-center gap-4 rounded-3xl rounded-xl px-6 py-5 transition-all duration-300 hover:border-purple-400/50"
                   href="mailto:erickbarcelosdev@gmail.com"
                   onClick={() => {
                     setShowCopyMessage(true);
