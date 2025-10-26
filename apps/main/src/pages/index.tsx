@@ -25,7 +25,7 @@ export default function Home() {
               quality={100}
             />
           </div>
-          <Title word="Olá! I'm Erick" />
+          <Title word="Olá! I'm Erick" type="blur" />
         </div>
       </Aurora>
     </>
