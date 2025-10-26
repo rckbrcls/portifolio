@@ -52,7 +52,7 @@ const Header = () => {
       {routes.map((route, index) => (
         <Link
           className={cn(
-            `flex w-full items-center rounded-3xl px-4 py-1 duration-700 hover:scale-105 hover:bg-zinc-800 active:scale-95 active:bg-zinc-900`,
+            `flex w-full items-center rounded-full px-2 py-1 duration-700 hover:scale-105 hover:bg-zinc-800 active:scale-95 active:bg-zinc-900`,
             route.selected &&
               "bg-zinc-100 text-zinc-950 hover:bg-zinc-300 active:scale-95 active:bg-zinc-300",
           )}
