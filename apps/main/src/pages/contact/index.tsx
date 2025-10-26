@@ -30,46 +30,30 @@ export default function Contact() {
 
       <Aurora dark>
         <Header />
-        <div className="flex flex-col items-end">
+        <div className="flex flex-col items-end p-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="mb-16 flex w-full flex-col gap-6"
+            className="mb-5 flex w-full flex-col items-end gap-2 border-b border-zinc-700/50"
           >
-            <Title
-              word="Get in Touch"
-              type="blur"
-              gradient
-              className="text-end"
-            />
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className=""
-            >
-              <Text className="text-end text-lg leading-relaxed text-gray-300">
-                Got a project idea? Want to discuss something technical? Or just
-                wanna say hi? Pick whichever way works best for you below.
-              </Text>
-            </motion.div>
+            <Title word="Contact" type="blur" gradient className="text-end" />
           </motion.div>
 
-          <div className="flex w-full flex-col gap-6">
+          <div className="flex w-full gap-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="flex w-full flex-col items-end gap-4 md:inline-flex md:w-auto md:flex-col"
+              className="flex w-full items-center justify-end gap-4"
             >
               <motion.div
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                className="w-full md:w-auto"
               >
                 <Link
-                  className="glass-dark flex w-full items-center gap-4 rounded-3xl rounded-xl px-6 py-5 transition-all duration-300 hover:border-purple-400/50"
+                  className="glass-dark flex w-full items-center gap-4 rounded-3xl px-6 py-4 transition-all duration-300 hover:border-purple-400/50"
                   target="_blank"
                   href="https://github.com/rckbrcls"
                 >
@@ -86,9 +70,10 @@ export default function Contact() {
               <motion.div
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                className="w-full md:w-auto"
               >
                 <Link
-                  className="glass-dark flex w-full items-center gap-4 rounded-3xl rounded-xl px-6 py-5 transition-all duration-300 hover:border-purple-400/50"
+                  className="glass-dark flex w-full items-center gap-4 rounded-3xl px-6 py-4 transition-all duration-300 hover:border-purple-400/50"
                   target="_blank"
                   href="https://www.linkedin.com/in/brcls/"
                 >
@@ -105,9 +90,10 @@ export default function Contact() {
               <motion.div
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                className="w-full md:w-auto"
               >
                 <Link
-                  className="glass-dark flex w-full items-center gap-4 rounded-3xl rounded-xl px-6 py-5 transition-all duration-300 hover:border-purple-400/50"
+                  className="glass-dark flex w-full items-center gap-4 rounded-3xl px-6 py-4 transition-all duration-300 hover:border-purple-400/50"
                   href="mailto:erickbarcelosdev@gmail.com"
                   onClick={() => {
                     setShowCopyMessage(true);
