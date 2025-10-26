@@ -71,7 +71,7 @@ function Aurora({ children, dark = false, className }: IAuroraProps) {
   return (
     <div
       className={cn(
-        "absolute left-1/2 top-1/2 flex h-[96svh] w-[96svw] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-3xl",
+        "absolute left-1/2 top-1/2 flex h-[96svh] w-[96svw] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-3xl border border-zinc-700",
         position,
         className,
       )}
