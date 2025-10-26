@@ -46,13 +46,13 @@ const Header = () => {
   return (
     <header
       className={cn(
-        `glass-dark group absolute bottom-4 z-50 flex w-min select-none flex-col items-start justify-center gap-4 rounded-3xl border-zinc-700/30 px-3 py-4 transition duration-700`,
+        `glass-dark group absolute bottom-4 z-50 flex w-min select-none flex-col items-start justify-center gap-4 rounded-3xl border-zinc-700/30 p-4 transition duration-700`,
       )}
     >
       {routes.map((route, index) => (
         <Link
           className={cn(
-            `flex w-full items-center rounded-full px-4 py-1 duration-700 hover:scale-105 hover:bg-zinc-800 active:scale-95 active:bg-zinc-900`,
+            `flex w-full items-center rounded-3xl px-4 py-1 duration-700 hover:scale-105 hover:bg-zinc-800 active:scale-95 active:bg-zinc-900`,
             route.selected &&
               "bg-zinc-100 text-zinc-950 hover:bg-zinc-300 active:scale-95 active:bg-zinc-300",
           )}
