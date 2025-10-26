@@ -21,8 +21,8 @@ export default function AboutMe() {
         <Header />
         <div className="mx-auto flex w-full flex-col items-end overflow-hidden">
           {/* Hero Section */}
-          <div className="mb-5 w-full border-b border-zinc-700/30 pb-5">
-            <div className="mx-auto flex items-start justify-between gap-6 p-4 text-start max-sm:flex-col max-sm:text-center">
+          <div className="mb-5 w-full border-b border-zinc-700/30">
+            <div className="mx-auto flex items-start justify-between gap-6 px-4 text-start max-sm:flex-col max-sm:text-center">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -60,19 +60,6 @@ export default function AboutMe() {
                     gradient
                     className="text-end"
                   />
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  className="max-w-2xl"
-                >
-                  <Text className="text-end leading-relaxed">
-                    Welcome! Here you'll find a bit about my journey, passions,
-                    and what inspires me beyond the code. Dive in and get to
-                    know the person behind the projects.
-                  </Text>
                 </motion.div>
               </div>
             </div>
