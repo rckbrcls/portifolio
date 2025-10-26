@@ -76,7 +76,7 @@ function Aurora({ children, dark = false, className }: IAuroraProps) {
         className,
       )}
     >
-      <div className="z-50 w-full p-4">{children}</div>
+      <div className="z-50 w-full overflow-scroll p-4">{children}</div>
       <Suspense fallback={<AuroraFallback dark={dark} position={position} />}>
         {isClient ? (
           <AuroraGradient dark={dark} palettes={palettes} />
