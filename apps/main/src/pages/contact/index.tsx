@@ -16,22 +16,11 @@ export default function Contact() {
   const [showCopyMessage, setShowCopyMessage] = useState<boolean>();
 
   const copyValue = (val: string) => {
-    // Create a "hidden" input
     var aux = document.createElement("input");
-
-    // Assign it the value of the specified element
     aux.setAttribute("value", val);
-
-    // Append it to the body
     document.body.appendChild(aux);
-
-    // Highlight its content
     aux.select();
-
-    // Copy the highlighted text
     document.execCommand("copy");
-
-    // Remove it from the body
     document.body.removeChild(aux);
   };
 
