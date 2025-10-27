@@ -1,10 +1,20 @@
-import { projects, microfrontendProjects } from "../../public/data/projects/projects";
-import { frameworks, languages, databases, toolsAndLibraries } from "../../public/data/techStack";
+import {
+  projects,
+  microfrontendProjects,
+} from "../../public/data/projects/projects";
+import {
+  frameworks,
+  languages,
+  databases,
+  toolsAndLibraries,
+} from "../../public/data/techStack";
 
 type FilterOption = { value: string; label: string };
 
 // Helper para extrair tech stacks únicas de um array de projetos
-const extractUniqueTechStacks = (projectList: typeof projects | typeof microfrontendProjects) => {
+const extractUniqueTechStacks = (
+  projectList: typeof projects | typeof microfrontendProjects,
+) => {
   const allTechs = projectList.flatMap((project) => project.techStack);
   return Array.from(new Set(allTechs));
 };
