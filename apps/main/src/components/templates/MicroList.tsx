@@ -85,7 +85,312 @@ export default function MicroList() {
     {
       id: 0,
       label: "Documentation",
-      content: <></>,
+      content: (
+        <div className="flex flex-col gap-8 py-6">
+          {/* Intro Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="flex flex-col gap-4"
+          >
+            <h2 className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-3xl font-bold text-transparent">
+              Microfrontend Architecture
+            </h2>
+            <p className="leading-relaxed text-gray-300">
+              This portfolio leverages a{" "}
+              <span className="font-semibold text-purple-400">
+                microfrontend architecture
+              </span>{" "}
+              within a{" "}
+              <span className="font-semibold text-purple-400">
+                monorepo structure
+              </span>
+              . Each project is an independent microfrontend that can be
+              developed, tested, and deployed separately, while sharing common
+              utilities and components through the monorepo.
+            </p>
+          </motion.div>
+
+          {/* Architecture Overview */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            viewport={{ once: true }}
+            className="glass-dark flex flex-col gap-4 rounded-2xl border border-purple-500/20 p-6"
+          >
+            <h3 className="flex items-center gap-2 text-2xl font-bold text-purple-300">
+              <MdComputer className="h-6 w-6" />
+              Tech Stack
+            </h3>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div className="flex flex-col gap-2">
+                <h4 className="font-semibold text-purple-400">Frontend</h4>
+                <ul className="list-inside list-disc space-y-1 text-sm text-gray-300">
+                  <li>
+                    <strong>Next.js & React</strong> - Main portfolio
+                    application
+                  </li>
+                  <li>
+                    <strong>SolidJS</strong> - High-performance microfrontends
+                  </li>
+                  <li>
+                    <strong>TypeScript</strong> - Type safety across the
+                    codebase
+                  </li>
+                  <li>
+                    <strong>Webpack</strong> - Module federation & bundling
+                  </li>
+                  <li>
+                    <strong>Turborepo</strong> - Monorepo orchestration
+                  </li>
+                </ul>
+              </div>
+              <div className="flex flex-col gap-2">
+                <h4 className="font-semibold text-purple-400">Backend</h4>
+                <ul className="list-inside list-disc space-y-1 text-sm text-gray-300">
+                  <li>
+                    <strong>Node.js</strong> - API services (Express)
+                  </li>
+                  <li>
+                    <strong>Flask (Python)</strong> - Electoral system API
+                  </li>
+                  <li>
+                    <strong>MongoDB</strong> - NoSQL database
+                  </li>
+                  <li>
+                    <strong>PostgreSQL</strong> - Relational database
+                  </li>
+                  <li>
+                    <strong>Docker</strong> - Containerization
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Homelab Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="flex flex-col gap-4"
+          >
+            <h3 className="flex items-center gap-2 text-2xl font-bold text-pink-300">
+              <Computer className="h-6 w-6" />
+              Homelab Infrastructure
+            </h3>
+            <p className="leading-relaxed text-gray-300">
+              Several mini-project APIs are running on my personal{" "}
+              <span className="font-semibold text-pink-400">homelab</span>,
+              containerized with Docker and exposed securely through{" "}
+              <span className="font-semibold text-pink-400">
+                Cloudflare Tunnel
+              </span>
+              . This setup allows me to host multiple services without exposing
+              databases or opening ports on my home network.
+            </p>
+          </motion.div>
+
+          {/* Services Grid */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            viewport={{ once: true }}
+            className="grid grid-cols-1 gap-4 md:grid-cols-2"
+          >
+            {/* Electoral System API */}
+            <div className="glass-dark flex flex-col gap-3 rounded-xl border border-pink-500/20 p-5">
+              <h4 className="font-bold text-pink-400">Electoral System API</h4>
+              <p className="text-sm text-gray-300">
+                Flask-based API with PostgreSQL for election management system.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
+                  Flask
+                </span>
+                <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
+                  PostgreSQL
+                </span>
+                <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
+                  Docker
+                </span>
+              </div>
+            </div>
+
+            {/* Joystick API */}
+            <div className="glass-dark flex flex-col gap-3 rounded-xl border border-pink-500/20 p-5">
+              <h4 className="font-bold text-pink-400">Joystick API</h4>
+              <p className="text-sm text-gray-300">
+                Node.js API with MongoDB for game collection management.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
+                  Node.js
+                </span>
+                <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
+                  MongoDB
+                </span>
+                <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
+                  Express
+                </span>
+              </div>
+            </div>
+
+            {/* RGB Wallet API */}
+            <div className="glass-dark flex flex-col gap-3 rounded-xl border border-pink-500/20 p-5">
+              <h4 className="font-bold text-pink-400">RGB Wallet API</h4>
+              <p className="text-sm text-gray-300">
+                Node.js API with MongoDB for RGB protocol wallet management.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
+                  Node.js
+                </span>
+                <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
+                  MongoDB
+                </span>
+                <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
+                  Blockchain
+                </span>
+              </div>
+            </div>
+
+            {/* Secret Santa API */}
+            <div className="glass-dark flex flex-col gap-3 rounded-xl border border-pink-500/20 p-5">
+              <h4 className="font-bold text-pink-400">Secret Santa API</h4>
+              <p className="text-sm text-gray-300">
+                Node.js API with MongoDB for secret santa gift exchange
+                management.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
+                  Node.js
+                </span>
+                <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
+                  MongoDB
+                </span>
+                <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
+                  Express
+                </span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Infrastructure Details */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            viewport={{ once: true }}
+            className="glass-dark flex flex-col gap-4 rounded-2xl border border-purple-500/20 p-6"
+          >
+            <h3 className="text-xl font-bold text-purple-300">
+              Security & Deployment
+            </h3>
+            <div className="space-y-3 text-sm text-gray-300">
+              <div className="flex gap-3">
+                <div className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-purple-400"></div>
+                <p>
+                  <strong className="text-purple-400">
+                    Cloudflare Tunnel:
+                  </strong>{" "}
+                  Secure tunnel that exposes local services without opening
+                  firewall ports or exposing my home IP address.
+                </p>
+              </div>
+              <div className="flex gap-3">
+                <div className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-purple-400"></div>
+                <p>
+                  <strong className="text-purple-400">Docker Compose:</strong>{" "}
+                  All services run in isolated containers with internal
+                  networking. Databases are NOT exposed to the internet.
+                </p>
+              </div>
+              <div className="flex gap-3">
+                <div className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-purple-400"></div>
+                <p>
+                  <strong className="text-purple-400">Local-only ports:</strong>{" "}
+                  API ports are bound to 127.0.0.1, accessible only through the
+                  tunnel or local machine.
+                </p>
+              </div>
+              <div className="flex gap-3">
+                <div className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-purple-400"></div>
+                <p>
+                  <strong className="text-purple-400">Auto-restart:</strong>{" "}
+                  Services automatically restart on failure, ensuring high
+                  availability.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Learning Journey Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            viewport={{ once: true }}
+            className="flex flex-col gap-4"
+          >
+            <h3 className="text-2xl font-bold text-purple-300">
+              Learning Journey
+            </h3>
+            <p className="leading-relaxed text-gray-300">
+              To be honest? This entire setup is{" "}
+              <span className="font-semibold text-purple-400">
+                completely over-engineered
+              </span>{" "}
+              for a simple portfolio. But that's exactly the point! 🚀
+            </p>
+            <p className="leading-relaxed text-gray-300">
+              I built this architecture purely as a{" "}
+              <span className="font-semibold text-pink-400">
+                learning experience
+              </span>{" "}
+              to understand modern web development patterns, monorepo
+              management, microfrontend architecture, Docker orchestration, and
+              homelab infrastructure. Sometimes the best way to learn is to
+              build something unnecessarily complex and figure out how all the
+              pieces fit together.
+            </p>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+              <div className="glass-dark flex flex-col gap-2 rounded-xl border border-purple-500/20 p-4">
+                <h4 className="font-semibold text-purple-400">
+                  � Technologies
+                </h4>
+                <p className="text-sm text-gray-300">
+                  Exploring different frameworks, build tools, and deployment
+                  strategies in a single project.
+                </p>
+              </div>
+              <div className="glass-dark flex flex-col gap-2 rounded-xl border border-purple-500/20 p-4">
+                <h4 className="font-semibold text-purple-400">
+                  🏠 Infrastructure
+                </h4>
+                <p className="text-sm text-gray-300">
+                  Setting up a homelab with Docker, databases, and secure
+                  tunneling to understand DevOps practices.
+                </p>
+              </div>
+              <div className="glass-dark flex flex-col gap-2 rounded-xl border border-purple-500/20 p-4">
+                <h4 className="font-semibold text-purple-400">
+                  🎯 Architecture
+                </h4>
+                <p className="text-sm text-gray-300">
+                  Implementing microfrontends and monorepo patterns to grasp
+                  enterprise-level development concepts.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      ),
     },
     {
       id: 1,
