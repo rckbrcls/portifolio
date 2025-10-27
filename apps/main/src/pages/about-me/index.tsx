@@ -19,49 +19,48 @@ export default function AboutMe() {
 
       <Aurora dark>
         <Header />
-        <div className="mx-auto flex w-full flex-col items-end overflow-hidden">
+        <div className="flex w-full flex-col items-end overflow-hidden max-sm:mb-16">
           {/* Hero Section */}
-          <div className="mb-5 w-full border-b border-zinc-700/30">
-            <div className="mx-auto flex items-start justify-between gap-6 px-4 text-start max-sm:flex-col max-sm:text-center">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                viewport={{ once: true }}
-                className="absolute left-4 top-4 z-50 flex justify-center"
-              >
-                <a
-                  className="glass-dark flex w-full items-center justify-center gap-3 text-nowrap rounded-3xl px-6 py-4 text-base font-bold transition duration-300 hover:border-purple-400/40"
-                  href="/files/Resume.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaFileDownload className="transition-colors group-hover:text-purple-400" />
-                  <Text>Download Resume</Text>
-                  <BorderBeam
-                    size={100}
-                    duration={5}
-                    delay={9}
-                    colorFrom="#6366f1"
-                    colorTo="#ec4899"
-                  />
-                </a>
-              </motion.div>
 
-              <div className="flex w-full flex-col items-end justify-between max-sm:items-center">
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8 }}
-                >
-                  <Title
-                    word="About Me"
-                    type="blur"
-                    gradient
-                    className="text-end"
-                  />
-                </motion.div>
-              </div>
+          <div className="mb-5 flex w-full items-start justify-between gap-6 border-b border-zinc-700/30 px-4 text-start max-sm:flex-col max-sm:px-2 max-sm:text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="absolute z-50 flex justify-center max-sm:bottom-4 max-sm:right-4 sm:left-4 sm:top-4"
+            >
+              <a
+                className="glass-dark flex w-full items-center justify-center gap-3 text-nowrap rounded-3xl px-6 py-2 text-base font-bold transition duration-300 hover:border-purple-400/40 max-sm:p-3"
+                href="/files/Resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaFileDownload className="transition-colors group-hover:text-purple-400" />
+                <Text className="max-sm:hidden">Download Resume</Text>
+                <BorderBeam
+                  size={100}
+                  duration={5}
+                  delay={9}
+                  colorFrom="#6366f1"
+                  colorTo="#ec4899"
+                />
+              </a>
+            </motion.div>
+
+            <div className="flex w-full flex-col items-end justify-end">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                <Title
+                  word="About Me"
+                  type="blur"
+                  gradient
+                  className="text-end"
+                />
+              </motion.div>
             </div>
           </div>
 
@@ -70,7 +69,7 @@ export default function AboutMe() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
-            className="w-11/12"
+            className="w-11/12 max-sm:w-full"
           >
             <BoxGrid />
           </motion.div>

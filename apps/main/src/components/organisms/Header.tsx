@@ -46,7 +46,7 @@ const Header = () => {
   return (
     <header
       className={cn(
-        `glass-dark group absolute bottom-4 z-50 flex w-min select-none flex-col items-start justify-center gap-4 rounded-3xl border-zinc-700/30 p-4 transition duration-700`,
+        `glass-dark group absolute bottom-4 z-50 flex w-min select-none flex-col items-start justify-center gap-4 rounded-3xl border-zinc-700/30 p-2 transition duration-700 max-sm:flex-row`,
       )}
     >
       {routes.map((route, index) => (

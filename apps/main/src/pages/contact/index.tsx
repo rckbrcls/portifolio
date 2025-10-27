@@ -30,7 +30,7 @@ export default function Contact() {
 
       <Aurora dark>
         <Header />
-        <div className="flex flex-col items-end p-4">
+        <div className="flex flex-col items-end md:p-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -40,84 +40,82 @@ export default function Contact() {
             <Title word="Contact" type="blur" gradient className="text-end" />
           </motion.div>
 
-          <div className="flex w-full gap-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="flex w-full items-center justify-end gap-2 max-sm:flex-col md:gap-4"
+          >
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="flex w-full items-center justify-end gap-4"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full md:w-auto"
             >
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full md:w-auto"
+              <Link
+                className="glass-dark flex w-full items-center gap-4 rounded-3xl px-6 py-4 transition-all duration-300 hover:border-purple-400/50"
+                target="_blank"
+                href="https://github.com/rckbrcls"
               >
-                <Link
-                  className="glass-dark flex w-full items-center gap-4 rounded-3xl px-6 py-4 transition-all duration-300 hover:border-purple-400/50"
-                  target="_blank"
-                  href="https://github.com/rckbrcls"
-                >
-                  <AiFillGithub className="text-3xl text-purple-400" />
-                  <div className="flex flex-col">
-                    <Text className="font-semibold">GitHub</Text>
-                    <Text className="whitespace-nowrap text-sm text-gray-500">
-                      @rckbrcls
-                    </Text>
-                  </div>
-                </Link>
-              </motion.div>
-
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full md:w-auto"
-              >
-                <Link
-                  className="glass-dark flex w-full items-center gap-4 rounded-3xl px-6 py-4 transition-all duration-300 hover:border-purple-400/50"
-                  target="_blank"
-                  href="https://www.linkedin.com/in/brcls/"
-                >
-                  <AiFillLinkedin className="text-3xl text-blue-400" />
-                  <div className="flex flex-col">
-                    <Text className="font-semibold">LinkedIn</Text>
-                    <Text className="whitespace-nowrap text-sm text-gray-500">
-                      /in/brcls
-                    </Text>
-                  </div>
-                </Link>
-              </motion.div>
-
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full md:w-auto"
-              >
-                <Link
-                  className="glass-dark flex w-full items-center gap-4 rounded-3xl px-6 py-4 transition-all duration-300 hover:border-purple-400/50"
-                  href="mailto:erickbarcelosdev@gmail.com"
-                  onClick={() => {
-                    setShowCopyMessage(true);
-                    setTimeout(() => setShowCopyMessage(false), 2000);
-                    copyValue("erickbarcelosdev@gmail.com");
-                  }}
-                >
-                  <AiFillMail className="text-3xl text-pink-400" />
-                  <div className="flex flex-col">
-                    <Text className="font-semibold">Email</Text>
-                    <Text className="whitespace-nowrap text-sm text-gray-500">
-                      {showCopyMessage ? (
-                        <span className="whitespace-nowrap text-green-400">
-                          Copied to clipboard!
-                        </span>
-                      ) : (
-                        "Click to copy"
-                      )}
-                    </Text>
-                  </div>
-                </Link>
-              </motion.div>
+                <AiFillGithub className="text-3xl text-purple-400" />
+                <div className="flex flex-col">
+                  <Text className="font-semibold">GitHub</Text>
+                  <Text className="whitespace-nowrap text-sm text-gray-500">
+                    @rckbrcls
+                  </Text>
+                </div>
+              </Link>
             </motion.div>
-          </div>
+
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full md:w-auto"
+            >
+              <Link
+                className="glass-dark flex w-full items-center gap-4 rounded-3xl px-6 py-4 transition-all duration-300 hover:border-purple-400/50"
+                target="_blank"
+                href="https://www.linkedin.com/in/brcls/"
+              >
+                <AiFillLinkedin className="text-3xl text-blue-400" />
+                <div className="flex flex-col">
+                  <Text className="font-semibold">LinkedIn</Text>
+                  <Text className="whitespace-nowrap text-sm text-gray-500">
+                    /in/brcls
+                  </Text>
+                </div>
+              </Link>
+            </motion.div>
+
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full md:w-auto"
+            >
+              <Link
+                className="glass-dark flex w-full items-center gap-4 rounded-3xl px-6 py-4 transition-all duration-300 hover:border-purple-400/50"
+                href="mailto:erickbarcelosdev@gmail.com"
+                onClick={() => {
+                  setShowCopyMessage(true);
+                  setTimeout(() => setShowCopyMessage(false), 2000);
+                  copyValue("erickbarcelosdev@gmail.com");
+                }}
+              >
+                <AiFillMail className="text-3xl text-pink-400" />
+                <div className="flex flex-col">
+                  <Text className="font-semibold">Email</Text>
+                  <Text className="whitespace-nowrap text-sm text-gray-500">
+                    {showCopyMessage ? (
+                      <span className="whitespace-nowrap text-green-400">
+                        Copied to clipboard!
+                      </span>
+                    ) : (
+                      "Click to copy"
+                    )}
+                  </Text>
+                </div>
+              </Link>
+            </motion.div>
+          </motion.div>
         </div>
       </Aurora>
     </div>
