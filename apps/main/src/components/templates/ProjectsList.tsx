@@ -178,7 +178,7 @@ export default function ProjectsList() {
           duration: 0.7,
         }}
         viewport={{ once: true, margin: "-100px" }}
-        className="max-md:scrollbar-hidden -mx-4 flex w-[calc(100%+2rem)] items-end gap-2 px-4 max-md:overflow-x-scroll max-sm:-mx-2 max-sm:w-[calc(100%+1rem)] max-sm:px-2"
+        className="max-md:scrollbar-hidden -mx-8 flex w-[calc(100%+4rem)] items-end gap-2 px-8 max-md:overflow-x-scroll max-sm:-mx-4 max-sm:w-[calc(100%+2rem)] max-sm:px-4"
       >
         <div className="flex w-full flex-col gap-2">
           <Label htmlFor="frameworks" className="font-semibold text-purple-400">
@@ -186,7 +186,7 @@ export default function ProjectsList() {
           </Label>
           <MultiSelect
             id="frameworks"
-            className="min-w-60 font-medium text-gray-200"
+            className="min-w-60 font-medium text-gray-200 max-sm:h-10"
             options={filterOptions.frameworks}
             onValueChange={(selected) =>
               handleFilterChange("frameworks", selected)
@@ -203,7 +203,7 @@ export default function ProjectsList() {
           </Label>
           <MultiSelect
             id="languages"
-            className="min-w-60 font-medium text-gray-200"
+            className="min-w-60 font-medium text-gray-200 max-sm:h-10"
             options={filterOptions.languages}
             onValueChange={(selected) =>
               handleFilterChange("languages", selected)
@@ -220,7 +220,7 @@ export default function ProjectsList() {
           </Label>
           <MultiSelect
             id="databases"
-            className="min-w-60 font-medium text-gray-200"
+            className="min-w-60 font-medium text-gray-200 max-sm:h-10"
             options={filterOptions.databases}
             onValueChange={(selected) =>
               handleFilterChange("databases", selected)
@@ -237,7 +237,7 @@ export default function ProjectsList() {
           </Label>
           <MultiSelect
             id="tools"
-            className="min-w-60 font-medium text-gray-200"
+            className="min-w-60 font-medium text-gray-200 max-sm:h-10"
             options={filterOptions.tools}
             onValueChange={(selected) => handleFilterChange("tools", selected)}
             defaultValue={filters.tools}
@@ -247,7 +247,7 @@ export default function ProjectsList() {
         </div>
         <button
           onClick={resetFilter}
-          className="glass-dark flex h-12 w-min items-center justify-center gap-2 text-nowrap rounded-3xl px-6 py-2 font-semibold text-purple-300 transition duration-700 hover:scale-[1.01] hover:bg-zinc-800 active:scale-95 active:bg-zinc-800"
+          className="glass-dark flex h-12 w-min items-center justify-center gap-2 text-nowrap rounded-3xl px-6 py-2 font-semibold text-purple-300 transition duration-700 hover:scale-[1.01] hover:bg-zinc-800 active:scale-95 active:bg-zinc-800 max-sm:h-10"
         >
           reset filter
         </button>
