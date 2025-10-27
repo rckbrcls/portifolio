@@ -41,6 +41,12 @@ const Header = () => {
       selected: pathname === "/contact",
       name: "Contact",
     },
+    {
+      path: "/architecture",
+      icon: "🏛️",
+      selected: pathname === "/architecture",
+      name: "Architecture",
+    },
   ];
 
   return (

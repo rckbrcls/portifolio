@@ -1,20 +1,11 @@
 "use client";
 
-import React, {
-  useRef,
-  forwardRef,
-  useState,
-  useEffect,
-  useCallback,
-  useMemo,
-} from "react";
-import { FiMaximize } from "react-icons/fi";
-import { FaCompress } from "react-icons/fa";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import { Text } from "../atoms/Text";
 import { cn } from "@/lib/utils";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { BiSolidComponent } from "react-icons/bi";
-import { ZoomInIcon, ZoomOutIcon, HandIcon } from "@radix-ui/react-icons";
+import { ZoomInIcon, ZoomOutIcon } from "@radix-ui/react-icons";
 
 // ===== EXCALIDRAW-STYLE TYPE SYSTEM =====
 interface WorldCoordinates {
@@ -51,7 +42,6 @@ interface AppState {
   connections: Map<string, Connection>;
   selectedCards: Set<string>;
   isDragging: boolean;
-  isPanModeActive: boolean; // New state for pan/zoom mode
   dragState: {
     cardId: string;
     startPosition: WorldCoordinates;
@@ -144,47 +134,45 @@ const ArchitectureCardElement = React.forwardRef<
 
     return (
       <div
-        ref={ref}
         style={{
           position: "absolute",
           left: screenPos.x,
           top: screenPos.y,
-          width: card.size.width * cardScale,
-          height: card.size.height * cardScale,
-          transformOrigin: "top left",
           zIndex: isDragging ? 30 : isSelected ? 20 : 10,
-          cursor: isDragging ? "grabbing" : "grab",
-          borderRadius: `${8 * cardScale}px`, // Border radius que escala com o card
-          // Touch optimizations
-          WebkitUserSelect: "none",
-          userSelect: "none",
-          WebkitTouchCallout: "none",
-          WebkitTapHighlightColor: "transparent",
-          touchAction: "none",
         }}
-        className={cn(
-          "glass-dark bg-zinc-950 transition-shadow duration-200",
-          isSelected && "ring-2 ring-purple-400/50",
-          isDragging && "scale-105 shadow-xl",
-        )}
-        onMouseDown={(e) => onMouseDown(e, card.id)}
-        onTouchStart={(e) => onTouchStart(e, card.id)}
-        data-card-id={card.id}
       >
+        {/* Card - draggable */}
         <div
-          className="flex h-full w-full flex-col justify-between"
+          ref={ref}
           style={{
-            padding: `${8 * cardScale}px`,
-            gap: `${6 * cardScale}px`,
+            width: card.size.width * cardScale,
+            height: card.size.height * cardScale,
+            transformOrigin: "top left",
+            cursor: isDragging ? "grabbing" : "grab",
+            borderRadius: `${16 * cardScale}px`,
+            // Touch optimizations
+            WebkitUserSelect: "none",
+            userSelect: "none",
+            WebkitTouchCallout: "none",
+            WebkitTapHighlightColor: "transparent",
+            touchAction: "none",
           }}
+          className={cn(
+            "glass-dark bg-zinc-950 transition-shadow duration-200",
+            isSelected && "ring-2 ring-purple-400/50",
+            isDragging && "scale-105 shadow-xl",
+          )}
+          onMouseDown={(e) => onMouseDown(e, card.id)}
+          onTouchStart={(e) => onTouchStart(e, card.id)}
+          data-card-id={card.id}
         >
-          {/* Title area - centered vertically in top portion */}
           <div
-            className="flex items-center justify-center"
+            className="flex h-full w-full items-center justify-center"
             style={{
-              minHeight: `${40 * cardScale}px`, // Give the title area some height to center within
+              padding: `${8 * cardScale}px`,
             }}
           >
+            {/* Title */}
             <span
               className="text-center font-bold leading-tight text-white"
               style={{
@@ -194,68 +182,71 @@ const ArchitectureCardElement = React.forwardRef<
               {card.title}
             </span>
           </div>
-          {/* Buttons container */}
-          <div
-            className="flex w-full flex-col"
+        </div>
+
+        {/* Buttons container - below card, not draggable */}
+        <div
+          className="flex w-full justify-center"
+          style={{
+            marginTop: `${8 * cardScale}px`,
+            gap: `${8 * cardScale}px`,
+            pointerEvents: "auto",
+          }}
+        >
+          <a
+            className="glass-dark flex items-center justify-center transition duration-500 hover:scale-105"
             style={{
+              padding: `${8 * cardScale}px ${12 * cardScale}px`,
               gap: `${6 * cardScale}px`,
+              borderRadius: `${16 * cardScale}px`,
             }}
+            href={card.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
           >
-            <a
-              className="glass-dark flex w-full items-center justify-center transition duration-500 hover:scale-105"
+            <GitHubLogoIcon
               style={{
-                padding: `${8 * cardScale}px`,
-                gap: `${6 * cardScale}px`,
-                borderRadius: `${6 * cardScale}px`, // Border radius que escala com o card
+                width: `${12 * cardScale}px`,
+                height: `${12 * cardScale}px`,
               }}
-              href={card.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+            />
+            <span
+              className="text-white"
+              style={{
+                fontSize: `${12 * cardScale}px`,
+              }}
+            >
+              Codebase
+            </span>
+          </a>
+          {card.microfrontendUrl && (
+            <a
+              className="glass-dark flex items-center justify-center border-zinc-800 transition duration-500 hover:scale-105"
+              style={{
+                padding: `${8 * cardScale}px ${12 * cardScale}px`,
+                gap: `${6 * cardScale}px`,
+                borderRadius: `${16 * cardScale}px`,
+              }}
+              href={card.microfrontendUrl}
               onClick={(e) => e.stopPropagation()}
             >
-              <GitHubLogoIcon
+              <BiSolidComponent
                 style={{
                   width: `${12 * cardScale}px`,
                   height: `${12 * cardScale}px`,
                 }}
               />
               <span
-                className="w-full text-white"
+                className="text-white"
                 style={{
                   fontSize: `${12 * cardScale}px`,
                 }}
               >
-                Codebase
+                Microfrontend
               </span>
             </a>
-            {card.microfrontendUrl && (
-              <a
-                className="glass-dark flex w-full items-center justify-center border-zinc-800 transition duration-500 hover:scale-105"
-                style={{
-                  padding: `${8 * cardScale}px`,
-                  gap: `${6 * cardScale}px`,
-                  borderRadius: `${6 * cardScale}px`, // Border radius que escala com o card
-                }}
-                href={card.microfrontendUrl}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <BiSolidComponent
-                  style={{
-                    width: `${12 * cardScale}px`,
-                    height: `${12 * cardScale}px`,
-                  }}
-                />
-                <span
-                  className="w-full text-white"
-                  style={{
-                    fontSize: `${12 * cardScale}px`,
-                  }}
-                >
-                  Microfrontend
-                </span>
-              </a>
-            )}
-          </div>
+          )}
         </div>
       </div>
     );
@@ -291,9 +282,9 @@ const ConnectionElement: React.FC<{
 
   // Generate bezier curve path (Excalidraw style)
   const controlOffset = Math.abs(toCenter.x - fromCenter.x) * 0.3;
-  const path = `M ${fromCenter.x} ${fromCenter.y} 
-               C ${fromCenter.x + controlOffset} ${fromCenter.y}, 
-                 ${toCenter.x - controlOffset} ${toCenter.y}, 
+  const path = `M ${fromCenter.x} ${fromCenter.y}
+               C ${fromCenter.x + controlOffset} ${fromCenter.y},
+                 ${toCenter.x - controlOffset} ${toCenter.y},
                  ${toCenter.x} ${toCenter.y}`;
 
   return (
@@ -353,39 +344,32 @@ const ViewportLayer: React.FC<{
   };
 
   // Touch handlers for mobile support
-  const handleTouchStart = useCallback(
-    (e: React.TouchEvent) => {
-      if (!appState.isPanModeActive) return;
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    e.preventDefault();
+    const touches = e.touches;
 
-      e.preventDefault();
-      const touches = e.touches;
-
-      if (touches.length === 1) {
-        // Single touch - start panning
-        setIsPanning(true);
-        setLastPanPoint({ x: touches[0].clientX, y: touches[0].clientY });
-      } else if (touches.length === 2) {
-        // Two touches - prepare for pinch zoom
-        const distance = getTouchDistance(touches);
-        const center = getTouchCenter(touches);
-        setTouchState({
-          touches: Array.from(touches).map((t) => ({
-            x: t.clientX,
-            y: t.clientY,
-          })),
-          lastDistance: distance,
-          lastCenter: center,
-        });
-        setIsPanning(false); // Stop panning when starting pinch
-      }
-    },
-    [appState.isPanModeActive],
-  );
+    if (touches.length === 1) {
+      // Single touch - start panning
+      setIsPanning(true);
+      setLastPanPoint({ x: touches[0].clientX, y: touches[0].clientY });
+    } else if (touches.length === 2) {
+      // Two touches - prepare for pinch zoom
+      const distance = getTouchDistance(touches);
+      const center = getTouchCenter(touches);
+      setTouchState({
+        touches: Array.from(touches).map((t) => ({
+          x: t.clientX,
+          y: t.clientY,
+        })),
+        lastDistance: distance,
+        lastCenter: center,
+      });
+      setIsPanning(false); // Stop panning when starting pinch
+    }
+  }, []);
 
   const handleTouchMove = useCallback(
     (e: React.TouchEvent) => {
-      if (!appState.isPanModeActive) return;
-
       e.preventDefault();
       const touches = e.touches;
 
@@ -449,7 +433,6 @@ const ViewportLayer: React.FC<{
       }
     },
     [
-      appState.isPanModeActive,
       isPanning,
       lastPanPoint,
       touchState,
@@ -459,37 +442,30 @@ const ViewportLayer: React.FC<{
     ],
   );
 
-  const handleTouchEnd = useCallback(
-    (e: React.TouchEvent) => {
-      if (!appState.isPanModeActive) return;
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    const touches = e.touches;
 
-      const touches = e.touches;
-
-      if (touches.length === 0) {
-        // All touches ended
-        setIsPanning(false);
-        setTouchState({
-          touches: [],
-          lastDistance: 0,
-          lastCenter: { x: 0, y: 0 },
-        });
-      } else if (touches.length === 1) {
-        // One touch remaining after pinch - switch to pan
-        setIsPanning(true);
-        setLastPanPoint({ x: touches[0].clientX, y: touches[0].clientY });
-        setTouchState({
-          touches: [],
-          lastDistance: 0,
-          lastCenter: { x: 0, y: 0 },
-        });
-      }
-    },
-    [appState.isPanModeActive],
-  );
+    if (touches.length === 0) {
+      // All touches ended
+      setIsPanning(false);
+      setTouchState({
+        touches: [],
+        lastDistance: 0,
+        lastCenter: { x: 0, y: 0 },
+      });
+    } else if (touches.length === 1) {
+      // One touch remaining after pinch - switch to pan
+      setIsPanning(true);
+      setLastPanPoint({ x: touches[0].clientX, y: touches[0].clientY });
+      setTouchState({
+        touches: [],
+        lastDistance: 0,
+        lastCenter: { x: 0, y: 0 },
+      });
+    }
+  }, []);
   const handleMouseDown = useCallback(
     (e: React.MouseEvent | React.TouchEvent) => {
-      if (!appState.isPanModeActive) return; // Only work when pan mode is active
-
       const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
       const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
       const button = "button" in e ? e.button : 0;
@@ -501,12 +477,12 @@ const ViewportLayer: React.FC<{
         setLastPanPoint({ x: clientX, y: clientY });
       }
     },
-    [appState.isPanModeActive],
+    [],
   );
 
   const handleMouseMove = useCallback(
     (e: MouseEvent | TouchEvent) => {
-      if (!isPanning || !appState.isPanModeActive) return;
+      if (!isPanning) return;
 
       e.preventDefault();
       const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
@@ -524,29 +500,20 @@ const ViewportLayer: React.FC<{
       onViewportChange(newViewport);
       setLastPanPoint({ x: clientX, y: clientY });
     },
-    [
-      isPanning,
-      lastPanPoint,
-      appState.viewport,
-      appState.isPanModeActive,
-      onViewportChange,
-    ],
+    [isPanning, lastPanPoint, appState.viewport, onViewportChange],
   );
 
   const handleMouseUp = useCallback(() => {
     setIsPanning(false);
   }, []);
 
-  // Event listeners setup with more aggressive cleanup
+  // Event listeners setup
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    // Create a new wheel handler for this effect cycle
+    // Wheel handler for pan and zoom
     const currentWheelHandler = (e: WheelEvent) => {
-      // Always check current state, not captured state
-      if (!appState.isPanModeActive) return;
-
       e.preventDefault();
       e.stopPropagation();
 
@@ -600,14 +567,12 @@ const ViewportLayer: React.FC<{
     // Always force cleanup first
     forceCleanup();
 
-    // Only add wheel listener when pan mode is active
-    if (appState.isPanModeActive) {
-      container.addEventListener("wheel", currentWheelHandler, {
-        passive: false,
-        capture: true,
-      });
-      wheelListenerAttachedRef.current = true;
-    }
+    // Add wheel listener
+    container.addEventListener("wheel", currentWheelHandler, {
+      passive: false,
+      capture: true,
+    });
+    wheelListenerAttachedRef.current = true;
 
     if (isPanning) {
       document.addEventListener("mousemove", handleMouseMove, {
@@ -624,8 +589,6 @@ const ViewportLayer: React.FC<{
       forceCleanup();
     };
   }, [
-    // Include appState.isPanModeActive directly to force re-creation
-    appState.isPanModeActive,
     appState.viewport,
     onViewportChange,
     handleMouseMove,
@@ -638,21 +601,15 @@ const ViewportLayer: React.FC<{
       style={{
         width: "100%",
         height: "100%",
-        cursor: appState.isPanModeActive
-          ? isPanning
-            ? "grabbing"
-            : "grab"
-          : "default",
+        cursor: isPanning ? "grabbing" : "grab",
         overflow: "hidden",
-        // Optimize rendering performance
-        willChange: appState.isPanModeActive ? "transform" : "auto",
+        willChange: "transform",
         contain: "layout style paint",
-        // Touch optimizations for mobile
         WebkitUserSelect: "none",
         userSelect: "none",
         WebkitTouchCallout: "none",
         WebkitTapHighlightColor: "transparent",
-        touchAction: appState.isPanModeActive ? "none" : "auto",
+        touchAction: "none",
       }}
       onMouseDown={handleMouseDown}
       onTouchStart={handleTouchStart}
@@ -740,9 +697,9 @@ export function ArchitectureContainer({ className }: { className?: string }) {
 
     // Create cards with world coordinates
     architectureBlocks.forEach((block, index) => {
-      const cardWidth = 280; // Increased from 220 to accommodate longer text
-      // Special height for Main card (shorter since it has no microfrontend button)
-      const cardHeight = block.title === "Main" ? 120 : 150; // Increased Main card height from 90 to 120
+      const cardWidth = 280;
+      // Cards now have uniform height since buttons are outside
+      const cardHeight = 80;
 
       let position: WorldCoordinates;
 
@@ -811,7 +768,6 @@ export function ArchitectureContainer({ className }: { className?: string }) {
       connections,
       selectedCards: new Set(),
       isDragging: false,
-      isPanModeActive: false, // Disable pan mode by default
       dragState: null,
     };
   });
@@ -940,7 +896,7 @@ export function ArchitectureContainer({ className }: { className?: string }) {
       document.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("mouseup", handleMouseUp);
     },
-    [appState.viewport, appState.cards, appState.isPanModeActive],
+    [appState.viewport, appState.cards],
   );
 
   // Touch handling for cards (mobile support)
@@ -1030,7 +986,7 @@ export function ArchitectureContainer({ className }: { className?: string }) {
       });
       document.addEventListener("touchend", handleTouchEnd);
     },
-    [appState.viewport, appState.cards, appState.isPanModeActive],
+    [appState.viewport, appState.cards],
   );
 
   // Viewport update handler with optimized rendering
@@ -1038,14 +994,6 @@ export function ArchitectureContainer({ className }: { className?: string }) {
     setAppState((prev) => ({
       ...prev,
       viewport: newViewport,
-    }));
-  }, []);
-
-  // Toggle pan mode
-  const togglePanMode = useCallback(() => {
-    setAppState((prev) => ({
-      ...prev,
-      isPanModeActive: !prev.isPanModeActive,
     }));
   }, []);
 
@@ -1136,127 +1084,70 @@ export function ArchitectureContainer({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "bg-background glass-dark relative flex items-center justify-center overflow-hidden transition-all duration-200",
-        appState.isPanModeActive
-          ? "fixed inset-0 z-[9999] h-screen w-screen rounded-none border-none"
-          : "mx-auto w-full rounded-xl border",
+        "relative flex items-center justify-center overflow-hidden transition-all duration-200",
         className,
       )}
       ref={containerRef}
       style={{
-        width: appState.isPanModeActive ? "100vw" : "90vw",
-        height: appState.isPanModeActive ? "100dvh" : "80svh",
-        minHeight: appState.isPanModeActive ? undefined : "400px",
-        maxWidth: appState.isPanModeActive ? undefined : "90vw",
-        maxHeight: appState.isPanModeActive ? undefined : "80svh",
+        width: "100vw",
+        height: "100dvh",
         WebkitUserSelect: "none",
         userSelect: "none",
         WebkitTouchCallout: "none",
         WebkitTapHighlightColor: "transparent",
-        touchAction: appState.isPanModeActive ? "none" : "auto",
+        touchAction: "none",
       }}
     >
-      {/* Zoom Controls */}
-      <div className="absolute bottom-4 right-4 z-50 flex flex-col gap-2">
-        <button
-          onClick={togglePanMode}
-          className={cn(
-            "relative flex min-h-[44px] min-w-[44px] transform items-center justify-center rounded-lg border p-3 backdrop-blur-sm transition-all duration-300",
-            appState.isPanModeActive
-              ? "scale-110 border-green-400 bg-green-500/30 text-green-100 shadow-lg shadow-green-500/30"
-              : "border-purple-500/50 bg-purple-500/20 text-purple-300 hover:scale-105 hover:bg-purple-500/30 hover:text-purple-100",
-          )}
-          title={
-            appState.isPanModeActive
-              ? "Disable Interactive Fullscreen Mode"
-              : "Enable Interactive Fullscreen Mode"
-          }
-        >
-          {appState.isPanModeActive ? (
-            <FaCompress className="h-5 w-5 flex-shrink-0" />
-          ) : (
-            <FiMaximize className="h-5 w-5 flex-shrink-0" />
-          )}
-          {appState.isPanModeActive && (
-            <div className="absolute -right-1 -top-1 h-3 w-3 animate-pulse rounded-full bg-green-400"></div>
-          )}
-        </button>
+      {/* Zoom Controls - Fixed positioning to stay visible */}
+      <div
+        className="fixed bottom-4 right-4 z-[9999] flex flex-col gap-2"
+        style={{ pointerEvents: "auto" }}
+      >
         <button
           onClick={zoomIn}
           className={cn(
-            "flex min-h-[40px] min-w-[40px] items-center justify-center rounded-lg border p-2 backdrop-blur-sm transition-all duration-200",
-            appState.isPanModeActive
-              ? "border-purple-500/50 bg-purple-500/20 text-purple-300 hover:bg-purple-500/30 hover:text-purple-100"
-              : "cursor-not-allowed border-gray-600/50 bg-gray-600/20 text-gray-500",
+            "flex min-h-[50px] min-w-[60px] items-center justify-center rounded-lg border p-2 shadow-lg backdrop-blur-sm transition-all duration-200",
+            "border-purple-500/30 bg-purple-500/20 text-purple-300 hover:bg-purple-500/30 hover:text-purple-100",
           )}
           title="Zoom In"
-          disabled={
-            !appState.isPanModeActive || appState.viewport.scale >= MAX_ZOOM
-          }
+          disabled={appState.viewport.scale >= MAX_ZOOM}
         >
           <ZoomInIcon className="h-4 w-4 flex-shrink-0" />
         </button>
         <button
           onClick={zoomOut}
           className={cn(
-            "flex min-h-[40px] min-w-[40px] items-center justify-center rounded-lg border p-2 backdrop-blur-sm transition-all duration-200",
-            appState.isPanModeActive
-              ? "border-purple-500/50 bg-purple-500/20 text-purple-300 hover:bg-purple-500/30 hover:text-purple-100"
-              : "cursor-not-allowed border-gray-600/50 bg-gray-600/20 text-gray-500",
+            "flex min-h-[50px] min-w-[50px] items-center justify-center rounded-lg border p-2 shadow-lg backdrop-blur-sm transition-all duration-200",
+            "border-purple-500/30 bg-purple-500/20 text-purple-300 hover:bg-purple-500/30 hover:text-purple-100",
           )}
           title="Zoom Out"
-          disabled={
-            !appState.isPanModeActive || appState.viewport.scale <= MIN_ZOOM
-          }
+          disabled={appState.viewport.scale <= MIN_ZOOM}
         >
           <ZoomOutIcon className="h-4 w-4 flex-shrink-0" />
         </button>
         <button
           onClick={resetView}
           className={cn(
-            "flex min-h-[32px] min-w-[40px] items-center justify-center rounded-lg border px-2 py-1 backdrop-blur-sm transition-all duration-200",
-            appState.isPanModeActive
-              ? "border-purple-500/50 bg-purple-500/20 text-purple-300 hover:bg-purple-500/30 hover:text-purple-100"
-              : "cursor-not-allowed border-gray-600/50 bg-gray-600/20 text-gray-500",
+            "flex min-h-[50px] min-w-[60px] items-center justify-center rounded-lg border px-2 py-1 shadow-lg backdrop-blur-sm transition-all duration-200",
+            "border-purple-500/30 bg-purple-500/20 text-purple-300 hover:bg-purple-500/30 hover:text-purple-100",
           )}
           title="Reset View"
-          disabled={!appState.isPanModeActive}
         >
           <Text className="flex-shrink-0 text-xs">Reset</Text>
         </button>
       </div>
 
-      {/* Scale Indicator */}
+      {/* Scale Indicator - Fixed positioning to stay visible */}
       {appState.viewport.scale !== 1 && (
-        <div className="absolute right-2 top-2 z-50 rounded-lg border border-purple-500/50 bg-purple-500/20 px-2 py-1 backdrop-blur-sm">
+        <div
+          className="fixed right-4 top-4 z-[9999] rounded-lg border border-purple-500/30 bg-purple-500/20 px-2 py-1 shadow-lg backdrop-blur-sm"
+          style={{ pointerEvents: "none" }}
+        >
           <Text className="font-mono text-xs text-purple-300">
             {Math.round(appState.viewport.scale * 100)}%
           </Text>
         </div>
       )}
-
-      {/* Instructions - Top left aligned */}
-      <div
-        className={cn(
-          "absolute left-2 top-2 z-40 transform rounded-lg border px-3 py-2 backdrop-blur-sm transition-all duration-300",
-
-          "max-w-[calc(100%-6rem)]", // Evita overflow
-          appState.isPanModeActive
-            ? "border-green-400/50 bg-green-500/20"
-            : "border-purple-500/50 bg-purple-500/20",
-        )}
-      >
-        <Text
-          className={cn(
-            "text-left text-xs font-medium leading-relaxed",
-            appState.isPanModeActive ? "text-green-200" : "text-purple-300",
-          )}
-        >
-          {appState.isPanModeActive
-            ? "🟩 Interactive Fullscreen Mode enabled! You can pan, zoom, and drag cards."
-            : "🟥 Interactive Fullscreen Mode disabled. Cards are fixed and interactions are off."}
-        </Text>
-      </div>
 
       {/* Viewport Layer (Excalidraw architecture) */}
       <ViewportLayer
@@ -1293,11 +1184,7 @@ export function ArchitectureContainer({ className }: { className?: string }) {
             width: "100%",
             height: "100%",
             zIndex: 2,
-            // Optimize for transform animations
-            willChange:
-              appState.isPanModeActive || appState.isDragging
-                ? "transform"
-                : "auto",
+            willChange: appState.isDragging ? "transform" : "auto",
             backfaceVisibility: "hidden",
             perspective: 1000,
           }}
@@ -1317,19 +1204,6 @@ export function ArchitectureContainer({ className }: { className?: string }) {
           ))}
         </div>
       </ViewportLayer>
-
-      {/* Overlay simples de bloqueio quando pan mode está inativo */}
-      {!appState.isPanModeActive && (
-        <div
-          className="absolute inset-0 z-30"
-          style={{
-            pointerEvents: "auto",
-            background: "transparent",
-          }}
-          onMouseDown={(e) => e.preventDefault()}
-          onTouchStart={(e) => e.preventDefault()}
-        />
-      )}
     </div>
   );
 }
