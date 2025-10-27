@@ -13,6 +13,7 @@ import { microfrontendProjects } from "../../../public/data/projects/projects";
 import { cn } from "@/lib/utils";
 import { Computer, Trash } from "lucide-react";
 import { FaBroom } from "react-icons/fa";
+import Image from "next/image";
 
 // Estado centralizado para filtros
 type FilterState = {
@@ -119,7 +120,7 @@ export default function MicroList() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
             viewport={{ once: true }}
-            className="glass-dark flex flex-col gap-4 rounded-2xl border border-purple-500/20 p-6"
+            className="glass-dark flex flex-col gap-4 rounded-2xl p-6"
           >
             <h3 className="flex items-center gap-2 text-2xl font-bold text-purple-300">
               <MdComputer className="h-6 w-6" />
@@ -183,6 +184,7 @@ export default function MicroList() {
               <Computer className="h-6 w-6" />
               Homelab Infrastructure
             </h3>
+            {/* Texto */}
             <p className="leading-relaxed text-gray-300">
               Several mini-project APIs are running on my personal{" "}
               <span className="font-semibold text-pink-400">homelab</span>,
@@ -193,91 +195,106 @@ export default function MicroList() {
               . This setup allows me to host multiple services without exposing
               databases or opening ports on my home network.
             </p>
-          </motion.div>
-
-          {/* Services Grid */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            viewport={{ once: true }}
-            className="grid grid-cols-1 gap-4 md:grid-cols-2"
-          >
-            {/* Electoral System API */}
-            <div className="glass-dark flex flex-col gap-3 rounded-xl border border-pink-500/20 p-5">
-              <h4 className="font-bold text-pink-400">Electoral System API</h4>
-              <p className="text-sm text-gray-300">
-                Flask-based API with PostgreSQL for election management system.
-              </p>
-              <div className="flex flex-wrap gap-2">
-                <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
-                  Flask
-                </span>
-                <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
-                  PostgreSQL
-                </span>
-                <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
-                  Docker
-                </span>
+            <div className="grid grid-cols-1 items-center gap-6 md:grid-cols-2">
+              {/* Imagem do servidor */}
+              <div className="relative overflow-hidden rounded-2xl p-2">
+                <Image
+                  src="/images/assets/server.png"
+                  alt="Homelab Server"
+                  width={800}
+                  height={600}
+                  className="h-auto w-full rounded-xl object-cover"
+                  quality={100}
+                />
               </div>
-            </div>
+              {/* Services Grid */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                viewport={{ once: true }}
+                className="grid grid-cols-1 gap-4"
+              >
+                {/* Electoral System API */}
+                <div className="glass-dark flex flex-col gap-3 rounded-xl p-5">
+                  <h4 className="font-bold text-pink-400">
+                    Electoral System API
+                  </h4>
+                  <p className="text-sm text-gray-300">
+                    Flask-based API with PostgreSQL for election management
+                    system.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
+                      Flask
+                    </span>
+                    <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
+                      PostgreSQL
+                    </span>
+                    <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
+                      Docker
+                    </span>
+                  </div>
+                </div>
 
-            {/* Joystick API */}
-            <div className="glass-dark flex flex-col gap-3 rounded-xl border border-pink-500/20 p-5">
-              <h4 className="font-bold text-pink-400">Joystick API</h4>
-              <p className="text-sm text-gray-300">
-                Node.js API with MongoDB for game collection management.
-              </p>
-              <div className="flex flex-wrap gap-2">
-                <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
-                  Node.js
-                </span>
-                <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
-                  MongoDB
-                </span>
-                <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
-                  Express
-                </span>
-              </div>
-            </div>
+                {/* Joystick API */}
+                <div className="glass-dark flex flex-col gap-3 rounded-xl p-5">
+                  <h4 className="font-bold text-pink-400">Joystick API</h4>
+                  <p className="text-sm text-gray-300">
+                    Node.js API with MongoDB for game collection management.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
+                      Node.js
+                    </span>
+                    <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
+                      MongoDB
+                    </span>
+                    <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
+                      Express
+                    </span>
+                  </div>
+                </div>
 
-            {/* RGB Wallet API */}
-            <div className="glass-dark flex flex-col gap-3 rounded-xl border border-pink-500/20 p-5">
-              <h4 className="font-bold text-pink-400">RGB Wallet API</h4>
-              <p className="text-sm text-gray-300">
-                Node.js API with MongoDB for RGB protocol wallet management.
-              </p>
-              <div className="flex flex-wrap gap-2">
-                <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
-                  Node.js
-                </span>
-                <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
-                  MongoDB
-                </span>
-                <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
-                  Blockchain
-                </span>
-              </div>
-            </div>
+                {/* RGB Wallet API */}
+                <div className="glass-dark flex flex-col gap-3 rounded-xl p-5">
+                  <h4 className="font-bold text-pink-400">RGB Wallet API</h4>
+                  <p className="text-sm text-gray-300">
+                    Node.js API with MongoDB for RGB protocol wallet management.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
+                      Node.js
+                    </span>
+                    <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
+                      MongoDB
+                    </span>
+                    <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
+                      Blockchain
+                    </span>
+                  </div>
+                </div>
 
-            {/* Secret Santa API */}
-            <div className="glass-dark flex flex-col gap-3 rounded-xl border border-pink-500/20 p-5">
-              <h4 className="font-bold text-pink-400">Secret Santa API</h4>
-              <p className="text-sm text-gray-300">
-                Node.js API with MongoDB for secret santa gift exchange
-                management.
-              </p>
-              <div className="flex flex-wrap gap-2">
-                <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
-                  Node.js
-                </span>
-                <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
-                  MongoDB
-                </span>
-                <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
-                  Express
-                </span>
-              </div>
+                {/* Secret Santa API */}
+                <div className="glass-dark flex flex-col gap-3 rounded-xl p-5">
+                  <h4 className="font-bold text-pink-400">Secret Santa API</h4>
+                  <p className="text-sm text-gray-300">
+                    Node.js API with MongoDB for secret santa gift exchange
+                    management.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
+                      Node.js
+                    </span>
+                    <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
+                      MongoDB
+                    </span>
+                    <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
+                      Express
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
             </div>
           </motion.div>
 
@@ -287,7 +304,7 @@ export default function MicroList() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
             viewport={{ once: true }}
-            className="glass-dark flex flex-col gap-4 rounded-2xl border border-purple-500/20 p-6"
+            className="glass-dark flex flex-col gap-4 rounded-2xl p-6"
           >
             <h3 className="text-xl font-bold text-purple-300">
               Security & Deployment
@@ -360,7 +377,7 @@ export default function MicroList() {
               pieces fit together.
             </p>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-              <div className="glass-dark flex flex-col gap-2 rounded-xl border border-purple-500/20 p-4">
+              <div className="glass-dark flex flex-col gap-2 rounded-xl p-4">
                 <h4 className="font-semibold text-purple-400">
                   💻 Technologies
                 </h4>
@@ -369,7 +386,7 @@ export default function MicroList() {
                   strategies in a single project.
                 </p>
               </div>
-              <div className="glass-dark flex flex-col gap-2 rounded-xl border border-purple-500/20 p-4">
+              <div className="glass-dark flex flex-col gap-2 rounded-xl p-4">
                 <h4 className="font-semibold text-purple-400">
                   🏠 Infrastructure
                 </h4>
@@ -378,7 +395,7 @@ export default function MicroList() {
                   tunneling to understand DevOps practices.
                 </p>
               </div>
-              <div className="glass-dark flex flex-col gap-2 rounded-xl border border-purple-500/20 p-4">
+              <div className="glass-dark flex flex-col gap-2 rounded-xl p-4">
                 <h4 className="font-semibold text-purple-400">
                   🎯 Architecture
                 </h4>
