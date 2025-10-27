@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { useEffect } from "react";
 
 interface IAuroraProps {
+  children?: React.ReactNode;
   dark?: boolean;
   className?: ClassNameValue;
 }
@@ -55,7 +56,7 @@ function AuroraGradient({
   );
 }
 
-function Aurora({ dark = false, className }: IAuroraProps) {
+function Aurora({ children, dark = false, className }: IAuroraProps) {
   const palettes = dark
     ? ["#000", "#222", "#444", "#666", "#888"]
     : ["#d500f9", "#6366f1", "#ec4899", "#a855f7", "#3b82f6"];
@@ -69,8 +70,13 @@ function Aurora({ dark = false, className }: IAuroraProps) {
 
   return (
     <div
-      className={cn("left-0 top-0 -z-10 h-screen w-full", position, className)}
+      className={cn(
+        "absolute left-1/2 top-1/2 flex h-[96svh] w-[96svw] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-3xl border border-zinc-700",
+        position,
+        className,
+      )}
     >
+      <div className="z-50 w-full overflow-scroll p-4">{children}</div>
       <Suspense fallback={<AuroraFallback dark={dark} position={position} />}>
         {isClient ? (
           <AuroraGradient dark={dark} palettes={palettes} />

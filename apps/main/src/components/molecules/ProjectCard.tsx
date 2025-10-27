@@ -54,7 +54,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
 
   return (
     <div
-      className={`glass-dark group flex transform-gpu select-none justify-between rounded-lg delay-75 duration-500 hover:-translate-y-1`}
+      className={`glass-dark group flex transform-gpu select-none justify-between rounded-3xl delay-75 duration-500 hover:-translate-y-1`}
     >
       <div className="flex w-full flex-col-reverse md:flex-row">
         <div className="flex w-full select-none flex-col gap-2 p-10 text-left max-md:p-5 md:w-2/3">
@@ -96,7 +96,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
           <div className="flex gap-2">
             {project?.gitLink && (
               <a
-                className="glass-dark flex w-full items-center justify-center gap-3 text-nowrap rounded-lg px-8 py-4 text-lg font-bold transition duration-300 hover:border-purple-400/40"
+                className="glass-dark flex w-full items-center justify-center gap-3 text-nowrap rounded-full px-8 py-4 text-lg font-bold transition duration-300 hover:border-purple-400/40"
                 href={project.gitLink}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -108,7 +108,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
             {project?.microRoute && (
               <Link
                 href={`/microfrontend/${project.slug}`}
-                className="glass-dark flex w-full items-center justify-center gap-3 text-nowrap rounded-lg px-8 py-4 text-lg font-bold transition duration-300 hover:border-purple-400/40"
+                className="glass-dark flex w-full items-center justify-center gap-3 text-nowrap rounded-full px-8 py-4 text-lg font-bold transition duration-300 hover:border-purple-400/40"
                 onClick={() => {
                   if (typeof window !== "undefined") {
                     sessionStorage.setItem(
@@ -125,7 +125,7 @@ const ProjectCard = ({ project }: IProjectCardProps) => {
             {project?.link && (
               <a
                 href={project.link}
-                className="glass-dark flex w-full items-center justify-center gap-3 text-nowrap rounded-lg px-8 py-4 text-lg font-bold transition duration-300 hover:border-purple-400/40"
+                className="glass-dark flex w-full items-center justify-center gap-3 text-nowrap rounded-full px-8 py-4 text-lg font-bold transition duration-300 hover:border-purple-400/40"
                 target="_blank"
                 rel="noopener noreferrer"
               >

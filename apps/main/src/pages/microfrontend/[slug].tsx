@@ -5,7 +5,7 @@ import MicroLayout from "@/components/MicroLayout";
 import ProjectViewer from "@/components/ProjectViewer";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { loadProjects } from "../../utils/projectsLazy";
+import { projects } from "../../../public/data/projects/projects";
 
 const ProjectMicrofrontend: React.FC = () => {
   const router = useRouter();
@@ -16,7 +16,6 @@ const ProjectMicrofrontend: React.FC = () => {
     const loadProject = async () => {
       if (router.query.slug) {
         try {
-          const projects = await loadProjects();
           const foundProject = projects.find(
             (project) => project.slug === router.query.slug,
           );

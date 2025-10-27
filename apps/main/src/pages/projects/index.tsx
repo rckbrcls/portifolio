@@ -1,10 +1,10 @@
-import MainLayout from "@/components/MainLayout";
 import ProjectsList from "@/components/templates/ProjectsList";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
-import Footer from "@/components/organisms/Footer";
 import { motion } from "framer-motion";
+import Aurora from "@/components/molecules/Aurora";
+import Header from "@/components/organisms/Header";
 
 const ProjectsPage = () => {
   const router = useRouter();
@@ -19,7 +19,7 @@ const ProjectsPage = () => {
     };
 
     restoreScroll();
-    // Restaura quando a página é carregada novamente (após router.back)
+
     router.events.on("routeChangeComplete", restoreScroll);
 
     return () => {
@@ -28,25 +28,22 @@ const ProjectsPage = () => {
   }, [router]);
 
   return (
-    <MainLayout>
+    <div>
       <Head>
         <title>Projects | rckbrcls</title>
       </Head>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <ProjectsList />
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-      >
-        <Footer />
-      </motion.div>
-    </MainLayout>
+
+      <Aurora dark>
+        <Header />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <ProjectsList />
+        </motion.div>
+      </Aurora>
+    </div>
   );
 };
 
