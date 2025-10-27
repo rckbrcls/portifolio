@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import ProjectCard from "../molecules/ProjectCard";
 import { getFilterOptions } from "../../utils/filterOptionsOptimized";
 import { projects } from "../../../public/data/projects/projects";
+import { FaBroom } from "react-icons/fa";
 
 // Estado centralizado para filtros
 type FilterState = {
@@ -66,15 +67,6 @@ export default function ProjectsList() {
 
     return projectsToFilter;
   }, [activeFilters]);
-
-  const normalProjects = useMemo(
-    () => filteredProjects.filter((p) => !p.microRoute),
-    [filteredProjects],
-  );
-  const microfrontendProjects = useMemo(
-    () => filteredProjects.filter((p) => p.microRoute),
-    [filteredProjects],
-  );
 
   // Ajuste do maxCount conforme a largura de tela
   useEffect(() => {
@@ -180,9 +172,9 @@ export default function ProjectsList() {
         </div>
         <button
           onClick={resetFilter}
-          className="glass-dark flex h-12 w-min items-center justify-center gap-2 text-nowrap rounded-3xl px-6 py-2 font-semibold text-purple-300 transition duration-700 hover:scale-[1.01] hover:bg-zinc-800 active:scale-95 active:bg-zinc-800 max-sm:h-10"
+          className="flex h-12 w-min items-center justify-center gap-2 text-nowrap rounded-3xl border border-zinc-700/30 bg-zinc-950 px-6 py-2 font-semibold text-purple-300 transition duration-700 hover:scale-[1.01] hover:bg-zinc-800 active:scale-95 active:bg-zinc-800 max-sm:h-10"
         >
-          reset filter
+          <FaBroom className="h-5 w-5" />
         </button>
       </motion.div>
 
@@ -199,7 +191,7 @@ export default function ProjectsList() {
         viewport={{ once: true, margin: "-100px" }}
         className="flex w-11/12 flex-col gap-10 max-sm:w-full"
       >
-        {normalProjects.length === 0 ? (
+        {filteredProjects.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12">
             <div className="mb-4 flex h-12 w-12 animate-bounce items-center justify-center rounded-full bg-gradient-to-tr from-purple-400 to-purple-700">
               <MdOutlineWebAsset className="h-7 w-7 text-white" />
@@ -213,7 +205,7 @@ export default function ProjectsList() {
           </div>
         ) : (
           <div className="flex flex-col gap-4">
-            {normalProjects.map((project) => (
+            {filteredProjects.map((project) => (
               <ProjectCard key={project.slug} project={project} />
             ))}
           </div>
