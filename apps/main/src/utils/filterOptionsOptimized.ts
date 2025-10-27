@@ -1,61 +1,56 @@
-// Opções de filtro lazy-loaded
-export const getFilterOptions = () => ({
-  // Apenas as opções mais usadas primeiro
-  frameworks: [
-    { value: "react", label: "React" },
-    { value: "next.js", label: "Next.js" },
-    { value: "typescript", label: "TypeScript" },
-  ],
+import { projects, microfrontendProjects } from "../../public/data/projects/projects";
+import { frameworks, languages, databases, toolsAndLibraries } from "../../public/data/techStack";
 
-  languages: [
-    { value: "javascript", label: "JavaScript" },
-    { value: "typescript", label: "TypeScript" },
-    { value: "python", label: "Python" },
-  ],
+type FilterOption = { value: string; label: string };
 
-  databases: [
-    { value: "mongodb", label: "MongoDB" },
-    { value: "postgresql", label: "PostgreSQL" },
-  ],
+// Helper para extrair tech stacks únicas de um array de projetos
+const extractUniqueTechStacks = (projectList: typeof projects | typeof microfrontendProjects) => {
+  const allTechs = projectList.flatMap((project) => project.techStack);
+  return Array.from(new Set(allTechs));
+};
 
-  tools: [
-    { value: "tailwind", label: "Tailwind" },
-    { value: "node.js", label: "Node.js" },
-    { value: "webpack", label: "Webpack" },
-  ],
-});
-
-export const getAllFilterOptions = async () => {
-  // Carrega as opções completas sob demanda
-  await new Promise((resolve) => setTimeout(resolve, 100));
-
-  return {
-    frameworks: [
-      { value: "react", label: "React" },
-      { value: "react-native", label: "React Native" },
-      { value: "next.js", label: "Next.js" },
-      { value: "express", label: "Express" },
-      { value: "solid.js", label: "Solid.js" },
-      { value: "flask", label: "Flask" },
-    ],
-
-    languages: [
-      { value: "javascript", label: "JavaScript" },
-      { value: "typescript", label: "TypeScript" },
-      { value: "python", label: "Python" },
-    ],
-
-    databases: [
-      { value: "mongodb", label: "MongoDB" },
-      { value: "postgresql", label: "PostgreSQL" },
-      { value: "redis", label: "Redis" },
-    ],
-
-    tools: [
-      { value: "tailwind", label: "Tailwind" },
-      { value: "node.js", label: "Node.js" },
-      { value: "webpack", label: "Webpack" },
-      { value: "aws", label: "AWS" },
-    ],
+// Helper para categorizar tech stacks
+const categorizeTechStacks = (techStacks: string[]) => {
+  const categorized = {
+    frameworks: [] as FilterOption[],
+    languages: [] as FilterOption[],
+    databases: [] as FilterOption[],
+    tools: [] as FilterOption[],
   };
+
+  techStacks.forEach((tech) => {
+    const value = tech.toLowerCase().replace(/\s+/g, "-");
+    const option = { value, label: tech };
+
+    if (frameworks.includes(tech as any)) {
+      categorized.frameworks.push(option);
+    } else if (languages.includes(tech as any)) {
+      categorized.languages.push(option);
+    } else if (databases.includes(tech as any)) {
+      categorized.databases.push(option);
+    } else if (toolsAndLibraries.includes(tech as any)) {
+      categorized.tools.push(option);
+    }
+  });
+
+  return categorized;
+};
+
+// Opções de filtro para projetos regulares
+export const getProjectsFilterOptions = () => {
+  const uniqueTechs = extractUniqueTechStacks(projects);
+  return categorizeTechStacks(uniqueTechs);
+};
+
+// Opções de filtro para microfrontends
+export const getMicrofrontendsFilterOptions = () => {
+  const uniqueTechs = extractUniqueTechStacks(microfrontendProjects);
+  return categorizeTechStacks(uniqueTechs);
+};
+
+// Opções de filtro para todos os projetos (fallback/geral)
+export const getFilterOptions = () => {
+  const allProjects = [...projects, ...microfrontendProjects];
+  const uniqueTechs = extractUniqueTechStacks(allProjects);
+  return categorizeTechStacks(uniqueTechs);
 };

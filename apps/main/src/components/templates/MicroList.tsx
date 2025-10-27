@@ -8,7 +8,7 @@ import { Label } from "../ui/label";
 import { motion } from "framer-motion";
 import { DirectionAwareTabs } from "@/components/ui/direction-aware-tabs";
 import ProjectCard from "../molecules/ProjectCard";
-import { getFilterOptions } from "../../utils/filterOptionsOptimized";
+import { getMicrofrontendsFilterOptions } from "../../utils/filterOptionsOptimized";
 import { microfrontendProjects } from "../../../public/data/projects/projects";
 import { cn } from "@/lib/utils";
 import { Computer, Trash } from "lucide-react";
@@ -36,7 +36,7 @@ export default function MicroList() {
   const [maxCount, setMaxCount] = useState(0);
   const [localServer, setLocalServer] = useState(false);
   const [activeTabId, setActiveTabId] = useState<number>(0);
-  const filterOptions = getFilterOptions();
+  const filterOptions = getMicrofrontendsFilterOptions();
 
   const resetFilter = () => {
     setFilters(initialFilterState);
