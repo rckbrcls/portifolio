@@ -5,7 +5,7 @@ import MicroLayout from "@/components/MicroLayout";
 import ProjectViewer from "@/components/ProjectViewer";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { projects } from "../../../public/data/projects/projects";
+import { microfrontendProjects } from "../../../public/data/projects/projects";
 
 const ProjectMicrofrontend: React.FC = () => {
   const router = useRouter();
@@ -16,7 +16,7 @@ const ProjectMicrofrontend: React.FC = () => {
     const loadProject = async () => {
       if (router.query.slug) {
         try {
-          const foundProject = projects.find(
+          const foundProject = microfrontendProjects.find(
             (project) => project.slug === router.query.slug,
           );
           setProject(foundProject);
@@ -62,7 +62,7 @@ const ProjectMicrofrontend: React.FC = () => {
               The project "{router.query.slug}" was not found.
             </p>
             <a
-              href="/projects"
+              href="/architecture"
               className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700"
             >
               View all projects

@@ -10,6 +10,9 @@ import { DirectionAwareTabs } from "@/components/ui/direction-aware-tabs";
 import ProjectCard from "../molecules/ProjectCard";
 import { getFilterOptions } from "../../utils/filterOptionsOptimized";
 import { microfrontendProjects } from "../../../public/data/projects/projects";
+import { cn } from "@/lib/utils";
+import { Trash } from "lucide-react";
+import { FaBroom } from "react-icons/fa";
 
 // Estado centralizado para filtros
 type FilterState = {
@@ -36,6 +39,7 @@ export default function MicroList() {
 
   const resetFilter = () => {
     setFilters(initialFilterState);
+    setLocalServer(false);
   };
 
   const handleFilterChange = (
@@ -87,8 +91,122 @@ export default function MicroList() {
       id: 1,
       label: "Microfrontend",
       content: (
-        <>
-          {microfrontendProjects.length === 0 ? (
+        <div>
+          {/* Seção de Filtros */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{
+              type: "spring",
+              stiffness: 60,
+              damping: 18,
+              duration: 0.7,
+            }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="max-md:scrollbar-hidden flex w-full items-end gap-2 max-md:overflow-x-scroll max-sm:-mx-4 max-sm:w-[calc(100%+2rem)] max-sm:px-4"
+          >
+            <div className="flex w-full flex-col gap-2">
+              <Label
+                htmlFor="frameworks"
+                className="font-semibold text-purple-400"
+              >
+                Frameworks
+              </Label>
+              <MultiSelect
+                id="frameworks"
+                className="min-w-56 font-medium text-gray-200 max-sm:h-10"
+                options={filterOptions.frameworks}
+                onValueChange={(selected) =>
+                  handleFilterChange("frameworks", selected)
+                }
+                defaultValue={filters.frameworks}
+                placeholder="Select frameworks"
+                maxCount={maxCount}
+              />
+            </div>
+
+            <div className="flex w-full flex-col gap-2">
+              <Label
+                htmlFor="languages"
+                className="font-semibold text-purple-400"
+              >
+                Languages
+              </Label>
+              <MultiSelect
+                id="languages"
+                className="min-w-56 font-medium text-gray-200 max-sm:h-10"
+                options={filterOptions.languages}
+                onValueChange={(selected) =>
+                  handleFilterChange("languages", selected)
+                }
+                defaultValue={filters.languages}
+                placeholder="Select languages"
+                maxCount={maxCount}
+              />
+            </div>
+
+            <div className="flex w-full flex-col gap-2">
+              <Label
+                htmlFor="databases"
+                className="font-semibold text-purple-400"
+              >
+                Databases
+              </Label>
+              <MultiSelect
+                id="databases"
+                className="min-w-56 font-medium text-gray-200 max-sm:h-10"
+                options={filterOptions.databases}
+                onValueChange={(selected) =>
+                  handleFilterChange("databases", selected)
+                }
+                defaultValue={filters.databases}
+                placeholder="Select databases"
+                maxCount={maxCount}
+              />
+            </div>
+
+            <div className="flex w-full flex-col gap-2">
+              <Label htmlFor="tools" className="font-semibold text-purple-400">
+                Tools &amp; Libraries
+              </Label>
+              <MultiSelect
+                id="tools"
+                className="min-w-56 font-medium text-gray-200 max-sm:h-10"
+                options={filterOptions.tools}
+                onValueChange={(selected) =>
+                  handleFilterChange("tools", selected)
+                }
+                defaultValue={filters.tools}
+                placeholder="Select tools"
+                maxCount={maxCount}
+              />
+            </div>
+            {/* Local server button */}
+            {activeTabId === 1 && (
+              <button
+                type="button"
+                aria-pressed={localServer}
+                onClick={() => setLocalServer(!localServer)}
+                className={cn(
+                  "glass-dark flex h-12 w-min items-center justify-center gap-2 whitespace-nowrap rounded-3xl border px-6 py-2 font-semibold transition duration-500 max-sm:h-10",
+                  "transform-gpu transition-colors ease-in-out hover:scale-[1.01] active:scale-95",
+                  localServer
+                    ? "border-white/30 bg-purple-400 bg-gradient-to-r text-white shadow-md"
+                    : "text-purple-300 hover:bg-purple-500/50",
+                )}
+              >
+                has local server?
+              </button>
+            )}
+            <button
+              onClick={resetFilter}
+              className="flex h-12 w-min items-center justify-center gap-2 text-nowrap rounded-3xl border border-transparent px-6 py-2 font-semibold text-purple-300 transition duration-700 hover:scale-[1.01] hover:border-zinc-700/30 hover:bg-zinc-950 active:scale-95 active:bg-zinc-800 max-sm:h-10"
+            >
+              <FaBroom className="h-5 w-5" />
+            </button>
+          </motion.div>
+
+          {filteredProjects.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12">
               <div className="mb-4 flex h-12 w-12 animate-bounce items-center justify-center rounded-full bg-gradient-to-tr from-pink-400 to-purple-400">
                 <MdOutlineWebAsset className="h-7 w-7 text-white" />
@@ -101,13 +219,13 @@ export default function MicroList() {
               </span>
             </div>
           ) : (
-            <div className="flex flex-col gap-4">
-              {microfrontendProjects.map((project) => (
+            <div className="flex flex-col gap-4 pt-4">
+              {filteredProjects.map((project) => (
                 <ProjectCard key={project.slug} project={project} />
               ))}
             </div>
           )}
-        </>
+        </div>
       ),
     },
   ];
@@ -131,95 +249,9 @@ export default function MicroList() {
           damping: 18,
           duration: 0.9,
         }}
-        className="mb-5 flex w-full flex-col items-end border-b border-zinc-700/30 px-4 text-end max-sm:px-2"
+        className="flex w-full flex-col items-end border-b border-zinc-700/30 px-4 text-end max-sm:px-2"
       >
-        <Title word="Projects" type="blur" gradient />
-      </motion.div>
-
-      {/* Seção de Filtros */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{
-          type: "spring",
-          stiffness: 60,
-          damping: 18,
-          duration: 0.7,
-        }}
-        viewport={{ once: true, margin: "-100px" }}
-        className="max-md:scrollbar-hidden flex w-11/12 items-end gap-2 max-md:overflow-x-scroll max-sm:-mx-4 max-sm:w-[calc(100%+2rem)] max-sm:px-4"
-      >
-        <div className="flex w-full flex-col gap-2">
-          <Label htmlFor="frameworks" className="font-semibold text-purple-400">
-            Frameworks
-          </Label>
-          <MultiSelect
-            id="frameworks"
-            className="min-w-60 font-medium text-gray-200 max-sm:h-10"
-            options={filterOptions.frameworks}
-            onValueChange={(selected) =>
-              handleFilterChange("frameworks", selected)
-            }
-            defaultValue={filters.frameworks}
-            placeholder="Select frameworks"
-            maxCount={maxCount}
-          />
-        </div>
-
-        <div className="flex w-full flex-col gap-2">
-          <Label htmlFor="languages" className="font-semibold text-purple-400">
-            Languages
-          </Label>
-          <MultiSelect
-            id="languages"
-            className="min-w-60 font-medium text-gray-200 max-sm:h-10"
-            options={filterOptions.languages}
-            onValueChange={(selected) =>
-              handleFilterChange("languages", selected)
-            }
-            defaultValue={filters.languages}
-            placeholder="Select languages"
-            maxCount={maxCount}
-          />
-        </div>
-
-        <div className="flex w-full flex-col gap-2">
-          <Label htmlFor="databases" className="font-semibold text-purple-400">
-            Databases
-          </Label>
-          <MultiSelect
-            id="databases"
-            className="min-w-60 font-medium text-gray-200 max-sm:h-10"
-            options={filterOptions.databases}
-            onValueChange={(selected) =>
-              handleFilterChange("databases", selected)
-            }
-            defaultValue={filters.databases}
-            placeholder="Select databases"
-            maxCount={maxCount}
-          />
-        </div>
-
-        <div className="flex w-full flex-col gap-2">
-          <Label htmlFor="tools" className="font-semibold text-purple-400">
-            Tools &amp; Libraries
-          </Label>
-          <MultiSelect
-            id="tools"
-            className="min-w-60 font-medium text-gray-200 max-sm:h-10"
-            options={filterOptions.tools}
-            onValueChange={(selected) => handleFilterChange("tools", selected)}
-            defaultValue={filters.tools}
-            placeholder="Select tools"
-            maxCount={maxCount}
-          />
-        </div>
-        <button
-          onClick={resetFilter}
-          className="glass-dark flex h-12 w-min items-center justify-center gap-2 text-nowrap rounded-3xl px-6 py-2 font-semibold text-purple-300 transition duration-700 hover:scale-[1.01] hover:bg-zinc-800 active:scale-95 active:bg-zinc-800 max-sm:h-10"
-        >
-          reset filter
-        </button>
+        <Title word="Architecture" type="blur" gradient />
       </motion.div>
 
       {/* Tabs de projetos */}
@@ -233,11 +265,10 @@ export default function MicroList() {
           duration: 0.7,
         }}
         viewport={{ once: true, margin: "-100px" }}
-        className="flex w-11/12 flex-col gap-10 max-sm:w-full"
+        className="flex w-11/12 flex-col max-sm:w-full"
       >
         <DirectionAwareTabs
           tabs={tabs}
-          onLocalServerChange={(v) => setLocalServer(v)}
           onTabChange={(id) => setActiveTabId(id)}
         />
       </motion.div>
