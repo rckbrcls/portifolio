@@ -149,7 +149,7 @@ const ArchitectureCardElement = React.forwardRef<
             height: card.size.height * cardScale,
             transformOrigin: "top left",
             cursor: isDragging ? "grabbing" : "grab",
-            borderRadius: `${16 * cardScale}px`,
+            borderRadius: `${24 * cardScale}px`,
             // Touch optimizations
             WebkitUserSelect: "none",
             userSelect: "none",
@@ -176,7 +176,7 @@ const ArchitectureCardElement = React.forwardRef<
             <span
               className="text-center font-bold leading-tight text-white"
               style={{
-                fontSize: `${14 * cardScale}px`,
+                fontSize: `${18 * cardScale}px`,
               }}
             >
               {card.title}
@@ -198,7 +198,7 @@ const ArchitectureCardElement = React.forwardRef<
             style={{
               padding: `${8 * cardScale}px ${12 * cardScale}px`,
               gap: `${6 * cardScale}px`,
-              borderRadius: `${16 * cardScale}px`,
+              borderRadius: `${24 * cardScale}px`,
             }}
             href={card.githubUrl}
             target="_blank"
@@ -226,7 +226,7 @@ const ArchitectureCardElement = React.forwardRef<
               style={{
                 padding: `${8 * cardScale}px ${12 * cardScale}px`,
                 gap: `${6 * cardScale}px`,
-                borderRadius: `${16 * cardScale}px`,
+                borderRadius: `${24 * cardScale}px`,
               }}
               href={card.microfrontendUrl}
               onClick={(e) => e.stopPropagation()}
