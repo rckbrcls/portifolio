@@ -30,6 +30,12 @@ const Header = () => {
       name: "Projects",
     },
     {
+      path: "/architecture",
+      icon: "🏛️",
+      selected: pathname === "/architecture",
+      name: "Architecture",
+    },
+    {
       path: "/about-me",
       icon: "🧑‍💻",
       selected: pathname === "/about-me",
@@ -62,7 +68,7 @@ const Header = () => {
           <span>{route.icon}</span>
           <span
             className={cn(
-              `max-w-0 overflow-hidden whitespace-nowrap text-xs font-bold opacity-0 transition-all duration-700 group-hover:ml-2 group-hover:max-w-xs group-hover:opacity-100 max-sm:hidden`,
+              `max-w-0 overflow-hidden whitespace-nowrap text-xs font-semibold opacity-0 transition-all duration-700 group-hover:ml-2 group-hover:max-w-xs group-hover:opacity-100 max-sm:hidden`,
             )}
           >
             {route.name}

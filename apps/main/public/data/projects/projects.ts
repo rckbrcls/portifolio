@@ -1,10 +1,10 @@
 import { IProject } from "@/interface/IProject";
 
+// Projects with external links (without microRoute)
 export const projects: IProject[] = [
   {
     slug: "polterware",
-    description: `Website for my software studio, Polterware, created to showcase
-     my most solid, robust, and professional personal projects.`,
+    description: `Website for my software studio showcasing professional personal projects.`,
     name: "polterware",
     techStack: ["Next.js", "React", "TypeScript", "Tailwind"],
     timeline: null,
@@ -15,10 +15,7 @@ export const projects: IProject[] = [
   },
   {
     slug: "dost",
-    description: `Dost is a clothing store platform with a Next.js web client 
-    and a Node.js server hosted on AWS EC2. It uses MongoDB as the main database, 
-    leverages Amazon SES for transactional emails, and Redis for caching and 
-    session management. The mobile version (React Native) is currently under development.`,
+    description: `Full-stack clothing store platform with Next.js, Node.js on AWS EC2, MongoDB, Redis, and Amazon SES. Mobile app in development.`,
     name: "dost",
     techStack: [
       "React",
@@ -37,12 +34,13 @@ export const projects: IProject[] = [
     coverImage: "/images/projects/dost/SOLID-LOGO-SOLO.svg",
     status: "working",
   },
+];
+
+// Microfrontend projects (with microRoute)
+export const microfrontendProjects: IProject[] = [
   {
     slug: "alan-turing",
-    description: `A comprehensive project created for a course at USP, titled
-     ‘Introduction to Computer Theory.’ The site explores the influence of Alan 
-     Turing, Stephen Cook, and Noam Chomsky on computational theory, alongside 
-     educational content from the course.`,
+    description: `Educational site exploring Alan Turing, Stephen Cook, and Noam Chomsky's influence on computational theory for a USP course.`,
     name: "Computer Theory",
     techStack: ["Solid.js", "TypeScript", "Webpack"],
     timeline: null,
@@ -55,9 +53,7 @@ export const projects: IProject[] = [
   },
   {
     slug: "lojinha-simples",
-    description: `One of my earliest React projects, a simple store 
-    application that utilizes a mock store API. It was developed as a study 
-    tool for learning React and API calls.`,
+    description: `Simple store application using a mock API, developed as a study tool for React and API integration.`,
     name: "Simple Little Store",
     techStack: ["React", "TypeScript", "Webpack"],
     timeline: null,
@@ -71,9 +67,7 @@ export const projects: IProject[] = [
 
   {
     slug: "secret-santa",
-    description: `A Secret Santa system where participants’ names and emails 
-    are entered, and then a random draw is conducted. 
-    Each participant receives an email revealing their Secret Santa match.`,
+    description: `Secret Santa system with random draw that sends email notifications to participants with their match.`,
     name: "Secret Santa",
     techStack: ["React", "JavaScript", "MongoDB", "Node.js", "Webpack"],
     timeline: null,
@@ -87,9 +81,7 @@ export const projects: IProject[] = [
   },
   {
     slug: "video-project-manage",
-    description: `A simulator for a video/film production company’s management 
-    system, where clients and projects are handled, and all administrative 
-    tasks are managed.`,
+    description: `Management system simulator for video/film production companies handling clients, projects, and administrative tasks.`,
     name: "Video Project Manage",
     techStack: ["React", "JavaScript", "Webpack"],
     timeline: null,
@@ -102,10 +94,7 @@ export const projects: IProject[] = [
   },
   {
     slug: "electoral-system",
-    description: `A system developed for a Database course, designed to manage 
-    electoral candidates, including their political and candidacy information. 
-    The project was created to study SQL, its queries, triggers, and other 
-    database-related topics`,
+    description: `Electoral candidate management system developed for a Database course to study SQL queries, triggers, and database concepts.`,
     name: "Electoral System",
     techStack: [
       "Solid.js",
@@ -126,9 +115,7 @@ export const projects: IProject[] = [
   },
   {
     slug: "rgbwallet",
-    description: `An internal project developed at ICMC Junior (USP’s Junior 
-    Enterprise) for managing the wallet balances of the company’s participants, 
-    with each member having their own account balance`,
+    description: `Wallet management system for ICMC Junior (USP's Junior Enterprise) to track member account balances.`,
     name: "RGBWallet",
     techStack: [
       "React",
@@ -149,7 +136,7 @@ export const projects: IProject[] = [
   },
   {
     slug: "liga-academica",
-    description: `Institutional website for the Academic League of Psychiatry, developed with Next.js and TypeScript. The site provides information on events, activities, and educational materials for students and professionals interested in mental health.`,
+    description: `Institutional website for the Academic League of Psychiatry with information on events, activities, and educational materials.`,
     name: "Liga Acadêmica de Psiquiatria",
     techStack: ["Next.js", "React", "TypeScript"],
     timeline: null,
@@ -161,9 +148,7 @@ export const projects: IProject[] = [
   },
   {
     slug: "joystick",
-    description: `A full-stack mock marketplace for video games, developed as
-     part of a course on Introduction to Web Development. The project covers 
-     the entire ecosystem from frontend to backend.`,
+    description: `Full-stack mock marketplace for video games covering the entire ecosystem from frontend to backend.`,
     name: "Joystick",
     techStack: ["React", "JavaScript", "MongoDB", "Node.js", "Webpack"],
     timeline: null,

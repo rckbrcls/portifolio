@@ -31,7 +31,7 @@ export default function AboutMe() {
               className="absolute z-50 flex justify-center max-sm:bottom-4 max-sm:right-4 sm:left-4 sm:top-4"
             >
               <a
-                className="glass-dark flex w-full items-center justify-center gap-3 text-nowrap rounded-3xl px-6 py-2 text-base font-bold transition duration-300 hover:border-purple-400/40 max-sm:p-3"
+                className="glass-dark relative flex w-full items-center justify-center gap-3 text-nowrap rounded-3xl px-6 py-2 text-base font-bold transition duration-300 hover:border-purple-400/40 max-sm:p-3"
                 href="/files/Resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
