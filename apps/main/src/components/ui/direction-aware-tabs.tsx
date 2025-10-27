@@ -151,7 +151,7 @@ function DirectionAwareTabs({
 
   return (
     <div className="flex w-full flex-col items-start">
-      <div className="flex w-full items-center justify-start gap-4">
+      <div className="flex w-full items-center justify-start gap-4 max-sm:gap-2">
         <div
           className={cn(
             "shadow-inner-shadow flex cursor-pointer space-x-1 rounded-full px-[3px] py-[3.2px]",
@@ -207,7 +207,7 @@ function DirectionAwareTabs({
                 : "",
             )}
           >
-            <span>Local Server</span>
+            <span>localhost</span>
           </button>
         )}
       </div>

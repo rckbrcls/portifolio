@@ -151,7 +151,7 @@ export default function ProjectsList() {
   }, []);
 
   return (
-    <div className="flex flex-col items-end justify-end gap-4">
+    <div className="flex flex-col items-end justify-end gap-4 max-sm:pb-16">
       {/* Hero Section */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -162,7 +162,7 @@ export default function ProjectsList() {
           damping: 18,
           duration: 0.9,
         }}
-        className="mb-5 flex w-full flex-col items-end border-b border-zinc-700/30 px-4 text-end"
+        className="mb-5 flex w-full flex-col items-end border-b border-zinc-700/30 px-4 text-end max-sm:px-2"
       >
         <Title word="Projects" type="blur" gradient />
       </motion.div>
@@ -178,7 +178,7 @@ export default function ProjectsList() {
           duration: 0.7,
         }}
         viewport={{ once: true, margin: "-100px" }}
-        className="max-md:scrollbar-hidden flex w-11/12 items-end gap-2 max-md:w-full max-md:overflow-x-scroll max-md:px-4"
+        className="max-md:scrollbar-hidden -mx-4 flex w-[calc(100%+2rem)] items-end gap-2 px-4 max-md:overflow-x-scroll max-sm:-mx-2 max-sm:w-[calc(100%+1rem)] max-sm:px-2"
       >
         <div className="flex w-full flex-col gap-2">
           <Label htmlFor="frameworks" className="font-semibold text-purple-400">
@@ -264,7 +264,7 @@ export default function ProjectsList() {
           duration: 0.7,
         }}
         viewport={{ once: true, margin: "-100px" }}
-        className="flex w-11/12 flex-col gap-10"
+        className="flex w-11/12 flex-col gap-10 max-sm:w-full"
       >
         <DirectionAwareTabs
           tabs={tabs}
