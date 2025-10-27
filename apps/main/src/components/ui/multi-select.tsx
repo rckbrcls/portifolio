@@ -162,7 +162,7 @@ export const MultiSelect = React.forwardRef<
             {...props}
             onClick={handleTogglePopover}
             className={cn(
-              "glass-dark flex w-full cursor-pointer select-none items-center justify-between rounded-lg p-1 max-md:h-12 md:min-h-12",
+              "glass-dark flex w-full cursor-pointer select-none items-center justify-between rounded-3xl p-1 max-md:h-12 md:min-h-12",
               className,
             )}
           >
@@ -263,7 +263,7 @@ export const MultiSelect = React.forwardRef<
                 >
                   <div
                     className={cn(
-                      "border-primary mr-2 flex h-4 w-4 items-center justify-center rounded-sm border",
+                      "border-primary mr-2 flex h-4 w-4 items-center justify-center rounded-3xl border",
                       selectedValues.length === filteredOptions.length
                         ? "bg-primary text-primary-foreground"
                         : "opacity-50 [&_svg]:invisible",
@@ -288,7 +288,7 @@ export const MultiSelect = React.forwardRef<
                     >
                       <div
                         className={cn(
-                          "border-primary mr-2 flex h-4 w-4 items-center justify-center rounded-sm border",
+                          "border-primary mr-2 flex h-4 w-4 items-center justify-center rounded-3xl border",
                           isSelected
                             ? "bg-primary text-primary-foreground"
                             : "opacity-50 [&_svg]:invisible",
