@@ -8,7 +8,7 @@ import { Label } from "../ui/label";
 import { motion } from "framer-motion";
 import { DirectionAwareTabs } from "@/components/ui/direction-aware-tabs";
 import ProjectCard from "../molecules/ProjectCard";
-import { getFilterOptions } from "../../utils/filterOptionsOptimized";
+import { getMicrofrontendsFilterOptions } from "../../utils/filterOptionsOptimized";
 import { microfrontendProjects } from "../../../public/data/projects/projects";
 import { cn } from "@/lib/utils";
 import { Computer, Trash } from "lucide-react";
@@ -36,7 +36,7 @@ export default function MicroList() {
   const [maxCount, setMaxCount] = useState(0);
   const [localServer, setLocalServer] = useState(false);
   const [activeTabId, setActiveTabId] = useState<number>(0);
-  const filterOptions = getFilterOptions();
+  const filterOptions = getMicrofrontendsFilterOptions();
 
   const resetFilter = () => {
     setFilters(initialFilterState);
@@ -109,7 +109,12 @@ export default function MicroList() {
                 monorepo structure
               </span>
               . Each project is an independent microfrontend that can be
-              developed, tested, and deployed separately.
+              developed, tested, and deployed separately. The projects showcased
+              here are{" "}
+              <span className="font-semibold text-purple-400">
+                learning projects
+              </span>{" "}
+              from my first steps in web development.
             </p>
           </motion.div>
 
@@ -188,14 +193,15 @@ export default function MicroList() {
                 </h3>
                 {/* Texto */}
                 <p className="leading-relaxed text-gray-300">
-                  Several mini-project APIs are running on my personal{" "}
+                  Several learning project APIs are running on my personal{" "}
                   <span className="font-semibold text-pink-400">homelab</span>,
                   containerized with Docker and exposed securely through{" "}
                   <span className="font-semibold text-pink-400">
                     Cloudflare Tunnel
                   </span>
-                  . This setup allows me to host multiple services without
-                  exposing databases or opening ports on my home network.
+                  . This experimental setup allows me to practice hosting
+                  multiple services without exposing databases or opening ports
+                  on my home network.
                 </p>
               </div>
               <div className="glass-dark flex flex-col gap-4 rounded-2xl p-6">

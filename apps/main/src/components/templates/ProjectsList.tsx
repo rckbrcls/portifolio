@@ -7,7 +7,7 @@ import { MultiSelect } from "../ui/multi-select";
 import { Label } from "../ui/label";
 import { motion } from "framer-motion";
 import ProjectCard from "../molecules/ProjectCard";
-import { getFilterOptions } from "../../utils/filterOptionsOptimized";
+import { getProjectsFilterOptions } from "../../utils/filterOptionsOptimized";
 import { projects } from "../../../public/data/projects/projects";
 import { FaBroom } from "react-icons/fa";
 
@@ -30,7 +30,7 @@ const initialFilterState: FilterState = {
 export default function ProjectsList() {
   const [filters, setFilters] = useState<FilterState>(initialFilterState);
   const [maxCount, setMaxCount] = useState(0);
-  const filterOptions = getFilterOptions();
+  const filterOptions = getProjectsFilterOptions();
 
   const resetFilter = () => {
     setFilters(initialFilterState);
