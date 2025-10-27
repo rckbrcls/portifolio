@@ -3,14 +3,12 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { MdOutlineWebAsset } from "react-icons/md";
 import Title from "../atoms/Title";
-import { Text } from "../atoms/Text";
 import { MultiSelect } from "../ui/multi-select";
 import { Label } from "../ui/label";
 import { motion } from "framer-motion";
 import { DirectionAwareTabs } from "@/components/ui/direction-aware-tabs";
 import ProjectCard from "../molecules/ProjectCard";
 import { getFilterOptions } from "../../utils/filterOptionsOptimized";
-import { IProject } from "@/interface/IProject";
 import { projects } from "../../../public/data/projects/projects";
 
 // Estado centralizado para filtros
@@ -153,7 +151,7 @@ export default function ProjectsList() {
   }, []);
 
   return (
-    <div className="mx-auto flex flex-col items-center justify-center gap-4 pb-20 pt-24">
+    <div className="flex flex-col items-end justify-end gap-4">
       {/* Hero Section */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -164,26 +162,9 @@ export default function ProjectsList() {
           damping: 18,
           duration: 0.9,
         }}
-        className="mb-10 flex w-full flex-col items-center justify-center gap-8 border-b border-zinc-700/30 px-4 pb-10 text-center"
+        className="mb-5 flex w-full flex-col items-end border-b border-zinc-700/30 px-4 text-end"
       >
         <Title word="Projects" type="blur" gradient />
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            type: "spring",
-            stiffness: 60,
-            damping: 18,
-            duration: 0.7,
-            delay: 0.3,
-          }}
-          className="max-w-4xl"
-        >
-          <Text className="text-center leading-relaxed">
-            Here you can explore some of my personal, professional, and academic
-            projects. You can filter them by the technologies used in each one.
-          </Text>
-        </motion.div>
       </motion.div>
 
       {/* Seção de Filtros */}
@@ -197,7 +178,7 @@ export default function ProjectsList() {
           duration: 0.7,
         }}
         viewport={{ once: true, margin: "-100px" }}
-        className="max-md:scrollbar-hidden mx-auto flex w-11/12 items-end gap-4 max-md:w-full max-md:overflow-x-scroll max-md:px-4"
+        className="max-md:scrollbar-hidden flex w-11/12 items-end gap-4 max-md:w-full max-md:overflow-x-scroll max-md:px-4"
       >
         <div className="flex w-full flex-col gap-2">
           <Label htmlFor="frameworks" className="font-semibold text-purple-400">
