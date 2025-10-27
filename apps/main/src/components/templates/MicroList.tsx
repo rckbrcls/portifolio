@@ -109,8 +109,7 @@ export default function MicroList() {
                 monorepo structure
               </span>
               . Each project is an independent microfrontend that can be
-              developed, tested, and deployed separately, while sharing common
-              utilities and components through the monorepo.
+              developed, tested, and deployed separately.
             </p>
           </motion.div>
 
@@ -132,10 +131,10 @@ export default function MicroList() {
                 <ul className="list-inside list-disc space-y-1 text-sm text-gray-300">
                   <li>
                     <strong>Next.js & React</strong> - Main portfolio
-                    application
+                    application and Microfrontends
                   </li>
                   <li>
-                    <strong>SolidJS</strong> - High-performance microfrontends
+                    <strong>SolidJS</strong> - Microfrontends
                   </li>
                   <li>
                     <strong>TypeScript</strong> - Type safety across the
@@ -156,7 +155,7 @@ export default function MicroList() {
                     <strong>Node.js</strong> - API services (Express)
                   </li>
                   <li>
-                    <strong>Flask (Python)</strong> - Electoral system API
+                    <strong>Flask (Python)</strong> - API services
                   </li>
                   <li>
                     <strong>MongoDB</strong> - NoSQL database
@@ -178,172 +177,83 @@ export default function MicroList() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
-            className="flex flex-col gap-4"
+            className="grid grid-cols-1 items-center gap-6 md:grid-cols-3"
           >
-            <h3 className="flex items-center gap-2 text-2xl font-bold text-pink-300">
-              <Computer className="h-6 w-6" />
-              Homelab Infrastructure
-            </h3>
-            {/* Texto */}
-            <p className="leading-relaxed text-gray-300">
-              Several mini-project APIs are running on my personal{" "}
-              <span className="font-semibold text-pink-400">homelab</span>,
-              containerized with Docker and exposed securely through{" "}
-              <span className="font-semibold text-pink-400">
-                Cloudflare Tunnel
-              </span>
-              . This setup allows me to host multiple services without exposing
-              databases or opening ports on my home network.
-            </p>
-            <div className="grid grid-cols-1 items-center gap-6 md:grid-cols-2">
-              {/* Imagem do servidor */}
-              <div className="relative overflow-hidden rounded-2xl p-2">
-                <Image
-                  src="/images/assets/server.png"
-                  alt="Homelab Server"
-                  width={800}
-                  height={600}
-                  className="h-auto w-full rounded-xl object-cover"
-                  quality={100}
-                />
+            <div className="col-span-2 flex flex-col gap-6">
+              {/* Infrastructure Details */}
+              <div className="flex flex-col gap-4">
+                <h3 className="flex items-center gap-2 text-2xl font-bold text-pink-300">
+                  <Computer className="h-6 w-6" />
+                  Homelab Infrastructure
+                </h3>
+                {/* Texto */}
+                <p className="leading-relaxed text-gray-300">
+                  Several mini-project APIs are running on my personal{" "}
+                  <span className="font-semibold text-pink-400">homelab</span>,
+                  containerized with Docker and exposed securely through{" "}
+                  <span className="font-semibold text-pink-400">
+                    Cloudflare Tunnel
+                  </span>
+                  . This setup allows me to host multiple services without
+                  exposing databases or opening ports on my home network.
+                </p>
               </div>
-              {/* Services Grid */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                viewport={{ once: true }}
-                className="grid grid-cols-1 gap-4"
-              >
-                {/* Electoral System API */}
-                <div className="glass-dark flex flex-col gap-3 rounded-xl p-5">
-                  <h4 className="font-bold text-pink-400">
-                    Electoral System API
-                  </h4>
-                  <p className="text-sm text-gray-300">
-                    Flask-based API with PostgreSQL for election management
-                    system.
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
-                      Flask
-                    </span>
-                    <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
-                      PostgreSQL
-                    </span>
-                    <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
-                      Docker
-                    </span>
+              <div className="glass-dark flex flex-col gap-4 rounded-2xl p-6">
+                <h3 className="text-xl font-bold text-purple-300">
+                  Security & Deployment
+                </h3>
+                <div className="space-y-3 text-sm text-gray-300">
+                  <div className="flex gap-3">
+                    <div className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-purple-400"></div>
+                    <p>
+                      <strong className="text-purple-400">
+                        Cloudflare Tunnel:
+                      </strong>{" "}
+                      Secure tunnel that exposes local services without opening
+                      firewall ports or exposing my home IP address.
+                    </p>
+                  </div>
+                  <div className="flex gap-3">
+                    <div className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-purple-400"></div>
+                    <p>
+                      <strong className="text-purple-400">
+                        Docker Compose:
+                      </strong>{" "}
+                      All services run in isolated containers with internal
+                      networking. Databases are NOT exposed to the internet.
+                    </p>
+                  </div>
+                  <div className="flex gap-3">
+                    <div className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-purple-400"></div>
+                    <p>
+                      <strong className="text-purple-400">
+                        Local-only ports:
+                      </strong>{" "}
+                      API ports accessible only through the tunnel or local
+                      machine.
+                    </p>
+                  </div>
+                  <div className="flex gap-3">
+                    <div className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-purple-400"></div>
+                    <p>
+                      <strong className="text-purple-400">Auto-restart:</strong>{" "}
+                      Services automatically restart on failure, ensuring high
+                      availability.
+                    </p>
                   </div>
                 </div>
-
-                {/* Joystick API */}
-                <div className="glass-dark flex flex-col gap-3 rounded-xl p-5">
-                  <h4 className="font-bold text-pink-400">Joystick API</h4>
-                  <p className="text-sm text-gray-300">
-                    Node.js API with MongoDB for game collection management.
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
-                      Node.js
-                    </span>
-                    <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
-                      MongoDB
-                    </span>
-                    <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
-                      Express
-                    </span>
-                  </div>
-                </div>
-
-                {/* RGB Wallet API */}
-                <div className="glass-dark flex flex-col gap-3 rounded-xl p-5">
-                  <h4 className="font-bold text-pink-400">RGB Wallet API</h4>
-                  <p className="text-sm text-gray-300">
-                    Node.js API with MongoDB for RGB protocol wallet management.
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
-                      Node.js
-                    </span>
-                    <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
-                      MongoDB
-                    </span>
-                    <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
-                      Blockchain
-                    </span>
-                  </div>
-                </div>
-
-                {/* Secret Santa API */}
-                <div className="glass-dark flex flex-col gap-3 rounded-xl p-5">
-                  <h4 className="font-bold text-pink-400">Secret Santa API</h4>
-                  <p className="text-sm text-gray-300">
-                    Node.js API with MongoDB for secret santa gift exchange
-                    management.
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
-                      Node.js
-                    </span>
-                    <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
-                      MongoDB
-                    </span>
-                    <span className="rounded-full bg-pink-500/20 px-3 py-1 text-xs font-medium text-pink-300">
-                      Express
-                    </span>
-                  </div>
-                </div>
-              </motion.div>
+              </div>
             </div>
-          </motion.div>
-
-          {/* Infrastructure Details */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            viewport={{ once: true }}
-            className="glass-dark flex flex-col gap-4 rounded-2xl p-6"
-          >
-            <h3 className="text-xl font-bold text-purple-300">
-              Security & Deployment
-            </h3>
-            <div className="space-y-3 text-sm text-gray-300">
-              <div className="flex gap-3">
-                <div className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-purple-400"></div>
-                <p>
-                  <strong className="text-purple-400">
-                    Cloudflare Tunnel:
-                  </strong>{" "}
-                  Secure tunnel that exposes local services without opening
-                  firewall ports or exposing my home IP address.
-                </p>
-              </div>
-              <div className="flex gap-3">
-                <div className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-purple-400"></div>
-                <p>
-                  <strong className="text-purple-400">Docker Compose:</strong>{" "}
-                  All services run in isolated containers with internal
-                  networking. Databases are NOT exposed to the internet.
-                </p>
-              </div>
-              <div className="flex gap-3">
-                <div className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-purple-400"></div>
-                <p>
-                  <strong className="text-purple-400">Local-only ports:</strong>{" "}
-                  API ports are bound to 127.0.0.1, accessible only through the
-                  tunnel or local machine.
-                </p>
-              </div>
-              <div className="flex gap-3">
-                <div className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-purple-400"></div>
-                <p>
-                  <strong className="text-purple-400">Auto-restart:</strong>{" "}
-                  Services automatically restart on failure, ensuring high
-                  availability.
-                </p>
-              </div>
+            {/* Imagem do servidor */}
+            <div className="relative overflow-hidden rounded-2xl p-2">
+              <Image
+                src="/images/assets/server.png"
+                alt="Homelab Server"
+                width={800}
+                height={600}
+                className="h-auto w-full rounded-xl object-cover"
+                quality={100}
+              />
             </div>
           </motion.div>
 
@@ -440,7 +350,7 @@ export default function MicroList() {
               )}
             >
               <MdComputer className="h-5 w-5" />
-              Server
+              Homelab
             </button>
             <div className="flex w-full flex-col gap-2">
               <Label
