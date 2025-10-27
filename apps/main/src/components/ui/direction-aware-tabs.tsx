@@ -146,7 +146,7 @@ function DirectionAwareTabs({
           initial={false}
           animate={{ height: bounds.height }}
         >
-          <div className="pt-2" ref={ref}>
+          <div className="pt-6" ref={ref}>
             <AnimatePresence
               custom={direction}
               mode="popLayout"

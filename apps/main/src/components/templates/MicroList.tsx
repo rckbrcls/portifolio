@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo, useEffect } from "react";
-import { MdOutlineWebAsset } from "react-icons/md";
+import { MdComputer, MdOutlineWebAsset } from "react-icons/md";
 import Title from "../atoms/Title";
 import { MultiSelect } from "../ui/multi-select";
 import { Label } from "../ui/label";
@@ -11,7 +11,7 @@ import ProjectCard from "../molecules/ProjectCard";
 import { getFilterOptions } from "../../utils/filterOptionsOptimized";
 import { microfrontendProjects } from "../../../public/data/projects/projects";
 import { cn } from "@/lib/utils";
-import { Trash } from "lucide-react";
+import { Computer, Trash } from "lucide-react";
 import { FaBroom } from "react-icons/fa";
 
 // Estado centralizado para filtros
@@ -84,12 +84,12 @@ export default function MicroList() {
   const tabs = [
     {
       id: 0,
-      label: "Projects",
+      label: "Documentation",
       content: <></>,
     },
     {
       id: 1,
-      label: "Microfrontend",
+      label: "Projects",
       content: (
         <div>
           {/* Seção de Filtros */}
@@ -105,6 +105,21 @@ export default function MicroList() {
             viewport={{ once: true, margin: "-100px" }}
             className="max-md:scrollbar-hidden flex w-full items-end gap-2 max-md:overflow-x-scroll max-sm:-mx-4 max-sm:w-[calc(100%+2rem)] max-sm:px-4"
           >
+            <button
+              type="button"
+              aria-pressed={localServer}
+              onClick={() => setLocalServer(!localServer)}
+              className={cn(
+                "glass-dark flex h-12 w-min items-center justify-center gap-2 whitespace-nowrap rounded-3xl border px-6 py-2 font-semibold transition duration-500 max-sm:h-10",
+                "transform-gpu transition-colors ease-in-out hover:scale-[1.01] active:scale-95",
+                localServer
+                  ? "border-white/30 bg-purple-500 bg-gradient-to-r text-white shadow-md"
+                  : "text-purple-300 hover:bg-purple-500/50",
+              )}
+            >
+              <MdComputer className="h-5 w-5" />
+              Server
+            </button>
             <div className="flex w-full flex-col gap-2">
               <Label
                 htmlFor="frameworks"
@@ -181,26 +196,10 @@ export default function MicroList() {
                 maxCount={maxCount}
               />
             </div>
-            {/* Local server button */}
-            {activeTabId === 1 && (
-              <button
-                type="button"
-                aria-pressed={localServer}
-                onClick={() => setLocalServer(!localServer)}
-                className={cn(
-                  "glass-dark flex h-12 w-min items-center justify-center gap-2 whitespace-nowrap rounded-3xl border px-6 py-2 font-semibold transition duration-500 max-sm:h-10",
-                  "transform-gpu transition-colors ease-in-out hover:scale-[1.01] active:scale-95",
-                  localServer
-                    ? "border-white/30 bg-purple-400 bg-gradient-to-r text-white shadow-md"
-                    : "text-purple-300 hover:bg-purple-500/50",
-                )}
-              >
-                has local server?
-              </button>
-            )}
+
             <button
               onClick={resetFilter}
-              className="flex h-12 w-min items-center justify-center gap-2 text-nowrap rounded-3xl border border-transparent px-6 py-2 font-semibold text-purple-300 transition duration-700 hover:scale-[1.01] hover:border-zinc-700/30 hover:bg-zinc-950 active:scale-95 active:bg-zinc-800 max-sm:h-10"
+              className="flex h-12 w-min items-center justify-center gap-2 text-nowrap rounded-3xl border border-zinc-700/30 bg-zinc-950 px-6 py-2 font-semibold text-purple-300 transition duration-700 hover:scale-[1.01] hover:bg-zinc-800 active:scale-95 active:bg-zinc-800 max-sm:h-10"
             >
               <FaBroom className="h-5 w-5" />
             </button>
