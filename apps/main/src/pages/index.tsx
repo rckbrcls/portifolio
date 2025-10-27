@@ -4,6 +4,8 @@ import Head from "next/head";
 import Aurora from "@/components/molecules/Aurora";
 import Title from "@/components/atoms/Title";
 import Header from "@/components/organisms/Header";
+import SubTitle from "@/components/atoms/SubTitle";
+import BlurIn from "@/components/ui/blur-in";
 
 export default function Home() {
   return (
@@ -25,7 +27,13 @@ export default function Home() {
               quality={100}
             />
           </div>
-          <Title word="Olá! I'm Erick" type="blur" />
+          <div className="flex flex-col items-center gap-3">
+            <Title word="Olá! I'm Erick" type="blur" />
+            <BlurIn
+              word="Software Engineer and Lifelong Learner"
+              className="text-lg font-normal md:text-xl"
+            />
+          </div>
         </div>
       </Aurora>
     </>
