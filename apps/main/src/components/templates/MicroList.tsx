@@ -84,7 +84,7 @@ export default function MicroList() {
   const tabs = [
     {
       id: 0,
-      label: "Documentation",
+      label: "Description",
       content: (
         <div className="flex flex-col gap-8 py-6">
           {/* Intro Section */}
