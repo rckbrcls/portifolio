@@ -2,10 +2,10 @@ import React, { memo } from "react";
 import Image from "next/image";
 import SubTitle from "@/components/atoms/SubTitle";
 import { twMerge } from "tailwind-merge";
-import Ororu from "../../../public/images/about-me/ororu.jpg";
-import DrawPrimal from "../../../public/images/about-me/primal.png";
-import Me from "../../../public/images/about-me/me-and-sea.jpg";
-import Rio from "../../../public/images/about-me/pao-de-acucar.jpg";
+import Ororu from "../../../public/images/about-me/ororu.jpeg";
+import Draw from "../../../public/images/about-me/2D.png";
+import Me from "../../../public/images/about-me/me.jpeg";
+import Beach from "../../../public/images/about-me/beach.jpg";
 import { IBox } from "@/interface/IBox";
 
 const BoxGrid = memo(() => {
@@ -22,13 +22,13 @@ const BoxGrid = memo(() => {
     },
     {
       className: "md:col-span-2",
-      image: DrawPrimal,
+      image: Draw,
       text: `When I'm not coding, I'm drawing or playing sports. Creativity and movement keep me inspired.`,
     },
     {
       className: "md:col-span-3",
       text: `If I'm away from my computer, I'm probably exploring beaches or enjoying nature. Traveling recharges my energy and inspires everything I do.`,
-      image: Rio,
+      image: Beach,
     },
   ];
 
@@ -49,7 +49,7 @@ const BoxGrid = memo(() => {
                 src={image}
                 alt="box-image"
                 fill
-                style={{ objectFit: "cover", objectPosition: "left" }}
+                style={{ objectFit: "cover", objectPosition: "center" }}
                 quality={100}
                 loading="lazy"
               />

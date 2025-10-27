@@ -362,7 +362,7 @@ export default function MicroList() {
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <div className="glass-dark flex flex-col gap-2 rounded-xl border border-purple-500/20 p-4">
                 <h4 className="font-semibold text-purple-400">
-                  � Technologies
+                  💻 Technologies
                 </h4>
                 <p className="text-sm text-gray-300">
                   Exploring different frameworks, build tools, and deployment
