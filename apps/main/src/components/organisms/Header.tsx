@@ -30,6 +30,12 @@ const Header = () => {
       name: "Projects",
     },
     {
+      path: "/architecture",
+      icon: "🏛️",
+      selected: pathname === "/architecture",
+      name: "Architecture",
+    },
+    {
       path: "/about-me",
       icon: "🧑‍💻",
       selected: pathname === "/about-me",
@@ -40,12 +46,6 @@ const Header = () => {
       icon: "📬",
       selected: pathname === "/contact",
       name: "Contact",
-    },
-    {
-      path: "/architecture",
-      icon: "🏛️",
-      selected: pathname === "/architecture",
-      name: "Architecture",
     },
   ];
 

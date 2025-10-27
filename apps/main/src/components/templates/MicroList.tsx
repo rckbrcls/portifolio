@@ -6,9 +6,10 @@ import Title from "../atoms/Title";
 import { MultiSelect } from "../ui/multi-select";
 import { Label } from "../ui/label";
 import { motion } from "framer-motion";
+import { DirectionAwareTabs } from "@/components/ui/direction-aware-tabs";
 import ProjectCard from "../molecules/ProjectCard";
 import { getFilterOptions } from "../../utils/filterOptionsOptimized";
-import { projects } from "../../../public/data/projects/projects";
+import { microfrontendProjects } from "../../../public/data/projects/projects";
 
 // Estado centralizado para filtros
 type FilterState = {
@@ -26,9 +27,11 @@ const initialFilterState: FilterState = {
   tools: [],
 };
 
-export default function ProjectsList() {
+export default function MicroList() {
   const [filters, setFilters] = useState<FilterState>(initialFilterState);
   const [maxCount, setMaxCount] = useState(0);
+  const [localServer, setLocalServer] = useState(false);
+  const [activeTabId, setActiveTabId] = useState<number>(0);
   const filterOptions = getFilterOptions();
 
   const resetFilter = () => {
@@ -53,7 +56,7 @@ export default function ProjectsList() {
   }, [filters]);
 
   const filteredProjects = useMemo(() => {
-    let projectsToFilter = projects;
+    let projectsToFilter = microfrontendProjects;
 
     if (activeFilters.length > 0) {
       projectsToFilter = projectsToFilter.filter((project) => {
@@ -64,17 +67,50 @@ export default function ProjectsList() {
       });
     }
 
-    return projectsToFilter;
-  }, [activeFilters]);
+    if (localServer && activeTabId === 1) {
+      projectsToFilter = projectsToFilter.filter((project) =>
+        Boolean((project as any).localServer),
+      );
+    }
 
-  const normalProjects = useMemo(
-    () => filteredProjects.filter((p) => !p.microRoute),
-    [filteredProjects],
-  );
-  const microfrontendProjects = useMemo(
-    () => filteredProjects.filter((p) => p.microRoute),
-    [filteredProjects],
-  );
+    return projectsToFilter;
+  }, [activeFilters, localServer, activeTabId]);
+
+  // Tabs para DirectionAwareTabs
+  const tabs = [
+    {
+      id: 0,
+      label: "Projects",
+      content: <></>,
+    },
+    {
+      id: 1,
+      label: "Microfrontend",
+      content: (
+        <>
+          {microfrontendProjects.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-12">
+              <div className="mb-4 flex h-12 w-12 animate-bounce items-center justify-center rounded-full bg-gradient-to-tr from-pink-400 to-purple-400">
+                <MdOutlineWebAsset className="h-7 w-7 text-white" />
+              </div>
+              <span className="text-lg font-semibold text-pink-400 drop-shadow">
+                No microfrontends found!
+              </span>
+              <span className="mt-2 text-xs text-pink-300">
+                Try adjusting your filters!
+              </span>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-4">
+              {microfrontendProjects.map((project) => (
+                <ProjectCard key={project.slug} project={project} />
+              ))}
+            </div>
+          )}
+        </>
+      ),
+    },
+  ];
 
   // Ajuste do maxCount conforme a largura de tela
   useEffect(() => {
@@ -199,25 +235,11 @@ export default function ProjectsList() {
         viewport={{ once: true, margin: "-100px" }}
         className="flex w-11/12 flex-col gap-10 max-sm:w-full"
       >
-        {normalProjects.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-12">
-            <div className="mb-4 flex h-12 w-12 animate-bounce items-center justify-center rounded-full bg-gradient-to-tr from-purple-400 to-purple-700">
-              <MdOutlineWebAsset className="h-7 w-7 text-white" />
-            </div>
-            <span className="text-lg font-semibold text-purple-400 drop-shadow">
-              Oops! No projects here yet.
-            </span>
-            <span className="mt-2 text-xs text-purple-300">
-              Try changing your filters!
-            </span>
-          </div>
-        ) : (
-          <div className="flex flex-col gap-4">
-            {normalProjects.map((project) => (
-              <ProjectCard key={project.slug} project={project} />
-            ))}
-          </div>
-        )}
+        <DirectionAwareTabs
+          tabs={tabs}
+          onLocalServerChange={(v) => setLocalServer(v)}
+          onTabChange={(id) => setActiveTabId(id)}
+        />
       </motion.div>
     </div>
   );
