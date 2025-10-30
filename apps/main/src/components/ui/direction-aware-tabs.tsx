@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useMemo, useState, useEffect } from "react";
+import { ReactNode, useMemo, useState, useEffect, useRef } from "react";
 import { AnimatePresence, MotionConfig, motion } from "framer-motion";
 import useMeasure from "react-use-measure";
 
@@ -12,6 +12,8 @@ type Tab = {
   content: ReactNode;
 };
 
+const STORAGE_KEY = "direction-aware-tabs:last-active";
+
 interface OgImageSectionProps {
   tabs: Tab[];
   className?: string;
@@ -20,8 +22,6 @@ interface OgImageSectionProps {
   onTabChange?: (id: number) => void;
 }
 
-const STORAGE_KEY = "directionAwareTabs.activeTab";
-
 function DirectionAwareTabs({
   tabs,
   className,
@@ -29,18 +29,12 @@ function DirectionAwareTabs({
   onChange,
   onTabChange,
 }: OgImageSectionProps) {
-  const [activeTab, setActiveTab] = useState<number>(() => {
-    try {
-      if (typeof window === "undefined") return 0;
-      const stored = sessionStorage.getItem(STORAGE_KEY);
-      return stored ? parseInt(stored, 10) : 0;
-    } catch (err) {
-      return 0;
-    }
-  });
+  const fallbackTabId = tabs[0]?.id ?? 0;
+  const [activeTab, setActiveTab] = useState<number>(fallbackTabId);
   const [direction, setDirection] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [ref, bounds] = useMeasure();
+  const hasRestoredRef = useRef(false);
 
   const content = useMemo(() => {
     const activeTabContent = tabs.find((tab) => tab.id === activeTab)?.content;
@@ -52,22 +46,57 @@ function DirectionAwareTabs({
       const newDirection = newTabId > activeTab ? 1 : -1;
       setDirection(newDirection);
       setActiveTab(newTabId);
-      try {
-        if (typeof window !== "undefined")
-          sessionStorage.setItem(STORAGE_KEY, String(newTabId));
-      } catch (err) {
-        /* ignore storage errors */
-      }
 
       if (onChange) onChange();
     }
   };
 
-  // Persist activeTab whenever it changes (covers other ways state might change)
   useEffect(() => {
+    if (
+      hasRestoredRef.current ||
+      !tabs.length ||
+      typeof window === "undefined"
+    ) {
+      return;
+    }
+
     try {
-      if (typeof window !== "undefined")
-        sessionStorage.setItem(STORAGE_KEY, String(activeTab));
+      const storedValue = window.localStorage.getItem(STORAGE_KEY);
+      const storedId = storedValue ? Number.parseInt(storedValue, 10) : NaN;
+
+      if (
+        !Number.isNaN(storedId) &&
+        tabs.some((tab) => tab.id === storedId) &&
+        storedId !== activeTab
+      ) {
+        const newDirection = storedId > activeTab ? 1 : -1;
+        setDirection(newDirection);
+        setActiveTab(storedId);
+      }
+    } catch (err) {
+      /* ignore */
+    } finally {
+      hasRestoredRef.current = true;
+    }
+  }, [activeTab, tabs]);
+
+  useEffect(() => {
+    if (!tabs.length) {
+      return;
+    }
+
+    if (!tabs.some((tab) => tab.id === activeTab)) {
+      setActiveTab(tabs[0]?.id ?? 0);
+    }
+  }, [tabs, activeTab]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    try {
+      window.localStorage.setItem(STORAGE_KEY, String(activeTab));
     } catch (err) {
       /* ignore */
     }
@@ -80,7 +109,7 @@ function DirectionAwareTabs({
     } catch (err) {
       /* ignore */
     }
-  }, [activeTab]);
+  }, [activeTab, onTabChange]);
 
   const variants = {
     initial: (direction: number) => ({
@@ -113,7 +142,7 @@ function DirectionAwareTabs({
             rounded,
           )}
         >
-          {tabs.map((tab, idx) => (
+          {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => handleTabClick(tab.id)}

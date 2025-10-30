@@ -7,13 +7,13 @@ import { MultiSelect } from "../ui/multi-select";
 import { Label } from "../ui/label";
 import { motion } from "framer-motion";
 import { DirectionAwareTabs } from "@/components/ui/direction-aware-tabs";
-import ProjectCard from "../molecules/ProjectCard";
 import { getMicrofrontendsFilterOptions } from "../../utils/filterOptionsOptimized";
 import { microfrontendProjects } from "../../../public/data/projects/projects";
 import { cn } from "@/lib/utils";
 import { Computer, Trash } from "lucide-react";
 import { FaBroom } from "react-icons/fa";
 import Image from "next/image";
+import MicroProjectCard from "../molecules/MicroProjectCard";
 
 // Estado centralizado para filtros
 type FilterState = {
@@ -456,9 +456,9 @@ export default function MicroList() {
               </span>
             </div>
           ) : (
-            <div className="flex flex-col gap-4 pt-4">
+            <div className="grid justify-items-end gap-6 pt-4 md:grid-cols-2">
               {filteredProjects.map((project) => (
-                <ProjectCard key={project.slug} project={project} />
+                <MicroProjectCard key={project.slug} project={project} />
               ))}
             </div>
           )}

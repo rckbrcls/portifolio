@@ -48,7 +48,6 @@ export const microfrontendProjects: IProject[] = [
       "https://github.com/brcls/portifolio-monorepo/tree/main/apps/alan-turing",
     microRoute: process.env.NEXT_PUBLIC_ALAN_TURING_URL as string,
     members: ["Erick Barcelos"],
-    coverImage: "/images/projects/alan-turing/alan-turing.png",
     status: "finished",
   },
   {
@@ -61,7 +60,6 @@ export const microfrontendProjects: IProject[] = [
       "https://github.com/brcls/portifolio-monorepo/tree/main/apps/lojinha-simples",
     microRoute: process.env.NEXT_PUBLIC_LOJINHA_SIMPLES_URL as string,
     members: ["Erick Barcelos"],
-    coverImage: "/images/projects/lojinha-simples/lojinha.png",
     status: "finished",
   },
 
@@ -75,7 +73,6 @@ export const microfrontendProjects: IProject[] = [
       "https://github.com/brcls/portifolio-monorepo/tree/main/apps/secret-santa",
     members: ["Erick Barcelos"],
     microRoute: process.env.NEXT_PUBLIC_SECRET_SANTA_URL as string,
-    coverImage: "/images/projects/secret-santa/home.png",
     status: "finished",
     localServer: true,
   },
@@ -89,7 +86,6 @@ export const microfrontendProjects: IProject[] = [
       "https://github.com/brcls/portifolio-monorepo/tree/main/apps/video-project-manage",
     members: ["Erick Barcelos"],
     microRoute: process.env.NEXT_PUBLIC_VIDEO_PROJECT_MANAGE_URL as string,
-    coverImage: "/images/projects/video-project-manage/home.png",
     status: "finished",
   },
   {
@@ -109,7 +105,6 @@ export const microfrontendProjects: IProject[] = [
       "https://github.com/brcls/portifolio-monorepo/tree/main/apps/electoral-system",
     members: ["Erick Barcelos"],
     microRoute: process.env.NEXT_PUBLIC_ELECTORAL_SYSTEM_URL as string,
-    coverImage: "/images/projects/electoral-system/home.png",
     status: "finished",
     localServer: true,
   },
@@ -143,7 +138,6 @@ export const microfrontendProjects: IProject[] = [
     gitLink: "https://github.com/rckbrcls/academic-league-of-psychiatry",
     microRoute: process.env.NEXT_PUBLIC_LIGA_URL as string,
     members: ["Erick Barcelos"],
-    coverImage: "/images/projects/liga-academica/liga.png",
     status: "finished",
   },
   {
@@ -156,7 +150,6 @@ export const microfrontendProjects: IProject[] = [
       "https://github.com/brcls/portifolio-monorepo/tree/main/apps/joystick",
     members: ["Erick Barcelos"],
     microRoute: process.env.NEXT_PUBLIC_JOYSTICK_URL as string,
-    coverImage: "",
     status: "finished",
     localServer: true,
   },
