@@ -225,7 +225,7 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
         boxSizing: "border-box",
       }}
     >
-      <p className="text-xl">{heading}</p>
+      <p className="text-lg">{heading}</p>
     </div>
   );
 
