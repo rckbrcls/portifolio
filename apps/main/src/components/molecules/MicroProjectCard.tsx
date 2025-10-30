@@ -42,9 +42,11 @@ const MicroProjectCard = ({ project }: IMicroProjectCardProps) => {
               </Link>
             )}
 
-            <div className="glass-dark flex items-center rounded-lg p-2 px-4 text-sm font-bold">
-              <p className="text-nowrap">{project.microRoute}</p>
-            </div>
+            {project?.microRoute && (
+              <div className="glass-dark flex items-center rounded-lg p-2 px-4 text-sm font-bold">
+                <p className="text-nowrap">{project.microRoute}</p>
+              </div>
+            )}
 
             {project?.gitLink && (
               <a

@@ -31,44 +31,6 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
   const [isLoaded, setIsLoaded] = useState(false);
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
 
-  // Validar URL antes de renderizar
-  if (!src) {
-    return (
-      <div
-        style={{
-          padding: "40px",
-          textAlign: "center",
-          border: "2px dashed #f87171",
-          borderRadius: "8px",
-          backgroundColor: "#fef2f2",
-        }}
-      >
-        <h3 style={{ color: "#dc2626" }}>Error: No URL provided</h3>
-        <p>SmartIframe component requires a valid URL.</p>
-      </div>
-    );
-  }
-
-  // Verificar se a URL é válida
-  try {
-    new URL(src);
-  } catch (error) {
-    return (
-      <div
-        style={{
-          padding: "40px",
-          textAlign: "center",
-          border: "2px dashed #f87171",
-          borderRadius: "8px",
-          backgroundColor: "#fef2f2",
-        }}
-      >
-        <h3 style={{ color: "#dc2626" }}>Error: Invalid URL</h3>
-        <p>The URL "{src}" is not valid.</p>
-      </div>
-    );
-  }
-
   useEffect(() => {
     // Reset loading state quando src mudar
     setIsLoaded(false);
@@ -243,58 +205,106 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
         transition: "opacity 0.3s ease",
       };
 
+  const fallbackHeight =
+    scaledHeight !== undefined ? `${scaledHeight}px` : resolvedHeight;
+
+  const renderErrorState = (heading: string) => (
+    <div
+      style={{
+        height: "100%",
+        width: "100%",
+        padding: "40px",
+        textAlign: "center",
+        border: "2px solid #202020",
+        backgroundColor: "#101010",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "12px",
+        boxSizing: "border-box",
+      }}
+    >
+      <p className="text-lg">{heading}</p>
+    </div>
+  );
+
+  let validationError: { heading: string } | undefined;
+
+  if (!src) {
+    validationError = {
+      heading: "Error: No URL provided",
+    };
+  } else {
+    try {
+      new URL(src);
+    } catch (error) {
+      validationError = {
+        heading: "Error: Invalid URL",
+      };
+    }
+  }
+
   return (
     <div
       className={`smart-iframe-container ${className || ""}`}
       ref={containerRef}
-      style={containerStyle}
+      style={{ ...containerStyle, minHeight: fallbackHeight }}
     >
-      {/* Loading indicator - menos obstrutivo */}
-      {!isLoaded && (
-        <div
-          style={{
-            position: "absolute",
-            top: "20px",
-            left: "20px",
-            zIndex: 10,
-            background: "rgba(0, 0, 0, 0.8)",
-            color: "white",
-            padding: "8px 16px",
-            borderRadius: "20px",
-            fontSize: "14px",
-            backdropFilter: "blur(10px)",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+      {validationError ? (
+        renderErrorState(validationError.heading)
+      ) : (
+        <>
+          {/* Loading indicator - menos obstrutivo */}
+          {!isLoaded && (
             <div
               style={{
-                width: "16px",
-                height: "16px",
-                border: "2px solid rgba(255,255,255,0.3)",
-                borderTop: "2px solid white",
-                borderRadius: "50%",
-                animation: "spin 1s linear infinite",
+                position: "absolute",
+                top: "20px",
+                left: "20px",
+                zIndex: 10,
+                background: "rgba(0, 0, 0, 0.8)",
+                color: "white",
+                padding: "8px 16px",
+                borderRadius: "20px",
+                fontSize: "14px",
+                backdropFilter: "blur(10px)",
               }}
-            ></div>
-            <span>Loading {title}...</span>
-          </div>
-        </div>
-      )}
+            >
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "8px" }}
+              >
+                <div
+                  style={{
+                    width: "16px",
+                    height: "16px",
+                    border: "2px solid rgba(255,255,255,0.3)",
+                    borderTop: "2px solid white",
+                    borderRadius: "50%",
+                    animation: "spin 1s linear infinite",
+                  }}
+                ></div>
+                <span>Loading {title}...</span>
+              </div>
+            </div>
+          )}
 
-      <div style={iframeWrapperStyle}>
-        <iframe
-          ref={iframeRef}
-          src={src}
-          title={title}
-          onLoad={() => {
-            setIsLoaded(true);
-            onLoad?.();
-          }}
-          style={iframeStyle}
-          sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
-          loading="lazy"
-        />
-      </div>
+          <div style={iframeWrapperStyle}>
+            <iframe
+              ref={iframeRef}
+              src={src}
+              title={title}
+              onLoad={() => {
+                setIsLoaded(true);
+                onLoad?.();
+              }}
+              style={iframeStyle}
+              sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
+              loading="lazy"
+            />
+          </div>
+        </>
+      )}
 
       <style jsx>{`
         @keyframes spin {
