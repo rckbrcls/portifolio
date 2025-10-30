@@ -20,7 +20,7 @@ const MicroProjectCard = ({ project }: IMicroProjectCardProps) => {
   return (
     <>
       <div
-        className={`glass-dark group flex h-full transform-gpu select-none flex-col justify-between overflow-hidden rounded-3xl delay-75 duration-500 hover:-translate-y-1`}
+        className={`glass-dark group flex h-full transform-gpu select-none flex-col justify-start overflow-hidden rounded-3xl delay-75 duration-500 hover:-translate-y-1`}
         style={{ width: iframeWidth, marginLeft: "auto" }}
       >
         <div className="flex flex-col">
@@ -77,6 +77,20 @@ const MicroProjectCard = ({ project }: IMicroProjectCardProps) => {
           <hr className="my-1 w-full border-t border-zinc-700/30" />
 
           <div className="flex w-full flex-wrap items-start justify-end gap-2">
+            <p className="flex-1 text-nowrap text-sm font-bold">Members</p>
+            {project?.members.map((member, index) => (
+              <div
+                key={index}
+                className="glass-dark flex items-center rounded-full px-4 py-1"
+              >
+                <p className="text-nowrap text-sm">{member}</p>
+              </div>
+            ))}
+          </div>
+
+          <hr className="my-1 w-full border-t border-zinc-700/30" />
+
+          <div className="flex w-full flex-wrap items-start justify-end gap-2">
             <p className="flex-1 text-nowrap text-sm font-bold">Tech Stack</p>
             {project?.techStack?.map((tech, index) => (
               <div
@@ -85,20 +99,6 @@ const MicroProjectCard = ({ project }: IMicroProjectCardProps) => {
               >
                 <TechStackIcon tech={tech as TypeTechStack} />
                 <p className="text-xs">{tech}</p>
-              </div>
-            ))}
-          </div>
-
-          <hr className="my-1 w-full border-t border-zinc-700/30" />
-
-          <div className="flex w-full flex-wrap items-start justify-end gap-2">
-            <p className="flex-1 text-nowrap text-sm font-bold">Members</p>
-            {project?.members.map((member, index) => (
-              <div
-                key={index}
-                className="glass-dark flex items-center rounded-full px-4 py-1"
-              >
-                <p className="text-nowrap text-sm">{member}</p>
               </div>
             ))}
           </div>
