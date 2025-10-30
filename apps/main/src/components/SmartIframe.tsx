@@ -103,8 +103,6 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
 
     // Comunicação inteligente para ajustar altura
     const handleMessage = (event: MessageEvent) => {
-      if (!autoResize) return;
-
       // Validar URL antes de usar
       let originToCheck: string;
       try {
@@ -116,7 +114,14 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
 
       if (event.origin !== originToCheck) return;
 
-      if (event.data.type === "RESIZE") {
+      if (event.data?.type === "LOADED") {
+        setIsLoaded(true);
+        onLoad?.();
+      }
+
+      if (!autoResize) return;
+
+      if (event.data?.type === "RESIZE") {
         const incomingHeight = event.data.height;
         if (
           typeof incomingHeight === "number" ||
@@ -124,11 +129,6 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
         ) {
           setComputedHeight(incomingHeight);
         }
-      }
-
-      if (event.data.type === "LOADED") {
-        setIsLoaded(true);
-        onLoad?.();
       }
     };
 

@@ -78,36 +78,35 @@ const MicroProjectCard = ({ project }: IMicroProjectCardProps) => {
         }
       `}</style>
 
-      <div className="flex w-full select-none flex-col gap-2 p-8 text-left max-md:p-5">
-        <SubTitle className="mb-3">{project.name}</SubTitle>
+      <div className="flex w-full select-none flex-col gap-2 p-6 text-left">
+        <p className="mb-1 text-2xl font-bold">{project.name}</p>
+        <p className="w-full text-start">{project?.description}</p>
 
-        <Text className="w-full text-start">{project?.description}</Text>
-
-        <hr className="my-3 w-full border-t border-zinc-700/30" />
+        <hr className="my-1 w-full border-t border-zinc-700/30" />
 
         <div className="flex w-full flex-wrap items-start justify-end gap-2">
-          <Text className="flex-1 text-nowrap font-bold">Tech Stack</Text>
+          <p className="flex-1 text-nowrap text-sm font-bold">Tech Stack</p>
           {project?.techStack?.map((tech, index) => (
             <div
               key={index}
-              className="glass-dark flex items-center gap-2 rounded-full px-4 py-1"
+              className="glass-dark flex items-center gap-2 rounded-full px-2 py-1"
             >
               <TechStackIcon tech={tech as TypeTechStack} />
-              <Text>{tech}</Text>
+              <p className="text-xs">{tech}</p>
             </div>
           ))}
         </div>
 
-        <hr className="my-3 w-full border-t border-zinc-700/30" />
+        <hr className="my-1 w-full border-t border-zinc-700/30" />
 
         <div className="flex w-full flex-wrap items-start justify-end gap-2">
-          <Text className="flex-1 text-nowrap font-bold">Members</Text>
+          <p className="flex-1 text-nowrap text-sm font-bold">Members</p>
           {project?.members.map((member, index) => (
             <div
               key={index}
               className="glass-dark flex items-center rounded-full px-4 py-1"
             >
-              <Text className="text-nowrap">{member}</Text>
+              <p className="text-nowrap text-sm">{member}</p>
             </div>
           ))}
         </div>
