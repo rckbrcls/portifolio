@@ -20,8 +20,6 @@ interface OgImageSectionProps {
   onTabChange?: (id: number) => void;
 }
 
-const STORAGE_KEY = "directionAwareTabs.activeTab";
-
 function DirectionAwareTabs({
   tabs,
   className,
@@ -29,15 +27,7 @@ function DirectionAwareTabs({
   onChange,
   onTabChange,
 }: OgImageSectionProps) {
-  const [activeTab, setActiveTab] = useState<number>(() => {
-    try {
-      if (typeof window === "undefined") return 0;
-      const stored = sessionStorage.getItem(STORAGE_KEY);
-      return stored ? parseInt(stored, 10) : 0;
-    } catch (err) {
-      return 0;
-    }
-  });
+  const [activeTab, setActiveTab] = useState<number>(tabs[0]?.id ?? 0);
   const [direction, setDirection] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [ref, bounds] = useMeasure();
@@ -52,26 +42,10 @@ function DirectionAwareTabs({
       const newDirection = newTabId > activeTab ? 1 : -1;
       setDirection(newDirection);
       setActiveTab(newTabId);
-      try {
-        if (typeof window !== "undefined")
-          sessionStorage.setItem(STORAGE_KEY, String(newTabId));
-      } catch (err) {
-        /* ignore storage errors */
-      }
 
       if (onChange) onChange();
     }
   };
-
-  // Persist activeTab whenever it changes (covers other ways state might change)
-  useEffect(() => {
-    try {
-      if (typeof window !== "undefined")
-        sessionStorage.setItem(STORAGE_KEY, String(activeTab));
-    } catch (err) {
-      /* ignore */
-    }
-  }, [activeTab]);
 
   // Notify parent when activeTab changes
   useEffect(() => {
@@ -80,7 +54,7 @@ function DirectionAwareTabs({
     } catch (err) {
       /* ignore */
     }
-  }, [activeTab]);
+  }, [activeTab, onTabChange]);
 
   const variants = {
     initial: (direction: number) => ({
@@ -113,7 +87,7 @@ function DirectionAwareTabs({
             rounded,
           )}
         >
-          {tabs.map((tab, idx) => (
+          {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => handleTabClick(tab.id)}
