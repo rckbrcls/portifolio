@@ -1,4 +1,10 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, {
+  useRef,
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+} from "react";
 
 interface SmartIframeProps {
   src: string;
@@ -30,11 +36,116 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
   );
   const [isLoaded, setIsLoaded] = useState(false);
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
+  const loadTimeoutRef = useRef<number>();
+  const readyStateCheckRef = useRef<number>();
+  const hasNotifiedLoadRef = useRef(false);
+  const loadStartTimeRef = useRef<number>();
+
+  const clearLoadGuards = useCallback(() => {
+    if (typeof window === "undefined") return;
+
+    if (typeof loadTimeoutRef.current === "number") {
+      window.clearTimeout(loadTimeoutRef.current);
+      loadTimeoutRef.current = undefined;
+    }
+    if (typeof readyStateCheckRef.current === "number") {
+      window.clearInterval(readyStateCheckRef.current);
+      readyStateCheckRef.current = undefined;
+    }
+  }, []);
+
+  const parsedSrc = useMemo(() => {
+    if (!src) return null;
+    try {
+      return new URL(src);
+    } catch (error) {
+      return null;
+    }
+  }, [src]);
+
+  const markIframeAsLoaded = useCallback(() => {
+    clearLoadGuards();
+    setIsLoaded((prev) => (prev ? prev : true));
+    loadStartTimeRef.current = undefined;
+
+    if (!hasNotifiedLoadRef.current) {
+      hasNotifiedLoadRef.current = true;
+      onLoad?.();
+    }
+  }, [clearLoadGuards, onLoad]);
+
+  useEffect(() => {
+    return () => {
+      clearLoadGuards();
+    };
+  }, [clearLoadGuards]);
 
   useEffect(() => {
     // Reset loading state quando src mudar
     setIsLoaded(false);
+    hasNotifiedLoadRef.current = false;
+    loadStartTimeRef.current = Date.now();
   }, [src]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    clearLoadGuards();
+
+    if (!parsedSrc) return;
+
+    // Detect iframe readiness proactively so the loading overlay cannot get stuck when the load event is flaky.
+    const attemptReadyStateCheck = () => {
+      const iframe = iframeRef.current;
+      if (!iframe) return false;
+
+      try {
+        const doc = iframe.contentDocument ?? iframe.contentWindow?.document;
+        if (!doc) return false;
+        const startedAt = loadStartTimeRef.current;
+        const elapsed = startedAt ? Date.now() - startedAt : undefined;
+        const hasWaitedLongEnough = elapsed === undefined || elapsed >= 800;
+        const hasBodyContent = Boolean(
+          doc.body &&
+            (doc.body.childElementCount > 0 ||
+              doc.body.textContent?.trim().length),
+        );
+
+        if (
+          hasWaitedLongEnough &&
+          hasBodyContent &&
+          (doc.readyState === "complete" || doc.readyState === "interactive")
+        ) {
+          markIframeAsLoaded();
+          return true;
+        }
+      } catch (error) {
+        // Cross-origin frames will throw; rely on load event or timeout fallback.
+      }
+
+      return false;
+    };
+
+    if (attemptReadyStateCheck()) {
+      return () => {
+        clearLoadGuards();
+      };
+    }
+
+    readyStateCheckRef.current = window.setInterval(() => {
+      if (attemptReadyStateCheck()) {
+        clearLoadGuards();
+      }
+    }, 500);
+
+    loadTimeoutRef.current = window.setTimeout(() => {
+      markIframeAsLoaded();
+    }, 12000);
+
+    return () => {
+      clearLoadGuards();
+    };
+  }, [parsedSrc, clearLoadGuards, markIframeAsLoaded]);
 
   useEffect(() => {
     setComputedHeight(heightProp);
@@ -66,19 +177,12 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
     // Comunicação inteligente para ajustar altura
     const handleMessage = (event: MessageEvent) => {
       // Validar URL antes de usar
-      let originToCheck: string;
-      try {
-        originToCheck = new URL(src).origin;
-      } catch (error) {
-        console.warn("Invalid URL for origin validation:", src);
-        return;
-      }
+      if (!parsedSrc) return;
 
-      if (event.origin !== originToCheck) return;
+      if (event.origin !== parsedSrc.origin) return;
 
       if (event.data?.type === "LOADED") {
-        setIsLoaded(true);
-        onLoad?.();
+        markIframeAsLoaded();
       }
 
       if (!autoResize) return;
@@ -96,8 +200,7 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
 
     // Handler para quando o iframe carrega
     const handleIframeLoad = () => {
-      setIsLoaded(true);
-      onLoad?.();
+      markIframeAsLoaded();
     };
 
     iframe.addEventListener("load", handleIframeLoad);
@@ -107,7 +210,7 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
       iframe.removeEventListener("load", handleIframeLoad);
       window.removeEventListener("message", handleMessage);
     };
-  }, [src, onLoad, autoResize]);
+  }, [parsedSrc, autoResize, markIframeAsLoaded]);
 
   const resolvedHeight =
     typeof computedHeight === "number" ? `${computedHeight}px` : computedHeight;
@@ -160,6 +263,7 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
   const containerStyle: React.CSSProperties = {
     width: resolvedWidth,
     overflow: "hidden",
+    background: "#0f0f0f",
   };
 
   if (scaledHeight !== undefined) {
@@ -208,6 +312,41 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
   const fallbackHeight =
     scaledHeight !== undefined ? `${scaledHeight}px` : resolvedHeight;
 
+  const loadingOverlayStyle: React.CSSProperties = {
+    position: "absolute",
+    inset: 0,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "16px",
+    background:
+      "radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.65))",
+    backdropFilter: "blur(8px)",
+    color: "#f8f9fa",
+    pointerEvents: "none",
+    zIndex: 10,
+  };
+
+  const loadingCardStyle: React.CSSProperties = {
+    display: "flex",
+    alignItems: "center",
+    gap: "12px",
+    borderRadius: "28px",
+    padding: "12px 24px",
+    background: "rgba(15, 15, 15, 0.8)",
+    border: "1px solid rgba(255, 255, 255, 0.12)",
+    boxShadow: "0 12px 32px rgba(0, 0, 0, 0.45)",
+  };
+
+  const spinnerStyle: React.CSSProperties = {
+    width: "18px",
+    height: "18px",
+    border: "2px solid rgba(255, 255, 255, 0.25)",
+    borderTop: "2px solid #ffffff",
+    borderRadius: "50%",
+    animation: "spin 1s linear infinite",
+  };
+
   const renderErrorState = (heading: string) => (
     <div
       style={{
@@ -235,14 +374,10 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
     validationError = {
       heading: "Error: No URL provided",
     };
-  } else {
-    try {
-      new URL(src);
-    } catch (error) {
-      validationError = {
-        heading: "Error: Invalid URL",
-      };
-    }
+  } else if (!parsedSrc) {
+    validationError = {
+      heading: "Error: Invalid URL",
+    };
   }
 
   return (
@@ -257,33 +392,9 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
         <>
           {/* Loading indicator - menos obstrutivo */}
           {!isLoaded && (
-            <div
-              style={{
-                position: "absolute",
-                top: "20px",
-                left: "20px",
-                zIndex: 10,
-                background: "rgba(0, 0, 0, 0.8)",
-                color: "white",
-                padding: "8px 16px",
-                borderRadius: "20px",
-                fontSize: "14px",
-                backdropFilter: "blur(10px)",
-              }}
-            >
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "8px" }}
-              >
-                <div
-                  style={{
-                    width: "16px",
-                    height: "16px",
-                    border: "2px solid rgba(255,255,255,0.3)",
-                    borderTop: "2px solid white",
-                    borderRadius: "50%",
-                    animation: "spin 1s linear infinite",
-                  }}
-                ></div>
+            <div style={loadingOverlayStyle}>
+              <div style={loadingCardStyle}>
+                <div style={spinnerStyle} />
                 <span>Loading {title}...</span>
               </div>
             </div>
@@ -294,10 +405,7 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
               ref={iframeRef}
               src={src}
               title={title}
-              onLoad={() => {
-                setIsLoaded(true);
-                onLoad?.();
-              }}
+              onLoad={markIframeAsLoaded}
               style={iframeStyle}
               sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
               loading="lazy"
@@ -320,7 +428,7 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
           position: relative;
           width: 100%;
           height: 100%;
-          background: #f8f9fa;
+          background: #0f0f0f;
           border-radius: 0;
           overflow: hidden;
         }
