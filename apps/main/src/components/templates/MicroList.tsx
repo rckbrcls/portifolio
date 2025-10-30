@@ -456,7 +456,7 @@ export default function MicroList() {
               </span>
             </div>
           ) : (
-            <div className="flex flex-col gap-4 pt-4">
+            <div className="grid justify-items-end gap-6 pt-4 md:grid-cols-2">
               {filteredProjects.map((project) => (
                 <MicroProjectCard key={project.slug} project={project} />
               ))}

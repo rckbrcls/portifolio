@@ -5,6 +5,11 @@ interface SmartIframeProps {
   title: string;
   onLoad?: () => void;
   className?: string;
+  height?: number | string;
+  autoResize?: boolean;
+  width?: number | string;
+  aspectRatio?: number | string;
+  targetViewportWidth?: number;
 }
 
 const SmartIframe: React.FC<SmartIframeProps> = ({
@@ -12,10 +17,19 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
   title,
   onLoad,
   className,
+  height: heightProp = "100vh",
+  autoResize = true,
+  width: widthProp = "100%",
+  aspectRatio,
+  targetViewportWidth,
 }) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [height, setHeight] = useState(600);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [computedHeight, setComputedHeight] = useState<number | string>(
+    heightProp,
+  );
   const [isLoaded, setIsLoaded] = useState(false);
+  const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
 
   // Validar URL antes de renderizar
   if (!src) {
@@ -61,11 +75,36 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
   }, [src]);
 
   useEffect(() => {
+    setComputedHeight(heightProp);
+  }, [heightProp]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const node = containerRef.current;
+    if (!node) return;
+
+    const observer = new ResizeObserver((entries) => {
+      const entry = entries[0];
+      if (!entry) return;
+      const { width, height } = entry.contentRect;
+      setContainerSize({ width, height });
+    });
+
+    observer.observe(node);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [targetViewportWidth]);
+
+  useEffect(() => {
     const iframe = iframeRef.current;
     if (!iframe) return;
 
     // Comunicação inteligente para ajustar altura
     const handleMessage = (event: MessageEvent) => {
+      if (!autoResize) return;
+
       // Validar URL antes de usar
       let originToCheck: string;
       try {
@@ -78,7 +117,13 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
       if (event.origin !== originToCheck) return;
 
       if (event.data.type === "RESIZE") {
-        setHeight(event.data.height);
+        const incomingHeight = event.data.height;
+        if (
+          typeof incomingHeight === "number" ||
+          typeof incomingHeight === "string"
+        ) {
+          setComputedHeight(incomingHeight);
+        }
       }
 
       if (event.data.type === "LOADED") {
@@ -100,10 +145,110 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
       iframe.removeEventListener("load", handleIframeLoad);
       window.removeEventListener("message", handleMessage);
     };
-  }, [src, onLoad]);
+  }, [src, onLoad, autoResize]);
+
+  const resolvedHeight =
+    typeof computedHeight === "number" ? `${computedHeight}px` : computedHeight;
+  const resolvedWidth =
+    typeof widthProp === "number" ? `${widthProp}px` : widthProp;
+  const resolvedAspectRatio =
+    typeof aspectRatio === "number" ? aspectRatio.toString() : aspectRatio;
+
+  const parseAspectRatioValue = (ratio?: number | string) => {
+    if (!ratio) return undefined;
+    if (typeof ratio === "number") {
+      return ratio;
+    }
+
+    const cleaned = ratio.replace(/\s/g, "");
+    if (!cleaned) return undefined;
+
+    if (cleaned.includes("/")) {
+      const [numStr, denomStr] = cleaned.split("/");
+      const numerator = Number(numStr);
+      const denominator = Number(denomStr);
+      if (!isNaN(numerator) && !isNaN(denominator) && denominator !== 0) {
+        return numerator / denominator;
+      }
+      return undefined;
+    }
+
+    const numeric = Number(cleaned);
+    return Number.isFinite(numeric) ? numeric : undefined;
+  };
+
+  const aspectRatioValue = parseAspectRatioValue(resolvedAspectRatio);
+
+  const baseViewportWidth = targetViewportWidth;
+  const baseViewportHeight =
+    baseViewportWidth && aspectRatioValue
+      ? baseViewportWidth / aspectRatioValue
+      : undefined;
+
+  const scale =
+    baseViewportWidth && containerSize.width
+      ? Math.min(containerSize.width / baseViewportWidth, 1)
+      : 1;
+
+  const scaledHeight =
+    baseViewportWidth && baseViewportHeight
+      ? baseViewportHeight * scale
+      : undefined;
+
+  const containerStyle: React.CSSProperties = {
+    width: resolvedWidth,
+    overflow: "hidden",
+  };
+
+  if (scaledHeight !== undefined) {
+    containerStyle.height = `${scaledHeight}px`;
+    containerStyle.maxHeight = resolvedHeight;
+  } else {
+    containerStyle.height = resolvedHeight;
+  }
+
+  if (resolvedAspectRatio) {
+    containerStyle.aspectRatio = resolvedAspectRatio;
+  }
+
+  const iframeWrapperStyle: React.CSSProperties = baseViewportWidth
+    ? {
+        width: `${baseViewportWidth}px`,
+        height: baseViewportHeight ? `${baseViewportHeight}px` : "100%",
+        transform: `scale(${scale})`,
+        transformOrigin: "top left",
+      }
+    : {
+        width: "100%",
+        height: "100%",
+      };
+
+  const iframeStyle: React.CSSProperties = baseViewportWidth
+    ? {
+        width: `${baseViewportWidth}px`,
+        height: baseViewportHeight ? `${baseViewportHeight}px` : "100%",
+        border: "none",
+        borderRadius: "0",
+        boxShadow: "none",
+        opacity: isLoaded ? 1 : 0.3,
+        transition: "opacity 0.3s ease",
+      }
+    : {
+        width: "100%",
+        height: "100%",
+        border: "none",
+        borderRadius: "0",
+        boxShadow: "none",
+        opacity: isLoaded ? 1 : 0.3,
+        transition: "opacity 0.3s ease",
+      };
 
   return (
-    <div className={`smart-iframe-container ${className || ""}`}>
+    <div
+      className={`smart-iframe-container ${className || ""}`}
+      ref={containerRef}
+      style={containerStyle}
+    >
       {/* Loading indicator - menos obstrutivo */}
       {!isLoaded && (
         <div
@@ -136,26 +281,20 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
         </div>
       )}
 
-      <iframe
-        ref={iframeRef}
-        src={src}
-        title={title}
-        onLoad={() => {
-          setIsLoaded(true);
-          onLoad?.();
-        }}
-        style={{
-          width: "100%",
-          height: "100vh",
-          border: "none",
-          borderRadius: "0",
-          boxShadow: "none",
-          opacity: isLoaded ? 1 : 0.3,
-          transition: "opacity 0.3s ease",
-        }}
-        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
-        loading="lazy"
-      />
+      <div style={iframeWrapperStyle}>
+        <iframe
+          ref={iframeRef}
+          src={src}
+          title={title}
+          onLoad={() => {
+            setIsLoaded(true);
+            onLoad?.();
+          }}
+          style={iframeStyle}
+          sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
+          loading="lazy"
+        />
+      </div>
 
       <style jsx>{`
         @keyframes spin {
@@ -170,7 +309,7 @@ const SmartIframe: React.FC<SmartIframeProps> = ({
         .smart-iframe-container {
           position: relative;
           width: 100%;
-          height: 100vh;
+          height: 100%;
           background: #f8f9fa;
           border-radius: 0;
           overflow: hidden;
