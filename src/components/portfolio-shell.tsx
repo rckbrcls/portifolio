@@ -440,11 +440,11 @@ export function PortfolioLayout({
       <div className="flex min-h-screen flex-col overflow-x-clip bg-portfolio-neutral text-portfolio-primary">
         <div className="fixed left-1/2 top-4 z-30 -translate-x-1/2 max-md:left-0 max-md:right-0 max-md:translate-x-0">
           <div className="w-fit max-w-[calc(100vw_-_2rem)] p-0 max-md:mx-auto max-md:w-[min(calc(100vw_-_1rem),24rem)] max-md:max-w-none">
-            <header className="relative flex min-h-[2.8rem] w-fit items-center justify-between gap-4 rounded-[var(--portfolio-radius-lg)] border border-[color:var(--portfolio-floating-border)] bg-portfolio-surface py-[0.6rem] pb-[0.54rem] pl-[4.28rem] pr-[0.96rem] [box-shadow:var(--portfolio-floating-shadow)] max-md:min-h-[2.62rem] max-md:w-full max-md:gap-[0.72rem] max-md:py-[0.56rem] max-md:pb-2 max-md:pl-[3.64rem] max-md:pr-[0.82rem]">
+            <header className="relative flex min-h-[2.8rem] w-fit items-center justify-between gap-4 rounded-[var(--portfolio-radius-lg)] border border-[color:var(--portfolio-floating-border)] bg-portfolio-surface py-[0.6rem] pb-[0.54rem] pl-[4.28rem] pr-[0.96rem] [box-shadow:var(--portfolio-floating-shadow)] max-md:min-h-[2.62rem] max-md:w-full max-md:gap-[0.56rem] max-md:py-[0.56rem] max-md:pb-2 max-md:pl-[3.64rem] max-md:pr-[0.72rem] max-[360px]:pl-[3.35rem] max-[360px]:pr-2">
               <HeaderBrandAnimation />
 
               <nav
-                className="flex w-full flex-1 items-center justify-between gap-[0.95rem] whitespace-nowrap max-md:gap-[0.56rem]"
+                className="flex w-full flex-1 items-center justify-between gap-[0.95rem] whitespace-nowrap max-md:gap-[0.42rem] max-[360px]:gap-1"
                 aria-label="Primary navigation"
               >
                 {navigationLinks.map((item) => (
@@ -459,7 +459,7 @@ export function PortfolioLayout({
                         : undefined
                     }
                     className={cn(
-                      "border-b border-portfolio-surface pb-[0.24rem] font-mono text-[0.78rem] font-semibold leading-[1.1] tracking-normal text-portfolio-secondary no-underline transition-colors duration-150 ease-portfolio hover:border-portfolio-accent hover:text-portfolio-accent focus-visible:border-portfolio-accent focus-visible:text-portfolio-primary focus-visible:outline-none aria-[current=page]:border-portfolio-primary aria-[current=page]:text-portfolio-primary max-md:text-[0.72rem]",
+                      "border-b border-portfolio-surface pb-[0.24rem] font-mono text-[0.78rem] font-semibold leading-[1.1] tracking-normal text-portfolio-secondary no-underline transition-colors duration-150 ease-portfolio hover:border-portfolio-accent hover:text-portfolio-accent focus-visible:border-portfolio-accent focus-visible:text-portfolio-primary focus-visible:outline-none aria-[current=page]:border-portfolio-primary aria-[current=page]:text-portfolio-primary max-md:text-[0.68rem] max-[360px]:text-[0.62rem]",
                       item.preserveCase ? "normal-case" : "uppercase",
                     )}
                   >

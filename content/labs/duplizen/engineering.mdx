@@ -1,0 +1,9 @@
+## Realtime rooms coordinated near the database
+
+Next.js, React, and TypeScript provide the browser application. Supabase and PostgreSQL persist rooms, players, roles, rounds, votes, and game state. Realtime subscriptions propagate relevant changes to connected players.
+
+Database functions coordinate shared transitions, while row-level security narrows which records a participant can access.
+
+Keeping multiplayer state synchronized improves group play but creates stronger consistency and reconnection requirements than a single-device game.
+
+I designed and implemented the product, application flows, multiplayer data model, database policies, and controlled game-state transitions.
