@@ -31,7 +31,7 @@ export function BlogPostCard({ post }: BlogPostCardProps) {
               {post.title}
             </h3>
 
-            <div className="flex flex-wrap items-center justify-end gap-3 text-right">
+            <div className="flex flex-wrap items-center justify-end gap-3 text-right max-[560px]:justify-start max-[560px]:text-left">
               <p className="m-0 font-mono text-[0.72rem] font-semibold uppercase leading-[1.2] tracking-normal text-portfolio-secondary">
                 {formatBlogDate(post.publishedAt)}
               </p>
