@@ -3,7 +3,7 @@ import { professionalWorkItems } from "../../data/work/professional-work";
 import { projects } from "../../data/projects/projects";
 import type { IProject } from "@/interface/IProject";
 
-export type PortfolioRoute = "/" | "/work" | "/blog";
+export type PortfolioRoute = "/" | "/work" | "/labs" | "/blog";
 
 export interface NavigationLink {
   href: PortfolioRoute;
@@ -22,18 +22,15 @@ export interface ContactLink {
 export const navigationLinks: NavigationLink[] = [
   { href: "/", label: "Hi!", number: "1", preserveCase: true },
   { href: "/work", label: "Work", number: "02" },
-  { href: "/blog", label: "Blog", number: "03" },
+  { href: "/labs", label: "Labs", number: "03" },
+  { href: "/blog", label: "Blog", number: "04" },
 ];
 
-export const featuredProjectSlugs = ["dost", "urbanus", "duplizen", "converge"];
+export const featuredProjectSlugs = ["dost", "urbanus"];
 
 export const featuredProjectSummaries: Record<string, string> = {
   dost: "Full-stack commerce platform spanning catalog, checkout, shipping, and orders.",
   urbanus: "Geospatial research platform for preliminary sanitation planning.",
-  duplizen:
-    "Real-time social-deduction game built for quick multilingual group play.",
-  converge:
-    "Native macOS focus timer with local history, statistics, and notifications.",
 };
 
 export const contactLinks: ContactLink[] = [

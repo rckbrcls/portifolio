@@ -28,7 +28,7 @@ export default function Home() {
   return (
     <PortfolioLayout
       title="rckbrcls | Portfolio"
-      description="Erick Barcelos is a software engineer based in São Paulo, working across backend systems, research software, and independent products."
+      description="Erick Barcelos is a software engineer based in São Paulo, working across professional work, research software, independent engineering, and usable product experiments."
     >
       <PortfolioEditorialStack>
         <PortfolioSection spacing="page-start">
@@ -84,22 +84,35 @@ export default function Home() {
             </p>
 
             <p className={narrativeParagraphClassName}>
-              Outside work, I build products such as{" "}
+              My{" "}
+              <Link href="/work" className={narrativeLinkClassName}>
+                Work
+              </Link>{" "}
+              also includes independent engineering projects such as{" "}
               <Link href="/work/dost" className={narrativeLinkClassName}>
                 DOST
               </Link>
-              ,{" "}
-              <Link href="/work/duplizen" className={narrativeLinkClassName}>
+              , a full-stack commerce platform spanning catalog, checkout,
+              shipping, and orders.
+            </p>
+
+            <p className={narrativeParagraphClassName}>
+              <Link href="/labs" className={narrativeLinkClassName}>
+                Labs
+              </Link>{" "}
+              is where I publish smaller products you can use directly,
+              including{" "}
+              <Link href="/labs/duplizen" className={narrativeLinkClassName}>
                 Duplizen
               </Link>
-              , and{" "}
-              <Link href="/work/converge" className={narrativeLinkClassName}>
+              , a browser-based social-deduction game, and{" "}
+              <Link href="/labs/converge" className={narrativeLinkClassName}>
                 Converge
               </Link>
-              , and write about what I learn. I have also supported programming
-              education and volunteer software projects through university
-              initiatives. Away from code, I enjoy martial arts, cinema, and
-              football.
+              , a native macOS focus timer. I also write about what I learn and
+              have supported programming education and volunteer software
+              projects through university initiatives. Away from code, I enjoy
+              martial arts, cinema, and football.
             </p>
 
             <p className={narrativeParagraphClassName}>

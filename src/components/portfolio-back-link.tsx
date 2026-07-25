@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
 type PortfolioBackLinkProps = {
-  href: "/work" | "/blog";
+  href: "/work" | "/labs" | "/blog";
 };
 
 export function PortfolioBackLink({ href }: PortfolioBackLinkProps) {

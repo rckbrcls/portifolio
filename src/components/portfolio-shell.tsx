@@ -39,6 +39,7 @@ interface PortfolioPageIntroProps {
   kicker: string;
   title: string;
   titleVisual?: ReactNode;
+  description?: string;
   action?: ReactNode;
 }
 
@@ -543,6 +544,7 @@ export function PortfolioPageIntro({
   kicker,
   title,
   titleVisual,
+  description,
   action,
 }: PortfolioPageIntroProps) {
   const hasSide = Boolean(action);
@@ -565,6 +567,11 @@ export function PortfolioPageIntro({
           >
             {titleVisual ?? title}
           </h1>
+          {description ? (
+            <p className="m-0 max-w-[42rem] text-base leading-[1.75] text-portfolio-secondary">
+              {description}
+            </p>
+          ) : null}
         </div>
 
         {hasSide ? (
