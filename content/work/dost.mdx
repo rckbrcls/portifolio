@@ -27,26 +27,14 @@ single purchase flow.
 
 ## Solution
 
-The current application brings those workflows together in a responsive
-Next.js storefront backed by Supabase. Stripe handles checkout, Frenet provides
-shipping quotes, and the application supports both authenticated and guest
-order journeys.
+The current application brings product availability, customer identity,
+shipping, payment, and order state together in one responsive storefront,
+supporting both authenticated and guest purchase journeys.
 
 ## My contribution
 
 I work across the storefront, API routes, authentication, persistence,
 payments, shipping, cart behavior, and customer order flows.
-
-## Architecture
-
-- A Next.js 16 and React 19 application written in TypeScript provides the
-  storefront and server boundaries.
-- Supabase provides authentication, PostgreSQL persistence, and the core data
-  model for products, inventory, customers, and orders.
-- Stripe Checkout owns the payment boundary.
-- Frenet supplies shipping quotes used during purchase.
-- Zustand handles focused client state while TanStack Query coordinates server
-  data.
 
 ## Technical choices
 

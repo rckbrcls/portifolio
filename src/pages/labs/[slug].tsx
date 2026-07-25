@@ -1,6 +1,7 @@
 import type { GetStaticPaths, InferGetStaticPropsType } from "next";
 import { ArrowUpRight } from "lucide-react";
 
+import { BuiltWith } from "@/components/built-with";
 import { LabDetailTabs } from "@/components/labs/lab-detail-tabs";
 import { labMdxComponents } from "@/components/labs/lab-mdx-components";
 import { PortfolioBackLink } from "@/components/portfolio-back-link";
@@ -79,13 +80,7 @@ export default function LabProductPage({
             engineering={
               <article className="grid max-w-[46rem] gap-5">
                 <EngineeringContent components={labMdxComponents} />
-
-                <div className="mt-9 border-t border-portfolio-border pt-6">
-                  <p className="portfolio-kicker">Built with</p>
-                  <p className="mb-0 mt-3 text-sm leading-7 text-portfolio-secondary">
-                    {product.technologies.join(" / ")}
-                  </p>
-                </div>
+                <BuiltWith technologies={product.technologies} />
               </article>
             }
           />
