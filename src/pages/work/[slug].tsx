@@ -2,6 +2,7 @@ import type { GetStaticPaths, InferGetStaticPropsType } from "next";
 import { ArrowUpRight } from "lucide-react";
 
 import { blogMdxComponents } from "@/components/blog/mdx-components";
+import { BuiltWith } from "@/components/built-with";
 import { PortfolioBackLink } from "@/components/portfolio-back-link";
 import {
   PortfolioLayout,
@@ -108,6 +109,7 @@ export default function WorkStoryPage({
             {Content ? (
               <article className="grid gap-5 [&>*]:m-0 [&_.katex-display]:m-0 [&_.katex-display]:overflow-x-auto [&_.katex-display]:overflow-y-hidden [&_.katex-display]:py-1">
                 <Content components={blogMdxComponents} />
+                <BuiltWith technologies={story.technologies} />
               </article>
             ) : (
               <article className="grid gap-portfolio-md">

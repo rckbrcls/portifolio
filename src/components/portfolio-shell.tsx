@@ -554,7 +554,7 @@ export function PortfolioLayout({
           </div>
         </div>
 
-        <div className="mx-auto mb-4 mt-auto w-[calc(100%_-_2rem)] max-w-6xl px-[clamp(1rem,2.4vw,var(--portfolio-space-xl))] max-md:mb-2 max-md:px-4">
+        <div className="mx-auto mb-8 mt-auto w-[calc(100%_-_2rem)] max-w-6xl px-[clamp(1rem,2.4vw,var(--portfolio-space-xl))] max-md:px-4">
           <footer className="w-full overflow-hidden rounded-[var(--portfolio-radius-lg)] border border-[color:var(--portfolio-floating-border)] bg-portfolio-surface p-0 [box-shadow:var(--portfolio-floating-shadow)]">
             <div
               className="grid gap-px bg-portfolio-border [grid-template-columns:repeat(var(--portfolio-footer-columns,1),minmax(0,1fr))] max-[900px]:grid-cols-1 max-md:grid-cols-1"

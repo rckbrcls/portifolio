@@ -108,28 +108,33 @@ export function ProfessionalWorkCard({
         href={item.href ?? "/work"}
         className={workItemCardClassName}
       >
-        <p className={kickerClassName}>
-          {previewNumber} / {categoryLabel}
-        </p>
-
-        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-portfolio-lg max-[900px]:grid-cols-1">
-          <div className={projectCopyClassName}>
+        <div className={projectCopyClassName}>
+          <div className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-portfolio-lg max-[560px]:grid-cols-1">
             <h2
               className={`${projectTitleClassName} ${editorialListTitleMotionClassName}`}
             >
               {item.name}
             </h2>
-            <p className={projectSummaryClassName}>{item.description}</p>
+
+            <p
+              className={`${kickerClassName} justify-self-end text-right max-[560px]:hidden`}
+            >
+              {previewNumber} / {categoryLabel}
+            </p>
           </div>
 
-          <span
-            className={`${cardActionBaseClassName} ${editorialListActionMotionClassName} justify-self-end max-[900px]:justify-self-start`}
-          >
-            Read
-            <ArrowUpRight
-              className={`h-4 w-4 ${editorialListArrowMotionClassName}`}
-            />
-          </span>
+          <div className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-portfolio-lg max-[560px]:grid-cols-1">
+            <p className={projectSummaryClassName}>{item.description}</p>
+
+            <span
+              className={`${cardActionBaseClassName} ${editorialListActionMotionClassName} justify-self-end max-[560px]:hidden`}
+            >
+              Read
+              <ArrowUpRight
+                className={`h-4 w-4 ${editorialListArrowMotionClassName}`}
+              />
+            </span>
+          </div>
         </div>
       </Link>
     </article>

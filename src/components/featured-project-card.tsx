@@ -163,26 +163,29 @@ export function WorkProjectCard({ project, index }: WorkProjectCardProps) {
 
   return (
     <ProjectCardFrame projectLink={projectLink} surfaceVariant="editorial-list">
-      <p className={kickerClassName}>
-        {previewNumber} / {categoryLabel}
-      </p>
-
-      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-portfolio-lg max-[900px]:grid-cols-1">
-        <div className={projectCopyClassName}>
+      <div className={projectCopyClassName}>
+        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-portfolio-lg max-[560px]:grid-cols-1">
           <h2
             className={`${projectTitleClassName} ${editorialListTitleMotionClassName}`}
           >
             {project.name}
           </h2>
-          <p className={projectSummaryClassName}>
-            {getProjectSummary(project)}
+
+          <p
+            className={`${kickerClassName} justify-self-end text-right max-[560px]:hidden`}
+          >
+            {previewNumber} / {categoryLabel}
           </p>
         </div>
 
-        <div className="grid justify-items-end gap-portfolio-md max-[900px]:justify-items-start">
+        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-portfolio-lg max-[560px]:grid-cols-1">
+          <p className={projectSummaryClassName}>
+            {getProjectSummary(project)}
+          </p>
+
           {projectLink ? (
             <span
-              className={`${cardActionBaseClassName} ${editorialListActionMotionClassName}`}
+              className={`${cardActionBaseClassName} ${editorialListActionMotionClassName} justify-self-end max-[560px]:hidden`}
             >
               Read
               <ArrowUpRight
@@ -190,7 +193,7 @@ export function WorkProjectCard({ project, index }: WorkProjectCardProps) {
               />
             </span>
           ) : (
-            <span className="font-mono text-[0.72rem] font-semibold uppercase tracking-normal text-portfolio-secondary">
+            <span className="justify-self-end font-mono text-[0.72rem] font-semibold uppercase tracking-normal text-portfolio-secondary max-[560px]:hidden">
               No public link
             </span>
           )}
