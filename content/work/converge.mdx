@@ -1,0 +1,70 @@
+---
+title: Converge
+summary: A native macOS focus timer built around calm sessions, local history, statistics, and notifications.
+role: Creator and macOS engineer
+period: Temporary public release
+status: Sunsetting
+context: Native product
+technologies:
+  - Swift
+  - SwiftUI
+  - Swift Charts
+  - UserNotifications
+  - Sparkle
+coverImage: /images/projects/converge/pomodoro.png
+links:
+  - label: Download releases
+    href: https://github.com/rckbrcls/converge/releases
+    kind: primary
+  - label: View source
+    href: https://github.com/rckbrcls/converge
+    kind: secondary
+---
+
+## Problem
+
+Focus tools often add more interface than the work requires. Converge explores
+a compact native workflow for starting a session, keeping context visible, and
+reviewing recent focus patterns.
+
+## Solution
+
+The application uses SwiftUI and macOS platform APIs for focus sessions,
+notifications, preferences, history, and statistics, with Sparkle handling the
+update channel.
+
+## My contribution
+
+I designed and built the native application, focus-session behavior,
+preferences, local history, statistics, notification flows, release
+automation, and the historical companion website.
+
+## Architecture
+
+- Swift and SwiftUI provide the native macOS application and interface.
+- `UserDefaults` stores local preferences, focus-session state, and history.
+- Swift Charts visualizes recent focus patterns.
+- UserNotifications supplies session feedback.
+- Sparkle reads an appcast hosted through GitHub Pages and distributes releases
+  from GitHub.
+
+## Technical choices
+
+- Keep focus data local and avoid a custom hosted backend.
+- Use native macOS surfaces instead of wrapping a web application.
+- Use the operating system notification model for session feedback.
+- Centralize discovery in the portfolio while keeping binaries in GitHub
+  Releases.
+
+## Trade-offs and limits
+
+Local persistence keeps the application simple and private, but it does not
+provide cross-device synchronization or the stronger querying guarantees of a
+dedicated database. The current persistence model is intentionally modest.
+
+## Current status
+
+Converge is sunsetting. It remains a temporary public project and release
+channel while its focus experience is incorporated into Sparky, a broader
+local-first personal system. It is not presented as an independently expanding
+product.

@@ -89,7 +89,7 @@ spacing:
   xxl: 64px
   gutter: 24px
   margin: 32px
-  maxWidth: 1200
+  maxWidth: 1152
 components:
   button-primary:
     backgroundColor: "Theme primary or accent blue"
@@ -127,6 +127,7 @@ components:
 ---
 
 ## Overview
+
 A restrained blend of neo-swiss editorial order and techno brutalist system energy.
 
 The interface should feel precise, modern, and designed for serious work, but never cold or visually overloaded. It should use a disciplined grid, strong typography, and visible structure, while keeping the screen breathable and calm. The mood is clean and intelligent first, technical second. Think editorial rigor with subtle operational DNA.
@@ -134,9 +135,11 @@ The interface should feel precise, modern, and designed for serious work, but ne
 This system avoids the usual extremes of brutalism. It should not feel aggressive, noisy, glitchy, or crowded. It should also avoid feeling too soft, decorative, or startup-generic. The result should be calm, sharp, and slightly futuristic.
 
 ## Colors
+
 The system uses neutral bases in both themes. Light mode is built from white and light gray. Dark mode is built from black and charcoal gray. Strong contrast is reserved for text, key frames, and primary actions. Color accents remain stable across both themes.
 
 ### Base Neutrals
+
 - **Light Primary (#111111):** Main text and hard-contrast structure on white and light-gray surfaces.
 - **Light Secondary (#5F5F5F):** Muted metadata, helper text, and low-priority structural copy in light mode.
 - **Light Neutral (#FFFFFF):** Page background for the light theme. This should read as clean white, not warm paper.
@@ -145,12 +148,13 @@ The system uses neutral bases in both themes. Light mode is built from white and
 - **Light Border (#E3E3E3):** Low-noise border for structure in light mode.
 - **Dark Primary (#F5F5F5):** Main text and hard-contrast structure on black and charcoal surfaces.
 - **Dark Secondary (#A3A3A3):** Muted metadata and secondary labels in dark mode.
-- **Dark Neutral (#000000):** Page background for the dark theme. Dark mode must read as truly black, not navy.
+- **Dark Neutral (#0D0D0D):** Near-black page background for the dark theme, kept slightly darker than the primary surface so floating borders and shadows remain visible.
 - **Dark Surface (#0F0F0F):** Primary panel and card surface in dark mode.
 - **Dark Surface Alt (#1A1A1A):** Secondary grouped fill for chips, inputs, muted controls, and low-emphasis UI in dark mode.
 - **Dark Border (#262626):** Structural border for dark mode, subtle but still visible on black.
 
 ### Invariant Accent Colors
+
 - **Tertiary (#246BFD):** Electric but controlled blue used as the single main accent for interaction, selection, and active system states.
 - **Highlight (#DCE7FF):** Accent-derived wash for focus areas and restrained callouts. In dark mode, use the same blue family more sparingly.
 - **Success (#1F8F5F), Warning (#C58A12), Danger (#C94949):** Semantic colors. Keep them stable across themes.
@@ -158,24 +162,30 @@ The system uses neutral bases in both themes. Light mode is built from white and
 Use accent color intentionally. Most of the screen should be neutral, typographic, and structural. Color should guide action, not decorate the page.
 
 ## Opacity & Transparency
+
 Opacity is implicitly `100%` everywhere in this system.
 
 Do not use alpha-based colors, transparent fills, transparent borders, glass surfaces, backdrop blur, or opacity-driven reveal patterns as part of the default design language.
 
 If transparency is ever needed, it must be explicitly requested for that specific task. Otherwise, every component, state, and motion treatment should stay fully opaque.
 
+The floating-surface shadow is the only approved alpha-based exception. It may use low-opacity black solely inside `box-shadow`; its surfaces, borders, and highlights must remain fully opaque.
+
 ## Typography
+
 Typography is the main source of identity. It should carry the elegance of neo-swiss systems while borrowing a slight instrument-panel attitude from techno brutalism.
 
 - **Display, headline, and body styles:** Use Geist Pixel Square across the full interface. Hierarchy should come from size, weight, spacing, and layout rather than mixing multiple font families.
 - **Label styles:** Use Geist Pixel Square for metadata, tags, section markers, tabs, KPI labels, timestamps, and compact technical UI. Labels may be uppercase when they help introduce a system-like tone.
+- **Home narrative:** Keep the centered narrative within `max-w-5xl`, using a fluid `1.25rem` to `2.25rem` scale, `1.28` line height, and restrained negative tracking.
 
 Type hierarchy should do most of the work. Avoid oversized decorative headings unless they anchor an important hero area. Prefer fewer type sizes used consistently over many expressive variations.
 
 ## Layout
+
 The layout should follow a strict grid with generous whitespace and limited simultaneous focal points.
 
-Use a fixed max-width desktop frame around 1200px with consistent margins and gutters. Mobile layouts should stack cleanly without losing hierarchy.
+Use a borderless `1152px` (`max-w-6xl`) desktop content shell with consistent margins and gutters. Mobile layouts should stack cleanly without losing hierarchy.
 
 Pages should feel sparse but intentional. Each screen should have one dominant goal, one support area, and a small number of clearly grouped secondary elements. Avoid dashboards that try to show everything at once.
 
@@ -184,27 +194,32 @@ Spacing should follow a disciplined 8px rhythm with 4px used only for fine adjus
 Full-width dividers should be rare. Do not use horizontal rules as the default way to separate major sections. Prefer hierarchy through typography, spacing, alignment, and content framing first. When boundaries are still needed, prefer local grid structure or card edges over page-wide separator lines.
 
 ## Elevation & Depth
+
 Depth should be subtle.
 
 This system does not rely on heavy shadows, glass effects, transparent layering, or layered visual spectacle. Hierarchy should come primarily from contrast, borders, spacing, and containment.
 
-Use very soft shadows only when needed to separate floating UI such as command palettes, dropdowns, or sticky toolbars. Most cards should feel flat but precise, using white and gray contrast in light mode or black and charcoal contrast in dark mode rather than dramatic lift.
+Use very soft shadows only when needed to separate floating UI such as the primary navigation, Config menu, contact footer, command palettes, dropdowns, or sticky toolbars. The same floating treatment may appear temporarily on editorial list hover and keyboard focus states. Floating surfaces use a single outer border without inset highlight lines. Most cards should feel flat but precise, using white and gray contrast in light mode or black and charcoal contrast in dark mode rather than dramatic lift.
 
 ## Shapes
+
 The shape language should be mostly rectilinear with small, controlled rounding.
 
-Buttons, fields, cards, and panels should feel engineered, not playful. Prefer 4px to 8px radii for most components. Larger radii may be used sparingly for pills, badges, or selected filters.
+Buttons, fields, cards, and panels should feel engineered, not playful. Prefer 4px to 8px radii for most components. Reserve the 12px large radius for deliberate floating surfaces such as the primary navigation, Config menu, contact footer, and interactive editorial-list states.
 
 Avoid bubbly or overly rounded forms. Avoid jagged brutality too. The geometry should feel disciplined, confident, and quietly technical.
 
 ## Components
+
 Components should merge editorial clarity with system framing.
 
 - **Buttons:** Primary buttons use either the theme's strongest neutral fill or the accent blue, with high contrast text and compact, confident padding. Secondary buttons use theme surfaces with explicit borders.
 - **Cards:** Cards and panels should be structured through white and light-gray contrast in light mode or black and charcoal contrast in dark mode. Use borders, padding, and typography to create hierarchy before resorting to color.
-- **Editorial cards:** Project and writing cards should be whole-surface interactive blocks. Their base state must stay quiet and structural, and their hover/focus state should use a unified treatment: around `280ms`, slight upward lift, subtle scale, restrained accent wash, and accent emphasis on border plus title/action text.
-- **Connected editorial collections:** When projects or writing entries are grouped as one collection, they should sit flush inside a shared frame with `1px` structural dividers instead of floating with loose card gaps. Use the same cross motif from the main frame on collection corners, and place an intersection cross when the grid has a true shared center junction.
-- **Navigation:** Navigation should be minimal and crisp. Prefer line-based separators, strong active states, and clear tab markers over decorative fills.
+- **Standalone editorial cards:** Featured project cards should be whole-surface interactive blocks. Their base state must stay quiet and structural, and their hover/focus state should use a unified treatment: around `280ms`, slight upward lift, subtle scale, restrained accent wash, and accent emphasis on border plus title/action text.
+- **Editorial lists:** Full work and writing indexes should read as typographic lists rather than connected card collections. Keep the resting state on the page background, remove collection frames, dividers, and cross motifs, and separate entries with disciplined whitespace. On hover or keyboard focus, reveal the floating-surface background, neutral border, 12px radius, and restrained shadow without lift or scale; use the accent only for the title, action, focus outline, and restrained directional motion.
+- **Blog metadata:** Present post tags as compact uppercase text separated by `/` in both indexes and article headers. Do not frame editorial tags as badges.
+- **Navigation:** Navigation should be minimal and crisp. The primary floating header and Config menu use a 12px radius, a single theme-specific neutral border, and a short soft shadow. Inside them, prefer line-based separators, strong active states, and clear tab markers over decorative fills.
+- **Contact footer:** Keep contact links in one centered floating bar aligned to the content shell. Preserve subtle internal dividers, clip child states to the 12px outer radius, and stack links on narrow screens.
 - **Section separation:** Use headlines, labels, whitespace, and editorial composition to signal shifts in content. Avoid stacking repeated divider lines throughout the page.
 - **Tables and data blocks:** Keep them airy. Use subtle row dividers, restrained striping or alternate fills, and clear numeric alignment.
 - **Inputs:** Inputs should feel clean and technical, with strong focus states using the tertiary accent or highlight wash.
@@ -213,7 +228,9 @@ Components should merge editorial clarity with system framing.
 Whenever a component choice is ambiguous, prefer the quieter option.
 
 ## Do's and Don'ts
+
 ### Do
+
 - Use white and light-gray surfaces in light mode.
 - Use black and charcoal surfaces in dark mode.
 - Let typography and spacing lead the visual hierarchy.
@@ -221,8 +238,10 @@ Whenever a component choice is ambiguous, prefer the quieter option.
 - Use one main accent color consistently.
 - Make the product feel premium, technical, and calm.
 - Allow a subtle sense of futurism through labels, data framing, and sharp composition.
+- Use whitespace, alignment, and type hierarchy to separate editorial list entries.
 
 ### Don't
+
 - Do not overload the screen with panels, floating widgets, or dense dashboards.
 - Do not use multiple bright accent colors.
 - Do not add cyberpunk glows, glitch textures, scanlines, or heavy techno clichés.

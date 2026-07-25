@@ -1,7 +1,6 @@
 import type { GetStaticPaths, InferGetStaticPropsType } from "next";
-import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
 
+import { BlogPostTags } from "@/components/blog/BlogPostTags";
 import { blogMdxComponents } from "@/components/blog/mdx-components";
 import {
   PortfolioLayout,
@@ -13,9 +12,6 @@ import { formatBlogDate } from "@/lib/blog-shared";
 
 const kickerClassName =
   "m-0 font-mono text-[0.72rem] font-semibold uppercase leading-[1.1] tracking-normal text-portfolio-secondary";
-
-const inlineLinkClassName =
-  "inline-flex items-center gap-[0.55rem] font-mono text-[0.8125rem] font-semibold uppercase leading-[1.1] tracking-normal text-portfolio-primary no-underline transition-colors duration-150 ease-portfolio hover:text-portfolio-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-portfolio-accent";
 
 const emptyStateClassName = "grid gap-portfolio-md";
 
@@ -90,22 +86,8 @@ export default function BlogPostPage({
                 {formatBlogDate(post.publishedAt)}
               </span>
 
-              <div className="flex flex-wrap gap-2" aria-label="Post tags">
-                {post.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="inline-flex items-center border border-portfolio-border bg-portfolio-surface-alt px-[0.7rem] py-[0.42rem] font-mono text-[0.68rem] font-semibold uppercase leading-none tracking-normal text-portfolio-secondary transition-colors duration-200 ease-portfolio"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
+              <BlogPostTags tags={post.tags} />
             </div>
-
-            <Link href="/blog" className={inlineLinkClassName}>
-              Back to blog
-              <ArrowUpRight className="h-4 w-4" />
-            </Link>
           </header>
 
           {post.coverImage ? (

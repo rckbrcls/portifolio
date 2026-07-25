@@ -15,10 +15,11 @@ export type Framework =
   | "Express"
   | "Solid.js"
   | "Flask"
+  | "FastAPI"
   | "Svelte"
   | "SwiftUI";
 
-export type Database = "MongoDB" | "PostgreSQL" | "Redis";
+export type Database = "MongoDB" | "PostgreSQL" | "PostGIS" | "Redis";
 
 export type ToolOrLibrary =
   | "Tailwind"
@@ -28,7 +29,13 @@ export type ToolOrLibrary =
   | "Deno"
   | "AWS"
   | "Supabase"
-  | "Zustand";
+  | "Zustand"
+  | "Stripe"
+  | "Frenet"
+  | "TanStack Query"
+  | "Sparkle"
+  | "Swift Charts"
+  | "NetworkX";
 
 export type TypeTechStack = Language | Framework | Database | ToolOrLibrary;
 
@@ -49,12 +56,18 @@ export const frameworks: Framework[] = [
   "Express",
   "Solid.js",
   "Flask",
+  "FastAPI",
   "SwiftUI",
   // "Svelte",
   // "Flutter",
 ];
 
-export const databases: Database[] = ["MongoDB", "PostgreSQL", "Redis"];
+export const databases: Database[] = [
+  "MongoDB",
+  "PostgreSQL",
+  "PostGIS",
+  "Redis",
+];
 
 export const toolsAndLibraries: ToolOrLibrary[] = [
   "Tailwind",
@@ -65,6 +78,12 @@ export const toolsAndLibraries: ToolOrLibrary[] = [
   "AWS",
   "Supabase",
   "Zustand",
+  "Stripe",
+  "Frenet",
+  "TanStack Query",
+  "Sparkle",
+  "Swift Charts",
+  "NetworkX",
 ];
 
 export const techStack: TypeTechStack[] = [

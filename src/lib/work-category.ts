@@ -5,5 +5,9 @@ export function getWorkCategoryLabel(category: TWorkCategory) {
     return "Professional";
   }
 
+  if (category === "research") {
+    return "Research";
+  }
+
   return "Independent";
 }

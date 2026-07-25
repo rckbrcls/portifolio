@@ -1,47 +1,16 @@
-import type { InferGetStaticPropsType } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
-import { BlogPostCard } from "@/components/blog/BlogPostCard";
-import { FeaturedProjectCard } from "@/components/featured-project-card";
-import { ProfessionalWorkPreviewCard } from "@/components/professional-work-card";
 import {
-  PortfolioCollection,
+  PortfolioEditorialStack,
   PortfolioLayout,
   PortfolioSection,
-  PortfolioSectionBody,
 } from "@/components/portfolio-shell";
-import ScaleLetterText from "@/components/ui/scale-letter-text";
-import { getLatestBlogPosts } from "@/lib/blog";
-import {
-  featuredProfessionalWork,
-  featuredProjects,
-} from "@/lib/portfolio-content";
 
-const editorialStackClassName =
-  "grid gap-y-20 pb-14 max-md:gap-y-16 max-md:pb-10 [&>section]:mt-0";
+const narrativeLinkClassName =
+  "text-portfolio-accent underline decoration-portfolio-accent decoration-[0.08em] underline-offset-[0.14em] transition-colors duration-150 ease-portfolio hover:text-portfolio-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-portfolio-accent";
 
-const sectionIntroClassName =
-  "flex flex-wrap items-end justify-between gap-portfolio-lg";
-
-const sectionHeadingClassName = "grid gap-3";
-
-const sectionTitleClassName =
-  "m-0 max-w-[14ch] text-[2rem] font-[650] leading-[1.02] tracking-normal text-portfolio-primary lg:text-5xl";
-
-const kickerClassName =
-  "m-0 font-mono text-[0.72rem] font-semibold uppercase leading-[1.1] tracking-normal text-portfolio-secondary";
-
-const inlineLinkClassName =
-  "inline-flex items-center gap-[0.55rem] font-mono text-[0.8125rem] font-semibold uppercase leading-[1.1] tracking-normal text-portfolio-primary no-underline transition-colors duration-150 ease-portfolio hover:text-portfolio-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-portfolio-accent";
-
-const emptyStateClassName = "grid gap-portfolio-md";
-
-const emptyStateTitleClassName =
-  "m-0 text-[1.65rem] font-semibold leading-[1.02] tracking-normal text-portfolio-primary md:text-2xl";
-
-const emptyStateCopyClassName =
-  "m-0 text-[0.96rem] leading-[1.7] text-portfolio-secondary";
+const narrativeParagraphClassName =
+  "mx-auto my-0 w-full max-w-5xl text-center text-[clamp(1.25rem,2.5vw,2.25rem)] font-medium leading-[1.28] tracking-[-0.015em] text-portfolio-primary";
 
 const heroImageShellClassName =
   "relative grid w-full place-items-center justify-self-stretch [--portfolio-hero-image-width:min(100%,27rem)] max-[900px]:w-[min(100%,22rem)] max-[900px]:justify-self-center max-[900px]:[--portfolio-hero-image-width:min(100%,22rem)] max-md:w-[min(72vw,18rem)] max-md:[--portfolio-hero-image-width:min(72vw,18rem)]";
@@ -55,41 +24,21 @@ const heroImageShadowClassName =
 const heroImageClassName =
   "pointer-events-none relative z-[1] block h-auto w-[var(--portfolio-hero-image-width)] transition-transform duration-700 ease-portfolio peer-hover:-translate-y-[0.7rem]";
 
-export async function getStaticProps() {
-  return {
-    props: {
-      latestPosts: getLatestBlogPosts(3),
-    },
-  };
-}
-
-export default function Home({
-  latestPosts,
-}: InferGetStaticPropsType<typeof getStaticProps>) {
+export default function Home() {
   return (
     <PortfolioLayout
       title="rckbrcls | Portfolio"
-      description="Professional work, independent projects, and writing by Erick Barcelos."
+      description="Erick Barcelos is a software engineer based in São Paulo, working across backend systems, research software, and independent products."
     >
-      <div className={editorialStackClassName}>
+      <PortfolioEditorialStack>
         <PortfolioSection spacing="page-start">
-          <div className="grid max-w-6xl grid-cols-2 items-center gap-6 p-0 max-[900px]:max-w-[56rem] max-[900px]:grid-cols-1 max-[900px]:items-start max-[900px]:justify-items-center max-md:gap-portfolio-lg">
-            <div className="grid min-w-0 max-w-[56rem] justify-items-start gap-portfolio-lg max-[900px]:justify-items-center max-[900px]:text-center">
-              <h1 className="m-0 max-w-[14ch] text-[2.7rem] font-bold leading-[0.94] tracking-normal text-portfolio-primary max-md:max-w-none md:text-[3.6rem] lg:text-[5rem] xl:text-[6.8rem]">
-                <ScaleLetterText text="Erick Barcelos." />
-              </h1>
-              <p className="m-0 max-w-[26rem] text-[0.96rem] leading-[1.7] text-portfolio-secondary max-[900px]:text-center">
-                Software engineer building products, experiences, and better
-                tools. Lifelong learner.
-              </p>
-            </div>
-
+          <div className="grid justify-items-center text-center">
             <div className={heroImageShellClassName}>
               <span aria-hidden="true" className={heroImageHitAreaClassName} />
               <span aria-hidden="true" className={heroImageShadowClassName} />
               <Image
                 src="/images/turing.png"
-                alt="Portrait illustration of Erick Barcelos"
+                alt="Line illustration of a Turing machine"
                 width={1019}
                 height={917}
                 priority
@@ -100,94 +49,65 @@ export default function Home({
           </div>
         </PortfolioSection>
 
-        {featuredProfessionalWork.length > 0 ? (
-          <PortfolioSection spacing="stack-loose">
-            <div className={sectionIntroClassName}>
-              <div className={sectionHeadingClassName}>
-                <p className={kickerClassName}>Work</p>
-                <h2 className={sectionTitleClassName}>Professional.</h2>
-              </div>
+        <PortfolioSection spacing="stack-loose">
+          <div className="grid justify-items-center gap-[clamp(2rem,5vw,4.5rem)] text-center">
+            <h1 className={narrativeParagraphClassName}>
+              I am Erick Barcelos. I enjoy taking software from an early idea to
+              something people can rely on. I feel most at home in backend and
+              distributed systems, but I am comfortable moving across the stack
+              when the work calls for it.
+            </h1>
 
-              <Link href="/work" className={inlineLinkClassName}>
-                See all work
-                <ArrowUpRight className="h-4 w-4" />
+            <p className={narrativeParagraphClassName}>
+              At{" "}
+              <Link href="/work/btg-pactual" className={narrativeLinkClassName}>
+                BTG Pactual
               </Link>
-            </div>
+              , I work as an IT Assistant on mission-critical FX workflows. I
+              help shape the technical architecture of features and implement
+              capabilities across both frontend and backend, working with domain
+              experts and engineering teams to turn complex requirements into
+              production software.
+            </p>
 
-            <PortfolioSectionBody>
-              <PortfolioCollection columns={2}>
-                {featuredProfessionalWork.map((item, index) => (
-                  <ProfessionalWorkPreviewCard
-                    key={item.slug}
-                    item={item}
-                    index={index}
-                  />
-                ))}
-              </PortfolioCollection>
-            </PortfolioSectionBody>
-          </PortfolioSection>
-        ) : null}
+            <p className={narrativeParagraphClassName}>
+              My academic path at the University of São Paulo includes Computer
+              Science and Information Systems. At USP, I have worked on research
+              software in information retrieval and geospatial computing,
+              including{" "}
+              <Link href="/work/urbanus" className={narrativeLinkClassName}>
+                Urbanus
+              </Link>
+              , a geospatial decision-support platform combining public data,
+              graph algorithms, and expert feedback for preliminary sanitation
+              planning.
+            </p>
 
-        <PortfolioSection spacing="stack-loose">
-          <div className={sectionIntroClassName}>
-            <div className={sectionHeadingClassName}>
-              <p className={kickerClassName}>Work</p>
-              <h2 className={sectionTitleClassName}>Independent.</h2>
-            </div>
+            <p className={narrativeParagraphClassName}>
+              Outside work, I build products such as{" "}
+              <Link href="/work/dost" className={narrativeLinkClassName}>
+                DOST
+              </Link>
+              ,{" "}
+              <Link href="/work/duplizen" className={narrativeLinkClassName}>
+                Duplizen
+              </Link>
+              , and{" "}
+              <Link href="/work/converge" className={narrativeLinkClassName}>
+                Converge
+              </Link>
+              , and write about what I learn. I have also supported programming
+              education and volunteer software projects through university
+              initiatives. Away from code, I enjoy martial arts, cinema, and
+              football.
+            </p>
 
-            <Link href="/work" className={inlineLinkClassName}>
-              See all work
-              <ArrowUpRight className="h-4 w-4" />
-            </Link>
+            <p className={narrativeParagraphClassName}>
+              I was born in Belém, Pará, and now live in São Paulo.
+            </p>
           </div>
-
-          <PortfolioSectionBody>
-            <PortfolioCollection columns={2}>
-              {featuredProjects.map((project, index) => (
-                <FeaturedProjectCard
-                  key={project.slug}
-                  project={project}
-                  index={index}
-                />
-              ))}
-            </PortfolioCollection>
-          </PortfolioSectionBody>
         </PortfolioSection>
-
-        <PortfolioSection spacing="stack-loose">
-          <div className={sectionIntroClassName}>
-            <div className={sectionHeadingClassName}>
-              <p className={kickerClassName}>Blog</p>
-              <h2 className={sectionTitleClassName}>Writing.</h2>
-            </div>
-
-            <Link href="/blog" className={inlineLinkClassName}>
-              See all posts
-              <ArrowUpRight className="h-4 w-4" />
-            </Link>
-          </div>
-
-          <PortfolioSectionBody>
-            {latestPosts.length > 0 ? (
-              <PortfolioCollection columns={1}>
-                {latestPosts.map((post) => (
-                  <BlogPostCard key={post.slug} post={post} />
-                ))}
-              </PortfolioCollection>
-            ) : (
-              <article className={emptyStateClassName}>
-                <p className={kickerClassName}>No posts yet</p>
-                <h3 className={emptyStateTitleClassName}>
-                  The writing archive is ready.
-                </h3>
-                <p className={emptyStateCopyClassName}>
-                  New posts will appear here as soon as they are published.
-                </p>
-              </article>
-            )}
-          </PortfolioSectionBody>
-        </PortfolioSection>
-      </div>
+      </PortfolioEditorialStack>
     </PortfolioLayout>
   );
 }

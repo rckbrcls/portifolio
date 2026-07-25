@@ -16,9 +16,12 @@ interface ProfessionalWorkCardProps {
 const editorialCardClassName =
   "group h-full min-h-0 border border-portfolio-border bg-portfolio-surface p-portfolio-lg text-inherit no-underline shadow-portfolio-card transition-[transform,border-color,box-shadow,background-color,color] duration-300 ease-portfolio hover:z-[1] hover:-translate-y-[3px] hover:scale-[1.01] hover:border-portfolio-accent-border hover:bg-portfolio-highlight hover:shadow-portfolio-card-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-portfolio-accent";
 
+const editorialListItemClassName =
+  "group grid min-h-0 content-start gap-portfolio-lg rounded-[var(--portfolio-radius-lg)] border border-portfolio-neutral bg-portfolio-neutral p-portfolio-lg text-inherit no-underline shadow-none transition-[background-color,border-color,box-shadow,color] duration-300 ease-portfolio hover:border-[color:var(--portfolio-floating-border)] hover:bg-portfolio-surface hover:[box-shadow:var(--portfolio-floating-shadow)] focus-visible:border-[color:var(--portfolio-floating-border)] focus-visible:bg-portfolio-surface focus-visible:[box-shadow:var(--portfolio-floating-shadow)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-portfolio-accent max-md:p-portfolio-md";
+
 const previewCardClassName = `${editorialCardClassName} grid content-start gap-portfolio-md`;
 
-const workItemCardClassName = `${editorialCardClassName} grid content-start gap-portfolio-lg`;
+const workItemCardClassName = editorialListItemClassName;
 
 const rowMetaClassName = "flex flex-wrap items-center justify-between gap-4";
 
@@ -91,23 +94,33 @@ export function ProfessionalWorkCard({
 
   return (
     <article>
-      <div data-portfolio-card-surface="" className={workItemCardClassName}>
-        <div className={rowMetaClassName}>
-          <p className={kickerClassName}>
-            {previewNumber} / {categoryLabel}
-          </p>
-          <span className={projectMetaClassName}>{item.company}</span>
-        </div>
+      <Link
+        data-portfolio-card-surface=""
+        href={item.href ?? "/work"}
+        className={workItemCardClassName}
+      >
+        <p className={kickerClassName}>
+          {previewNumber} / {categoryLabel}
+        </p>
 
-        <div className="grid grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] items-start gap-portfolio-lg max-[900px]:grid-cols-1">
+        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-portfolio-lg max-[900px]:grid-cols-1">
           <div className={projectCopyClassName}>
-            <h2 className={projectTitleClassName}>{item.name}</h2>
+            <h2
+              className={`${projectTitleClassName} group-focus-visible:text-portfolio-accent`}
+            >
+              {item.name}
+            </h2>
             <p className={projectSummaryClassName}>{item.description}</p>
           </div>
 
-          <p className={projectMetaClassName}>{item.meta}</p>
+          <span
+            className={`${cardActionClassName} justify-self-end group-focus-visible:text-portfolio-accent max-[900px]:justify-self-start`}
+          >
+            Read
+            <ArrowUpRight className="h-4 w-4 transition-transform duration-300 ease-portfolio group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-focus-visible:-translate-y-0.5 group-focus-visible:translate-x-0.5 motion-reduce:transform-none" />
+          </span>
         </div>
-      </div>
+      </Link>
     </article>
   );
 }

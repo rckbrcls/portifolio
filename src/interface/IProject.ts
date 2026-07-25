@@ -4,8 +4,9 @@ import type { TWorkCategory } from "./TWorkCategory";
 import { TypeTechStack } from "../../data/techStack";
 import { Route } from "next";
 
-type TProjectStatus = "finished" | "working" | "designing";
+type TProjectStatus = "finished" | "working" | "designing" | "sunsetting";
 export type TProjectPreviewMode = "image" | "iframe";
+export type TPortfolioVisibility = "public" | "hidden";
 
 export interface IProject {
   slug: string;
@@ -22,5 +23,7 @@ export interface IProject {
   previewMode?: TProjectPreviewMode;
   status: TProjectStatus;
   workCategory: TWorkCategory;
+  portfolioVisibility?: TPortfolioVisibility;
+  hasStory?: boolean;
   order?: number;
 }

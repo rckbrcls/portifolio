@@ -54,24 +54,11 @@
     --portfolio-danger: #c94949;
     --portfolio-accent: #246bfd;
     --portfolio-accent-border: #8eaefe;
-    --portfolio-cross-size: 1.25rem;
-    --portfolio-cross-shape: polygon(
-      42% 0,
-      58% 0,
-      58% 42%,
-      100% 42%,
-      100% 58%,
-      58% 58%,
-      58% 100%,
-      42% 100%,
-      42% 58%,
-      0 58%,
-      0 42%,
-      42% 42%
-    );
+    --portfolio-floating-border: #d8d8d8;
+    --portfolio-floating-shadow:
+      0 1px 2px rgb(17 17 17 / 8%), 0 6px 16px rgb(17 17 17 / 6%);
     --portfolio-code-surface: #111111;
     --portfolio-code-foreground: #f5f5f5;
-    --portfolio-max-width: 68rem;
     --portfolio-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
     --background: var(--portfolio-neutral);
     --foreground: var(--portfolio-primary);
@@ -117,12 +104,15 @@
     color-scheme: dark;
     --portfolio-primary: #f5f5f5;
     --portfolio-secondary: #a3a3a3;
-    --portfolio-neutral: #000000;
+    --portfolio-neutral: #0d0d0d;
     --portfolio-surface: #0f0f0f;
     --portfolio-surface-alt: #1a1a1a;
     --portfolio-border: #262626;
     --portfolio-highlight: #162c57;
     --portfolio-accent-border: #3f69c9;
+    --portfolio-floating-border: #2c2c2c;
+    --portfolio-floating-shadow:
+      0 1px 2px rgb(0 0 0 / 80%), 0 6px 16px rgb(0 0 0 / 45%);
     --portfolio-code-surface: #050505;
     --portfolio-code-foreground: #f5f5f5;
     --background: var(--portfolio-neutral);

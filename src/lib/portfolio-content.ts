@@ -1,9 +1,4 @@
-import {
-  Github,
-  Linkedin,
-  Mail,
-  type LucideIcon,
-} from "lucide-react";
+import { Github, Linkedin, Mail, type LucideIcon } from "lucide-react";
 import { professionalWorkItems } from "../../data/work/professional-work";
 import { projects } from "../../data/projects/projects";
 import type { IProject } from "@/interface/IProject";
@@ -14,6 +9,7 @@ export interface NavigationLink {
   href: PortfolioRoute;
   label: string;
   number: string;
+  preserveCase?: boolean;
 }
 
 export interface ContactLink {
@@ -24,19 +20,20 @@ export interface ContactLink {
 }
 
 export const navigationLinks: NavigationLink[] = [
-  { href: "/", label: "Home", number: "01" },
+  { href: "/", label: "Hi!", number: "1", preserveCase: true },
   { href: "/work", label: "Work", number: "02" },
   { href: "/blog", label: "Blog", number: "03" },
 ];
 
-export const featuredProjectSlugs = ["dost", "polter", "converge", "duplizen"];
+export const featuredProjectSlugs = ["dost", "urbanus", "duplizen", "converge"];
 
 export const featuredProjectSummaries: Record<string, string> = {
-  dost: "Commerce platform and operations flows for a growing brand.",
-  polter:
-    "CLI tooling for local infrastructure, pipelines, and daily workflows.",
-  converge: "Native macOS timer built for focus, history, and calm routines.",
-  duplizen: "Realtime social deduction game for quick web and mobile play.",
+  dost: "Full-stack commerce platform spanning catalog, checkout, shipping, and orders.",
+  urbanus: "Geospatial research platform for preliminary sanitation planning.",
+  duplizen:
+    "Real-time social-deduction game built for quick multilingual group play.",
+  converge:
+    "Native macOS focus timer with local history, statistics, and notifications.",
 };
 
 export const contactLinks: ContactLink[] = [
@@ -60,16 +57,26 @@ export const contactLinks: ContactLink[] = [
   },
 ];
 
-export const orderedProjects = [...projects].sort((left, right) => {
-  const leftOrder = left.order ?? Number.MAX_SAFE_INTEGER;
-  const rightOrder = right.order ?? Number.MAX_SAFE_INTEGER;
+export const orderedProjects = projects
+  .filter((project) => project.portfolioVisibility !== "hidden")
+  .sort((left, right) => {
+    const leftOrder = left.order ?? Number.MAX_SAFE_INTEGER;
+    const rightOrder = right.order ?? Number.MAX_SAFE_INTEGER;
 
-  if (leftOrder !== rightOrder) {
-    return leftOrder - rightOrder;
-  }
+    if (leftOrder !== rightOrder) {
+      return leftOrder - rightOrder;
+    }
 
-  return left.name.localeCompare(right.name);
-});
+    return left.name.localeCompare(right.name);
+  });
+
+export const orderedResearchProjects = orderedProjects.filter(
+  (project) => project.workCategory === "research",
+);
+
+export const orderedIndependentProjects = orderedProjects.filter(
+  (project) => project.workCategory === "independent",
+);
 
 const projectLookup = new Map(
   orderedProjects.map((project) => [project.slug, project]),
@@ -89,16 +96,24 @@ export const featuredProfessionalWork = orderedProfessionalWork.filter(
 );
 
 export function getProjectPrimaryLink(project: IProject) {
+  if (project.hasStory) {
+    return {
+      href: `/work/${project.slug}`,
+      label: "Read project",
+      isExternal: false,
+    };
+  }
+
   if (project.link) {
-    return { href: project.link, label: "Open project" };
+    return { href: project.link, label: "Open project", isExternal: true };
   }
 
   if (project.gitLink) {
-    return { href: project.gitLink, label: "View source" };
+    return { href: project.gitLink, label: "View source", isExternal: true };
   }
 
   if (project.npmUrl) {
-    return { href: project.npmUrl, label: "Open package" };
+    return { href: project.npmUrl, label: "Open package", isExternal: true };
   }
 
   return null;

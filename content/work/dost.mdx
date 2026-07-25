@@ -1,0 +1,73 @@
+---
+title: DOST
+summary: A full-stack commerce platform for an independent clothing brand, covering product discovery, authentication, checkout, shipping quotes, and order management.
+role: Product engineer
+period: Current
+status: Active
+context: Independent product
+technologies:
+  - Next.js
+  - React
+  - TypeScript
+  - Supabase
+  - Stripe
+  - Frenet
+  - Zustand
+  - TanStack Query
+coverImage: /images/projects/dost/SOLID-LOGO-SOLO.svg
+links:
+  - label: Open DOST
+    href: https://dostproject.com
+    kind: primary
+---
+
+## Problem
+
+An independent storefront needs more than a catalog. Product availability,
+customer identity, shipping, payment, and order state must agree across a
+single purchase flow.
+
+## Solution
+
+The current application brings those workflows together in a responsive
+Next.js storefront backed by Supabase. Stripe handles checkout, Frenet provides
+shipping quotes, and the application supports both authenticated and guest
+order journeys.
+
+## My contribution
+
+I work across the storefront, API routes, authentication, persistence,
+payments, shipping, cart behavior, and customer order flows.
+
+## Architecture
+
+- A Next.js 16 and React 19 application written in TypeScript provides the
+  storefront and server boundaries.
+- Supabase provides authentication, PostgreSQL persistence, and the core data
+  model for products, inventory, customers, and orders.
+- Stripe Checkout owns the payment boundary.
+- Frenet supplies shipping quotes used during purchase.
+- Zustand handles focused client state while TanStack Query coordinates server
+  data.
+
+## Technical choices
+
+- Treat current database values as authoritative instead of trusting cart
+  prices from the browser.
+- Validate product availability again at checkout boundaries.
+- Keep payment handling inside Stripe Checkout instead of collecting sensitive
+  payment details directly.
+- Support guest order lookup without presenting it as equivalent to a complete
+  customer account.
+
+## Trade-offs and limits
+
+The product depends on third-party payment and shipping services, so its
+purchase flow must handle external failures without treating an incomplete
+checkout as a completed order. Public materials do not include customer data,
+orders, payment records, or the private repository.
+
+## Current status
+
+DOST is active. I do not publish customer, revenue, conversion,
+transaction-volume, or payment-reliability claims.

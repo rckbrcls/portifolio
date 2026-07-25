@@ -15,7 +15,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <title>rckbrcls | Portfolio</title>
         <meta
           name="description"
-          content="Software engineer building products, experiences, and better tools."
+          content="Software engineer focused on backend and distributed systems, building reliable software and useful products."
         />
       </Head>
       <ThemeProvider

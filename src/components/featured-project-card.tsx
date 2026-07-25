@@ -6,6 +6,7 @@ import {
   type ReactNode,
 } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { IProject } from "@/interface/IProject";
@@ -29,12 +30,15 @@ interface WorkProjectCardProps {
 interface ProjectCardFrameProps {
   project: IProject;
   projectLink: ProjectPrimaryLink;
-  cardClassName: string;
+  cardClassName?: string;
   previewLabel: string;
+  enableFloatingPreview?: boolean;
+  surfaceVariant?: ProjectCardSurfaceVariant;
   children: ReactNode;
 }
 
 type ProjectPrimaryLink = ReturnType<typeof getProjectPrimaryLink>;
+type ProjectCardSurfaceVariant = "card" | "editorial-list";
 
 const PREVIEW_DELAY_MS = 200;
 const PREVIEW_GUTTER_PX = 24;
@@ -48,9 +52,10 @@ const DESKTOP_PREVIEW_MIN_WIDTH_PX = 1080;
 const editorialCardClassName =
   "group h-full min-h-0 border border-portfolio-border bg-portfolio-surface p-portfolio-lg text-inherit no-underline shadow-portfolio-card transition-[transform,border-color,box-shadow,background-color,color] duration-300 ease-portfolio hover:z-[1] hover:-translate-y-[3px] hover:scale-[1.01] hover:border-portfolio-accent-border hover:bg-portfolio-highlight hover:shadow-portfolio-card-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-portfolio-accent";
 
-const previewCardClassName = "grid content-start gap-portfolio-md";
+const editorialListItemClassName =
+  "group grid min-h-0 content-start gap-portfolio-lg rounded-[var(--portfolio-radius-lg)] border border-portfolio-neutral bg-portfolio-neutral p-portfolio-lg text-inherit no-underline shadow-none transition-[background-color,border-color,box-shadow,color] duration-300 ease-portfolio hover:border-[color:var(--portfolio-floating-border)] hover:bg-portfolio-surface hover:[box-shadow:var(--portfolio-floating-shadow)] focus-visible:border-[color:var(--portfolio-floating-border)] focus-visible:bg-portfolio-surface focus-visible:[box-shadow:var(--portfolio-floating-shadow)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-portfolio-accent max-md:p-portfolio-md";
 
-const projectItemCardClassName = "grid content-start gap-portfolio-lg";
+const previewCardClassName = "grid content-start gap-portfolio-md";
 
 const rowMetaClassName = "flex flex-wrap items-center justify-between gap-4";
 
@@ -85,6 +90,8 @@ function ProjectCardFrame({
   projectLink,
   cardClassName,
   previewLabel,
+  enableFloatingPreview = true,
+  surfaceVariant = "card",
   children,
 }: ProjectCardFrameProps) {
   const iframePreviewHref =
@@ -92,10 +99,16 @@ function ProjectCardFrame({
       ? project.link
       : null;
   const showsIframePreview = Boolean(iframePreviewHref);
-  const hasPreview = Boolean(project.coverImage) || showsIframePreview;
+  const hasPreview =
+    enableFloatingPreview &&
+    (Boolean(project.coverImage) || showsIframePreview);
   const isLogoPreview =
     typeof project.coverImage === "string" &&
     project.coverImage.toLowerCase().endsWith(".svg");
+  const surfaceClassName =
+    surfaceVariant === "editorial-list"
+      ? editorialListItemClassName
+      : editorialCardClassName;
   const previewRef = useRef<HTMLDivElement | null>(null);
   const revealTimeoutRef = useRef<number | null>(null);
   const animationFrameRef = useRef<number | null>(null);
@@ -319,19 +332,29 @@ function ProjectCardFrame({
       onPointerCancel={hasPreview ? hidePreview : undefined}
     >
       {projectLink ? (
-        <a
-          data-portfolio-card-surface=""
-          href={projectLink.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={cn(editorialCardClassName, cardClassName)}
-        >
-          {children}
-        </a>
+        projectLink.isExternal ? (
+          <a
+            data-portfolio-card-surface=""
+            href={projectLink.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={cn(surfaceClassName, cardClassName)}
+          >
+            {children}
+          </a>
+        ) : (
+          <Link
+            data-portfolio-card-surface=""
+            href={projectLink.href}
+            className={cn(surfaceClassName, cardClassName)}
+          >
+            {children}
+          </Link>
+        )
       ) : (
         <div
           data-portfolio-card-surface=""
-          className={cn(editorialCardClassName, cardClassName)}
+          className={cn(surfaceClassName, cardClassName)}
         >
           {children}
         </div>
@@ -455,23 +478,25 @@ export function WorkProjectCard({ project, index }: WorkProjectCardProps) {
         </p>
       </div>
 
-      <div className="grid grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)_auto] items-start gap-portfolio-lg max-[900px]:grid-cols-1">
+      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-portfolio-lg max-[900px]:grid-cols-1">
         <div className={projectCopyClassName}>
-          <h2 className={projectTitleClassName}>{project.name}</h2>
+          <h2
+            className={`${projectTitleClassName} group-focus-visible:text-portfolio-accent`}
+          >
+            {project.name}
+          </h2>
           <p className={projectSummaryClassName}>
             {getProjectSummary(project)}
           </p>
         </div>
 
-        <p className={projectMetaClassName}>
-          {getProjectStackPreview(project, 5)}
-        </p>
-
-        <div className="grid justify-items-start gap-portfolio-sm">
+        <div className="grid justify-items-end gap-portfolio-md max-[900px]:justify-items-start">
           {projectLink ? (
-            <span className={cardActionClassName}>
-              {projectLink.label}
-              <ArrowUpRight className="h-4 w-4 transition-transform duration-300 ease-portfolio group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            <span
+              className={`${cardActionClassName} group-focus-visible:text-portfolio-accent`}
+            >
+              Read
+              <ArrowUpRight className="h-4 w-4 transition-transform duration-300 ease-portfolio group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-focus-visible:-translate-y-0.5 group-focus-visible:translate-x-0.5 motion-reduce:transform-none" />
             </span>
           ) : (
             <span className="font-mono text-[0.72rem] font-semibold uppercase tracking-normal text-portfolio-secondary">
@@ -487,8 +512,9 @@ export function WorkProjectCard({ project, index }: WorkProjectCardProps) {
     <ProjectCardFrame
       project={project}
       projectLink={projectLink}
-      cardClassName={projectItemCardClassName}
       previewLabel={`${previewNumber} / ${project.name}`}
+      enableFloatingPreview={false}
+      surfaceVariant="editorial-list"
     >
       {cardContent}
     </ProjectCardFrame>

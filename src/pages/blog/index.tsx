@@ -3,6 +3,7 @@ import type { InferGetStaticPropsType } from "next";
 import { BlogPostCard } from "@/components/blog/BlogPostCard";
 import {
   PortfolioCollection,
+  PortfolioEditorialStack,
   PortfolioLayout,
   PortfolioPageIntro,
   PortfolioSection,
@@ -46,33 +47,35 @@ export default function BlogIndexPage({
       title="Blog | rckbrcls"
       description="Writing by Erick Barcelos."
     >
-      <PortfolioPageIntro
-        kicker="Blog"
-        title="Writing."
-        titleVisual={<WordRotate words={BLOG_TITLE_VARIANTS} />}
-      />
+      <PortfolioEditorialStack>
+        <PortfolioPageIntro
+          kicker="Blog"
+          title="Writing."
+          titleVisual={<WordRotate words={BLOG_TITLE_VARIANTS} />}
+        />
 
-      <PortfolioSection spacing="stack-tight">
-        <PortfolioSectionBody>
-          {posts.length > 0 ? (
-            <PortfolioCollection columns={1}>
-              {posts.map((post) => (
-                <BlogPostCard key={post.slug} post={post} />
-              ))}
-            </PortfolioCollection>
-          ) : (
-            <article className={emptyStateClassName}>
-              <p className={kickerClassName}>No posts yet</p>
-              <h2 className={emptyStateTitleClassName}>
-                The archive is ready for the first entry.
-              </h2>
-              <p className={emptyStateCopyClassName}>
-                Publish an MDX post and it will appear here automatically.
-              </p>
-            </article>
-          )}
-        </PortfolioSectionBody>
-      </PortfolioSection>
+        <PortfolioSection spacing="stack-tight">
+          <PortfolioSectionBody>
+            {posts.length > 0 ? (
+              <PortfolioCollection columns={1}>
+                {posts.map((post) => (
+                  <BlogPostCard key={post.slug} post={post} />
+                ))}
+              </PortfolioCollection>
+            ) : (
+              <article className={emptyStateClassName}>
+                <p className={kickerClassName}>No posts yet</p>
+                <h2 className={emptyStateTitleClassName}>
+                  The archive is ready for the first entry.
+                </h2>
+                <p className={emptyStateCopyClassName}>
+                  Publish an MDX post and it will appear here automatically.
+                </p>
+              </article>
+            )}
+          </PortfolioSectionBody>
+        </PortfolioSection>
+      </PortfolioEditorialStack>
     </PortfolioLayout>
   );
 }

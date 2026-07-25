@@ -1,0 +1,130 @@
+---
+title: Urbanus
+summary: A geospatial decision-support platform for preliminary sanitation planning in low-income urban areas.
+role: Undergraduate student researcher
+period: November 2025 – July 2026
+status: Research cycle completed
+context: Research at the University of São Paulo
+technologies:
+  - Next.js
+  - React
+  - TypeScript
+  - FastAPI
+  - Python
+  - PostgreSQL
+  - PostGIS
+  - NetworkX
+---
+
+## Problem
+
+Early sanitation planning requires combining fragmented public geospatial data,
+terrain information, network constraints, and expert review before detailed
+engineering analysis can begin.
+
+## Solution
+
+Urbanus combines public map data, elevation enrichment, geospatial persistence,
+graph-based routing, interactive editing, and automated validation in a web
+research platform.
+
+## My contribution
+
+I co-developed the web platform and worked across the interactive editor,
+PostgreSQL and PostGIS persistence, geospatial processing pipeline, public data
+integration, NetworkX routing, and functional validation.
+
+## From geospatial data to a directed graph
+
+Urbanus starts from an edited street graph \(G=(V,E)\). The vertex set \(V\)
+contains intersections, endpoints, bends, collection points, and relevant
+topographic points. The edge set \(E\) contains street or collector segments
+with geometry, length, road category, and elevation context.
+
+The browser editor is part of the processing contract: after public street data
+and elevation samples are loaded, the graph reviewed and changed by the user
+becomes the source of truth sent to the backend. This avoids silently rebuilding
+a different network from the original GeoJSON.
+
+## Gravity-aware routing
+
+For a candidate directed edge from \(u\) to \(v\), Urbanus calculates the
+terrain slope from the elevation drop and the horizontal edge length:
+
+$$
+s(u,v)=\frac{z_u-z_v}{L_{uv}}
+$$
+
+A positive value means the edge descends from \(u\) to \(v\). When both
+elevations are known, flat or uphill candidates receive infinite cost and are
+excluded from the route. Missing elevation keeps both directions available, but
+adds a conservative penalty because gravity cannot be verified.
+
+## Routing cost
+
+RSPH uses Dijkstra's algorithm with a routing score that prefers short,
+downhill segments, penalizes shallow slopes, and can reward the reuse of an
+existing collector trunk:
+
+$$
+C_0(u,v)=
+\begin{cases}
+\infty, & L_{uv}\leq0\ \text{or}\ s\leq0\\
+L_{uv}, & s\geq0.005\\
+L_{uv}\left(1+10\frac{0.005-s}{0.005}\right), & 0<s<0.005\\
+6L_{uv}, & z_u\ \text{or}\ z_v\ \text{is unknown}
+\end{cases}
+$$
+
+This value is a dimensionless ordering score used by the routing algorithm. It
+is not a construction price, hydraulic simulation, or pipe-sizing calculation.
+When an edge already belongs to the tree under construction, its score becomes
+\(C_k(u,v)=0.5C_0(u,v)\), making later paths more likely to converge into the
+same trunk.
+
+## Repeated shortest paths
+
+The Repeated Shortest Path Heuristic processes mandatory nodes from higher to
+lower elevation. For each node \(n_k\), it searches for the least-cost path to a
+virtual sink \(S\) that represents the outlet and any selected local collection
+points:
+
+$$
+P_k=\arg\min_{P:n_k\leadsto S}\sum_{(u,v)\in P}C_k(u,v),
+\qquad T_{k+1}=T_k\cup P_k
+$$
+
+The path \(P_k\) is added to the directed tree \(T_k\), and its edges become
+eligible for the reuse discount in later searches. Mandatory nodes without a
+feasible gravity path are reported as unreachable instead of being forced into
+the result.
+
+## Processing pipeline
+
+1. Receive the graph inspected and edited in the browser.
+2. Clear spurious zero-elevation artifacts before routing.
+3. Preserve mandatory structural points and remove redundant graph nodes.
+4. Detect elevation extrema, grade breaks, and collection points.
+5. Route mandatory nodes toward the outlet or local collectors with RSPH.
+6. Restore missing street coverage and break invalid directed cycles.
+7. Reduce remaining non-mandatory nodes and assign inspection accessories.
+8. Serialize the directed network and persist its spatial state in PostGIS.
+
+## Engineering choices
+
+- Keep public geospatial data, expert editing, and automated processing in one
+  reviewable workflow.
+- Use NetworkX for explicit graph construction, shortest-path routing, and
+  topology checks.
+- Use PostGIS so project state, geometries, and processed network data share a
+  spatial persistence model.
+- Keep TypeScript and Python implementations aligned through shared contracts,
+  constants, and parity tests rather than forcing one runtime across the system.
+
+## Engineering boundaries
+
+Automated tests exercise geographic calculations, routing cost, RSPH, elevation
+handling, coverage repair, cycle prevention, and node reduction. These checks
+support functional and computational confidence, but they do not establish
+survey-grade terrain accuracy, hydraulic adequacy, construction readiness, or
+field performance.
