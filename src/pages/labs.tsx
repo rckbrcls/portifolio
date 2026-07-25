@@ -7,7 +7,16 @@ import {
   PortfolioSection,
   PortfolioSectionBody,
 } from "@/components/portfolio-shell";
+import { WordRotate } from "@/components/ui/word-rotate";
 import { orderedLabProducts } from "@/lib/labs";
+
+const LABS_TITLE_VARIANTS = [
+  "Experiments.",
+  "Products.",
+  "Tools.",
+  "Games.",
+  "Apps.",
+];
 
 export default function LabsPage() {
   return (
@@ -18,8 +27,8 @@ export default function LabsPage() {
       <PortfolioEditorialStack>
         <PortfolioPageIntro
           kicker="Labs"
-          title="Products you can use."
-          description="Small products you can play, install, or explore."
+          title="Experiments."
+          titleVisual={<WordRotate words={LABS_TITLE_VARIANTS} />}
         />
 
         <PortfolioSection spacing="stack-tight">

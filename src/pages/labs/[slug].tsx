@@ -16,7 +16,7 @@ const actionClassNames: Record<LabAction["kind"], string> = {
   primary:
     "border-[color:var(--portfolio-action-border)] bg-portfolio-accent text-white [box-shadow:var(--portfolio-floating-shadow)] hover:border-[color:var(--portfolio-action-border-hover)] hover:bg-portfolio-accent-hover focus-visible:border-[color:var(--portfolio-action-border-hover)] focus-visible:bg-portfolio-accent-hover",
   secondary:
-    "border-portfolio-border bg-portfolio-surface text-portfolio-primary hover:border-portfolio-accent-border hover:bg-portfolio-surface-alt focus-visible:border-portfolio-accent-border focus-visible:bg-portfolio-surface-alt",
+    "border-portfolio-border bg-portfolio-surface text-portfolio-primary hover:bg-portfolio-surface-alt focus-visible:bg-portfolio-surface-alt",
 };
 
 export default function LabProductPage({
@@ -37,10 +37,10 @@ export default function LabProductPage({
       description={product.summary}
     >
       <PortfolioSection spacing="page-start">
-        <div className="grid gap-portfolio-xl">
+        <div className="grid gap-portfolio-lg">
           <PortfolioBackLink href="/labs" />
 
-          <header className="grid gap-portfolio-lg border-b border-portfolio-border pb-portfolio-xl">
+          <header className="grid gap-portfolio-lg">
             <p className="portfolio-kicker">Lab / {product.productType}</p>
 
             <div className="grid gap-portfolio-lg lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">

@@ -49,22 +49,22 @@ export function LabDetailTabs({ product, engineering }: LabDetailTabsProps) {
     <Tabs
       value={activeView}
       onValueChange={handleValueChange}
-      className="gap-portfolio-xl"
+      className="gap-portfolio-lg"
     >
       <TabsList
         variant="line"
         aria-label="Lab views"
-        className="!h-auto gap-portfolio-lg border-b border-portfolio-border bg-transparent p-0"
+        className="!h-auto gap-portfolio-lg border-b border-portfolio-border bg-portfolio-neutral p-0"
       >
         <TabsTrigger
           value="product"
-          className="data-active:border-portfolio-primary data-active:bg-transparent data-active:text-portfolio-primary h-auto rounded-none border-0 border-b-2 border-transparent bg-transparent px-0 py-3 font-mono text-[0.72rem] font-semibold uppercase leading-none tracking-normal text-portfolio-secondary shadow-none transition-[border-color,color] duration-portfolio-150 ease-portfolio after:hidden hover:text-portfolio-primary focus-visible:border-portfolio-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-portfolio-accent focus-visible:ring-0 data-[state=active]:border-portfolio-primary data-[state=active]:bg-transparent data-[state=active]:text-portfolio-primary motion-reduce:transition-none"
+          className="data-active:border-portfolio-primary data-active:bg-portfolio-neutral data-active:text-portfolio-primary h-auto rounded-none border-0 border-b-2 border-transparent bg-portfolio-neutral px-0 py-3 font-mono text-[0.72rem] font-semibold uppercase leading-none tracking-normal text-portfolio-secondary shadow-none transition-[border-color,color] duration-portfolio-150 ease-portfolio after:hidden hover:text-portfolio-primary focus-visible:border-portfolio-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-portfolio-accent focus-visible:ring-0 data-[state=active]:border-portfolio-primary data-[state=active]:bg-portfolio-neutral data-[state=active]:text-portfolio-primary motion-reduce:transition-none"
         >
           Product
         </TabsTrigger>
         <TabsTrigger
           value="engineering"
-          className="data-active:border-portfolio-primary data-active:bg-transparent data-active:text-portfolio-primary h-auto rounded-none border-0 border-b-2 border-transparent bg-transparent px-0 py-3 font-mono text-[0.72rem] font-semibold uppercase leading-none tracking-normal text-portfolio-secondary shadow-none transition-[border-color,color] duration-portfolio-150 ease-portfolio after:hidden hover:text-portfolio-primary focus-visible:border-portfolio-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-portfolio-accent focus-visible:ring-0 data-[state=active]:border-portfolio-primary data-[state=active]:bg-transparent data-[state=active]:text-portfolio-primary motion-reduce:transition-none"
+          className="data-active:border-portfolio-primary data-active:bg-portfolio-neutral data-active:text-portfolio-primary h-auto rounded-none border-0 border-b-2 border-transparent bg-portfolio-neutral px-0 py-3 font-mono text-[0.72rem] font-semibold uppercase leading-none tracking-normal text-portfolio-secondary shadow-none transition-[border-color,color] duration-portfolio-150 ease-portfolio after:hidden hover:text-portfolio-primary focus-visible:border-portfolio-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-portfolio-accent focus-visible:ring-0 data-[state=active]:border-portfolio-primary data-[state=active]:bg-portfolio-neutral data-[state=active]:text-portfolio-primary motion-reduce:transition-none"
         >
           Engineering
         </TabsTrigger>
