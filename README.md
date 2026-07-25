@@ -2,7 +2,7 @@
 
 Personal portfolio and blog for Erick Barcelos.
 
-This repository is a single Next.js frontend application built to present professional work, independent projects, and long-form writing with a restrained editorial visual system. It is intentionally not a SaaS landing page, dashboard, CMS, backend service, or multi-package workspace.
+This repository is a single Next.js frontend application built to present professional work, research, independent engineering, usable product experiments, and long-form writing with a restrained editorial visual system. It is intentionally not a SaaS landing page, dashboard, CMS, backend service, or multi-package workspace.
 
 ## Project Status
 
@@ -11,6 +11,7 @@ The project is active and maintained as Erick Barcelos' public portfolio. The cu
 - a home page with an editorial introduction and personal narrative;
 - a `/work` page that groups professional work, research, and independent projects;
 - static project stories under `/work/[slug]`;
+- a `/labs` product index with product-first and engineering views under `/labs/[slug]`;
 - a local-first MDX blog under `/blog` and `/blog/[slug]`;
 - a shared portfolio shell with fixed navigation, footer links, theme controls, and browser translation hardening;
 - a custom visual system documented in `DESIGN.md` and implemented through CSS variables in `src/pages/globals.css`.
@@ -24,6 +25,7 @@ The project is active and maintained as Erick Barcelos' public portfolio. The cu
 | Language        | TypeScript with `strict` mode                                           |
 | Styling         | Tailwind CSS, `src/pages/globals.css`, shadcn-style primitives          |
 | Design tokens   | `DESIGN.md`, `--portfolio-*` CSS variables                              |
+| Labs content    | Paired MDX files in `content/labs/[slug]/`                              |
 | Blog content    | MDX files in `content/blog/*.mdx`                                       |
 | MDX pipeline    | `@next/mdx`, `gray-matter`, `remark-gfm`, `remark-math`, `rehype-katex` |
 | Theming         | `next-themes`, light/dark class-based themes                            |
@@ -37,6 +39,7 @@ The project is active and maintained as Erick Barcelos' public portfolio. The cu
 - **Professional work content:** `data/work/professional-work.ts` stores public-safe professional work entries rendered on `/work`.
 - **Independent projects:** `data/projects/projects.ts` stores project descriptions, stack metadata, public links, source/package links, and status.
 - **Work stories:** `content/work/*.mdx` stores long-form project narratives with canonical categories and at most one external action.
+- **Labs products:** `data/labs/labs.ts` stores the typed product catalog; each product loads paired `product.mdx` and `engineering.mdx` views from `content/labs/[slug]/`.
 - **Local MDX blog:** `content/blog/*.mdx` stores posts, while `src/lib/blog.ts` validates frontmatter, filters drafts, and sorts posts by date.
 - **MDX rendering:** `src/components/blog/mdx-components.tsx` customizes prose, links, images, tables, code blocks, math output, and the optional `<Figure />` component.
 - **Theme system:** `next-themes` is mounted in `src/pages/_app.tsx`; portfolio tokens are defined in `src/pages/globals.css` and mirrored by Tailwind aliases in `tailwind.config.js`.
@@ -46,8 +49,12 @@ The project is active and maintained as Erick Barcelos' public portfolio. The cu
 
 ```text
 portfolio/
-+-- content/blog/                 # Local MDX posts and the blog template
++-- content/
+|   +-- blog/                    # Local MDX posts and the blog template
+|   +-- labs/[slug]/             # Product and engineering MDX views
+|   +-- work/                    # Long-form Work stories
 +-- data/
+|   +-- labs/labs.ts             # Typed Labs product catalog
 |   +-- projects/projects.ts      # Independent project entries
 |   +-- work/professional-work.ts # Professional work entries
 |   +-- techStack.ts              # Shared tech-stack type values
@@ -77,6 +84,8 @@ portfolio/
 | `/`            | `src/pages/index.tsx`       | Home page with illustration and personal narrative    |
 | `/work`        | `src/pages/work.tsx`        | Full work index for professional and independent work |
 | `/work/[slug]` | `src/pages/work/[slug].tsx` | Static work story generated from local MDX            |
+| `/labs`        | `src/pages/labs.tsx`        | Product-oriented Labs index                           |
+| `/labs/[slug]` | `src/pages/labs/[slug].tsx` | Static Labs detail with Product and Engineering views |
 | `/blog`        | `src/pages/blog/index.tsx`  | Blog index generated from published MDX posts         |
 | `/blog/[slug]` | `src/pages/blog/[slug].tsx` | Static blog post page for each published MDX file     |
 
@@ -146,6 +155,17 @@ Long-form work stories live in `content/work/*.mdx`. Their `category` must be
 `action` with type `project` or `source`; the interface derives the visible
 label from that type.
 
+### Add Or Update Labs Products
+
+Edit `data/labs/labs.ts` and add the matching
+`content/labs/[slug]/product.mdx` and
+`content/labs/[slug]/engineering.mdx` files.
+
+Each entry follows `LabProduct` from `src/interface/ILabProduct.ts`. The static
+loader only resolves slugs in the catalog and requires both MDX views. Product
+actions use `primary` or `secondary` kinds, while screenshots and product
+artwork use the neutral `LabMediaGrid` presentation.
+
 ### Add Or Update Blog Posts
 
 Create or edit `.mdx` files in `content/blog/`.
@@ -176,10 +196,12 @@ See `docs/blog-authoring.md` for the full writing guide.
 The application uses static generation for public content pages:
 
 - `src/pages/work/[slug].tsx` renders one route per local work story.
+- `src/pages/labs/[slug].tsx` renders one route per Labs catalog entry and loads both local MDX views.
 - `src/pages/blog/index.tsx` reads all published blog posts with `getAllBlogPosts`.
 - `src/pages/blog/[slug].tsx` uses `getStaticPaths` and `getStaticProps` to render one route per published MDX post.
 
-The blog metadata parser lives in `src/lib/blog.ts`. The MDX component modules are resolved in `src/lib/blog-content.ts` with `require.context`.
+Labs content modules are resolved in `src/lib/lab-content.ts`; blog metadata and
+content resolution live in `src/lib/blog.ts` and `src/lib/blog-content.ts`.
 
 For more detail, see `docs/architecture.md`.
 

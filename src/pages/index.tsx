@@ -7,7 +7,7 @@ import {
 } from "@/components/portfolio-shell";
 
 const narrativeLinkClassName =
-  "mx-[0.04em] inline-block whitespace-nowrap rounded-[var(--portfolio-radius-lg)] border border-[color:var(--portfolio-floating-border)] bg-portfolio-surface px-[0.22em] py-[0.04em] align-baseline text-portfolio-primary no-underline [box-shadow:var(--portfolio-floating-shadow)] transition-[background-color,color] duration-portfolio-180 ease-portfolio-hover hover:bg-portfolio-surface-alt hover:text-portfolio-accent focus-visible:bg-portfolio-surface-alt focus-visible:text-portfolio-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-portfolio-accent";
+  "mx-[0.04em] inline-block whitespace-nowrap rounded-[var(--portfolio-radius-lg)] border border-[color:var(--portfolio-action-border)] bg-portfolio-accent px-[0.22em] py-[0.04em] align-baseline text-white no-underline [box-shadow:var(--portfolio-floating-shadow)] transition-[background-color,border-color,color] duration-portfolio-180 ease-portfolio-hover hover:border-[color:var(--portfolio-action-border-hover)] hover:bg-portfolio-accent-hover hover:text-white focus-visible:border-[color:var(--portfolio-action-border-hover)] focus-visible:bg-portfolio-accent-hover focus-visible:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-portfolio-accent";
 
 const narrativeParagraphClassName =
   "mx-auto my-0 w-full max-w-5xl text-center text-[clamp(1.25rem,2.5vw,2.25rem)] font-medium leading-[1.28] tracking-[-0.015em] text-portfolio-primary";
@@ -28,7 +28,7 @@ export default function Home() {
   return (
     <PortfolioLayout
       title="rckbrcls | Portfolio"
-      description="Erick Barcelos is a software engineer based in São Paulo, working across backend systems, research software, and independent products."
+      description="Erick Barcelos is a software engineer based in São Paulo, working across professional work, research software, independent engineering, and usable product experiments."
     >
       <PortfolioEditorialStack>
         <PortfolioSection spacing="page-start">
@@ -84,26 +84,27 @@ export default function Home() {
             </p>
 
             <p className={narrativeParagraphClassName}>
-              Outside work, I build products such as{" "}
+              My independent engineering projects include{" "}
               <Link href="/work/dost" className={narrativeLinkClassName}>
                 DOST
               </Link>
-              ,{" "}
-              <Link href="/work/duplizen" className={narrativeLinkClassName}>
+              , a full-stack commerce platform spanning catalog, checkout,
+              shipping, and orders. I have also built{" "}
+              <Link href="/labs/duplizen" className={narrativeLinkClassName}>
                 Duplizen
               </Link>
-              , and{" "}
-              <Link href="/work/converge" className={narrativeLinkClassName}>
+              , a browser-based social-deduction game, and{" "}
+              <Link href="/labs/converge" className={narrativeLinkClassName}>
                 Converge
               </Link>
-              , and write about what I learn. I have also supported programming
-              education and volunteer software projects through university
-              initiatives. Away from code, I enjoy martial arts, cinema, and
-              football.
+              , a native macOS focus timer.
             </p>
 
             <p className={narrativeParagraphClassName}>
-              I was born in Belém, Pará, and now live in São Paulo.
+              I write about what I learn and have supported programming
+              education and volunteer software projects through university
+              initiatives. Away from code, I enjoy martial arts, cinema, and
+              football. I was born in Belém, Pará, and now live in São Paulo.
             </p>
           </div>
         </PortfolioSection>

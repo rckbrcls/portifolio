@@ -8,6 +8,7 @@ import {
   type CSSProperties,
   type ComponentPropsWithoutRef,
   type FocusEvent,
+  type MouseEvent,
   type ReactNode,
 } from "react";
 import { ArrowUpRight, Moon, Settings2, Sun } from "lucide-react";
@@ -39,6 +40,7 @@ interface PortfolioPageIntroProps {
   kicker: string;
   title: string;
   titleVisual?: ReactNode;
+  description?: string;
   action?: ReactNode;
 }
 
@@ -53,6 +55,11 @@ interface PortfolioSectionProps extends ComponentPropsWithoutRef<"section"> {
 }
 
 interface PortfolioSectionBodyProps extends ComponentPropsWithoutRef<"div"> {}
+
+interface HeaderBrandAnimationProps {
+  isActive: boolean;
+  onInteractionChange: (isActive: boolean) => void;
+}
 
 const HEADER_BRAND_IDLE_FRAME = "/animation/piscar-sorrindo-1(igual).png";
 const HEADER_BRAND_CLOSED_SMILE_FRAME = "/animation/fechar-sorriso-2.png";
@@ -158,9 +165,11 @@ const getRandomHeaderBrandGreetingIndex = (
   return candidates[Math.floor(Math.random() * candidates.length)];
 };
 
-function HeaderBrandAnimation() {
+function HeaderBrandAnimation({
+  isActive,
+  onInteractionChange,
+}: HeaderBrandAnimationProps) {
   const [frameSrc, setFrameSrc] = useState(HEADER_BRAND_IDLE_FRAME);
-  const [isGreetingVisible, setIsGreetingVisible] = useState(false);
   const [greetingAnimationKey, setGreetingAnimationKey] = useState(0);
   const [greetingIndex, setGreetingIndex] = useState(0);
   const recentGreetingIndexesRef = useRef<number[]>([]);
@@ -269,37 +278,48 @@ function HeaderBrandAnimation() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!isActive) {
+      return;
+    }
+
+    setGreetingAnimationKey((key) => key + 1);
+    setGreetingIndex((index) => {
+      const nextGreetingIndex = getRandomHeaderBrandGreetingIndex(
+        recentGreetingIndexesRef.current,
+        index,
+      );
+      const nextRecentGreetingIndexes = recentGreetingIndexesRef.current.slice(
+        0,
+        HEADER_BRAND_GREETING_RECENT_LIMIT - 1,
+      );
+
+      nextRecentGreetingIndexes.unshift(nextGreetingIndex);
+      recentGreetingIndexesRef.current = nextRecentGreetingIndexes;
+
+      return nextGreetingIndex;
+    });
+  }, [isActive]);
+
   const currentGreeting =
     headerBrandGreetings[greetingIndex] ?? "Shipping first. Panicking second.";
 
   const openGreeting = () => {
-    setIsGreetingVisible((current) => {
-      if (!current) {
-        setGreetingAnimationKey((key) => key + 1);
-        setGreetingIndex((index) => {
-          const nextGreetingIndex = getRandomHeaderBrandGreetingIndex(
-            recentGreetingIndexesRef.current,
-            index,
-          );
-          const nextRecentGreetingIndexes =
-            recentGreetingIndexesRef.current.slice(
-              0,
-              HEADER_BRAND_GREETING_RECENT_LIMIT - 1,
-            );
-
-          nextRecentGreetingIndexes.unshift(nextGreetingIndex);
-          recentGreetingIndexesRef.current = nextRecentGreetingIndexes;
-
-          return nextGreetingIndex;
-        });
-      }
-
-      return true;
-    });
+    onInteractionChange(true);
   };
 
   const closeGreeting = () => {
-    setIsGreetingVisible(false);
+    onInteractionChange(false);
+  };
+
+  const handleGreetingMouseLeave = (event: MouseEvent<HTMLSpanElement>) => {
+    const activeElement = document.activeElement;
+
+    if (activeElement && event.currentTarget.contains(activeElement)) {
+      return;
+    }
+
+    closeGreeting();
   };
 
   const handleGreetingBlur = (event: FocusEvent<HTMLSpanElement>) => {
@@ -312,15 +332,19 @@ function HeaderBrandAnimation() {
       return;
     }
 
+    if (event.currentTarget.matches(":hover")) {
+      return;
+    }
+
     closeGreeting();
   };
 
   return (
     <span
       className="absolute left-[0.72rem] top-[0.22rem] isolate z-[2] inline-flex -translate-y-[22%] items-start max-md:left-[0.64rem] max-md:top-[0.18rem] max-md:-translate-y-[18%]"
-      data-greeting-open={isGreetingVisible ? "true" : "false"}
+      data-greeting-open={isActive ? "true" : "false"}
       onMouseEnter={openGreeting}
-      onMouseLeave={closeGreeting}
+      onMouseLeave={handleGreetingMouseLeave}
       onFocus={openGreeting}
       onBlur={handleGreetingBlur}
     >
@@ -342,7 +366,7 @@ function HeaderBrandAnimation() {
       <span
         className={cn(
           "pointer-events-none absolute left-[-0.08rem] top-[calc(100%_+_0.3rem)] z-[3] w-max min-w-0 origin-left border border-portfolio-border bg-portfolio-surface px-[0.58rem] pb-[0.42rem] pt-[0.44rem] shadow-none transition-[opacity,transform,visibility] duration-portfolio-200 ease-portfolio motion-reduce:transform-none motion-reduce:transition-opacity motion-reduce:duration-portfolio-150 max-md:left-[-0.04rem] max-md:top-[calc(100%_+_0.24rem)] max-md:max-w-none max-md:px-2 max-md:pb-[0.36rem] max-md:pt-[0.38rem]",
-          isGreetingVisible
+          isActive
             ? "visible translate-y-0 opacity-100"
             : "invisible -translate-y-[0.2rem] opacity-0",
         )}
@@ -350,7 +374,7 @@ function HeaderBrandAnimation() {
       >
         <span className="absolute left-[0.92rem] top-[-0.38rem] size-[0.72rem] rotate-45 border-l border-t border-portfolio-border bg-portfolio-surface max-md:left-[0.78rem] max-md:top-[-0.34rem] max-md:size-[0.64rem]" />
         <span className="relative z-[1] block">
-          {isGreetingVisible ? (
+          {isActive ? (
             <TypingAnimation
               key={greetingAnimationKey}
               as="span"
@@ -428,6 +452,34 @@ export function PortfolioLayout({
   children,
 }: PortfolioLayoutProps) {
   const router = useRouter();
+  const [isHeaderBrandInteractionActive, setIsHeaderBrandInteractionActive] =
+    useState(false);
+  const [
+    isHomeNavigationInteractionActive,
+    setIsHomeNavigationInteractionActive,
+  ] = useState(false);
+  const isHeaderHomeGroupActive =
+    isHeaderBrandInteractionActive || isHomeNavigationInteractionActive;
+
+  const handleHomeNavigationMouseLeave = (
+    event: MouseEvent<HTMLAnchorElement>,
+  ) => {
+    const activeElement = document.activeElement;
+
+    if (activeElement && event.currentTarget.contains(activeElement)) {
+      return;
+    }
+
+    setIsHomeNavigationInteractionActive(false);
+  };
+
+  const handleHomeNavigationBlur = (event: FocusEvent<HTMLAnchorElement>) => {
+    if (event.currentTarget.matches(":hover")) {
+      return;
+    }
+
+    setIsHomeNavigationInteractionActive(false);
+  };
 
   return (
     <>
@@ -439,17 +491,38 @@ export function PortfolioLayout({
       <div className="flex min-h-screen flex-col overflow-x-clip bg-portfolio-neutral text-portfolio-primary">
         <div className="fixed left-1/2 top-4 z-30 -translate-x-1/2 max-md:left-0 max-md:right-0 max-md:translate-x-0">
           <div className="w-fit max-w-[calc(100vw_-_2rem)] p-0 max-md:mx-auto max-md:w-[min(calc(100vw_-_1rem),24rem)] max-md:max-w-none">
-            <header className="relative flex min-h-[2.8rem] w-fit items-center justify-between gap-4 rounded-[var(--portfolio-radius-lg)] border border-[color:var(--portfolio-floating-border)] bg-portfolio-surface py-[0.6rem] pb-[0.54rem] pl-[4.28rem] pr-[0.96rem] [box-shadow:var(--portfolio-floating-shadow)] max-md:min-h-[2.62rem] max-md:w-full max-md:gap-[0.72rem] max-md:py-[0.56rem] max-md:pb-2 max-md:pl-[3.64rem] max-md:pr-[0.82rem]">
-              <HeaderBrandAnimation />
+            <header className="relative flex min-h-[2.8rem] w-fit items-center justify-between gap-4 rounded-[var(--portfolio-radius-lg)] border border-[color:var(--portfolio-floating-border)] bg-portfolio-surface py-[0.6rem] pb-[0.54rem] pl-[4.28rem] pr-[0.96rem] [box-shadow:var(--portfolio-floating-shadow)] max-md:min-h-[2.62rem] max-md:w-full max-md:gap-[0.56rem] max-md:py-[0.56rem] max-md:pb-2 max-md:pl-[3.64rem] max-md:pr-[0.72rem] max-[360px]:pl-[3.35rem] max-[360px]:pr-2">
+              <HeaderBrandAnimation
+                isActive={isHeaderHomeGroupActive}
+                onInteractionChange={setIsHeaderBrandInteractionActive}
+              />
 
               <nav
-                className="flex w-full flex-1 items-center justify-between gap-[0.95rem] whitespace-nowrap max-md:gap-[0.56rem]"
+                className="flex w-full flex-1 items-center justify-between gap-[1.1rem] whitespace-nowrap max-md:gap-[0.48rem] max-[360px]:gap-1"
                 aria-label="Primary navigation"
               >
                 {navigationLinks.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
+                    onMouseEnter={
+                      item.href === "/"
+                        ? () => setIsHomeNavigationInteractionActive(true)
+                        : undefined
+                    }
+                    onMouseLeave={
+                      item.href === "/"
+                        ? handleHomeNavigationMouseLeave
+                        : undefined
+                    }
+                    onFocus={
+                      item.href === "/"
+                        ? () => setIsHomeNavigationInteractionActive(true)
+                        : undefined
+                    }
+                    onBlur={
+                      item.href === "/" ? handleHomeNavigationBlur : undefined
+                    }
                     aria-current={
                       router.pathname === item.href ||
                       (item.href !== "/" &&
@@ -458,8 +531,11 @@ export function PortfolioLayout({
                         : undefined
                     }
                     className={cn(
-                      "border-b border-portfolio-surface pb-[0.24rem] font-mono text-[0.78rem] font-semibold leading-[1.1] tracking-normal text-portfolio-secondary no-underline transition-colors duration-150 ease-portfolio hover:border-portfolio-accent hover:text-portfolio-accent focus-visible:border-portfolio-accent focus-visible:text-portfolio-primary focus-visible:outline-none aria-[current=page]:border-portfolio-primary aria-[current=page]:text-portfolio-primary max-md:text-[0.72rem]",
+                      "border-b border-portfolio-surface pb-[0.24rem] font-mono text-[0.78rem] font-semibold leading-[1.1] tracking-normal text-portfolio-secondary no-underline transition-colors duration-150 ease-portfolio hover:border-portfolio-accent hover:text-portfolio-accent focus-visible:border-portfolio-accent focus-visible:text-portfolio-primary focus-visible:outline-none aria-[current=page]:border-portfolio-primary aria-[current=page]:text-portfolio-primary max-md:text-[0.68rem] max-[360px]:text-[0.62rem]",
                       item.preserveCase ? "normal-case" : "uppercase",
+                      item.href === "/" &&
+                        isHeaderHomeGroupActive &&
+                        "border-portfolio-accent text-portfolio-accent",
                     )}
                   >
                     {item.number}. {item.label}
@@ -543,6 +619,7 @@ export function PortfolioPageIntro({
   kicker,
   title,
   titleVisual,
+  description,
   action,
 }: PortfolioPageIntroProps) {
   const hasSide = Boolean(action);
@@ -565,6 +642,11 @@ export function PortfolioPageIntro({
           >
             {titleVisual ?? title}
           </h1>
+          {description ? (
+            <p className="m-0 max-w-[42rem] text-base leading-[1.75] text-portfolio-secondary">
+              {description}
+            </p>
+          ) : null}
         </div>
 
         {hasSide ? (

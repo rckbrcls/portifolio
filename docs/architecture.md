@@ -1,6 +1,6 @@
 # Architecture
 
-This repository is a single Next.js Pages Router frontend application. It renders Erick Barcelos' portfolio, work index, and local MDX blog without a backend API, database, authentication layer, or multi-package workspace.
+This repository is a single Next.js Pages Router frontend application. It renders Erick Barcelos' portfolio, Work index, Labs products, and local MDX blog without a backend API, database, authentication layer, or multi-package workspace.
 
 ## System Overview
 
@@ -9,12 +9,17 @@ flowchart TD
   A["src/pages/index.tsx"] --> S["PortfolioLayout"]
   W["src/pages/work.tsx"] --> S
   WD["src/pages/work/[slug].tsx"] --> S
+  LA["src/pages/labs.tsx"] --> S
+  LD["src/pages/labs/[slug].tsx"] --> S
   B["src/pages/blog/index.tsx"] --> S
   P["src/pages/blog/[slug].tsx"] --> S
 
-  S --> C["Portfolio, work, project, and blog components"]
-  C --> D["data/projects and data/work"]
+  S --> C["Portfolio, Work, Labs, and blog components"]
+  C --> D["data/projects, data/work, and data/labs"]
   WD --> WS["content/work/*.mdx"]
+  LA --> LC["data/labs/labs.ts"]
+  LD --> LC
+  LD --> LM["content/labs/[slug]/*.mdx"]
   B --> L["src/lib/blog.ts"]
   P --> L
   L --> M["content/blog/*.mdx"]
@@ -44,6 +49,8 @@ flowchart TD
 | `/`            | `src/pages/index.tsx`       | Static editorial biography                                      |
 | `/work`        | `src/pages/work.tsx`        | `orderedProfessionalWork`, `orderedProjects`                    |
 | `/work/[slug]` | `src/pages/work/[slug].tsx` | `getStaticPaths`, `getWorkStoryBySlug`, `getWorkStoryComponent` |
+| `/labs`        | `src/pages/labs.tsx`        | `orderedLabProducts`                                            |
+| `/labs/[slug]` | `src/pages/labs/[slug].tsx` | `getStaticPaths`, `getLabProductBySlug`, paired Labs MDX        |
 | `/blog`        | `src/pages/blog/index.tsx`  | `getAllBlogPosts()`                                             |
 | `/blog/[slug]` | `src/pages/blog/[slug].tsx` | `getStaticPaths`, `getBlogPostBySlug`, `getBlogPostComponent`   |
 
@@ -97,6 +104,23 @@ Work stories live in `content/work/*.mdx`.
 
 `src/lib/work-story-content.ts` uses `require.context` to load the matching MDX
 component module for a slug.
+
+### Labs Products
+
+Labs products are stored in `data/labs/labs.ts` and typed by
+`src/interface/ILabProduct.ts`. The catalog controls route generation, order,
+product type, summary, technologies, and external actions.
+
+Each catalog slug requires two local views:
+
+- `content/labs/[slug]/product.mdx` for the default product presentation;
+- `content/labs/[slug]/engineering.mdx` for optional technical depth.
+
+`src/lib/lab-content.ts` resolves only catalog slugs and loads both MDX modules.
+The detail page keeps the summary and actions above a Radix tabs interface whose
+selection is synchronized with `#product` or `#engineering` without scrolling.
+Labs media is limited to evidence-backed product demonstration and uses neutral
+portfolio framing through `LabMediaGrid`.
 
 ### Blog Posts
 
