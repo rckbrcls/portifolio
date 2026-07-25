@@ -53,13 +53,24 @@
     --portfolio-warning: #c58a12;
     --portfolio-danger: #c94949;
     --portfolio-accent: #246bfd;
+    --portfolio-accent-hover: #1748b5;
     --portfolio-accent-border: #8eaefe;
+    --portfolio-action-border: #5b7dda;
+    --portfolio-action-border-hover: #0f347f;
     --portfolio-floating-border: #d8d8d8;
     --portfolio-floating-shadow:
       0 1px 2px rgb(17 17 17 / 8%), 0 6px 16px rgb(17 17 17 / 6%);
+    --portfolio-action-shadow:
+      0 2px 4px rgb(17 17 17 / 14%), 0 8px 20px rgb(17 17 17 / 10%);
     --portfolio-code-surface: #111111;
     --portfolio-code-foreground: #f5f5f5;
+    --portfolio-duration-150: 150ms;
+    --portfolio-duration-180: 180ms;
+    --portfolio-duration-200: 200ms;
+    --portfolio-duration-300: 300ms;
     --portfolio-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --portfolio-ease-hover: ease;
+    --portfolio-ease-continuous: cubic-bezier(0.77, 0, 0.175, 1);
     --background: var(--portfolio-neutral);
     --foreground: var(--portfolio-primary);
     --card: var(--portfolio-surface);
@@ -110,9 +121,13 @@
     --portfolio-border: #262626;
     --portfolio-highlight: #162c57;
     --portfolio-accent-border: #3f69c9;
+    --portfolio-action-border: #6f90f0;
+    --portfolio-action-border-hover: #0f347f;
     --portfolio-floating-border: #2c2c2c;
     --portfolio-floating-shadow:
       0 1px 2px rgb(0 0 0 / 80%), 0 6px 16px rgb(0 0 0 / 45%);
+    --portfolio-action-shadow:
+      0 2px 4px rgb(0 0 0 / 90%), 0 8px 20px rgb(0 0 0 / 60%);
     --portfolio-code-surface: #050505;
     --portfolio-code-foreground: #f5f5f5;
     --background: var(--portfolio-neutral);

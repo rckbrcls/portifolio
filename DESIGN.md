@@ -19,6 +19,7 @@ colors:
     border: "#262626"
   accent:
     tertiary: "#246BFD"
+    hover: "#1748B5"
     highlight: "#DCE7FF"
     success: "#1F8F5F"
     warning: "#C58A12"
@@ -90,6 +91,16 @@ spacing:
   gutter: 24px
   margin: 32px
   maxWidth: 1152
+motion:
+  duration:
+    fast: 150ms
+    hover: 180ms
+    swap: 200ms
+    reveal: 300ms
+  easing:
+    out: "cubic-bezier(0.23, 1, 0.32, 1)"
+    hover: "ease"
+    continuous: "cubic-bezier(0.77, 0, 0.175, 1)"
 components:
   button-primary:
     backgroundColor: "Theme primary or accent blue"
@@ -201,6 +212,14 @@ This system does not rely on heavy shadows, glass effects, transparent layering,
 
 Use very soft shadows only when needed to separate floating UI such as the primary navigation, Config menu, contact footer, command palettes, dropdowns, or sticky toolbars. The same floating treatment may appear temporarily on editorial list hover and keyboard focus states. Floating surfaces use a single outer border without inset highlight lines. Most cards should feel flat but precise, using white and gray contrast in light mode or black and charcoal contrast in dark mode rather than dramatic lift.
 
+Borders around neutral cards, buttons, and other container surfaces must never introduce an accent color in default, hover, focus, active, or selected states. Neutral surfaces use the nearest neutral border token, with enough contrast to keep the edge subtly visible. Filled primary actions are the controlled exception: their border may use and transition between neighboring tones from the same fill family, but never an unrelated accent border on a neutral surface. Use the dedicated focus outline instead of changing a neutral border to an accent color.
+
+## Motion
+
+Motion should stay fast, directional, and quiet. Use `150ms` for direct feedback and small arrows, `180ms` for hover surfaces and synchronized text color, `200ms` for short content swaps, and `300ms` for larger reveals. The default ease-out is `cubic-bezier(0.23, 1, 0.32, 1)`; use CSS `ease` for hover surfaces and `cubic-bezier(0.77, 0, 0.175, 1)` only for continuous movement.
+
+Do not lift or scale editorial list items. A `scale(0.97)` press state is allowed only on directly pressable controls such as `Back` and the primary project action. Directional arrows may move a few pixels on pointer hover, but keyboard focus should remain spatially stable. Under `prefers-reduced-motion`, remove transforms and timers, keep content immediately available, and limit necessary feedback to a short `150ms` fade.
+
 ## Shapes
 
 The shape language should be mostly rectilinear with small, controlled rounding.
@@ -213,13 +232,16 @@ Avoid bubbly or overly rounded forms. Avoid jagged brutality too. The geometry s
 
 Components should merge editorial clarity with system framing.
 
-- **Buttons:** Primary buttons use either the theme's strongest neutral fill or the accent blue, with high contrast text and compact, confident padding. Secondary buttons use theme surfaces with explicit borders.
+- **Buttons:** Primary buttons use either the theme's strongest neutral fill or the accent blue, with high contrast text and compact, confident padding. Their border stays within the fill's color family rather than introducing an unrelated outline. A work-detail external action rests on the accent fill with a dedicated 1px edge, a short action-specific shadow, and 12px radius. The light resting edge uses a balanced mid-blue, while the dark resting edge stays lighter for contrast. Hover and keyboard focus darken both the fill and border together, while preserving white text and a static arrow. It does not lift and may compress to `scale(0.97)` only while pressed. The shared `Back` control is ghost: page background at rest, no border in any state, and a neutral surface only on hover. Secondary buttons use theme surfaces with neutral borders.
 - **Cards:** Cards and panels should be structured through white and light-gray contrast in light mode or black and charcoal contrast in dark mode. Use borders, padding, and typography to create hierarchy before resorting to color.
-- **Standalone editorial cards:** Featured project cards should be whole-surface interactive blocks. Their base state must stay quiet and structural, and their hover/focus state should use a unified treatment: around `280ms`, slight upward lift, subtle scale, restrained accent wash, and accent emphasis on border plus title/action text.
-- **Editorial lists:** Full work and writing indexes should read as typographic lists rather than connected card collections. Keep the resting state on the page background, remove collection frames, dividers, and cross motifs, and separate entries with disciplined whitespace. On hover or keyboard focus, reveal the floating-surface background, neutral border, 12px radius, and restrained shadow without lift or scale; use the accent only for the title, action, focus outline, and restrained directional motion.
+- **Standalone editorial cards:** Featured project cards should be whole-surface interactive blocks. Their base state must stay quiet and structural, and their hover/focus state should use a unified treatment: around `280ms`, slight upward lift, subtle scale, restrained surface contrast, a neutral surface-aligned border, and accent emphasis only on title/action text.
+- **Editorial lists:** Full work and writing indexes should read as typographic lists rather than connected card collections. Keep the resting state on the page background, remove collection frames, dividers, and cross motifs, and separate entries with disciplined whitespace. On hover or keyboard focus, reveal the floating-surface background, neutral border, 12px radius, and restrained shadow over `180ms` with CSS `ease`, without lift or scale. Synchronize the surface, title, and action; use the accent only for the title, action, and focus outline. Move the arrow `2px` only on pointer hover over `150ms`, never on keyboard focus.
 - **Blog metadata:** Present post tags as compact uppercase text separated by `/` in both indexes and article headers. Do not frame editorial tags as badges.
+- **Detail navigation and metadata:** Work and blog details begin with the same compact `Back` control. Keep it neutral and destination-agnostic. Work details place one canonical category below it: `Professional`, `Research`, or `Independent`. Blog details do not add a redundant content-type kicker.
+- **Work media:** Work stories are text-first and do not use project covers, floating media previews, or galleries. This restriction does not apply to editorial images inside blog posts, the home illustration, or site identity assets.
 - **Navigation:** Navigation should be minimal and crisp. The primary floating header and Config menu use a 12px radius, a single theme-specific neutral border, and a short soft shadow. Inside them, prefer line-based separators, strong active states, and clear tab markers over decorative fills.
-- **Contact footer:** Keep contact links in one centered floating bar aligned to the content shell. Preserve subtle internal dividers, clip child states to the 12px outer radius, and stack links on narrow screens.
+- **Home narrative links:** Render links inside the home narrative as compact, permanently visible floating surfaces using the header's opaque surface, subtly visible floating neutral border, 12px radius, and short shadow. Keep them inline, unbroken, and free of lift or scale. Resting text stays neutral; hover and keyboard focus use the alternate surface while the border remains neutral and only the text becomes accent blue.
+- **Contact footer:** Keep contact links in one centered floating bar inside the canonical `max-w-6xl` shell. Apply the same inner gutters as the main content so the footer edges align with the page's usable content area. Preserve subtle internal dividers, clip child states to the 12px outer radius, and stack links on narrow screens.
 - **Section separation:** Use headlines, labels, whitespace, and editorial composition to signal shifts in content. Avoid stacking repeated divider lines throughout the page.
 - **Tables and data blocks:** Keep them airy. Use subtle row dividers, restrained striping or alternate fills, and clear numeric alignment.
 - **Inputs:** Inputs should feel clean and technical, with strong focus states using the tertiary accent or highlight wash.

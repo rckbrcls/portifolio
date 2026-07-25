@@ -8,11 +8,13 @@ This repository is a single Next.js Pages Router frontend application. It render
 flowchart TD
   A["src/pages/index.tsx"] --> S["PortfolioLayout"]
   W["src/pages/work.tsx"] --> S
+  WD["src/pages/work/[slug].tsx"] --> S
   B["src/pages/blog/index.tsx"] --> S
   P["src/pages/blog/[slug].tsx"] --> S
 
   S --> C["Portfolio, work, project, and blog components"]
   C --> D["data/projects and data/work"]
+  WD --> WS["content/work/*.mdx"]
   B --> L["src/lib/blog.ts"]
   P --> L
   L --> M["content/blog/*.mdx"]
@@ -37,12 +39,13 @@ flowchart TD
 
 ## Route Layer
 
-| Route | File | Data source |
-| --- | --- | --- |
-| `/` | `src/pages/index.tsx` | `featuredProfessionalWork`, `featuredProjects`, `getLatestBlogPosts(3)` |
-| `/work` | `src/pages/work.tsx` | `orderedProfessionalWork`, `orderedProjects` |
-| `/blog` | `src/pages/blog/index.tsx` | `getAllBlogPosts()` |
-| `/blog/[slug]` | `src/pages/blog/[slug].tsx` | `getStaticPaths`, `getBlogPostBySlug`, `getBlogPostComponent` |
+| Route          | File                        | Data source                                                     |
+| -------------- | --------------------------- | --------------------------------------------------------------- |
+| `/`            | `src/pages/index.tsx`       | Static editorial biography                                      |
+| `/work`        | `src/pages/work.tsx`        | `orderedProfessionalWork`, `orderedProjects`                    |
+| `/work/[slug]` | `src/pages/work/[slug].tsx` | `getStaticPaths`, `getWorkStoryBySlug`, `getWorkStoryComponent` |
+| `/blog`        | `src/pages/blog/index.tsx`  | `getAllBlogPosts()`                                             |
+| `/blog/[slug]` | `src/pages/blog/[slug].tsx` | `getStaticPaths`, `getBlogPostBySlug`, `getBlogPostComponent`   |
 
 The public blog routes are statically generated from published MDX files. Draft posts are filtered out unless the parser is explicitly called with `includeDrafts: true`.
 
@@ -78,7 +81,22 @@ Project cards use helpers from `src/lib/portfolio-content.ts`:
 - `getProjectSummary` uses short featured summaries where available;
 - `getProjectStackPreview` formats a compact stack preview.
 
-`src/components/featured-project-card.tsx` renders project cards and optional floating previews. Preview behavior can use local images or public project URLs in iframes, depending on `previewMode`.
+`src/components/featured-project-card.tsx` renders text-first project cards.
+Project media, floating previews, and galleries are intentionally not part of
+the current Work presentation.
+
+### Work Stories
+
+Work stories live in `content/work/*.mdx`.
+
+`src/lib/work-stories.ts` validates the shared metadata contract:
+
+- `category` is limited to `professional`, `research`, or `independent`;
+- `action` is optional and limited to one external `project` or `source` link;
+- title, summary, role, period, status, and technologies remain required.
+
+`src/lib/work-story-content.ts` uses `require.context` to load the matching MDX
+component module for a slug.
 
 ### Blog Posts
 
@@ -124,6 +142,5 @@ No external database, CMS, auth provider, payment provider, or API client is con
 
 - There is no test suite or test script.
 - Blog content is local-only and requires a code/content change to publish.
-- Project previews can depend on external public URLs when `previewMode` is `iframe`.
 - There is no preview mode or draft route for unpublished posts.
 - Deployment is Vercel-oriented, but the exact production release workflow is not fully identified in the current codebase.

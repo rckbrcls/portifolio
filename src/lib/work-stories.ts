@@ -3,11 +3,11 @@ import path from "node:path";
 import matter from "gray-matter";
 
 import type {
+  WorkStoryAction,
   WorkStoryFrontmatter,
-  WorkStoryGalleryItem,
-  WorkStoryLink,
   WorkStoryMeta,
 } from "@/lib/work-story-shared";
+import type { TWorkCategory } from "@/interface/TWorkCategory";
 
 const WORK_DIRECTORY = path.join(process.cwd(), "content/work");
 
@@ -23,68 +23,43 @@ function assertString(value: unknown, field: string, fileName: string) {
   return value.trim();
 }
 
-function parseLinks(
-  value: unknown,
-  fileName: string,
-): WorkStoryLink[] | undefined {
-  if (value === undefined) {
-    return undefined;
+function parseCategory(value: unknown, fileName: string): TWorkCategory {
+  const category = assertString(value, "category", fileName);
+
+  if (
+    category !== "professional" &&
+    category !== "research" &&
+    category !== "independent"
+  ) {
+    throw new Error(`Invalid "category" in work story "${fileName}".`);
   }
 
-  if (!Array.isArray(value)) {
-    throw new Error(`Invalid "links" in work story "${fileName}".`);
-  }
-
-  return value.map((item, index) => {
-    if (!item || typeof item !== "object") {
-      throw new Error(`Invalid "links[${index}]" in work story "${fileName}".`);
-    }
-
-    const link = item as Record<string, unknown>;
-    const kind =
-      link.kind === "primary" || link.kind === "secondary"
-        ? link.kind
-        : undefined;
-
-    return {
-      label: assertString(link.label, `links[${index}].label`, fileName),
-      href: assertString(link.href, `links[${index}].href`, fileName),
-      ...(kind ? { kind } : {}),
-    };
-  });
+  return category;
 }
 
-function parseGallery(
+function parseAction(
   value: unknown,
   fileName: string,
-): WorkStoryGalleryItem[] | undefined {
+): WorkStoryAction | undefined {
   if (value === undefined) {
     return undefined;
   }
 
-  if (!Array.isArray(value)) {
-    throw new Error(`Invalid "gallery" in work story "${fileName}".`);
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    throw new Error(`Invalid "action" in work story "${fileName}".`);
   }
 
-  return value.map((item, index) => {
-    if (!item || typeof item !== "object") {
-      throw new Error(
-        `Invalid "gallery[${index}]" in work story "${fileName}".`,
-      );
-    }
+  const action = value as Record<string, unknown>;
+  const type = action.type;
 
-    const image = item as Record<string, unknown>;
-    const caption =
-      typeof image.caption === "string" && image.caption.trim().length > 0
-        ? image.caption.trim()
-        : undefined;
+  if (type !== "project" && type !== "source") {
+    throw new Error(`Invalid "action.type" in work story "${fileName}".`);
+  }
 
-    return {
-      src: assertString(image.src, `gallery[${index}].src`, fileName),
-      alt: assertString(image.alt, `gallery[${index}].alt`, fileName),
-      ...(caption ? { caption } : {}),
-    };
-  });
+  return {
+    type,
+    href: assertString(action.href, "action.href", fileName),
+  };
 }
 
 function parseWorkFrontmatter(
@@ -95,13 +70,7 @@ function parseWorkFrontmatter(
     throw new Error(`Invalid "technologies" in work story "${fileName}".`);
   }
 
-  const coverImage =
-    typeof frontmatter.coverImage === "string" &&
-    frontmatter.coverImage.trim().length > 0
-      ? frontmatter.coverImage.trim()
-      : undefined;
-  const gallery = parseGallery(frontmatter.gallery, fileName);
-  const links = parseLinks(frontmatter.links, fileName);
+  const action = parseAction(frontmatter.action, fileName);
 
   return {
     title: assertString(frontmatter.title, "title", fileName),
@@ -109,13 +78,11 @@ function parseWorkFrontmatter(
     role: assertString(frontmatter.role, "role", fileName),
     period: assertString(frontmatter.period, "period", fileName),
     status: assertString(frontmatter.status, "status", fileName),
-    context: assertString(frontmatter.context, "context", fileName),
+    category: parseCategory(frontmatter.category, fileName),
     technologies: frontmatter.technologies.map((technology) =>
       assertString(technology, "technologies", fileName),
     ),
-    ...(coverImage ? { coverImage } : {}),
-    ...(gallery ? { gallery } : {}),
-    ...(links ? { links } : {}),
+    ...(action ? { action } : {}),
   };
 }
 

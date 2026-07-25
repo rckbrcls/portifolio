@@ -19,10 +19,10 @@ export function WordRotate({
   words,
   duration = 5200,
   motionProps = {
-    initial: { opacity: 0, y: -50 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: 50 },
-    transition: { duration: 0.25, ease: "easeOut" },
+    initial: { opacity: 0, transform: "translateY(-0.3em)" },
+    animate: { opacity: 1, transform: "translateY(0)" },
+    exit: { opacity: 0, transform: "translateY(0.3em)" },
+    transition: { duration: 0.2, ease: [0.23, 1, 0.32, 1] },
   },
   className,
 }: WordRotateProps) {
@@ -77,7 +77,7 @@ export function WordRotate({
         {longestWord}
       </span>
       <span className="sr-only">{staticWord}</span>
-      <AnimatePresence mode="wait" initial={false}>
+      <AnimatePresence initial={false}>
         <motion.span
           key={currentWord}
           aria-hidden="true"

@@ -7,7 +7,7 @@ import {
 } from "@/components/portfolio-shell";
 
 const narrativeLinkClassName =
-  "text-portfolio-accent underline decoration-portfolio-accent decoration-[0.08em] underline-offset-[0.14em] transition-colors duration-150 ease-portfolio hover:text-portfolio-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-portfolio-accent";
+  "mx-[0.04em] inline-block whitespace-nowrap rounded-[var(--portfolio-radius-lg)] border border-[color:var(--portfolio-floating-border)] bg-portfolio-surface px-[0.22em] py-[0.04em] align-baseline text-portfolio-primary no-underline [box-shadow:var(--portfolio-floating-shadow)] transition-[background-color,color] duration-portfolio-180 ease-portfolio-hover hover:bg-portfolio-surface-alt hover:text-portfolio-accent focus-visible:bg-portfolio-surface-alt focus-visible:text-portfolio-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-portfolio-accent";
 
 const narrativeParagraphClassName =
   "mx-auto my-0 w-full max-w-5xl text-center text-[clamp(1.25rem,2.5vw,2.25rem)] font-medium leading-[1.28] tracking-[-0.015em] text-portfolio-primary";
@@ -19,10 +19,10 @@ const heroImageHitAreaClassName =
   "peer absolute inset-0 z-[2] m-auto aspect-[1019/917] h-auto w-[var(--portfolio-hero-image-width)] [clip-path:polygon(13%_21%,47%_0%,79%_22%,82%_36%,89%_44%,90%_68%,100%_74%,100%_92%,88%_100%,62%_100%,44%_84%,24%_86%,2%_67%,0%_43%)]";
 
 const heroImageShadowClassName =
-  "pointer-events-none absolute inset-0 m-auto aspect-[1019/917] h-auto w-[var(--portfolio-hero-image-width)] translate-y-1 scale-[0.985] bg-portfolio-primary opacity-0 transition-[opacity,transform] duration-700 ease-portfolio [-webkit-mask:url(/images/turing.png)_center/contain_no-repeat] [mask:url(/images/turing.png)_center/contain_no-repeat] peer-hover:translate-y-[0.95rem] peer-hover:scale-100 peer-hover:opacity-[0.18]";
+  "pointer-events-none absolute inset-0 m-auto aspect-[1019/917] h-auto w-[var(--portfolio-hero-image-width)] translate-y-1 scale-[0.985] bg-portfolio-primary opacity-0 transition-[opacity,transform] duration-[280ms] ease-portfolio [-webkit-mask:url(/images/turing.png)_center/contain_no-repeat] [mask:url(/images/turing.png)_center/contain_no-repeat] [@media(hover:hover)_and_(pointer:fine)]:peer-hover:translate-y-[0.55rem] [@media(hover:hover)_and_(pointer:fine)]:peer-hover:scale-100 [@media(hover:hover)_and_(pointer:fine)]:peer-hover:opacity-[0.18] motion-reduce:transform-none motion-reduce:transition-opacity motion-reduce:duration-portfolio-150 motion-reduce:peer-hover:transform-none";
 
 const heroImageClassName =
-  "pointer-events-none relative z-[1] block h-auto w-[var(--portfolio-hero-image-width)] transition-transform duration-700 ease-portfolio peer-hover:-translate-y-[0.7rem]";
+  "pointer-events-none relative z-[1] block h-auto w-[var(--portfolio-hero-image-width)] transition-transform duration-[280ms] ease-portfolio [@media(hover:hover)_and_(pointer:fine)]:peer-hover:-translate-y-[0.4rem] motion-reduce:transform-none motion-reduce:transition-none motion-reduce:peer-hover:transform-none";
 
 export default function Home() {
   return (

@@ -2,6 +2,7 @@ import type { GetStaticPaths, InferGetStaticPropsType } from "next";
 
 import { BlogPostTags } from "@/components/blog/BlogPostTags";
 import { blogMdxComponents } from "@/components/blog/mdx-components";
+import { PortfolioBackLink } from "@/components/portfolio-back-link";
 import {
   PortfolioLayout,
   PortfolioSection,
@@ -73,7 +74,7 @@ export default function BlogPostPage({
       <PortfolioSection spacing="page-start">
         <div className="grid max-w-[46rem] gap-portfolio-xl">
           <header className="grid gap-portfolio-lg">
-            <p className={kickerClassName}>Blog post</p>
+            <PortfolioBackLink href="/blog" />
             <h1 className="m-0 max-w-[12ch] text-[2.7rem] font-bold leading-[0.96] tracking-normal text-portfolio-primary max-md:max-w-none md:text-[3.6rem] lg:text-[4.8rem]">
               {post.title}
             </h1>

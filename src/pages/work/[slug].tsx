@@ -2,10 +2,12 @@ import type { GetStaticPaths, InferGetStaticPropsType } from "next";
 import { ArrowUpRight } from "lucide-react";
 
 import { blogMdxComponents } from "@/components/blog/mdx-components";
+import { PortfolioBackLink } from "@/components/portfolio-back-link";
 import {
   PortfolioLayout,
   PortfolioSection,
 } from "@/components/portfolio-shell";
+import { getWorkCategoryLabel } from "@/lib/work-category";
 import { getWorkStoryComponent } from "@/lib/work-story-content";
 import { getAllWorkStories, getWorkStoryBySlug } from "@/lib/work-stories";
 
@@ -13,7 +15,7 @@ const kickerClassName =
   "m-0 font-mono text-[0.72rem] font-semibold uppercase leading-[1.1] tracking-normal text-portfolio-secondary";
 
 const actionBaseClassName =
-  "inline-flex items-center justify-center gap-2 border px-4 py-3 font-mono text-[0.72rem] font-semibold uppercase leading-none tracking-normal no-underline transition-[background-color,border-color,color] duration-150 ease-portfolio focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-portfolio-accent";
+  "inline-flex items-center justify-center justify-self-end gap-2 rounded-[var(--portfolio-radius-lg)] border border-[color:var(--portfolio-action-border)] bg-portfolio-accent px-4 py-3 font-mono text-[0.72rem] font-semibold uppercase leading-none tracking-normal text-white no-underline [box-shadow:var(--portfolio-action-shadow)] transition-[background-color,border-color,box-shadow,color,transform] duration-portfolio-180 ease-portfolio-hover hover:border-[color:var(--portfolio-action-border-hover)] hover:bg-portfolio-accent-hover focus-visible:border-[color:var(--portfolio-action-border-hover)] focus-visible:bg-portfolio-accent-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-portfolio-accent active:scale-[0.97] active:[box-shadow:none] motion-reduce:transform-none motion-reduce:active:transform-none max-md:justify-self-start";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const stories = getAllWorkStories();
@@ -70,39 +72,30 @@ export default function WorkStoryPage({
       <PortfolioSection spacing="page-start">
         <div className="grid gap-portfolio-xl">
           <header className="grid max-w-[58rem] gap-portfolio-lg">
-            <p className={kickerClassName}>{story.context}</p>
+            <div className="grid justify-items-start gap-portfolio-md">
+              <PortfolioBackLink href="/work" />
+              <p className={kickerClassName}>
+                {getWorkCategoryLabel(story.category)}
+              </p>
+            </div>
+
             <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-portfolio-lg max-md:grid-cols-1">
               <h1 className="m-0 max-w-[12ch] text-[2.7rem] font-bold leading-[0.96] tracking-normal text-portfolio-primary max-md:max-w-none md:text-[3.6rem] lg:text-[4.8rem]">
                 {story.title}
               </h1>
 
-              {story.links?.length ? (
-                <div
-                  className="flex flex-wrap justify-end gap-3 max-md:justify-start"
-                  aria-label="Work links"
+              {story.action ? (
+                <a
+                  href={story.action.href}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className={actionBaseClassName}
                 >
-                  {story.links.map((storyLink) => {
-                    const isExternal = /^https?:\/\//.test(storyLink.href);
-                    const isPrimary = storyLink.kind === "primary";
-
-                    return (
-                      <a
-                        key={`${storyLink.label}-${storyLink.href}`}
-                        href={storyLink.href}
-                        target={isExternal ? "_blank" : undefined}
-                        rel={isExternal ? "noreferrer noopener" : undefined}
-                        className={`${actionBaseClassName} ${
-                          isPrimary
-                            ? "border-portfolio-primary bg-portfolio-primary text-portfolio-neutral hover:border-portfolio-accent hover:bg-portfolio-accent"
-                            : "border-portfolio-border bg-portfolio-surface text-portfolio-primary hover:border-portfolio-accent-border hover:text-portfolio-accent"
-                        }`}
-                      >
-                        {storyLink.label}
-                        <ArrowUpRight className="h-4 w-4" />
-                      </a>
-                    );
-                  })}
-                </div>
+                  {story.action.type === "source"
+                    ? "View source"
+                    : "View project"}
+                  <ArrowUpRight aria-hidden="true" className="size-4" />
+                </a>
               ) : null}
             </div>
 
@@ -126,35 +119,6 @@ export default function WorkStoryPage({
               </article>
             )}
           </div>
-
-          {story.gallery?.length ? (
-            <section className="grid max-w-[58rem] gap-portfolio-lg">
-              <div className="grid gap-2">
-                <p className={kickerClassName}>Gallery</p>
-                <h2 className="m-0 text-[2rem] font-[650] leading-[1.02] tracking-normal text-portfolio-primary lg:text-4xl">
-                  Product views.
-                </h2>
-              </div>
-
-              <div className="grid gap-portfolio-lg">
-                {story.gallery.map((image) => (
-                  <figure key={image.src} className="grid gap-3">
-                    <img
-                      src={image.src}
-                      alt={image.alt}
-                      className="block h-auto w-full border border-portfolio-border bg-portfolio-surface-alt object-cover"
-                      loading="lazy"
-                    />
-                    {image.caption ? (
-                      <figcaption className="m-0 text-[0.88rem] leading-[1.6] text-portfolio-secondary">
-                        {image.caption}
-                      </figcaption>
-                    ) : null}
-                  </figure>
-                ))}
-              </div>
-            </section>
-          ) : null}
         </div>
       </PortfolioSection>
     </PortfolioLayout>

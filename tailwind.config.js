@@ -82,6 +82,7 @@ module.exports = {
           warning: fromVariable("--portfolio-warning"),
           danger: fromVariable("--portfolio-danger"),
           accent: fromVariable("--portfolio-accent"),
+          "accent-hover": fromVariable("--portfolio-accent-hover"),
           "accent-border": fromVariable("--portfolio-accent-border"),
           "code-surface": fromVariable("--portfolio-code-surface"),
           "code-foreground": fromVariable("--portfolio-code-foreground"),
@@ -108,6 +109,14 @@ module.exports = {
       },
       transitionTimingFunction: {
         portfolio: fromVariable("--portfolio-ease-out"),
+        "portfolio-hover": fromVariable("--portfolio-ease-hover"),
+        "portfolio-continuous": fromVariable("--portfolio-ease-continuous"),
+      },
+      transitionDuration: {
+        "portfolio-150": fromVariable("--portfolio-duration-150"),
+        "portfolio-180": fromVariable("--portfolio-duration-180"),
+        "portfolio-200": fromVariable("--portfolio-duration-200"),
+        "portfolio-300": fromVariable("--portfolio-duration-300"),
       },
       keyframes: {
         "accordion-down": {

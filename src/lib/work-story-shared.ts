@@ -1,13 +1,8 @@
-export type WorkStoryLink = {
-  label: string;
-  href: string;
-  kind?: "primary" | "secondary";
-};
+import type { TWorkCategory } from "@/interface/TWorkCategory";
 
-export type WorkStoryGalleryItem = {
-  src: string;
-  alt: string;
-  caption?: string;
+export type WorkStoryAction = {
+  type: "project" | "source";
+  href: string;
 };
 
 export type WorkStoryFrontmatter = {
@@ -16,11 +11,9 @@ export type WorkStoryFrontmatter = {
   role: string;
   period: string;
   status: string;
-  context: string;
+  category: TWorkCategory;
   technologies: string[];
-  coverImage?: string;
-  gallery?: WorkStoryGalleryItem[];
-  links?: WorkStoryLink[];
+  action?: WorkStoryAction;
 };
 
 export type WorkStoryMeta = WorkStoryFrontmatter & {

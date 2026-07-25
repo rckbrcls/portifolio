@@ -5,9 +5,7 @@ import { flushSync } from "react-dom";
 type ThemeName = "light" | "dark";
 
 type ViewTransitionDocument = Document & {
-  startViewTransition?: (
-    callback: () => void,
-  ) => {
+  startViewTransition?: (callback: () => void) => {
     ready?: Promise<void>;
   };
 };
@@ -16,9 +14,7 @@ interface UseThemeToggleOptions {
   duration?: number;
 }
 
-export function useThemeToggle({
-  duration = 400,
-}: UseThemeToggleOptions = {}) {
+export function useThemeToggle({ duration = 300 }: UseThemeToggleOptions = {}) {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const isDark = mounted && resolvedTheme === "dark";
@@ -41,6 +37,17 @@ export function useThemeToggle({
         return;
       }
 
+      const nextTheme: ThemeName = isDark ? "light" : "dark";
+      const applyTheme = () => {
+        setTheme(nextTheme);
+        syncDocumentTheme(nextTheme);
+      };
+
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        applyTheme();
+        return;
+      }
+
       const viewportWidth = window.visualViewport?.width ?? window.innerWidth;
       const viewportHeight =
         window.visualViewport?.height ?? window.innerHeight;
@@ -51,12 +58,6 @@ export function useThemeToggle({
         Math.max(x, viewportWidth - x),
         Math.max(y, viewportHeight - y),
       );
-      const nextTheme: ThemeName = isDark ? "light" : "dark";
-
-      const applyTheme = () => {
-        setTheme(nextTheme);
-        syncDocumentTheme(nextTheme);
-      };
 
       const themeDocument = document as ViewTransitionDocument;
 
@@ -85,7 +86,7 @@ export function useThemeToggle({
               },
               {
                 duration,
-                easing: "ease-in-out",
+                easing: "cubic-bezier(0.23, 1, 0.32, 1)",
                 pseudoElement: "::view-transition-new(root)",
               },
             );
