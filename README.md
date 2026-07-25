@@ -8,33 +8,35 @@ This repository is a single Next.js frontend application built to present profes
 
 The project is active and maintained as Erick Barcelos' public portfolio. The current implementation focuses on:
 
-- a home page with a concise editorial introduction, professional work preview, independent project preview, and latest posts;
-- a `/work` page that groups professional work and independent projects;
+- a home page with an editorial introduction and personal narrative;
+- a `/work` page that groups professional work, research, and independent projects;
+- static project stories under `/work/[slug]`;
 - a local-first MDX blog under `/blog` and `/blog/[slug]`;
 - a shared portfolio shell with fixed navigation, footer links, theme controls, and browser translation hardening;
 - a custom visual system documented in `DESIGN.md` and implemented through CSS variables in `src/pages/globals.css`.
 
 ## Technology Stack
 
-| Area | Technology |
-| --- | --- |
-| Framework | Next.js 15 Pages Router |
-| UI runtime | React 18 |
-| Language | TypeScript with `strict` mode |
-| Styling | Tailwind CSS, `src/pages/globals.css`, shadcn-style primitives |
-| Design tokens | `DESIGN.md`, `--portfolio-*` CSS variables |
-| Blog content | MDX files in `content/blog/*.mdx` |
-| MDX pipeline | `@next/mdx`, `gray-matter`, `remark-gfm`, `remark-math`, `rehype-katex` |
-| Theming | `next-themes`, light/dark class-based themes |
-| Typography | Geist Pixel Square from `geist/font/pixel` |
-| Observability | Vercel Analytics and Vercel Speed Insights |
-| Package manager | `pnpm` is preferred because `pnpm-lock.yaml` is present |
+| Area            | Technology                                                              |
+| --------------- | ----------------------------------------------------------------------- |
+| Framework       | Next.js 15 Pages Router                                                 |
+| UI runtime      | React 18                                                                |
+| Language        | TypeScript with `strict` mode                                           |
+| Styling         | Tailwind CSS, `src/pages/globals.css`, shadcn-style primitives          |
+| Design tokens   | `DESIGN.md`, `--portfolio-*` CSS variables                              |
+| Blog content    | MDX files in `content/blog/*.mdx`                                       |
+| MDX pipeline    | `@next/mdx`, `gray-matter`, `remark-gfm`, `remark-math`, `rehype-katex` |
+| Theming         | `next-themes`, light/dark class-based themes                            |
+| Typography      | Geist Pixel Square from `geist/font/pixel`                              |
+| Observability   | Vercel Analytics and Vercel Speed Insights                              |
+| Package manager | `pnpm` is preferred because `pnpm-lock.yaml` is present                 |
 
 ## Main Features
 
 - **Editorial portfolio shell:** `PortfolioLayout` in `src/components/portfolio-shell.tsx` owns the shared navigation, document metadata, framed page layout, animated header avatar, theme menu, and footer links.
-- **Professional work content:** `data/work/professional-work.ts` stores public-safe professional work entries rendered on the home page and `/work`.
-- **Independent projects:** `data/projects/projects.ts` stores project descriptions, stack metadata, public links, source/package links, status, and preview assets.
+- **Professional work content:** `data/work/professional-work.ts` stores public-safe professional work entries rendered on `/work`.
+- **Independent projects:** `data/projects/projects.ts` stores project descriptions, stack metadata, public links, source/package links, and status.
+- **Work stories:** `content/work/*.mdx` stores long-form project narratives with canonical categories and at most one external action.
 - **Local MDX blog:** `content/blog/*.mdx` stores posts, while `src/lib/blog.ts` validates frontmatter, filters drafts, and sorts posts by date.
 - **MDX rendering:** `src/components/blog/mdx-components.tsx` customizes prose, links, images, tables, code blocks, math output, and the optional `<Figure />` component.
 - **Theme system:** `next-themes` is mounted in `src/pages/_app.tsx`; portfolio tokens are defined in `src/pages/globals.css` and mirrored by Tailwind aliases in `tailwind.config.js`.
@@ -53,7 +55,7 @@ portfolio/
 |   +-- architecture.md           # Technical architecture notes
 |   +-- blog-authoring.md         # Blog writing and publishing guide
 |   +-- deployment.md             # Deployment and production notes
-+-- public/                       # Images, project assets, blog assets, animation frames
++-- public/                       # Site identity, illustration, and blog assets
 +-- src/
 |   +-- components/               # Portfolio, blog, work, project, and UI components
 |   +-- hooks/                    # Theme and browser interaction hooks
@@ -70,12 +72,13 @@ portfolio/
 
 ## Routes
 
-| Route | Source | Purpose |
-| --- | --- | --- |
-| `/` | `src/pages/index.tsx` | Home page with hero, featured professional work, featured projects, and latest posts |
-| `/work` | `src/pages/work.tsx` | Full work index for professional and independent work |
-| `/blog` | `src/pages/blog/index.tsx` | Blog index generated from published MDX posts |
-| `/blog/[slug]` | `src/pages/blog/[slug].tsx` | Static blog post page for each published MDX file |
+| Route          | Source                      | Purpose                                               |
+| -------------- | --------------------------- | ----------------------------------------------------- |
+| `/`            | `src/pages/index.tsx`       | Home page with illustration and personal narrative    |
+| `/work`        | `src/pages/work.tsx`        | Full work index for professional and independent work |
+| `/work/[slug]` | `src/pages/work/[slug].tsx` | Static work story generated from local MDX            |
+| `/blog`        | `src/pages/blog/index.tsx`  | Blog index generated from published MDX posts         |
+| `/blog/[slug]` | `src/pages/blog/[slug].tsx` | Static blog post page for each published MDX file     |
 
 There are no `pages/api` routes in the current codebase.
 
@@ -106,13 +109,13 @@ No required database URL, API key, authentication secret, or storage secret was 
 
 These scripts are defined in `package.json`.
 
-| Script | Command | Notes |
-| --- | --- | --- |
-| `dev` | `pnpm dev` | Starts the Next.js development server after removing `./.next`. |
-| `build` | `pnpm build` | Runs the production Next.js build. |
+| Script          | Command              | Notes                                                                                                                             |
+| --------------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `dev`           | `pnpm dev`           | Starts the Next.js development server after removing `./.next`.                                                                   |
+| `build`         | `pnpm build`         | Runs the production Next.js build.                                                                                                |
 | `build:analyze` | `pnpm build:analyze` | Runs the configured bundle-analysis build path when `ANALYZE=true`. The script currently delegates to `npm run build` internally. |
-| `start` | `pnpm start` | Starts the production Next.js server after a successful build. |
-| `lint` | `pnpm lint` | Runs the lint command currently defined as `next lint`. |
+| `start`         | `pnpm start`         | Starts the production Next.js server after a successful build.                                                                    |
+| `lint`          | `pnpm lint`          | Runs the lint command currently defined as `next lint`.                                                                           |
 
 Agent note: repository instructions currently forbid running `dev`, `start`, or `build` commands in this environment. The commands are documented here because they are part of the project workflow.
 
@@ -134,11 +137,14 @@ Each project follows `IProject` from `src/interface/IProject.ts` and can include
 
 - `slug`, `name`, `description`, and `status`;
 - `techStack` values from `data/techStack.ts`;
-- a public `link`, `gitLink`, or `npmUrl`;
-- `coverImage` under `public/images/projects/...`;
-- `previewMode` set to `image` or `iframe`.
+- a public `link`, `gitLink`, or `npmUrl`.
 
 Featured project order is controlled by `featuredProjectSlugs` in `src/lib/portfolio-content.ts`.
+
+Long-form work stories live in `content/work/*.mdx`. Their `category` must be
+`professional`, `research`, or `independent`. A story may expose one external
+`action` with type `project` or `source`; the interface derives the visible
+label from that type.
 
 ### Add Or Update Blog Posts
 
@@ -169,7 +175,7 @@ See `docs/blog-authoring.md` for the full writing guide.
 
 The application uses static generation for public content pages:
 
-- `src/pages/index.tsx` reads the latest blog posts with `getLatestBlogPosts`.
+- `src/pages/work/[slug].tsx` renders one route per local work story.
 - `src/pages/blog/index.tsx` reads all published blog posts with `getAllBlogPosts`.
 - `src/pages/blog/[slug].tsx` uses `getStaticPaths` and `getStaticProps` to render one route per published MDX post.
 

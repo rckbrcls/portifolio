@@ -341,7 +341,7 @@ function HeaderBrandAnimation() {
 
       <span
         className={cn(
-          "pointer-events-none absolute left-[-0.08rem] top-[calc(100%_+_0.3rem)] z-[3] w-max min-w-0 origin-left border border-portfolio-border bg-portfolio-surface px-[0.58rem] pb-[0.42rem] pt-[0.44rem] shadow-none transition-[opacity,transform,visibility] duration-200 ease-portfolio max-md:left-[-0.04rem] max-md:top-[calc(100%_+_0.24rem)] max-md:max-w-none max-md:px-2 max-md:pb-[0.36rem] max-md:pt-[0.38rem]",
+          "pointer-events-none absolute left-[-0.08rem] top-[calc(100%_+_0.3rem)] z-[3] w-max min-w-0 origin-left border border-portfolio-border bg-portfolio-surface px-[0.58rem] pb-[0.42rem] pt-[0.44rem] shadow-none transition-[opacity,transform,visibility] duration-portfolio-200 ease-portfolio motion-reduce:transform-none motion-reduce:transition-opacity motion-reduce:duration-portfolio-150 max-md:left-[-0.04rem] max-md:top-[calc(100%_+_0.24rem)] max-md:max-w-none max-md:px-2 max-md:pb-[0.36rem] max-md:pt-[0.38rem]",
           isGreetingVisible
             ? "visible translate-y-0 opacity-100"
             : "invisible -translate-y-[0.2rem] opacity-0",
@@ -478,48 +478,50 @@ export function PortfolioLayout({
           </div>
         </div>
 
-        <footer className="mx-auto mb-4 mt-auto w-[calc(100%_-_2rem)] max-w-6xl overflow-hidden rounded-[var(--portfolio-radius-lg)] border border-[color:var(--portfolio-floating-border)] bg-portfolio-surface p-0 [box-shadow:var(--portfolio-floating-shadow)] max-md:mb-2">
-          <div
-            className="grid gap-px bg-portfolio-border [grid-template-columns:repeat(var(--portfolio-footer-columns,1),minmax(0,1fr))] max-[900px]:grid-cols-1 max-md:grid-cols-1"
-            style={
-              {
-                "--portfolio-footer-columns": String(contactLinks.length),
-              } as CSSProperties
-            }
-          >
-            {contactLinks.map((item) => {
-              const Icon = item.icon;
-              const opensInNewTab =
-                item.href.startsWith("http") || item.href.endsWith(".pdf");
+        <div className="mx-auto mb-4 mt-auto w-[calc(100%_-_2rem)] max-w-6xl px-[clamp(1rem,2.4vw,var(--portfolio-space-xl))] max-md:mb-2 max-md:px-4">
+          <footer className="w-full overflow-hidden rounded-[var(--portfolio-radius-lg)] border border-[color:var(--portfolio-floating-border)] bg-portfolio-surface p-0 [box-shadow:var(--portfolio-floating-shadow)]">
+            <div
+              className="grid gap-px bg-portfolio-border [grid-template-columns:repeat(var(--portfolio-footer-columns,1),minmax(0,1fr))] max-[900px]:grid-cols-1 max-md:grid-cols-1"
+              style={
+                {
+                  "--portfolio-footer-columns": String(contactLinks.length),
+                } as CSSProperties
+              }
+            >
+              {contactLinks.map((item) => {
+                const Icon = item.icon;
+                const opensInNewTab =
+                  item.href.startsWith("http") || item.href.endsWith(".pdf");
 
-              return (
-                <a
-                  key={item.title}
-                  href={item.href}
-                  target={opensInNewTab ? "_blank" : undefined}
-                  rel={opensInNewTab ? "noopener noreferrer" : undefined}
-                  className="flex min-h-0 items-center justify-between gap-3 bg-portfolio-surface p-[0.9rem_1rem] text-inherit no-underline transition-colors duration-150 ease-portfolio hover:bg-portfolio-highlight hover:text-portfolio-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-portfolio-accent"
-                >
-                  <div className="flex w-full min-w-0 items-center justify-between gap-3">
-                    <div className="flex min-w-0 items-center gap-[0.6rem]">
-                      <Icon className="size-5 shrink-0 text-portfolio-accent" />
-                      <div className="flex min-w-0 flex-wrap items-baseline gap-[0.35rem]">
-                        <span className="inline text-[0.88rem] font-semibold leading-[1.4] text-portfolio-primary">
-                          {item.title}
-                        </span>
-                        <span className="inline text-[0.68rem] leading-[1.35] text-portfolio-secondary [overflow-wrap:anywhere]">
-                          {item.value}
-                        </span>
+                return (
+                  <a
+                    key={item.title}
+                    href={item.href}
+                    target={opensInNewTab ? "_blank" : undefined}
+                    rel={opensInNewTab ? "noopener noreferrer" : undefined}
+                    className="flex min-h-0 items-center justify-between gap-3 bg-portfolio-surface p-[0.9rem_1rem] text-inherit no-underline transition-colors duration-150 ease-portfolio hover:bg-portfolio-highlight hover:text-portfolio-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-portfolio-accent"
+                  >
+                    <div className="flex w-full min-w-0 items-center justify-between gap-3">
+                      <div className="flex min-w-0 items-center gap-[0.6rem]">
+                        <Icon className="size-5 shrink-0 text-portfolio-accent" />
+                        <div className="flex min-w-0 flex-wrap items-baseline gap-[0.35rem]">
+                          <span className="inline text-[0.88rem] font-semibold leading-[1.4] text-portfolio-primary">
+                            {item.title}
+                          </span>
+                          <span className="inline text-[0.68rem] leading-[1.35] text-portfolio-secondary [overflow-wrap:anywhere]">
+                            {item.value}
+                          </span>
+                        </div>
                       </div>
-                    </div>
 
-                    <ArrowUpRight className="h-4 w-4" />
-                  </div>
-                </a>
-              );
-            })}
-          </div>
-        </footer>
+                      <ArrowUpRight className="h-4 w-4" />
+                    </div>
+                  </a>
+                );
+              })}
+            </div>
+          </footer>
+        </div>
       </div>
     </>
   );
