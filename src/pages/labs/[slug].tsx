@@ -73,7 +73,7 @@ export default function LabProductPage({
 
           <LabDetailTabs
             product={
-              <article className="grid max-w-[64rem] gap-5 [&>h2]:max-w-[44rem] [&>ol]:max-w-[44rem] [&>p]:max-w-[44rem] [&>ul]:max-w-[44rem]">
+              <article className="grid gap-5 [&>h2]:max-w-[44rem] [&>ol]:max-w-[44rem] [&>p]:max-w-[44rem] [&>ul]:max-w-[44rem]">
                 <ProductContent components={labMdxComponents} />
               </article>
             }
