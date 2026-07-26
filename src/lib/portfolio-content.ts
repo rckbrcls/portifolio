@@ -20,7 +20,7 @@ export interface ContactLink {
 }
 
 export const navigationLinks: NavigationLink[] = [
-  { href: "/", label: "Hi!", number: "1", preserveCase: true },
+  { href: "/", label: "Hi!", number: "01", preserveCase: true },
   { href: "/work", label: "Work", number: "02" },
   { href: "/labs", label: "Labs", number: "03" },
   { href: "/blog", label: "Blog", number: "04" },

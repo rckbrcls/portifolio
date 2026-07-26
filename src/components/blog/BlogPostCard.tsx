@@ -21,7 +21,7 @@ export function BlogPostCard({ post }: BlogPostCardProps) {
       <Link
         data-portfolio-card-surface=""
         href={`/blog/${post.slug}`}
-        className={`${editorialListItemClassName} gap-portfolio-lg p-portfolio-lg max-md:p-portfolio-md`}
+        className={`${editorialListItemClassName} gap-portfolio-lg p-portfolio-lg max-md:px-0 max-md:py-portfolio-md`}
       >
         <div className="grid gap-3">
           <div className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-portfolio-lg max-[560px]:grid-cols-1">
