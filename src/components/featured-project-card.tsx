@@ -71,7 +71,7 @@ function ProjectCardFrame({
 }: ProjectCardFrameProps) {
   const surfaceClassName =
     surfaceVariant === "editorial-list"
-      ? `${editorialListItemClassName} gap-portfolio-lg p-portfolio-lg max-md:p-portfolio-md`
+      ? `${editorialListItemClassName} gap-portfolio-lg p-portfolio-lg max-md:px-0 max-md:py-portfolio-md`
       : editorialCardClassName;
 
   return (

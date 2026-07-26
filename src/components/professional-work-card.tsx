@@ -24,7 +24,7 @@ const editorialCardClassName =
 
 const previewCardClassName = `${editorialCardClassName} grid content-start gap-portfolio-md`;
 
-const workItemCardClassName = `${editorialListItemClassName} gap-portfolio-lg p-portfolio-lg max-md:p-portfolio-md`;
+const workItemCardClassName = `${editorialListItemClassName} gap-portfolio-lg p-portfolio-lg max-md:px-0 max-md:py-portfolio-md`;
 
 const rowMetaClassName = "flex flex-wrap items-center justify-between gap-4";
 
