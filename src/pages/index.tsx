@@ -94,10 +94,10 @@ export default function Home() {
                 Duplizen
               </Link>
               , a browser-based social-deduction game, and{" "}
-              <Link href="/labs/converge" className={narrativeLinkClassName}>
-                Converge
+              <Link href="/labs/sparky" className={narrativeLinkClassName}>
+                Sparky
               </Link>
-              , a native macOS focus timer.
+              , a local-first macOS companion for memories, planning, and focus.
             </p>
 
             <p className={narrativeParagraphClassName}>

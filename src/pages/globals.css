@@ -204,6 +204,15 @@
   }
 }
 
+@layer components {
+  .portfolio-floating-card {
+    border: 1px solid var(--portfolio-floating-border);
+    border-radius: var(--portfolio-radius-lg);
+    background-color: var(--portfolio-surface);
+    box-shadow: var(--portfolio-floating-shadow);
+  }
+}
+
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none;

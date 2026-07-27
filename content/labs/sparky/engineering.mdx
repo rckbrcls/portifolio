@@ -1,0 +1,17 @@
+## A native macOS application
+
+Sparky is built with Swift and SwiftUI around a desktop-specific shell for Calendar, Mind, Focus, and Me. The interface uses native macOS presentation and navigation instead of wrapping a web application.
+
+## Local persistence with explicit boundaries
+
+SwiftData stores Memories, Minds, schedules, checklists, and completion history. Photos, links, audio, and files live separately in Application Support, with references maintained by the main data model.
+
+The architecture keeps persistence and product services inside the application. There is no custom API server, account system, cloud-sync service, analytics integration, or advertising layer.
+
+## Focus and desktop delivery
+
+The Focus engine supports configurable work, short-break, long-break, cycle, pause, reset, and extension behavior. UserNotifications provides scheduled and focus-session feedback on macOS.
+
+GitHub Actions creates universal release archives, GitHub Releases distributes them, and Sparkle provides in-app update checks through a published appcast. The same public installer used by the portfolio selects the latest compatible release.
+
+I designed and built the product, its desktop experience, local data architecture, memory and organization workflows, Focus system, release automation, installer, and update channel.
