@@ -25,22 +25,22 @@ export const labProducts: LabProduct[] = [
     ],
   },
   {
-    slug: "converge",
+    slug: "sparky",
     order: 2,
-    name: "Converge",
+    name: "Sparky",
     productType: "macOS app",
     summary:
-      "A native macOS focus timer built around calm sessions, local history, statistics, and notifications.",
-    technologies: ["Swift", "SwiftUI", "Swift Charts", "Sparkle"],
+      "A local-first macOS companion for capturing memories, organizing plans, and moving into focused work.",
+    technologies: ["Swift", "SwiftUI", "SwiftData", "Sparkle"],
     actions: [
       {
         label: "Download for macOS",
-        href: "https://github.com/rckbrcls/converge/releases",
+        href: "https://github.com/rckbrcls/sparky/releases/latest",
         kind: "primary",
       },
       {
         label: "View source",
-        href: "https://github.com/rckbrcls/converge",
+        href: "https://github.com/rckbrcls/sparky",
         kind: "secondary",
       },
     ],

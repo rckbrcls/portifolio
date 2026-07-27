@@ -491,7 +491,7 @@ export function PortfolioLayout({
       <div className="flex min-h-screen flex-col overflow-x-clip bg-portfolio-neutral text-portfolio-primary">
         <div className="fixed left-1/2 top-4 z-30 -translate-x-1/2 max-md:left-0 max-md:right-0 max-md:translate-x-0">
           <div className="w-fit max-w-[calc(100vw_-_2rem)] p-0 max-md:mx-auto max-md:w-[min(calc(100vw_-_1rem),24rem)] max-md:max-w-none">
-            <header className="relative flex min-h-[2.8rem] w-fit items-center justify-between gap-4 rounded-[var(--portfolio-radius-lg)] border border-[color:var(--portfolio-floating-border)] bg-portfolio-surface py-[0.6rem] pb-[0.54rem] pl-[4.28rem] pr-[0.96rem] [box-shadow:var(--portfolio-floating-shadow)] max-md:min-h-[2.62rem] max-md:w-full max-md:gap-[0.56rem] max-md:py-[0.56rem] max-md:pb-2 max-md:pl-[3.64rem] max-md:pr-[0.72rem] max-[360px]:pl-[3.35rem] max-[360px]:pr-2">
+            <header className="portfolio-floating-card relative flex min-h-[2.8rem] w-fit items-center justify-between gap-4 py-[0.6rem] pb-[0.54rem] pl-[4.28rem] pr-[0.96rem] max-md:min-h-[2.62rem] max-md:w-full max-md:gap-[0.56rem] max-md:py-[0.56rem] max-md:pb-2 max-md:pl-[3.64rem] max-md:pr-[0.72rem] max-[360px]:pl-[3.35rem] max-[360px]:pr-2">
               <HeaderBrandAnimation
                 isActive={isHeaderHomeGroupActive}
                 onInteractionChange={setIsHeaderBrandInteractionActive}
@@ -555,7 +555,7 @@ export function PortfolioLayout({
         </div>
 
         <div className="mx-auto mb-8 mt-auto w-[calc(100%_-_2rem)] max-w-6xl px-[clamp(1rem,2.4vw,var(--portfolio-space-xl))] max-md:px-4">
-          <footer className="w-full overflow-hidden rounded-[var(--portfolio-radius-lg)] border border-[color:var(--portfolio-floating-border)] bg-portfolio-surface p-0 [box-shadow:var(--portfolio-floating-shadow)]">
+          <footer className="portfolio-floating-card w-full overflow-hidden p-0">
             <div
               className="grid gap-px bg-portfolio-border [grid-template-columns:repeat(var(--portfolio-footer-columns,1),minmax(0,1fr))] max-[900px]:grid-cols-1 max-md:grid-cols-1"
               style={
