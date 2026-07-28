@@ -73,6 +73,7 @@ export default function WorkStoryPage({
               ? {
                   src: story.icon,
                   alt: `${story.title} icon`,
+                  monochrome: story.iconMonochrome,
                 }
               : undefined
           }

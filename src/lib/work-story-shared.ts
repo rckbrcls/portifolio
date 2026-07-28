@@ -13,6 +13,8 @@ export type WorkStoryFrontmatter = {
   technologies: string[];
   /** Optional product identity icon shown tightly to the right of the detail title. */
   icon?: string;
+  /** When true, render `icon` as a theme-gray mask (light + dark). */
+  iconMonochrome?: boolean;
   action?: WorkStoryAction;
 };
 

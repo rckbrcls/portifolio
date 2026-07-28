@@ -75,6 +75,18 @@ function parseWorkFrontmatter(
     frontmatter.icon === undefined
       ? undefined
       : assertString(frontmatter.icon, "icon", fileName);
+  const iconMonochrome =
+    frontmatter.iconMonochrome === undefined
+      ? undefined
+      : frontmatter.iconMonochrome === true;
+
+  if (
+    frontmatter.iconMonochrome !== undefined &&
+    frontmatter.iconMonochrome !== true &&
+    frontmatter.iconMonochrome !== false
+  ) {
+    throw new Error(`Invalid "iconMonochrome" in work story "${fileName}".`);
+  }
 
   return {
     title: assertString(frontmatter.title, "title", fileName),
@@ -87,6 +99,7 @@ function parseWorkFrontmatter(
       assertString(technology, "technologies", fileName),
     ),
     ...(icon ? { icon } : {}),
+    ...(iconMonochrome ? { iconMonochrome } : {}),
     ...(action ? { action } : {}),
   };
 }

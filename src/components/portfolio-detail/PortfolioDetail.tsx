@@ -39,6 +39,8 @@ type PortfolioDetailTitleProps = {
   icon?: {
     src: string;
     alt: string;
+    /** Theme-gray CSS mask — use for monochrome brand marks (e.g. DOST). */
+    monochrome?: boolean;
   };
 };
 
@@ -100,7 +102,13 @@ function PortfolioDetailTitle({ children, icon }: PortfolioDetailTitleProps) {
   return (
     <div className="flex items-end gap-3">
       <h1 className={titleClassName}>{children}</h1>
-      {icon ? <LabProductIcon src={icon.src} alt={icon.alt} /> : null}
+      {icon ? (
+        <LabProductIcon
+          src={icon.src}
+          alt={icon.alt}
+          monochrome={icon.monochrome}
+        />
+      ) : null}
     </div>
   );
 }
