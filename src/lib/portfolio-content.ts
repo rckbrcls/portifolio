@@ -29,7 +29,7 @@ export const navigationLinks: NavigationLink[] = [
 export const featuredProjectSlugs = ["dost", "urbanus"];
 
 export const featuredProjectSummaries: Record<string, string> = {
-  dost: "Full-stack commerce platform spanning catalog, checkout, shipping, and orders.",
+  dost: "My clothing brand and full-stack storefront: catalog, checkout, shipping, and orders.",
   urbanus: "Geospatial research platform for preliminary sanitation planning.",
 };
 

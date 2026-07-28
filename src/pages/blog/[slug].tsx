@@ -59,7 +59,6 @@ export default function BlogPostPage({
       description={post.summary}
     >
       <PortfolioDetail.Header>
-        <PortfolioDetail.Toolbar backHref="/blog" />
         <PortfolioDetail.Title>{post.title}</PortfolioDetail.Title>
         <PortfolioDetail.Summary>{post.summary}</PortfolioDetail.Summary>
         <PortfolioDetail.Meta>

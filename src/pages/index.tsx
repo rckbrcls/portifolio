@@ -84,20 +84,22 @@ export default function Home() {
             </p>
 
             <p className={narrativeParagraphClassName}>
-              My independent engineering projects include{" "}
+              Outside work and research, I build things I actually want to use.
+              That includes{" "}
               <Link href="/work/dost" className={narrativeLinkClassName}>
                 DOST
               </Link>
-              , a full-stack commerce platform spanning catalog, checkout,
-              shipping, and orders. I have also built{" "}
+              , my clothing brand and the full-stack store I engineered for it;{" "}
               <Link href="/labs/duplizen" className={narrativeLinkClassName}>
                 Duplizen
               </Link>
-              , a browser-based social-deduction game, and{" "}
+              , a browser game I made so friends could play impostor from their
+              own phones; and{" "}
               <Link href="/labs/sparky" className={narrativeLinkClassName}>
                 Sparky
               </Link>
-              , a local-first macOS companion for memories, planning, and focus.
+              , a local-first macOS companion I built to capture ideas, remember
+              what matters, and focus.
             </p>
 
             <p className={narrativeParagraphClassName}>

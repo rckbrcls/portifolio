@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 
 import { BlogPostTags } from "@/components/blog/BlogPostTags";
 import { LabProductIcon } from "@/components/labs/lab-product-icon";
-import { PortfolioBackLink } from "@/components/portfolio-back-link";
 import { PortfolioDetailAction } from "@/components/portfolio-detail/PortfolioDetailAction";
 import type { PortfolioDetailActionItem } from "@/components/portfolio-detail/types";
 import {
@@ -15,10 +14,10 @@ export const portfolioDetailKickerClassName =
   "m-0 font-mono text-[0.72rem] font-semibold uppercase leading-[1.1] tracking-normal text-portfolio-secondary";
 
 const titleClassName =
-  "m-0 min-w-0 text-[2.7rem] font-bold leading-[0.96] tracking-normal text-portfolio-primary md:text-[3.6rem] lg:text-[4.8rem]";
+  "m-0 min-w-0 text-[2rem] font-bold leading-[1.02] tracking-normal text-portfolio-primary md:text-[2.5rem] lg:text-[3rem]";
 
 const summaryClassName =
-  "m-0 text-base leading-[1.75] text-portfolio-secondary";
+  "m-0 text-sm leading-[1.65] text-portfolio-secondary";
 
 const articleClassName =
   "grid gap-5 [&>*]:m-0 [&_.katex-display]:m-0 [&_.katex-display]:overflow-x-auto [&_.katex-display]:overflow-y-hidden [&_.katex-display]:py-1";
@@ -29,8 +28,7 @@ type PortfolioDetailRootProps = {
   children: ReactNode;
 };
 
-type PortfolioDetailToolbarProps = {
-  backHref: "/work" | "/labs" | "/blog";
+type PortfolioDetailActionsProps = {
   actions?: readonly PortfolioDetailActionItem[];
 };
 
@@ -71,25 +69,23 @@ function PortfolioDetailHeader({ children }: { children: ReactNode }) {
   return <header className="grid gap-portfolio-lg">{children}</header>;
 }
 
-function PortfolioDetailToolbar({
-  backHref,
+/** Canonical Source / Project / Download row — place at the end of the article. */
+function PortfolioDetailActions({
   actions = [],
-}: PortfolioDetailToolbarProps) {
-  return (
-    <div className="flex flex-wrap items-center justify-between gap-3">
-      <PortfolioBackLink href={backHref} />
+}: PortfolioDetailActionsProps) {
+  if (actions.length === 0) {
+    return null;
+  }
 
-      {actions.length > 0 ? (
-        <div className="flex flex-wrap gap-2">
-          {actions.map((action) => (
-            <PortfolioDetailAction
-              key={`${action.type}-${action.href}`}
-              href={action.href}
-              type={action.type}
-            />
-          ))}
-        </div>
-      ) : null}
+  return (
+    <div className="flex flex-wrap gap-2 border-t border-portfolio-border pt-6">
+      {actions.map((action) => (
+        <PortfolioDetailAction
+          key={`${action.type}-${action.href}`}
+          href={action.href}
+          type={action.type}
+        />
+      ))}
     </div>
   );
 }
@@ -176,7 +172,7 @@ function PortfolioDetailEmpty({ title }: PortfolioDetailEmptyProps) {
 
 export const PortfolioDetail = Object.assign(PortfolioDetailRoot, {
   Header: PortfolioDetailHeader,
-  Toolbar: PortfolioDetailToolbar,
+  Actions: PortfolioDetailActions,
   Kicker: PortfolioDetailKicker,
   Title: PortfolioDetailTitle,
   Summary: PortfolioDetailSummary,

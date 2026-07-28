@@ -12,7 +12,7 @@ type FigureProps = {
 const proseHeadingClassName = "tracking-normal text-portfolio-primary";
 
 const proseLargeHeadingClassName =
-  "mt-4 text-[1.8rem] font-[650] leading-[1.05] md:text-[2.4rem]";
+  "mt-4 text-[1.35rem] font-[650] leading-[1.15] md:text-[1.65rem]";
 
 const proseBodyClassName = "text-base leading-[1.85] text-portfolio-secondary";
 
@@ -81,7 +81,7 @@ export const blogMdxComponents: MDXComponents = {
     <h3
       className={cn(
         proseHeadingClassName,
-        "mt-3 text-[1.35rem] font-semibold leading-[1.15]",
+        "mt-3 text-[1.15rem] font-semibold leading-[1.2] md:text-[1.25rem]",
         className,
       )}
       {...props}

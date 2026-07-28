@@ -7,7 +7,7 @@ export const labProducts: LabProduct[] = [
     name: "Duplizen",
     productType: "Web game",
     summary:
-      "A browser-based social-deduction game built for quick group play across desktop and mobile.",
+      "A browser party game I built so friends could play impostor from their own phones — rooms, hidden roles, and realtime state.",
     icon: "/images/labs/duplizen/app-icon.png",
     technologies: [
       "Next.js",
@@ -30,7 +30,7 @@ export const labProducts: LabProduct[] = [
     name: "Sparky",
     productType: "macOS app",
     summary:
-      "A local-first macOS companion for capturing memories, organizing plans, and moving into focused work.",
+      "A local-first macOS app I built for myself — capture ideas, remember what matters, schedule custom reminders, and get into focus.",
     icon: "/images/labs/sparky/app-icon.png",
     technologies: ["Swift", "SwiftUI", "SwiftData", "Sparkle"],
     actions: [

@@ -460,6 +460,13 @@ export function PortfolioLayout({
   ] = useState(false);
   const isHeaderHomeGroupActive =
     isHeaderBrandInteractionActive || isHomeNavigationInteractionActive;
+  const isHomePage = router.pathname === "/";
+  const contentShellClassName = cn(
+    "mx-auto w-[calc(100%_-_2rem)]",
+    isHomePage ? "max-w-5xl" : "max-w-3xl",
+  );
+  const footerShellClassName =
+    "mx-auto w-[calc(100%_-_2rem)] max-w-5xl";
 
   const handleHomeNavigationMouseLeave = (
     event: MouseEvent<HTMLAnchorElement>,
@@ -548,13 +555,18 @@ export function PortfolioLayout({
           </div>
         </div>
 
-        <div className="mx-auto w-[calc(100%_-_2rem)] max-w-5xl flex-1">
-          <div className="relative mx-auto w-full px-[clamp(1rem,2.4vw,var(--portfolio-space-xl))] pb-portfolio-xl pt-[var(--portfolio-header-offset)] max-md:px-4 max-md:pt-[var(--portfolio-header-offset-mobile)]">
+        <div className={cn(contentShellClassName, "flex-1")}>
+          <div className="relative mx-auto w-full px-[clamp(1rem,2.4vw,var(--portfolio-space-xl))] pb-32 pt-[var(--portfolio-header-offset)] max-md:px-4 max-md:pb-20 max-md:pt-[var(--portfolio-header-offset-mobile)]">
             <main className="min-w-0">{children}</main>
           </div>
         </div>
 
-        <div className="mx-auto mb-8 mt-auto w-[calc(100%_-_2rem)] max-w-5xl px-[clamp(1rem,2.4vw,var(--portfolio-space-xl))] max-md:px-4">
+        <div
+          className={cn(
+            footerShellClassName,
+            "mb-8 mt-auto px-[clamp(1rem,2.4vw,var(--portfolio-space-xl))] max-md:px-4",
+          )}
+        >
           <footer className="portfolio-floating-card w-full overflow-hidden p-0">
             <div
               className="grid gap-px bg-portfolio-border [grid-template-columns:repeat(var(--portfolio-footer-columns,1),minmax(0,1fr))] max-[900px]:grid-cols-1 max-md:grid-cols-1"
@@ -637,13 +649,13 @@ export function PortfolioPageIntro({
         <div className={portfolioSectionHeadingClassName}>
           <p className={portfolioKickerClassName}>{kicker}</p>
           <h1
-            className="m-0 text-[2.7rem] font-bold leading-[0.96] tracking-normal text-portfolio-primary md:text-[3.6rem] lg:text-[4.8rem]"
+            className="m-0 text-[2rem] font-bold leading-[1.02] tracking-normal text-portfolio-primary md:text-[2.5rem] lg:text-[3rem]"
             aria-label={title}
           >
             {titleVisual ?? title}
           </h1>
           {description ? (
-            <p className="m-0 text-base leading-[1.75] text-portfolio-secondary">
+            <p className="m-0 text-sm leading-[1.65] text-portfolio-secondary">
               {description}
             </p>
           ) : null}
