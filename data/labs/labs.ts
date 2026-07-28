@@ -8,6 +8,7 @@ export const labProducts: LabProduct[] = [
     productType: "Web game",
     summary:
       "A browser-based social-deduction game built for quick group play across desktop and mobile.",
+    icon: "/images/labs/duplizen/app-icon.png",
     technologies: [
       "Next.js",
       "React",
@@ -18,9 +19,8 @@ export const labProducts: LabProduct[] = [
     ],
     actions: [
       {
-        label: "Play now",
+        type: "project",
         href: "https://duplizen.erickbarcelos.com",
-        kind: "primary",
       },
     ],
   },
@@ -31,17 +31,16 @@ export const labProducts: LabProduct[] = [
     productType: "macOS app",
     summary:
       "A local-first macOS companion for capturing memories, organizing plans, and moving into focused work.",
+    icon: "/images/labs/sparky/app-icon.png",
     technologies: ["Swift", "SwiftUI", "SwiftData", "Sparkle"],
     actions: [
       {
-        label: "Download for macOS",
+        type: "download",
         href: "https://github.com/rckbrcls/sparky/releases/latest",
-        kind: "primary",
       },
       {
-        label: "View source",
+        type: "source",
         href: "https://github.com/rckbrcls/sparky",
-        kind: "secondary",
       },
     ],
   },

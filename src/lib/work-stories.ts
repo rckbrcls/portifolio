@@ -52,7 +52,7 @@ function parseAction(
   const action = value as Record<string, unknown>;
   const type = action.type;
 
-  if (type !== "project" && type !== "source") {
+  if (type !== "project" && type !== "source" && type !== "download") {
     throw new Error(`Invalid "action.type" in work story "${fileName}".`);
   }
 
@@ -71,6 +71,22 @@ function parseWorkFrontmatter(
   }
 
   const action = parseAction(frontmatter.action, fileName);
+  const icon =
+    frontmatter.icon === undefined
+      ? undefined
+      : assertString(frontmatter.icon, "icon", fileName);
+  const iconMonochrome =
+    frontmatter.iconMonochrome === undefined
+      ? undefined
+      : frontmatter.iconMonochrome === true;
+
+  if (
+    frontmatter.iconMonochrome !== undefined &&
+    frontmatter.iconMonochrome !== true &&
+    frontmatter.iconMonochrome !== false
+  ) {
+    throw new Error(`Invalid "iconMonochrome" in work story "${fileName}".`);
+  }
 
   return {
     title: assertString(frontmatter.title, "title", fileName),
@@ -82,6 +98,8 @@ function parseWorkFrontmatter(
     technologies: frontmatter.technologies.map((technology) =>
       assertString(technology, "technologies", fileName),
     ),
+    ...(icon ? { icon } : {}),
+    ...(iconMonochrome ? { iconMonochrome } : {}),
     ...(action ? { action } : {}),
   };
 }

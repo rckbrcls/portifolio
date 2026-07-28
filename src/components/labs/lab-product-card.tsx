@@ -43,7 +43,7 @@ export function LabProductCard({ product, index }: LabProductCardProps) {
           </div>
 
           <div className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-portfolio-lg max-[560px]:grid-cols-1">
-            <p className="m-0 max-w-[46rem] text-[0.96rem] leading-[1.7] text-portfolio-secondary">
+            <p className="m-0 text-[0.96rem] leading-[1.7] text-portfolio-secondary">
               {product.summary}
             </p>
 

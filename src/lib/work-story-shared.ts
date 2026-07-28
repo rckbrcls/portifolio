@@ -1,9 +1,7 @@
+import type { PortfolioDetailActionItem } from "@/components/portfolio-detail/types";
 import type { TWorkCategory } from "@/interface/TWorkCategory";
 
-export type WorkStoryAction = {
-  type: "project" | "source";
-  href: string;
-};
+export type WorkStoryAction = PortfolioDetailActionItem;
 
 export type WorkStoryFrontmatter = {
   title: string;
@@ -13,6 +11,10 @@ export type WorkStoryFrontmatter = {
   status: string;
   category: TWorkCategory;
   technologies: string[];
+  /** Optional product identity icon shown tightly to the right of the detail title. */
+  icon?: string;
+  /** When true, render `icon` as a theme-gray mask (light + dark). */
+  iconMonochrome?: boolean;
   action?: WorkStoryAction;
 };
 
