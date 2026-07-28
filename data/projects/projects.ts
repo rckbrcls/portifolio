@@ -4,7 +4,7 @@ export const projects: IProject[] = [
   {
     slug: "dost",
     order: 1,
-    description: `My clothing brand and the full-stack store behind it — catalog, checkout, shipping, and orders, end to end.`,
+    description: `My clothing brand and the store I built for it: catalog, cart, shipping, Stripe checkout, and orders.`,
     name: "DOST",
     techStack: [
       "Next.js",

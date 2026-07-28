@@ -20,7 +20,7 @@ export interface ContactLink {
 }
 
 export const navigationLinks: NavigationLink[] = [
-  { href: "/", label: "Hi!", number: "01", preserveCase: true },
+  { href: "/", label: "Olá!", number: "01" },
   { href: "/work", label: "Work", number: "02" },
   { href: "/labs", label: "Labs", number: "03" },
   { href: "/blog", label: "Blog", number: "04" },
@@ -29,8 +29,9 @@ export const navigationLinks: NavigationLink[] = [
 export const featuredProjectSlugs = ["dost", "urbanus"];
 
 export const featuredProjectSummaries: Record<string, string> = {
-  dost: "My clothing brand and full-stack storefront: catalog, checkout, shipping, and orders.",
-  urbanus: "Geospatial research platform for preliminary sanitation planning.",
+  dost: "My clothing brand and the store I built for it: catalog, cart, shipping, Stripe checkout, and orders.",
+  urbanus:
+    "Research software that turns public map data and an edited street graph into gravity-aware routing for early sanitation planning.",
 };
 
 export const contactLinks: ContactLink[] = [

@@ -1,9 +1,17 @@
 ## Realtime rooms coordinated near the database
 
-Next.js, React, and TypeScript provide the browser application. Supabase and PostgreSQL persist rooms, players, roles, rounds, votes, and game state. Realtime subscriptions propagate relevant changes to connected players.
+Duplizen is a Next.js, React, and TypeScript app with Supabase and PostgreSQL
+behind it. Rooms, players, roles, rounds, votes, and game state live in the
+database. Realtime subscriptions push the relevant changes to whoever is
+connected.
 
-Database functions coordinate shared transitions, while row-level security narrows which records a participant can access.
+I put a lot of the coordination next to the data. Database functions own shared
+transitions, and row-level security narrows which records a participant can
+touch. That keeps multiplayer rules closer to one source of truth, but it also
+makes consistency and reconnection harder than a single-device game.
 
-Keeping multiplayer state synchronized improves group play but creates stronger consistency and reconnection requirements than a single-device game.
-
-I designed and implemented the product, application flows, multiplayer data model, database policies, and controlled game-state transitions. I also used the project as a practical way to study Supabase Realtime, room state, and multiplayer consistency.
+I designed and implemented the product, the application flows, the multiplayer
+data model, the policies, and the controlled game-state transitions. I also used
+the project as a practical way to study Supabase Realtime, room state, and
+multiplayer consistency without turning the game night into a distributed
+systems lecture.

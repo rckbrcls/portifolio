@@ -37,7 +37,7 @@ type PortfolioDetailTitleProps = {
   icon?: {
     src: string;
     alt: string;
-    /** Theme-gray CSS mask — use for monochrome brand marks (e.g. DOST). */
+    /** Theme-gray CSS mask. Use for monochrome brand marks (e.g. DOST). */
     monochrome?: boolean;
   };
 };
@@ -69,7 +69,7 @@ function PortfolioDetailHeader({ children }: { children: ReactNode }) {
   return <header className="grid gap-portfolio-lg">{children}</header>;
 }
 
-/** Canonical Source / Project / Download row — place at the end of the article. */
+/** Canonical Source / Project / Download row. Place at the end of the article. */
 function PortfolioDetailActions({
   actions = [],
 }: PortfolioDetailActionsProps) {
@@ -78,7 +78,7 @@ function PortfolioDetailActions({
   }
 
   return (
-    <div className="flex flex-wrap gap-2 border-t border-portfolio-border pt-6">
+    <div className="flex flex-wrap gap-2 pt-6">
       {actions.map((action) => (
         <PortfolioDetailAction
           key={`${action.type}-${action.href}`}

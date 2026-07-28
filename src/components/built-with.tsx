@@ -1,4 +1,5 @@
 import { portfolioDetailKickerClassName } from "@/components/portfolio-detail";
+import { cn } from "@/lib/utils";
 
 interface BuiltWithProps {
   technologies: readonly string[];
@@ -10,8 +11,15 @@ export function BuiltWith({ technologies }: BuiltWithProps) {
   }
 
   return (
-    <div className="!mt-9 border-t border-portfolio-border pt-6">
-      <p className={portfolioDetailKickerClassName}>Built with</p>
+    <div className="!mt-9 pt-6">
+      <p
+        className={cn(
+          portfolioDetailKickerClassName,
+          "!text-portfolio-primary",
+        )}
+      >
+        Built with
+      </p>
       <p className="mb-0 mt-3 text-sm leading-7 text-portfolio-secondary">
         {technologies.join(" / ")}
       </p>

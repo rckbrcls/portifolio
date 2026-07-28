@@ -120,8 +120,8 @@ function CommandOptionRow({ option }: { option: PortfolioDownloadOption & { kind
           </span>
         ) : null}
       </div>
-      <div className="flex min-w-0 items-stretch overflow-hidden rounded-[var(--portfolio-radius-md)] border border-portfolio-border bg-transparent">
-        <pre className="min-w-0 flex-1 overflow-x-auto bg-transparent px-2.5 py-2">
+      <div className="flex min-w-0 items-stretch rounded-[var(--portfolio-radius-md)] border border-portfolio-border bg-transparent">
+        <pre className="min-w-0 flex-1 overflow-x-auto rounded-l-[var(--portfolio-radius-md)] bg-transparent px-2.5 py-2">
           <code className="border-0 bg-transparent p-0 font-mono text-[0.72rem] leading-[1.5] text-portfolio-primary">
             {option.command}
           </code>
@@ -132,7 +132,7 @@ function CommandOptionRow({ option }: { option: PortfolioDownloadOption & { kind
           aria-describedby={statusId}
           title={actionLabel}
           onClick={handleCopy}
-          className="inline-flex min-h-10 min-w-10 shrink-0 cursor-pointer items-center justify-center border-0 border-l border-portfolio-border bg-portfolio-surface-alt text-portfolio-secondary transition-[background-color,color,transform] duration-150 ease-portfolio focus-visible:bg-portfolio-surface focus-visible:text-portfolio-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-portfolio-accent active:scale-[0.97] motion-reduce:transform-none motion-reduce:transition-none [@media(hover:hover)_and_(pointer:fine)]:hover:bg-portfolio-surface [@media(hover:hover)_and_(pointer:fine)]:hover:text-portfolio-primary"
+          className="inline-flex min-h-10 min-w-10 shrink-0 cursor-pointer items-center justify-center rounded-l-none rounded-r-[var(--portfolio-radius-md)] border-0 border-l border-portfolio-border bg-portfolio-surface-alt text-portfolio-secondary transition-[background-color,color,transform] duration-150 ease-portfolio focus-visible:bg-portfolio-border focus-visible:text-portfolio-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-portfolio-accent active:scale-[0.97] motion-reduce:transform-none motion-reduce:transition-none [@media(hover:hover)_and_(pointer:fine)]:hover:bg-portfolio-border [@media(hover:hover)_and_(pointer:fine)]:hover:text-portfolio-accent"
         >
           {copyStatus === "copied" ? (
             <Check aria-hidden="true" className="size-3.5" />
@@ -184,7 +184,7 @@ function LinkOptionRow({
 /**
  * Modular download / install menu for detail-page Download actions.
  * Supports shell one-liners (with copy), GitHub Releases, App Store,
- * Play Store, and generic external links — extensible via option `kind`.
+ * Play Store, and generic external links. Extensible via option `kind`.
  */
 export function PortfolioDownloadMenu({
   options,
