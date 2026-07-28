@@ -60,13 +60,6 @@ export default function WorkStoryPage({
       description={story.summary}
     >
       <PortfolioDetail.Header>
-        <PortfolioDetail.Toolbar
-          backHref="/work"
-          actions={story.action ? [story.action] : []}
-        />
-        <PortfolioDetail.Kicker>
-          {getWorkCategoryLabel(story.category)}
-        </PortfolioDetail.Kicker>
         <PortfolioDetail.Title
           icon={
             story.icon
@@ -80,6 +73,9 @@ export default function WorkStoryPage({
         >
           {story.title}
         </PortfolioDetail.Title>
+        <PortfolioDetail.Kicker>
+          {getWorkCategoryLabel(story.category)}
+        </PortfolioDetail.Kicker>
         <PortfolioDetail.Summary>{story.summary}</PortfolioDetail.Summary>
       </PortfolioDetail.Header>
 
@@ -93,6 +89,10 @@ export default function WorkStoryPage({
           <PortfolioDetail.Empty title="The work metadata exists, but the story module could not be loaded." />
         )}
       </PortfolioDetail.Body>
+
+      <PortfolioDetail.Actions
+        actions={story.action ? [story.action] : []}
+      />
     </PortfolioDetail>
   );
 }
