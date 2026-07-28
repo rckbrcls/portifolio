@@ -98,9 +98,9 @@ function PortfolioDetailKicker({ children }: { children: ReactNode }) {
 
 function PortfolioDetailTitle({ children, icon }: PortfolioDetailTitleProps) {
   return (
-    <div className="flex items-center gap-portfolio-md">
-      {icon ? <LabProductIcon src={icon.src} alt={icon.alt} /> : null}
+    <div className="flex items-end gap-3">
       <h1 className={titleClassName}>{children}</h1>
+      {icon ? <LabProductIcon src={icon.src} alt={icon.alt} /> : null}
     </div>
   );
 }

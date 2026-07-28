@@ -67,7 +67,18 @@ export default function WorkStoryPage({
         <PortfolioDetail.Kicker>
           {getWorkCategoryLabel(story.category)}
         </PortfolioDetail.Kicker>
-        <PortfolioDetail.Title>{story.title}</PortfolioDetail.Title>
+        <PortfolioDetail.Title
+          icon={
+            story.icon
+              ? {
+                  src: story.icon,
+                  alt: `${story.title} icon`,
+                }
+              : undefined
+          }
+        >
+          {story.title}
+        </PortfolioDetail.Title>
         <PortfolioDetail.Summary>{story.summary}</PortfolioDetail.Summary>
       </PortfolioDetail.Header>
 

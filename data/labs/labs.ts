@@ -8,6 +8,7 @@ export const labProducts: LabProduct[] = [
     productType: "Web game",
     summary:
       "A browser-based social-deduction game built for quick group play across desktop and mobile.",
+    icon: "/images/labs/duplizen/app-icon.png",
     technologies: [
       "Next.js",
       "React",

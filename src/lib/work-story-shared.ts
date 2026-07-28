@@ -11,6 +11,8 @@ export type WorkStoryFrontmatter = {
   status: string;
   category: TWorkCategory;
   technologies: string[];
+  /** Optional product identity icon shown tightly to the right of the detail title. */
+  icon?: string;
   action?: WorkStoryAction;
 };
 

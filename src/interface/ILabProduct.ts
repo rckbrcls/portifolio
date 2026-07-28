@@ -9,7 +9,7 @@ export interface LabProduct {
   name: string;
   productType: string;
   summary: string;
-  /** Optional product identity icon shown to the left of the detail title. */
+  /** Optional product identity icon shown tightly to the right of the detail title. */
   icon?: string;
   technologies: TypeTechStack[];
   actions: PortfolioDetailActionItem[];

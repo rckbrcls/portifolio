@@ -71,6 +71,10 @@ function parseWorkFrontmatter(
   }
 
   const action = parseAction(frontmatter.action, fileName);
+  const icon =
+    frontmatter.icon === undefined
+      ? undefined
+      : assertString(frontmatter.icon, "icon", fileName);
 
   return {
     title: assertString(frontmatter.title, "title", fileName),
@@ -82,6 +86,7 @@ function parseWorkFrontmatter(
     technologies: frontmatter.technologies.map((technology) =>
       assertString(technology, "technologies", fileName),
     ),
+    ...(icon ? { icon } : {}),
     ...(action ? { action } : {}),
   };
 }
