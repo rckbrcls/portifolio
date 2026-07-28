@@ -84,6 +84,7 @@ function PortfolioDetailActions({
           key={`${action.type}-${action.href}`}
           href={action.href}
           type={action.type}
+          options={action.options}
         />
       ))}
     </div>

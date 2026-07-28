@@ -37,6 +37,21 @@ export const labProducts: LabProduct[] = [
       {
         type: "download",
         href: "https://github.com/rckbrcls/sparky/releases/latest",
+        options: [
+          {
+            kind: "command",
+            label: "Install with curl",
+            command:
+              "curl -fsSL https://rckbrcls.com/api/sparky/install | bash",
+            description: "macOS 26 or later · universal build",
+          },
+          {
+            kind: "github-release",
+            label: "GitHub Releases",
+            href: "https://github.com/rckbrcls/sparky/releases/latest",
+            description: "Download the latest .zip release",
+          },
+        ],
       },
       {
         type: "source",

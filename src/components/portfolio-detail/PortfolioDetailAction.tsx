@@ -1,12 +1,17 @@
 import type { ReactNode } from "react";
 import { ArrowUpRight, Download, Github } from "lucide-react";
 
-import type { PortfolioDetailActionType } from "@/components/portfolio-detail/types";
+import { PortfolioDownloadMenu } from "@/components/portfolio-detail/PortfolioDownloadMenu";
+import type {
+  PortfolioDetailActionType,
+  PortfolioDownloadOption,
+} from "@/components/portfolio-detail/types";
 import { cn } from "@/lib/utils";
 
 type PortfolioDetailActionProps = {
   href: string;
   type: PortfolioDetailActionType;
+  options?: readonly PortfolioDownloadOption[];
 };
 
 const baseClassName =
@@ -42,7 +47,12 @@ const ACTION_CONTENT: Record<
 export function PortfolioDetailAction({
   href,
   type,
+  options,
 }: PortfolioDetailActionProps) {
+  if (type === "download" && options && options.length > 0) {
+    return <PortfolioDownloadMenu options={options} />;
+  }
+
   const content = ACTION_CONTENT[type];
   const isSource = type === "source";
 
