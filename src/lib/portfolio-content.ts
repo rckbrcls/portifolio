@@ -106,7 +106,7 @@ export function getProjectPrimaryLink(project: IProject) {
   }
 
   if (project.gitLink) {
-    return { href: project.gitLink, label: "View source", isExternal: true };
+    return { href: project.gitLink, label: "Source", isExternal: true };
   }
 
   if (project.npmUrl) {

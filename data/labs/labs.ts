@@ -31,6 +31,7 @@ export const labProducts: LabProduct[] = [
     productType: "macOS app",
     summary:
       "A local-first macOS companion for capturing memories, organizing plans, and moving into focused work.",
+    icon: "/images/labs/sparky/app-icon.png",
     technologies: ["Swift", "SwiftUI", "SwiftData", "Sparkle"],
     actions: [
       {
@@ -39,9 +40,9 @@ export const labProducts: LabProduct[] = [
         kind: "primary",
       },
       {
-        label: "View source",
+        label: "Source",
         href: "https://github.com/rckbrcls/sparky",
-        kind: "secondary",
+        kind: "source",
       },
     ],
   },

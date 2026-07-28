@@ -1,6 +1,6 @@
 import type { TypeTechStack } from "../../data/techStack";
 
-export type LabActionKind = "primary" | "secondary";
+export type LabActionKind = "primary" | "secondary" | "source";
 
 export interface LabAction {
   label: string;
@@ -14,6 +14,8 @@ export interface LabProduct {
   name: string;
   productType: string;
   summary: string;
+  /** Optional product identity icon shown to the right of the detail title. */
+  icon?: string;
   technologies: TypeTechStack[];
   actions: LabAction[];
 }

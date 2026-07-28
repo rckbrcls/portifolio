@@ -10,7 +10,7 @@ const narrativeLinkClassName =
   "mx-[0.04em] inline-block whitespace-nowrap rounded-[var(--portfolio-radius-lg)] border border-[color:var(--portfolio-action-border)] bg-portfolio-accent px-[0.22em] py-[0.04em] align-baseline text-white no-underline [box-shadow:var(--portfolio-floating-shadow)] transition-[background-color,border-color,color] duration-portfolio-180 ease-portfolio-hover hover:border-[color:var(--portfolio-action-border-hover)] hover:bg-portfolio-accent-hover hover:text-white focus-visible:border-[color:var(--portfolio-action-border-hover)] focus-visible:bg-portfolio-accent-hover focus-visible:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-portfolio-accent";
 
 const narrativeParagraphClassName =
-  "mx-auto my-0 w-full max-w-5xl text-center text-[clamp(1.25rem,2.5vw,2.25rem)] font-medium leading-[1.28] tracking-[-0.015em] text-portfolio-primary";
+  "mx-auto my-0 w-full text-center text-[clamp(1.25rem,2.5vw,2.25rem)] font-medium leading-[1.28] tracking-[-0.015em] text-portfolio-primary";
 
 const heroImageShellClassName =
   "relative grid w-full place-items-center justify-self-stretch [--portfolio-hero-image-width:min(100%,27rem)] max-[900px]:w-[min(100%,22rem)] max-[900px]:justify-self-center max-[900px]:[--portfolio-hero-image-width:min(100%,22rem)] max-md:w-[min(72vw,18rem)] max-md:[--portfolio-hero-image-width:min(72vw,18rem)]";

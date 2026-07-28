@@ -72,13 +72,13 @@ export default function BlogPostPage({
       description={post.summary}
     >
       <PortfolioSection spacing="page-start">
-        <div className="grid max-w-[46rem] gap-portfolio-xl">
+        <div className="grid gap-portfolio-xl">
           <header className="grid gap-portfolio-lg">
             <PortfolioBackLink href="/blog" />
-            <h1 className="m-0 max-w-[12ch] text-[2.7rem] font-bold leading-[0.96] tracking-normal text-portfolio-primary max-md:max-w-none md:text-[3.6rem] lg:text-[4.8rem]">
+            <h1 className="m-0 text-[2.7rem] font-bold leading-[0.96] tracking-normal text-portfolio-primary md:text-[3.6rem] lg:text-[4.8rem]">
               {post.title}
             </h1>
-            <p className="m-0 max-w-[42rem] text-base leading-[1.75] text-portfolio-secondary">
+            <p className="m-0 text-base leading-[1.75] text-portfolio-secondary">
               {post.summary}
             </p>
 
