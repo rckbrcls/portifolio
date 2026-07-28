@@ -5,7 +5,7 @@ export const professionalWorkItems: IProfessionalWorkItem[] = [
     slug: "btg-pactual",
     name: "Software Engineering at BTG Pactual",
     description:
-      "Full-lifecycle software engineering across feature architecture, frontend, backend, validation, and production readiness.",
+      "I ship foreign-exchange software with domain experts, across frontend and backend.",
     company: "BTG Pactual",
     meta: "IT Assistant / May 2023 – Present",
     order: 1,

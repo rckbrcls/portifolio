@@ -2,10 +2,10 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import {
+  Fragment,
   useEffect,
   useRef,
   useState,
-  type CSSProperties,
   type ComponentPropsWithoutRef,
   type FocusEvent,
   type MouseEvent,
@@ -353,7 +353,7 @@ function HeaderBrandAnimation({
         className="relative z-[2] block leading-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-portfolio-accent"
         aria-label="Go to home"
       >
-        <span className="block size-[3.1rem] shrink-0 overflow-hidden max-md:size-[2.72rem]">
+        <span className="block size-[3.1rem] shrink-0 overflow-hidden rounded-[var(--portfolio-radius-md)] max-md:size-[2.72rem]">
           <img
             src={frameSrc}
             alt=""
@@ -365,14 +365,14 @@ function HeaderBrandAnimation({
 
       <span
         className={cn(
-          "pointer-events-none absolute left-[-0.08rem] top-[calc(100%_+_0.3rem)] z-[3] w-max min-w-0 origin-left border border-portfolio-border bg-portfolio-surface px-[0.58rem] pb-[0.42rem] pt-[0.44rem] shadow-none transition-[opacity,transform,visibility] duration-portfolio-200 ease-portfolio motion-reduce:transform-none motion-reduce:transition-opacity motion-reduce:duration-portfolio-150 max-md:left-[-0.04rem] max-md:top-[calc(100%_+_0.24rem)] max-md:max-w-none max-md:px-2 max-md:pb-[0.36rem] max-md:pt-[0.38rem]",
+          "pointer-events-none absolute left-[-0.08rem] top-[calc(100%_+_0.3rem)] z-[3] w-max min-w-0 origin-left rounded-[var(--portfolio-radius-md)] border border-portfolio-border bg-portfolio-surface px-[0.58rem] pb-[0.42rem] pt-[0.44rem] shadow-none transition-[opacity,transform,visibility] duration-portfolio-200 ease-portfolio motion-reduce:transform-none motion-reduce:transition-opacity motion-reduce:duration-portfolio-150 max-md:left-[-0.04rem] max-md:top-[calc(100%_+_0.24rem)] max-md:max-w-none max-md:px-2 max-md:pb-[0.36rem] max-md:pt-[0.38rem]",
           isActive
             ? "visible translate-y-0 opacity-100"
             : "invisible -translate-y-[0.2rem] opacity-0",
         )}
         aria-hidden="true"
       >
-        <span className="absolute left-[0.92rem] top-[-0.38rem] size-[0.72rem] rotate-45 border-l border-t border-portfolio-border bg-portfolio-surface max-md:left-[0.78rem] max-md:top-[-0.34rem] max-md:size-[0.64rem]" />
+        <span className="absolute left-[0.92rem] top-[-0.38rem] size-[0.72rem] rotate-45 rounded-[1px] border-l border-t border-portfolio-border bg-portfolio-surface max-md:left-[0.78rem] max-md:top-[-0.34rem] max-md:size-[0.64rem]" />
         <span className="relative z-[1] block">
           {isActive ? (
             <TypingAnimation
@@ -508,46 +508,51 @@ export function PortfolioLayout({
                 className="flex w-full flex-1 items-center justify-between gap-[1.1rem] whitespace-nowrap max-md:gap-[0.48rem] max-[360px]:gap-1"
                 aria-label="Primary navigation"
               >
-                {navigationLinks.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onMouseEnter={
-                      item.href === "/"
-                        ? () => setIsHomeNavigationInteractionActive(true)
-                        : undefined
-                    }
-                    onMouseLeave={
-                      item.href === "/"
-                        ? handleHomeNavigationMouseLeave
-                        : undefined
-                    }
-                    onFocus={
-                      item.href === "/"
-                        ? () => setIsHomeNavigationInteractionActive(true)
-                        : undefined
-                    }
-                    onBlur={
-                      item.href === "/" ? handleHomeNavigationBlur : undefined
-                    }
-                    aria-current={
-                      router.pathname === item.href ||
-                      (item.href !== "/" &&
-                        router.pathname.startsWith(`${item.href}/`))
-                        ? "page"
-                        : undefined
-                    }
-                    className={cn(
-                      "border-b border-portfolio-surface pb-[0.24rem] font-mono text-[0.78rem] font-semibold leading-[1.1] tracking-normal text-portfolio-secondary no-underline transition-colors duration-150 ease-portfolio hover:border-portfolio-accent hover:text-portfolio-accent focus-visible:border-portfolio-accent focus-visible:text-portfolio-primary focus-visible:outline-none aria-[current=page]:border-portfolio-primary aria-[current=page]:text-portfolio-primary max-md:text-[0.68rem] max-[360px]:text-[0.62rem]",
-                      item.preserveCase ? "normal-case" : "uppercase",
-                      item.href === "/" &&
-                        isHeaderHomeGroupActive &&
-                        "border-portfolio-accent text-portfolio-accent",
-                    )}
-                  >
-                    {item.number}. {item.label}
-                  </Link>
-                ))}
+                {navigationLinks.map((item) => {
+                  const isActive =
+                    router.pathname === item.href ||
+                    (item.href !== "/" &&
+                      router.pathname.startsWith(`${item.href}/`));
+                  const isHomeAccent =
+                    item.href === "/" && isHeaderHomeGroupActive;
+
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onMouseEnter={
+                        item.href === "/"
+                          ? () => setIsHomeNavigationInteractionActive(true)
+                          : undefined
+                      }
+                      onMouseLeave={
+                        item.href === "/"
+                          ? handleHomeNavigationMouseLeave
+                          : undefined
+                      }
+                      onFocus={
+                        item.href === "/"
+                          ? () => setIsHomeNavigationInteractionActive(true)
+                          : undefined
+                      }
+                      onBlur={
+                        item.href === "/"
+                          ? handleHomeNavigationBlur
+                          : undefined
+                      }
+                      aria-current={isActive ? "page" : undefined}
+                      className={cn(
+                        "border-b pb-[0.24rem] font-mono text-[0.78rem] font-semibold leading-[1.1] tracking-normal no-underline transition-colors duration-150 ease-portfolio focus-visible:outline-none max-md:text-[0.68rem] max-[360px]:text-[0.62rem]",
+                        item.preserveCase ? "normal-case" : "uppercase",
+                        isActive || isHomeAccent
+                          ? "border-portfolio-accent text-portfolio-accent"
+                          : "border-portfolio-surface text-portfolio-secondary hover:border-portfolio-accent hover:text-portfolio-accent focus-visible:border-portfolio-accent focus-visible:text-portfolio-accent",
+                      )}
+                    >
+                      {item.number}. {item.label}
+                    </Link>
+                  );
+                })}
 
                 <HeaderConfigMenu />
               </nav>
@@ -567,44 +572,44 @@ export function PortfolioLayout({
             "mb-8 mt-auto px-[clamp(1rem,2.4vw,var(--portfolio-space-xl))] max-md:px-4",
           )}
         >
-          <footer className="portfolio-floating-card w-full overflow-hidden p-0">
-            <div
-              className="grid gap-px bg-portfolio-border [grid-template-columns:repeat(var(--portfolio-footer-columns,1),minmax(0,1fr))] max-[900px]:grid-cols-1 max-md:grid-cols-1"
-              style={
-                {
-                  "--portfolio-footer-columns": String(contactLinks.length),
-                } as CSSProperties
-              }
-            >
-              {contactLinks.map((item) => {
+          <footer className="portfolio-floating-card w-full p-1.5 max-md:p-1">
+            <div className="flex min-w-0 items-stretch gap-1.5 max-[900px]:flex-col max-[900px]:gap-1">
+              {contactLinks.map((item, index) => {
                 const Icon = item.icon;
                 const opensInNewTab =
                   item.href.startsWith("http") || item.href.endsWith(".pdf");
 
                 return (
-                  <a
-                    key={item.title}
-                    href={item.href}
-                    target={opensInNewTab ? "_blank" : undefined}
-                    rel={opensInNewTab ? "noopener noreferrer" : undefined}
-                    className="flex min-h-0 items-center justify-between gap-3 bg-portfolio-surface p-[0.9rem_1rem] text-inherit no-underline transition-colors duration-150 ease-portfolio hover:bg-portfolio-highlight hover:text-portfolio-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-portfolio-accent"
-                  >
-                    <div className="flex w-full min-w-0 items-center justify-between gap-3">
-                      <div className="flex min-w-0 items-center gap-[0.6rem]">
-                        <Icon className="size-5 shrink-0 text-portfolio-accent" />
-                        <div className="flex min-w-0 flex-wrap items-baseline gap-[0.35rem]">
-                          <span className="inline text-[0.88rem] font-semibold leading-[1.4] text-portfolio-primary">
-                            {item.title}
-                          </span>
-                          <span className="inline text-[0.68rem] leading-[1.35] text-portfolio-secondary [overflow-wrap:anywhere]">
-                            {item.value}
-                          </span>
+                  <Fragment key={item.title}>
+                    {index > 0 ? (
+                      <div
+                        aria-hidden="true"
+                        className="my-1.5 w-px shrink-0 self-stretch bg-portfolio-border max-[900px]:mx-1.5 max-[900px]:my-0 max-[900px]:h-px max-[900px]:w-auto"
+                      />
+                    ) : null}
+                    <a
+                      href={item.href}
+                      target={opensInNewTab ? "_blank" : undefined}
+                      rel={opensInNewTab ? "noopener noreferrer" : undefined}
+                      className="group flex min-h-0 min-w-0 flex-1 items-center justify-between gap-2.5 rounded-[var(--portfolio-radius-md)] border border-transparent px-3.5 py-2.5 text-inherit no-underline transition-[background-color,color] duration-150 ease-portfolio focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-portfolio-accent [@media(hover:hover)_and_(pointer:fine)]:hover:bg-portfolio-surface-alt"
+                    >
+                      <div className="flex w-full min-w-0 items-center justify-between gap-2.5">
+                        <div className="flex min-w-0 items-center gap-2">
+                          <Icon className="size-3.5 shrink-0 text-portfolio-accent" />
+                          <div className="flex min-w-0 flex-wrap items-baseline gap-x-1.5 gap-y-0.5">
+                            <span className="inline font-mono text-[0.78rem] font-semibold uppercase leading-[1.1] tracking-normal text-portfolio-primary transition-colors duration-150 ease-portfolio group-focus-visible:text-portfolio-accent max-md:text-[0.68rem] max-[360px]:text-[0.62rem] [@media(hover:hover)_and_(pointer:fine)]:group-hover:text-portfolio-accent">
+                              {item.title}
+                            </span>
+                            <span className="inline font-mono text-[0.78rem] font-semibold leading-[1.1] tracking-normal text-portfolio-secondary [overflow-wrap:anywhere] max-md:text-[0.68rem] max-[360px]:text-[0.62rem]">
+                              {item.value}
+                            </span>
+                          </div>
                         </div>
-                      </div>
 
-                      <ArrowUpRight className="h-4 w-4" />
-                    </div>
-                  </a>
+                        <ArrowUpRight className="size-3.5 shrink-0 text-portfolio-secondary" />
+                      </div>
+                    </a>
+                  </Fragment>
                 );
               })}
             </div>

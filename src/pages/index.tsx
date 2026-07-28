@@ -28,7 +28,7 @@ export default function Home() {
   return (
     <PortfolioLayout
       title="rckbrcls | Portfolio"
-      description="Erick Barcelos is a software engineer based in São Paulo, working across professional work, research software, independent engineering, and usable product experiments."
+      description="Erick Barcelos is a software engineer in São Paulo. I ship production software, research tools, and small products I actually want to use."
     >
       <PortfolioEditorialStack>
         <PortfolioSection spacing="page-start">
@@ -52,10 +52,10 @@ export default function Home() {
         <PortfolioSection spacing="stack-loose">
           <div className="grid justify-items-center gap-[clamp(2rem,5vw,4.5rem)] text-center">
             <h1 className={narrativeParagraphClassName}>
-              I am Erick Barcelos. I enjoy taking software from an early idea to
-              something people can rely on. I feel most at home in backend and
-              distributed systems, but I am comfortable moving across the stack
-              when the work calls for it.
+              I am Erick Barcelos. I like turning messy ideas into software that
+              holds up. Backend and distributed systems are where I feel most at
+              home, but I move around the stack when that is what the problem
+              needs.
             </h1>
 
             <p className={narrativeParagraphClassName}>
@@ -63,50 +63,49 @@ export default function Home() {
               <Link href="/work/btg-pactual" className={narrativeLinkClassName}>
                 BTG Pactual
               </Link>
-              , I work as an IT Assistant on mission-critical FX workflows. I
-              help shape the technical architecture of features and implement
-              capabilities across both frontend and backend, working with domain
-              experts and engineering teams to turn complex requirements into
-              production software.
+              , my official title is IT Assistant. Day to day I ship
+              foreign-exchange software with domain experts and other engineers:
+              shaping how a feature should work, writing frontend and backend
+              code, and getting it ready for production.
             </p>
 
             <p className={narrativeParagraphClassName}>
-              My academic path at the University of São Paulo includes Computer
-              Science and Information Systems. At USP, I have worked on research
-              software in information retrieval and geospatial computing,
-              including{" "}
+              At the University of São Paulo I have studied Computer Science and
+              Information Systems, and I have built research software in
+              information retrieval and geospatial computing. One of those
+              projects is{" "}
               <Link href="/work/urbanus" className={narrativeLinkClassName}>
                 Urbanus
               </Link>
-              , a geospatial decision-support platform combining public data,
-              graph algorithms, and expert feedback for preliminary sanitation
-              planning.
+              : a web platform that turns public map data, elevation, and an
+              edited street graph into gravity-aware routing for early
+              sanitation planning.
             </p>
 
             <p className={narrativeParagraphClassName}>
-              Outside work and research, I build things I actually want to use.
-              That includes{" "}
+              Outside work and research I build tools I actually want open on my
+              own machine.{" "}
               <Link href="/work/dost" className={narrativeLinkClassName}>
                 DOST
-              </Link>
-              , my clothing brand and the full-stack store I engineered for it;{" "}
+              </Link>{" "}
+              is my clothing brand and the store I engineered for it.{" "}
               <Link href="/labs/duplizen" className={narrativeLinkClassName}>
                 Duplizen
-              </Link>
-              , a browser game I made so friends could play impostor from their
-              own phones; and{" "}
+              </Link>{" "}
+              is a browser game I made so friends could play impostor from their
+              own phones.{" "}
               <Link href="/labs/sparky" className={narrativeLinkClassName}>
                 Sparky
-              </Link>
-              , a local-first macOS companion I built to capture ideas, remember
-              what matters, and focus.
+              </Link>{" "}
+              is a local-first macOS app I built for ideas, reminders, and focus
+              sessions.
             </p>
 
             <p className={narrativeParagraphClassName}>
-              I write about what I learn and have supported programming
-              education and volunteer software projects through university
-              initiatives. Away from code, I enjoy martial arts, cinema, and
-              football. I was born in Belém, Pará, and now live in São Paulo.
+              I write about what I am learning, and I have helped with
+              programming education and volunteer software around the university.
+              Away from the keyboard I care about martial arts, cinema, and
+              football. I was born in Belém, Pará, and I live in São Paulo now.
             </p>
           </div>
         </PortfolioSection>

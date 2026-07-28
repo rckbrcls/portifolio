@@ -1,6 +1,6 @@
 ---
 title: DOST
-summary: My clothing brand and the full-stack store behind it — catalog, checkout, shipping, and orders, end to end.
+summary: "My clothing brand and the store I built for it: catalog, cart, shipping, Stripe checkout, and orders."
 role: Founder and product engineer
 period: Current
 status: Active
@@ -20,42 +20,33 @@ action:
   href: https://dostproject.com
 ---
 
-## Problem
+## Why it exists
 
-DOST started as my own clothing brand. Selling it needed more than a pretty
-catalog: stock, identity, shipping, payment, and order state all have to agree
-on a single purchase flow.
+DOST started as my own clothing brand. Pretty product pages were the easy part.
+Selling for real meant stock, identity, shipping quotes, payment, and order
+state all had to agree on a single purchase flow. If any of those pieces lied to
+the others, someone would pay for something that should not have been sold.
 
-## Solution
+So I built the storefront myself. Product discovery, auth, cart, shipping
+quotes, Stripe Checkout, and order management live in one responsive app for
+both signed-in customers and guests. I own the brand and the engineering: API
+routes, persistence, payments, shipping, cart behavior, and the order paths that
+tie them together.
 
-I built the storefront myself — product discovery, auth, cart, shipping quotes,
-Stripe checkout, and order management in one responsive app, for both signed-in
-customers and guests.
+## Choices I care about
 
-## My contribution
+I treat current database values as authoritative instead of trusting cart prices
+that arrived from the browser. Availability gets checked again at checkout
+boundaries, because stock is a moving target and a stale cart should not win.
 
-I created the brand and engineered the commerce platform: storefront, API
-routes, authentication, persistence, payments, shipping, cart behavior, and
-order flows.
+Payments stay inside Stripe Checkout. I did not want the store collecting
+sensitive card details directly. Guests can still look up an order later, but I
+do not pretend that guest lookup is the same thing as a full customer account.
 
-## Technical choices
+## Limits
 
-- Treat current database values as authoritative instead of trusting cart
-  prices from the browser.
-- Validate product availability again at checkout boundaries.
-- Keep payment handling inside Stripe Checkout instead of collecting sensitive
-  payment details directly.
-- Support guest order lookup without presenting it as equivalent to a complete
-  customer account.
-
-## Trade-offs and limits
-
-The product depends on third-party payment and shipping services, so its
-purchase flow must handle external failures without treating an incomplete
-checkout as a completed order. Public materials do not include customer data,
-orders, payment records, or the private repository.
-
-## Current status
-
-DOST is active. I do not publish customer, revenue, conversion,
-transaction-volume, or payment-reliability claims.
+The purchase path depends on third-party payment and shipping services. External
+failures have to be handled without celebrating an incomplete checkout as a
+completed order. The product is active. I do not publish customer data, revenue,
+conversion, transaction volume, or payment-reliability claims, and the source
+repository stays private.

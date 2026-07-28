@@ -1,25 +1,27 @@
-## A native macOS application
+## Why native and local-first
 
-Sparky is built with Swift and SwiftUI around a desktop-specific shell for Calendar, Mind, Focus, and Me. The interface uses native macOS presentation and navigation instead of wrapping a web application.
+Sparky is a native macOS app in Swift and SwiftUI. Calendar, Mind, Focus, and Me
+live in a desktop-specific shell instead of a web app wrapped in a window. That
+choice was about feeling like a Mac tool: navigation, notifications, and local
+files that belong on the machine.
 
-## Local persistence with explicit boundaries
+SwiftData stores Memories, Minds, schedules, checklists, and completion history.
+Photos, links, audio, and files sit separately in Application Support, with
+references held by the main data model. Persistence and product services stay
+inside the app. There is no custom API server, account system, cloud-sync
+service, analytics integration, or advertising layer.
 
-SwiftData stores Memories, Minds, schedules, checklists, and completion history. Photos, links, audio, and files live separately in Application Support, with references maintained by the main data model.
+## Focus, notifications, and shipping updates
 
-The architecture keeps persistence and product services inside the application. There is no custom API server, account system, cloud-sync service, analytics integration, or advertising layer.
+The Focus engine supports configurable work, short-break, long-break, cycle,
+pause, reset, and extension behavior. UserNotifications covers scheduled
+reminders and focus-session feedback on macOS.
 
-## Focus and desktop delivery
+Shipping the app was part of the product too. GitHub Actions builds universal
+release archives, GitHub Releases distributes them, and Sparkle checks for
+updates through a published appcast. A public installer selects the latest
+compatible release for a one-line install.
 
-The Focus engine supports configurable work, short-break, long-break, cycle, pause, reset, and extension behavior. UserNotifications provides scheduled and focus-session feedback on macOS.
-
-GitHub Actions creates universal release archives, GitHub Releases distributes them, and Sparkle provides in-app update checks through a published appcast. The same public installer used by the portfolio selects the latest compatible release.
-
-I designed and built Sparky as a personal tool — the desktop experience, local data architecture, memory and organization workflows, Focus system, release automation, installer, and update channel.
-
-## Install on macOS
-
-Available now for macOS 26 or later.
-
-<LabInstallCommand command="curl -fsSL https://rckbrcls.com/api/sparky/install | bash" />
-
-The public installer resolves the latest universal macOS release, installs `Sparky.app`, and uses [GitHub Releases](https://github.com/rckbrcls/sparky/releases/latest) as its distribution source. Its implementation is available in [`scripts/install.sh`](https://github.com/rckbrcls/sparky/blob/master/scripts/install.sh).
+I designed and built Sparky as a personal tool: the desktop experience, the
+local data architecture, the memory and organization workflows, Focus, release
+automation, the installer, and the update channel.

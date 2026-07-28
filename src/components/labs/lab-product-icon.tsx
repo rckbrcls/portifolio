@@ -4,7 +4,7 @@ interface LabProductIconProps {
   src: string;
   alt: string;
   /**
-   * Reserved for theme-aware monochrome marks. Currently unused — prefer a
+   * Reserved for theme-aware monochrome marks. Currently unused; prefer a
    * mid-gray PNG that already works in light and dark.
    */
   monochrome?: boolean;

@@ -1,6 +1,6 @@
 ---
 title: Urbanus
-summary: A geospatial decision-support platform for preliminary sanitation planning in low-income urban areas.
+summary: Research software that turns public map data and an edited street graph into gravity-aware routing for early sanitation planning.
 role: Undergraduate student researcher
 period: November 2025 – July 2026
 status: Research cycle completed
@@ -19,23 +19,22 @@ action:
   href: https://github.com/rckbrcls/urbanus
 ---
 
-## Problem
+## What problem we were actually solving
 
-Early sanitation planning requires combining fragmented public geospatial data,
-terrain information, network constraints, and expert review before detailed
-engineering analysis can begin.
+Early sanitation planning often starts with a mess of public geospatial data,
+terrain information, network constraints, and expert judgment. Before anyone can
+do detailed engineering analysis, someone has to turn that mess into a coherent
+network that can be inspected, edited, and routed with gravity in mind.
 
-## Solution
-
-Urbanus combines public map data, elevation enrichment, geospatial persistence,
-graph-based routing, interactive editing, and automated validation in a web
-research platform.
-
-## My contribution
+Urbanus is the research platform we built for that stage. It pulls public map
+data, enriches elevation, keeps project state in a spatial database, lets an
+expert edit the street graph in the browser, and runs automated validation and
+routing on top of that graph.
 
 I co-developed the web platform and worked across the interactive editor,
 spatial persistence, the geospatial processing pipeline, public-data
-integration, graph routing, and functional validation.
+integration, graph routing, and functional validation. This was collaborative
+research software, not a solo product launch.
 
 ## From geospatial data to a directed graph
 
@@ -44,10 +43,10 @@ contains intersections, endpoints, bends, collection points, and relevant
 topographic points. The edge set \(E\) contains street or collector segments
 with geometry, length, road category, and elevation context.
 
-The browser editor is part of the processing contract: after public street data
-and elevation samples are loaded, the graph reviewed and changed by the user
-becomes the source of truth sent to the backend. This avoids silently rebuilding
-a different network from the original GeoJSON.
+The browser editor is part of the processing contract. After public street data
+and elevation samples are loaded, the graph the user reviews and changes becomes
+the source of truth sent to the backend. That matters: we do not silently
+rebuild a different network from the original GeoJSON behind the expert’s back.
 
 ## Gravity-aware routing
 
@@ -102,32 +101,35 @@ eligible for the reuse discount in later searches. Mandatory nodes without a
 feasible gravity path are reported as unreachable instead of being forced into
 the result.
 
-## Processing pipeline
+## How a run walks through the system
 
-1. Receive the graph inspected and edited in the browser.
-2. Clear spurious zero-elevation artifacts before routing.
-3. Preserve mandatory structural points and remove redundant graph nodes.
-4. Detect elevation extrema, grade breaks, and collection points.
-5. Route mandatory nodes toward the outlet or local collectors with RSPH.
-6. Restore missing street coverage and break invalid directed cycles.
-7. Reduce remaining non-mandatory nodes and assign inspection accessories.
-8. Serialize the directed network and persist its spatial state in PostGIS.
+A processing run receives the graph that was inspected and edited in the
+browser, cleans spurious zero-elevation artifacts, preserves mandatory
+structural points, and removes redundant nodes. It detects elevation extrema,
+grade breaks, and collection points, then routes mandatory nodes toward the
+outlet or local collectors with RSPH. After that it restores missing street
+coverage, breaks invalid directed cycles, reduces remaining non-mandatory nodes,
+assigns inspection accessories, and serializes the directed network into
+PostGIS.
 
 ## Engineering choices
 
-- Keep public geospatial data, expert editing, and automated processing in one
-  reviewable workflow.
-- Use NetworkX for explicit graph construction, shortest-path routing, and
-  topology checks.
-- Use PostGIS so project state, geometries, and processed network data share a
-  spatial persistence model.
-- Keep TypeScript and Python implementations aligned through shared contracts,
-  constants, and parity tests rather than forcing one runtime across the system.
+We kept public geospatial data, expert editing, and automated processing in one
+reviewable workflow instead of splitting them into disconnected tools. NetworkX
+gives us explicit graph construction, shortest-path routing, and topology
+checks. PostGIS keeps project state, geometries, and processed network data in
+the same spatial persistence model. TypeScript and Python stay aligned through
+shared contracts, constants, and parity tests rather than forcing one runtime
+across the whole system.
 
-## Engineering boundaries
+## What this is not
 
-Automated tests exercise geographic calculations, routing cost, RSPH, elevation
-handling, coverage repair, cycle prevention, and node reduction. These checks
-support functional and computational confidence, but they do not establish
-survey-grade terrain accuracy, hydraulic adequacy, construction readiness, or
-field performance.
+Automated tests cover geographic calculations, routing cost, RSPH, elevation
+handling, coverage repair, cycle prevention, and node reduction. That helps with
+functional and computational confidence. It does not prove survey-grade terrain
+accuracy, hydraulic adequacy, construction readiness, or field performance.
+
+The 2025–2026 research cycle is complete. A related paper was accepted for the
+Data Science for Social Good workshop at SBBD 2026, but publication is still
+unconfirmed. Urbanus remains preliminary research software, not a field-deployed
+sanitation system.
