@@ -18,9 +18,8 @@ export const labProducts: LabProduct[] = [
     ],
     actions: [
       {
-        label: "Play now",
+        type: "project",
         href: "https://duplizen.erickbarcelos.com",
-        kind: "primary",
       },
     ],
   },
@@ -35,14 +34,12 @@ export const labProducts: LabProduct[] = [
     technologies: ["Swift", "SwiftUI", "SwiftData", "Sparkle"],
     actions: [
       {
-        label: "Download for macOS",
+        type: "download",
         href: "https://github.com/rckbrcls/sparky/releases/latest",
-        kind: "primary",
       },
       {
-        label: "Source",
+        type: "source",
         href: "https://github.com/rckbrcls/sparky",
-        kind: "source",
       },
     ],
   },

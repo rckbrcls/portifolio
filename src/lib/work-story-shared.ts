@@ -1,9 +1,7 @@
+import type { PortfolioDetailActionItem } from "@/components/portfolio-detail/types";
 import type { TWorkCategory } from "@/interface/TWorkCategory";
 
-export type WorkStoryAction = {
-  type: "project" | "source";
-  href: string;
-};
+export type WorkStoryAction = PortfolioDetailActionItem;
 
 export type WorkStoryFrontmatter = {
   title: string;

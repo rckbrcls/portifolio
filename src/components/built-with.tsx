@@ -1,3 +1,5 @@
+import { portfolioDetailKickerClassName } from "@/components/portfolio-detail";
+
 interface BuiltWithProps {
   technologies: readonly string[];
 }
@@ -9,7 +11,7 @@ export function BuiltWith({ technologies }: BuiltWithProps) {
 
   return (
     <div className="!mt-9 border-t border-portfolio-border pt-6">
-      <p className="portfolio-kicker">Built with</p>
+      <p className={portfolioDetailKickerClassName}>Built with</p>
       <p className="mb-0 mt-3 text-sm leading-7 text-portfolio-secondary">
         {technologies.join(" / ")}
       </p>

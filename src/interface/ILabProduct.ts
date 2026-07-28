@@ -1,12 +1,7 @@
+import type { PortfolioDetailActionItem } from "@/components/portfolio-detail/types";
 import type { TypeTechStack } from "../../data/techStack";
 
-export type LabActionKind = "primary" | "secondary" | "source";
-
-export interface LabAction {
-  label: string;
-  href: string;
-  kind: LabActionKind;
-}
+export type LabAction = PortfolioDetailActionItem;
 
 export interface LabProduct {
   slug: string;
@@ -14,8 +9,8 @@ export interface LabProduct {
   name: string;
   productType: string;
   summary: string;
-  /** Optional product identity icon shown to the right of the detail title. */
+  /** Optional product identity icon shown to the left of the detail title. */
   icon?: string;
   technologies: TypeTechStack[];
-  actions: LabAction[];
+  actions: PortfolioDetailActionItem[];
 }

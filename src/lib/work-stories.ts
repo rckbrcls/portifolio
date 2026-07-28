@@ -52,7 +52,7 @@ function parseAction(
   const action = value as Record<string, unknown>;
   const type = action.type;
 
-  if (type !== "project" && type !== "source") {
+  if (type !== "project" && type !== "source" && type !== "download") {
     throw new Error(`Invalid "action.type" in work story "${fileName}".`);
   }
 
