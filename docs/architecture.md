@@ -111,14 +111,12 @@ Labs products are stored in `data/labs/labs.ts` and typed by
 `src/interface/ILabProduct.ts`. The catalog controls route generation, order,
 product type, summary, technologies, and external actions.
 
-Each catalog slug requires two local MDX modules that render as one continuous
-article:
+Each catalog slug requires one local MDX article:
 
-- `content/labs/[slug]/product.mdx` for product presentation (first);
-- `content/labs/[slug]/engineering.mdx` for technical depth (after product).
+- `content/labs/[slug].mdx` for the complete product and engineering narrative.
 
-`src/lib/lab-content.ts` resolves only catalog slugs and loads both MDX modules.
-The detail page uses the shared `PortfolioDetail` article shell with no tabs.
+`src/lib/lab-content.ts` resolves only catalog slugs and loads the matching MDX
+module. The detail page uses the shared `PortfolioDetail` article shell.
 Labs media is limited to evidence-backed product demonstration and uses neutral
 portfolio framing through `LabMediaGrid`.
 

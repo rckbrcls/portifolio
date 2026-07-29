@@ -1,0 +1,39 @@
+## Too many steps for one book
+
+I download books often and wanted an easier way to get them onto my Kindle.
+Handling every EPUB or PDF separately turned a simple handoff into the same
+small sequence of checks and decisions over and over.
+
+I built Book Sender to put that work in one macOS app instead of spreading it
+across a chain of manual steps.
+
+## One batch, one decision
+
+The goal was to select several books through Finder or drag and drop, understand
+which ones were ready or blocked, and confirm the eligible batch once. The app
+still keeps the state of every book visible instead of hiding the batch behind
+one generic progress indicator.
+
+Internally, preparation stays sequential and each outcome is independent. One
+failed book does not decide what happens to the rest.
+
+## Preparing files without touching the originals
+
+The SwiftUI app keeps Delivery Setup and Send Book as its two primary screens.
+ZIPFoundation handles bounded EPUB inspection and deterministic repairs, which
+are written to working copies and revalidated. PDFs remain unchanged, and the
+selected originals are never replaced.
+
+CryptoKit fingerprints staged files, Keychain protects the delivery credential,
+and SwiftNIO with NIOSSL provides the SMTP boundary. Failed items are not
+retried automatically.
+
+## Where the pipeline stops today
+
+The current public version includes the native interface, batch intake, and
+local preparation flow. It can inspect the selection and produce eligible
+working files while preserving the originals.
+
+SMTP delivery is still unavailable. I do not present the app as completing
+authenticated delivery or Kindle acceptance until that path is enabled and
+validated end to end.

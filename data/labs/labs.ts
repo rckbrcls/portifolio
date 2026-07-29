@@ -32,7 +32,7 @@ export const labProducts: LabProduct[] = [
     summary:
       "A local-first macOS app I built for myself: ideas, reminders, and focus sessions without an account.",
     icon: "/images/labs/sparky/app-icon.png",
-    technologies: ["Swift", "SwiftUI", "SwiftData", "Sparkle"],
+    technologies: ["Swift", "SwiftUI", "SwiftData"],
     actions: [
       {
         type: "download",
@@ -55,6 +55,41 @@ export const labProducts: LabProduct[] = [
       {
         type: "source",
         href: "https://github.com/rckbrcls/sparky",
+      },
+    ],
+  },
+  {
+    slug: "book-sender",
+    order: 3,
+    name: "Book Sender",
+    productType: "Utility",
+    summary:
+      "A macOS app I built to prepare EPUB and PDF books in batches and send them to my Kindle.",
+    icon: "/images/labs/book-sender/app-icon.png",
+    technologies: ["Swift", "SwiftUI", "SwiftNIO", "ZIPFoundation"],
+    actions: [
+      {
+        type: "download",
+        href: "https://github.com/rckbrcls/page-forge/releases/latest",
+        options: [
+          {
+            kind: "command",
+            label: "Install with curl",
+            command:
+              "curl -fsSL https://rckbrcls.com/api/book-sender/install | bash",
+            description:
+              "macOS 26 or later · universal build · SMTP unavailable",
+          },
+          {
+            kind: "github-release",
+            label: "GitHub Releases",
+            href: "https://github.com/rckbrcls/page-forge/releases/latest",
+          },
+        ],
+      },
+      {
+        type: "source",
+        href: "https://github.com/rckbrcls/page-forge",
       },
     ],
   },

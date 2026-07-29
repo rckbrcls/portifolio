@@ -19,7 +19,7 @@ action:
   href: https://github.com/rckbrcls/urbanus
 ---
 
-## What problem we were actually solving
+## Before routing, there was a graph to trust
 
 Early sanitation planning often starts with a mess of public geospatial data,
 terrain information, network constraints, and expert judgment. Before anyone can
@@ -31,12 +31,18 @@ data, enriches elevation, keeps project state in a spatial database, lets an
 expert edit the street graph in the browser, and runs automated validation and
 routing on top of that graph.
 
+## My part in the research platform
+
 I co-developed the web platform and worked across the interactive editor,
 spatial persistence, the geospatial processing pipeline, public-data
-integration, graph routing, and functional validation. This was collaborative
-research software, not a solo product launch.
+integration, graph routing, and functional validation. My responsibility was to
+keep the graph an expert reviewed consistent from browser editing to the
+processed network stored in PostGIS.
 
-## From geospatial data to a directed graph
+This was collaborative undergraduate research software, not a solo product
+launch. We kept public data, expert editing, and automated processing in one
+reviewable workflow instead of splitting them into tools that could quietly
+disagree.
 
 Urbanus starts from an edited street graph \(G=(V,E)\). The vertex set \(V\)
 contains intersections, endpoints, bends, collection points, and relevant
@@ -48,7 +54,7 @@ and elevation samples are loaded, the graph the user reviews and changes becomes
 the source of truth sent to the backend. That matters: we do not silently
 rebuild a different network from the original GeoJSON behind the expert’s back.
 
-## Gravity-aware routing
+## Teaching the network to follow gravity
 
 For a candidate directed edge from \(u\) to \(v\), Urbanus calculates the
 terrain slope from the elevation drop and the horizontal edge length:
@@ -61,8 +67,6 @@ A positive value means the edge descends from \(u\) to \(v\). When both
 elevations are known, flat or uphill candidates receive infinite cost and are
 excluded from the route. Missing elevation keeps both directions available, but
 adds a conservative penalty because gravity cannot be verified.
-
-## Routing cost
 
 RSPH uses Dijkstra's algorithm with a routing score that prefers short,
 downhill segments, penalizes shallow slopes, and can reward the reuse of an
@@ -84,8 +88,6 @@ When an edge already belongs to the tree under construction, its score becomes
 \(C_k(u,v)=0.5C_0(u,v)\), making later paths more likely to converge into the
 same trunk.
 
-## Repeated shortest paths
-
 The Repeated Shortest Path Heuristic processes mandatory nodes from higher to
 lower elevation. For each node \(n_k\), it searches for the least-cost path to a
 virtual sink \(S\) that represents the outlet and any selected local collection
@@ -99,9 +101,7 @@ $$
 The path \(P_k\) is added to the directed tree \(T_k\), and its edges become
 eligible for the reuse discount in later searches. Mandatory nodes without a
 feasible gravity path are reported as unreachable instead of being forced into
-the result.
-
-## How a run walks through the system
+the network.
 
 A processing run receives the graph that was inspected and edited in the
 browser, cleans spurious zero-elevation artifacts, preserves mandatory
@@ -112,17 +112,13 @@ coverage, breaks invalid directed cycles, reduces remaining non-mandatory nodes,
 assigns inspection accessories, and serializes the directed network into
 PostGIS.
 
-## Engineering choices
+NetworkX gives us explicit graph construction, shortest-path routing, and
+topology checks. PostGIS keeps project state, geometries, and processed network
+data in the same spatial persistence model. TypeScript and Python stay aligned
+through shared contracts, constants, and parity tests rather than forcing one
+runtime across the whole system.
 
-We kept public geospatial data, expert editing, and automated processing in one
-reviewable workflow instead of splitting them into disconnected tools. NetworkX
-gives us explicit graph construction, shortest-path routing, and topology
-checks. PostGIS keeps project state, geometries, and processed network data in
-the same spatial persistence model. TypeScript and Python stay aligned through
-shared contracts, constants, and parity tests rather than forcing one runtime
-across the whole system.
-
-## What this is not
+## What the research established
 
 Automated tests cover geographic calculations, routing cost, RSPH, elevation
 handling, coverage repair, cycle prevention, and node reduction. That helps with

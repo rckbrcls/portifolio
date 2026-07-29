@@ -34,6 +34,8 @@ export type ToolOrLibrary =
   | "Frenet"
   | "TanStack Query"
   | "Sparkle"
+  | "SwiftNIO"
+  | "ZIPFoundation"
   | "SwiftData"
   | "Swift Charts"
   | "NetworkX";
@@ -83,6 +85,8 @@ export const toolsAndLibraries: ToolOrLibrary[] = [
   "Frenet",
   "TanStack Query",
   "Sparkle",
+  "SwiftNIO",
+  "ZIPFoundation",
   "SwiftData",
   "Swift Charts",
   "NetworkX",
