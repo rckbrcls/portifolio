@@ -1,0 +1,39 @@
+## I needed one place to remember things
+
+I made Sparky because ideas, plans, reminders, and the work I wanted to finish
+kept ending up in different places. I wanted one calm tool that could hold that
+context without asking me to create another account.
+
+Calendar, Mind, Focus, and Me came from that need: remember something, organize
+it, schedule it, and spend time on it without changing tools.
+
+## The Mac became the boundary
+
+I chose to make Sparky a native macOS app and keep its main workflows local.
+Memories, notes, checklists, links, photos, and files belong to the person using
+the Mac, not to a hosted profile I need to maintain.
+
+That decision shaped the responsibility of the app. It had to handle
+persistence, attachments, reminders, permissions, and focus sessions coherently
+on one machine.
+
+## Building one local system
+
+SwiftUI provides the desktop interface, while SwiftData stores Memories, Minds,
+schedules, checklists, and completion history. Attachment payloads stay in
+Application Support and the data model keeps their references.
+
+The Focus engine handles configurable work and break cycles, pause, reset, and
+session extension. UserNotifications covers reminders and session feedback.
+Calendar, Mind, Focus, and Me share the same local models and product services,
+with permission-aware integrations behind macOS APIs.
+
+## Where Sparky is now
+
+Sparky is an active macOS app that brings those personal workflows together
+without a custom backend, analytics, or advertising. It stays useful offline
+and deliberately boring about privacy.
+
+A mobile version is planned, but it is not available today. Local-first also
+does not mean automatic sync or guaranteed backup; the current product boundary
+is the Mac.

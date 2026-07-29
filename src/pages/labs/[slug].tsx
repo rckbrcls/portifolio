@@ -3,20 +3,17 @@ import type { GetStaticPaths, InferGetStaticPropsType } from "next";
 import { BuiltWith } from "@/components/built-with";
 import { labMdxComponents } from "@/components/labs/lab-mdx-components";
 import { PortfolioDetail } from "@/components/portfolio-detail";
-import { getLabContentComponents } from "@/lib/lab-content";
+import { getLabContentComponent } from "@/lib/lab-content";
 import { getLabProductBySlug, orderedLabProducts } from "@/lib/labs";
 
 export default function LabProductPage({
   product,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const content = getLabContentComponents(product.slug);
+  const Content = getLabContentComponent(product.slug);
 
-  if (!content) {
+  if (!Content) {
     return null;
   }
-
-  const ProductContent = content.product;
-  const EngineeringContent = content.engineering;
 
   return (
     <PortfolioDetail
@@ -42,8 +39,7 @@ export default function LabProductPage({
 
       <PortfolioDetail.Body>
         <PortfolioDetail.Article>
-          <ProductContent components={labMdxComponents} />
-          <EngineeringContent components={labMdxComponents} />
+          <Content components={labMdxComponents} />
           <BuiltWith technologies={product.technologies} />
         </PortfolioDetail.Article>
       </PortfolioDetail.Body>
@@ -63,7 +59,7 @@ export const getStaticPaths: GetStaticPaths = async () => ({
 export function getStaticProps({ params }: { params?: { slug?: string } }) {
   const product = params?.slug ? getLabProductBySlug(params.slug) : undefined;
 
-  if (!product || !getLabContentComponents(product.slug)) {
+  if (!product || !getLabContentComponent(product.slug)) {
     return {
       notFound: true as const,
     };

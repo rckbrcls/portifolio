@@ -20,20 +20,28 @@ action:
   href: https://dostproject.com
 ---
 
-## Why it exists
+## A brand needed more than a storefront
 
 DOST started as my own clothing brand. Pretty product pages were the easy part.
 Selling for real meant stock, identity, shipping quotes, payment, and order
 state all had to agree on a single purchase flow. If any of those pieces lied to
 the others, someone would pay for something that should not have been sold.
 
-So I built the storefront myself. Product discovery, auth, cart, shipping
-quotes, Stripe Checkout, and order management live in one responsive app for
-both signed-in customers and guests. I own the brand and the engineering: API
-routes, persistence, payments, shipping, cart behavior, and the order paths that
-tie them together.
+The real problem was agreement. A product, a cart, a shipping quote, a payment,
+and an order all had to describe the same purchase, even when one of the
+external services failed halfway through.
 
-## Choices I care about
+## Owning the purchase path
+
+I built the storefront myself and own both the brand and the engineering.
+Product discovery, authentication, cart, shipping quotes, Stripe Checkout, and
+order management live in one responsive app for signed-in customers and guests.
+
+That puts the whole purchase path in my scope: API routes, persistence, payment
+and shipping integrations, cart behavior, and the order transitions that tie
+them together.
+
+## Keeping the server honest
 
 I treat current database values as authoritative instead of trusting cart prices
 that arrived from the browser. Availability gets checked again at checkout
@@ -43,10 +51,17 @@ Payments stay inside Stripe Checkout. I did not want the store collecting
 sensitive card details directly. Guests can still look up an order later, but I
 do not pretend that guest lookup is the same thing as a full customer account.
 
-## Limits
-
 The purchase path depends on third-party payment and shipping services. External
 failures have to be handled without celebrating an incomplete checkout as a
-completed order. The product is active. I do not publish customer data, revenue,
-conversion, transaction volume, or payment-reliability claims, and the source
-repository stays private.
+completed order.
+
+## What is running today
+
+The outcome is an active storefront where catalog, cart, shipping, checkout, and
+orders share one purchase flow instead of behaving like separate demos. It
+supports both customer accounts and guest purchases without blurring the
+difference between them.
+
+The source repository stays private. I also do not publish customer data,
+revenue, conversion, transaction volume, or payment-reliability claims; none of
+those numbers is needed to explain the engineering decisions behind the store.

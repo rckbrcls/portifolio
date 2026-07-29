@@ -40,6 +40,22 @@ This is not a generic SaaS marketing site, not a dashboard, and not a visual pla
 - Avoid inflated claims, buzzwords, and generic startup copy.
 - When describing employer or client work, keep the copy concrete but safe. Do not expose confidential implementation details.
 
+## Work And Labs Narrative Style
+
+- Write each Work or Labs article as one first-person story with four movements:
+  1. establish the concrete situation or problem,
+  2. clarify Erick's responsibility, intent, or constraint,
+  3. explain the technical decisions, actions, and tradeoffs,
+  4. close with the evidence-backed outcome, current status, and relevant limits.
+- Use exactly four project-specific `##` headings by default. Never use `STAR`, `Situation`, `Task`, `Action`, or `Result` as public headings.
+- Keep headings subtle and editorial. They should suggest the narrative movement without sounding like a case-study template.
+- Sound like Erick explaining the work to another computer scientist: informal, direct, technically literate, curious, and precise.
+- Keep each movement compact. Do not repeat the summary, turn the stack into prose, or create a new section for every implementation detail.
+- Put technical depth inside the action-oriented movement. Preserve important formulas, architecture, and tradeoffs without adding unnecessary top-level sections.
+- Describe outcomes with verified behavior, shipped scope, current state, or concrete learning. Use metrics only when they are supported and approved for publication.
+- State limitations plainly. Do not turn missing evidence into promotional language or imply reliability, scale, adoption, or impact that has not been validated.
+- Treat every Labs page as one continuous article. Do not split its narrative into separate Product and Engineering files or sections.
+
 ## Frontend Direction
 
 - Preserve the portfolio as an editorial presentation surface.

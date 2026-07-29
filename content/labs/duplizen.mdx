@@ -1,0 +1,39 @@
+## It started at game night
+
+I wanted to play an impostor-style game with friends, with each person seeing
+their role on their own phone. I could not find something that felt right for
+the group, so I built Duplizen for us.
+
+The problem was not inventing another ruleset. It was keeping rooms, hidden
+roles, rounds, votes, and round outcomes synchronized without making everyone
+think about the software.
+
+## The round had to stay out of the way
+
+I designed the session around one short loop: create or join a room, reveal a
+role, discuss the secret word, vote, and play again. The app had to work from
+the browsers already in the room and disappear once the conversation started.
+
+I owned the product, the application flows, the multiplayer data model, and the
+state transitions behind that loop.
+
+## Keeping the room in sync
+
+Duplizen uses Next.js, React, and TypeScript with Supabase and PostgreSQL.
+Realtime subscriptions push room changes to connected players, while database
+functions coordinate shared transitions close to the source of truth.
+
+Row-level security narrows which records each participant can touch. That keeps
+the multiplayer rules centralized, but it also makes reconnection and
+consistency more interesting than they would be in a single-device game.
+
+## What made it work for us
+
+Today it is a browser game that runs across desktop and mobile, supports English,
+Portuguese, and Spanish, and can be installed as a PWA. A group can move through
+a complete round without passing one device around.
+
+For me, it also became a practical study of realtime state and multiplayer
+consistency. I do not use that experience to claim production scale or a player
+count; the useful outcome is a playable product and a much less theoretical
+understanding of the tradeoffs.

@@ -6,51 +6,34 @@ type LabContentModule = {
   default: ComponentType<Record<string, unknown>>;
 };
 
-type LabContentComponents = {
-  product?: ComponentType<Record<string, unknown>>;
-  engineering?: ComponentType<Record<string, unknown>>;
-};
-
 const labContentContext = (require as NodeRequire).context(
   "../../content/labs",
-  true,
-  /\/(product|engineering)\.mdx$/,
+  false,
+  /\.mdx$/,
 );
 
-const labContentComponents = new Map<string, LabContentComponents>();
+const labContentComponents = new Map<
+  string,
+  ComponentType<Record<string, unknown>>
+>();
 
 for (const key of labContentContext.keys()) {
-  const match = key.match(/^\.\/([^/]+)\/(product|engineering)\.mdx$/);
+  const match = key.match(/^\.\/([^/]+)\.mdx$/);
 
   if (!match) {
     continue;
   }
 
-  const [, slug, view] = match as [string, string, "product" | "engineering"];
-  const productComponents = labContentComponents.get(slug) ?? {};
+  const [, slug] = match;
   const module = labContentContext<LabContentModule>(key);
 
-  productComponents[view] = module.default;
-  labContentComponents.set(slug, productComponents);
+  labContentComponents.set(slug, module.default);
 }
 
-/**
- * Loads the lab MDX modules for a slug. Product and engineering render as one
- * continuous article (product first, then engineering).
- */
-export function getLabContentComponents(slug: string) {
+export function getLabContentComponent(slug: string) {
   if (!getLabProductBySlug(slug)) {
     return null;
   }
 
-  const components = labContentComponents.get(slug);
-
-  if (!components?.product || !components.engineering) {
-    return null;
-  }
-
-  return {
-    product: components.product,
-    engineering: components.engineering,
-  };
+  return labContentComponents.get(slug) ?? null;
 }

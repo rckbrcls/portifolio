@@ -39,7 +39,7 @@ The project is active and maintained as Erick Barcelos' public portfolio. The cu
 - **Professional work content:** `data/work/professional-work.ts` stores public-safe professional work entries rendered on `/work`.
 - **Independent projects:** `data/projects/projects.ts` stores project descriptions, stack metadata, public links, source/package links, and status.
 - **Work stories:** `content/work/*.mdx` stores long-form project narratives with canonical categories and at most one external action.
-- **Labs products:** `data/labs/labs.ts` stores the typed product catalog; each product loads paired `product.mdx` and `engineering.mdx` views from `content/labs/[slug]/`.
+- **Labs products:** `data/labs/labs.ts` stores the typed product catalog; each product loads one narrative from `content/labs/[slug].mdx`.
 - **Local MDX blog:** `content/blog/*.mdx` stores posts, while `src/lib/blog.ts` validates frontmatter, filters drafts, and sorts posts by date.
 - **MDX rendering:** `src/components/blog/mdx-components.tsx` customizes prose, links, images, tables, code blocks, math output, and the optional `<Figure />` component.
 - **Theme system:** `next-themes` is mounted in `src/pages/_app.tsx`; portfolio tokens are defined in `src/pages/globals.css` and mirrored by Tailwind aliases in `tailwind.config.js`.
@@ -51,7 +51,7 @@ The project is active and maintained as Erick Barcelos' public portfolio. The cu
 portfolio/
 +-- content/
 |   +-- blog/                    # Local MDX posts and the blog template
-|   +-- labs/[slug]/             # Product and engineering MDX views
+|   +-- labs/                    # Long-form Labs narratives
 |   +-- work/                    # Long-form Work stories
 +-- data/
 |   +-- labs/labs.ts             # Typed Labs product catalog
@@ -85,7 +85,7 @@ portfolio/
 | `/work`        | `src/pages/work.tsx`        | Full work index for professional and independent work |
 | `/work/[slug]` | `src/pages/work/[slug].tsx` | Static work story generated from local MDX            |
 | `/labs`        | `src/pages/labs.tsx`        | Product-oriented Labs index                           |
-| `/labs/[slug]` | `src/pages/labs/[slug].tsx` | Static Labs detail with Product and Engineering views |
+| `/labs/[slug]` | `src/pages/labs/[slug].tsx` | Static Labs story generated from local MDX            |
 | `/blog`        | `src/pages/blog/index.tsx`  | Blog index generated from published MDX posts         |
 | `/blog/[slug]` | `src/pages/blog/[slug].tsx` | Static blog post page for each published MDX file     |
 
@@ -157,14 +157,11 @@ label from that type.
 
 ### Add Or Update Labs Products
 
-Edit `data/labs/labs.ts` and add the matching
-`content/labs/[slug]/product.mdx` and
-`content/labs/[slug]/engineering.mdx` files.
+Edit `data/labs/labs.ts` and add the matching `content/labs/[slug].mdx` file.
 
 Each entry follows `LabProduct` from `src/interface/ILabProduct.ts`. The static
-loader only resolves slugs in the catalog and requires both MDX views. Product
-actions use `primary` or `secondary` kinds, while screenshots and product
-artwork use the neutral `LabMediaGrid` presentation.
+loader only resolves slugs in the catalog and requires one MDX article. Product
+actions use the typed action definitions in `LabProduct`.
 
 ### Add Or Update Blog Posts
 
