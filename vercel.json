@@ -12,8 +12,8 @@
       "destination": "https://rckbrcls.github.io/sparky/appcast.xml"
     },
     {
-      "source": "/api/page-forge/appcast.xml",
-      "destination": "https://rckbrcls.github.io/page-forge/appcast.xml"
+      "source": "/api/book-sender/appcast.xml",
+      "destination": "https://rckbrcls.github.io/page-forge/book-sender/appcast.xml"
     }
   ],
   "headers": [
@@ -31,7 +31,7 @@
       ]
     },
     {
-      "source": "/api/page-forge/install",
+      "source": "/api/book-sender/install",
       "headers": [
         {
           "key": "Content-Type",
