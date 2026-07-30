@@ -83,29 +83,27 @@ export default function Home() {
             </p>
 
             <p className={narrativeParagraphClassName}>
-              Outside work and research I build tools I actually want open on my
-              own machine.{" "}
-              <Link href="/work/dost" className={narrativeLinkClassName}>
-                DOST
+              You can find more of what I build in{" "}
+              <Link href="/work" className={narrativeLinkClassName}>
+                Work
+              </Link>
+              , from professional software and research to independent projects.{" "}
+              <Link href="/labs" className={narrativeLinkClassName}>
+                Labs
               </Link>{" "}
-              is my clothing brand and the store I engineered for it.{" "}
-              <Link href="/labs/duplizen" className={narrativeLinkClassName}>
-                Duplizen
-              </Link>{" "}
-              is a browser game I made so friends could play impostor from their
-              own phones.{" "}
-              <Link href="/labs/sparky" className={narrativeLinkClassName}>
-                Sparky
-              </Link>{" "}
-              is a local-first macOS app I built for ideas, reminders, and focus
-              sessions.
+              is where I collect smaller products, tools, apps, and games you
+              can play, install, or explore.
             </p>
 
             <p className={narrativeParagraphClassName}>
               I write about what I am learning, and I have helped with
-              programming education and volunteer software around the university.
-              Away from the keyboard I care about martial arts, cinema, and
-              football. I was born in Belém, Pará, and I live in São Paulo now.
+              programming education and volunteer software around the
+              university. Away from the keyboard I care about martial arts,
+              cinema, and football.
+            </p>
+
+            <p className={narrativeParagraphClassName}>
+              I was born in Belém, Pará, and I live in São Paulo now.
             </p>
           </div>
         </PortfolioSection>
