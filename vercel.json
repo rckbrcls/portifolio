@@ -14,6 +14,10 @@
     {
       "source": "/api/book-sender/appcast.xml",
       "destination": "https://rckbrcls.github.io/page-forge/book-sender/appcast.xml"
+    },
+    {
+      "source": "/api/book-sender/install",
+      "destination": "https://rckbrcls.github.io/page-forge/book-sender/install"
     }
   ],
   "headers": [
