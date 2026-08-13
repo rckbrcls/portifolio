@@ -72,6 +72,10 @@ export const orderedResearchProjects = orderedProjects.filter(
   (project) => project.workCategory === "research",
 );
 
+export const orderedCommunityProjects = orderedProjects.filter(
+  (project) => project.workCategory === "community",
+);
+
 export const orderedIndependentProjects = orderedProjects.filter(
   (project) => project.workCategory === "independent",
 );

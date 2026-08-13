@@ -1,1 +1,5 @@
-export type TWorkCategory = "professional" | "research" | "independent";
+export type TWorkCategory =
+  | "professional"
+  | "research"
+  | "community"
+  | "independent";

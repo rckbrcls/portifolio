@@ -29,6 +29,7 @@ function parseCategory(value: unknown, fileName: string): TWorkCategory {
   if (
     category !== "professional" &&
     category !== "research" &&
+    category !== "community" &&
     category !== "independent"
   ) {
     throw new Error(`Invalid "category" in work story "${fileName}".`);
