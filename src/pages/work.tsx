@@ -10,6 +10,7 @@ import {
 import { ProfessionalWorkCard } from "@/components/professional-work-card";
 import { WordRotate } from "@/components/ui/word-rotate";
 import {
+  orderedCommunityProjects,
   orderedIndependentProjects,
   orderedProfessionalWork,
   orderedResearchProjects,
@@ -19,13 +20,15 @@ const WORK_TITLE_VARIANTS = ["Builds.", "Products.", "Systems.", "Projects."];
 
 export default function WorkPage() {
   const researchIndexOffset = orderedProfessionalWork.length;
-  const independentIndexOffset =
+  const communityIndexOffset =
     orderedProfessionalWork.length + orderedResearchProjects.length;
+  const independentIndexOffset =
+    communityIndexOffset + orderedCommunityProjects.length;
 
   return (
     <PortfolioLayout
       title="Work | rckbrcls"
-      description="Professional work, research, and independent projects by Erick Barcelos."
+      description="Professional work, research, community contributions, and independent projects by Erick Barcelos."
     >
       <PortfolioEditorialStack>
         <PortfolioPageIntro
@@ -49,6 +52,13 @@ export default function WorkPage() {
                   key={project.slug}
                   project={project}
                   index={researchIndexOffset + index}
+                />
+              ))}
+              {orderedCommunityProjects.map((project, index) => (
+                <WorkProjectCard
+                  key={project.slug}
+                  project={project}
+                  index={communityIndexOffset + index}
                 />
               ))}
               {orderedIndependentProjects.map((project, index) => (
